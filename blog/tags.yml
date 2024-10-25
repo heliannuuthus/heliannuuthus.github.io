@@ -13,6 +13,11 @@ Rust:
   permalink: /rust
   description: Rust tag description
 
+Secret:
+  label: Secret
+  permalink: /secret
+  description: Secret tag description
+
 K8S:
   label: K8S
   permalink: /k8s
