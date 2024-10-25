@@ -1,0 +1,24 @@
+Welcome:
+  label: Welcome
+  permalink: /welcome
+  description: Welcome tag description
+
+Java:
+  label: Java
+  permalink: /java
+  description: Java tag description
+
+Rust:
+  label: Rust
+  permalink: /rust
+  description: Rust tag description
+
+K8S:
+  label: K8S
+  permalink: /k8s
+  description: K8S tag description
+
+Docker:
+  label: Docker
+  permalink: /docker
+  description: Docker tag description
