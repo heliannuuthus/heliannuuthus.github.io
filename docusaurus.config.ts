@@ -54,14 +54,18 @@ const config: Config = {
       return result;
     },
   },
+  themes: ["@docusaurus/theme-mermaid"],
   presets: [
     [
       "classic",
       {
         docs: false,
         blog: {
+          blogSidebarTitle: "最近的发布",
           routeBasePath: "/",
           showReadingTime: true,
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
           feedOptions: {
             type: ["rss", "atom"],
             xslt: true,
@@ -69,7 +73,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+            "https://github.com/heliannuuthus/heliannuuthus.github.io/tree/master/",
           // Useful options to enforce blogging best practices
           onInlineTags: "warn",
           onInlineAuthors: "warn",
@@ -102,6 +106,7 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
     },
     prism: {
+      additionalLanguages: ["java", "javadoc", "rust", "go", "bash", "python"],
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
