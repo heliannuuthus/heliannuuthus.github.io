@@ -250,8 +250,7 @@ Java 内优先级队列可使用 `PriorityQueue` ，默认**小顶堆**，可通
 
 ###### 前序遍历
 
-![二叉树前序遍历-2024-10-29-21-30-38](https://cdn.jsdelivr.net/gh/heliannuuthus/
-heliannuuthus.github.io@assets/static/img/2024-10-29/二叉树前序遍历-2024-10-29-21-30-38.png)
+![二叉树前序遍历-2024-10-29-21-30-38](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-10-29/二叉树前序遍历-2024-10-29-21-30-38.png)
 
 ```java title="/src/com/github/heliannuuthus/PreOrderTraversal.java" showLineNumbers
 public class PreOrderTraversal {
