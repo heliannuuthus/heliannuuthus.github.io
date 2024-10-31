@@ -1,6 +1,8 @@
-import { Segmented, Tabs as AntdTabs } from "antd";
+import { Tabs as AntdTabs } from "antd";
 import type { TabsProps } from "antd";
 
-export const Tabs = ({ items, ...props }: TabsProps) => {
+const Tabs = ({ items, ...props }: TabsProps) => {
   return <AntdTabs items={items} {...props} centered />;
 };
+
+export default Tabs;

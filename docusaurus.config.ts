@@ -34,8 +34,12 @@ const config: Config = {
     parseFrontMatter: async (params) => {
       // Reuse the default parser
       const result = await params.defaultParseFrontMatter(params);
+      console.log(params.filePath);
+      if (params.filePath.includes("/_contents/")) {
+        result.frontMatter = {};
+        return result;
+      }
 
-      // Process front matter description placeholders
       result.frontMatter.description =
         result.frontMatter.description?.replaceAll("{{MY_VAR}}", "MY_VALUE");
 
@@ -50,7 +54,6 @@ const config: Config = {
         result.frontMatter.description = result.frontMatter.cms_seo_summary;
         delete result.frontMatter.cms_seo_summary;
       }
-
       return result;
     },
   },
@@ -110,6 +113,17 @@ const config: Config = {
       additionalLanguages: ["java", "javadoc", "rust", "go", "bash", "python"],
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      magicComments: [
+        {
+          className: "theme-code-block-highlighted-line",
+          line: "highlight-next-line",
+          block: { start: "highlight-start", end: "highlight-end" },
+        },
+        {
+          className: "code-block-important",
+          line: "important line",
+        },
+      ],
     },
   } satisfies Preset.ThemeConfig,
 };
