@@ -1,7 +1,7 @@
 import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
-
+import remarkCodeImport from "remark-code-import";
 const config: Config = {
   title: "heliannuuthus",
   tagline: "heliannuuthus",
@@ -61,6 +61,7 @@ const config: Config = {
       {
         docs: false,
         blog: {
+          remarkPlugins: [remarkCodeImport],
           blogSidebarTitle: "最近的发布",
           routeBasePath: "/",
           showReadingTime: true,
