@@ -243,136 +243,35 @@ Java 内优先级队列可使用 `PriorityQueue` ，默认**小顶堆**，可通
 
 ##### 迭代
 
-> 有点复杂，贴段代码理解一下
+> 较为复杂，详细解释一下
 
 1. 迭代通常用于树的遍历，通过迭代可以快速遍历所有节点
 2. 迭代通常使用栈或队列实现
 
-###### 前序遍历
+import Tabs from "@site/src/components/Tabs";
+import PreOrderContent from "./\_contents/tree-traversal/preorder.mdx";
+import InOrderContent from "./\_contents/tree-traversal/inorder.mdx";
+import PostOrderContent from "./\_contents/tree-traversal/postorder.mdx";
 
-![二叉树前序遍历-2024-10-29-21-30-38](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-10-29/二叉树前序遍历-2024-10-29-21-30-38.png)
-
-```java title="/src/com/github/heliannuuthus/PreOrderTraversal.java" showLineNumbers
-public class PreOrderTraversal {
-
-   /**
-    * 前序遍历
-    * 核心逻辑是先记录值，再遍历左节点，最后遍历右节点
-    * 在回溯时，如果当前节点有右节点，则需要先记录值，再进入右节点遍历
-    * @param root 根节点
-    * @return 前序遍历结果
-    */
-   public List<Integer> preorderTraversal(TreeNode root) {
-      TreeNode curr = root;
-      List<Integer> result = new ArrayList<>();
-      Stack<TreeNode> stack = new Stack<>();
-      // 5. 因为涉及遍历右节点，当从左节点遍历进行回溯时 curr 是有可能为 null 的，此时可通过出栈来回溯
-      while (curr != null || !stack.isEmpty()) {
-         // 1. 遍历到最左节点，将节点入栈，并记录值（前序为中左右）
-         // 4. 此处切换为遍历右节点，也是先找到最左节点，然后可用栈回溯
-         if (curr != null) {
-            stack.push(curr);
-            // 2. 记录值，当前节点的情况无非两种
-            // 2.1 当前节点有左节点，则记录值，进入下次循环到达 line 15
-            // 2.2 当前节点无左节点，则记录值，进入下次循环到达 line 22
-            result.add(curr.val);
-            curr = curr.left;
-         } else {
-            // 3. 无论何时都是率先遍历左节点，当遍历到当前开始的节点的最左节点时，开始遍历右节点
-            curr = stack.pop().right;
-         }
-      }
-      return result;
-   }
-}
-```
-
-###### 中序遍历
-
-![二叉树中序遍历.drawio-2024-10-29-21-44-24](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-10-29/二叉树中序遍历.drawio-2024-10-29-21-44-24.png)
-
-```java title="/src/com/github/heliannuuthus/InOrderTraversal.java" showLineNumbers
-public class InOrderTraversal {
-
-   /**
-    * 中序遍历
-    * 在回溯后记录值，每个节点都是局部根节点
-    * @param root 根节点
-    * @return 中序遍历结果
-    */
-   public List<Integer> inorderTraversal(TreeNode root) {
-      TreeNode curr = root;
-      List<Integer> result = new ArrayList<>();
-      Stack<TreeNode> stack = new Stack<>();
-      while (curr != null || !stack.isEmpty()) {
-         // 1. 遍历到最左节点，将节点入栈，并记录值（中序为左中右）
-         // 4. 当前是右节点，视为新的局部根节点，先找到最左节点，然后回溯到父节点记录值，再进入右节点遍历
-         if (curr != null) {
-            stack.push(curr);
-            curr = curr.left;
-         } else {
-            curr = stack.pop();
-            // 2. 记录值，在回溯时（左边的节点已经遍历完）记录当前节点的值，当前节点有四种可能
-            // 2.1 当前节点有左节点无右节点，当前从左节点回溯，记录值，并下次迭代回溯到父节点
-            // 2.2 当前节点无左节点有右节点，即为局部根节点，需先于右节点记录值
-            // 2.3 当前节点有左有右节点，当前为从左子节点回溯后的根节点，需先记录值，再进入右子节点遍历
-            // 2.4 当前节点无左无右节点，当前为叶子节点（可记录），在下次进入循环时直接回溯到父节点
-            result.add(curr.val);
-            // 3. 进入右节点遍历
-            curr = curr.right;
-         }
-      }
-      return result;
-   }
-}
-```
-
-###### 后序遍历
-
-![二叉树后序遍历.drawio-2024-10-29-21-44-37](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-10-29/二叉树后序遍历.drawio-2024-10-29-21-44-37.png)
-
-```java title="/src/com/github/heliannuuthus/PostOrderTraversal.java" showLineNumbers
-public class PostOrderTraversal {
-
-   /**
-    * 后序遍历
-    * 在回溯时，如果当前节点有右节点，不可直接记录值，需要先进入右节点遍历，再回溯记录值
-    * 故而回溯后，局部根节点需要再次入栈，第二次出栈的时候不可重复进入右节点遍历
-    * @param root 根节点
-    * @return 后序遍历结果
-    */
-   public List<Integer> postorderTraversal(TreeNode root) {
-      TreeNode curr = root, last = null;
-      List<Integer> result = new ArrayList<>();
-      Stack<TreeNode> stack = new Stack<>();
-      while (curr != null || !stack.isEmpty()) {
-         // 1. 遍历到最左节点，将节点入栈，并记录值（后序为左右中）
-         // 5. 当前遍历的是第一个右节点，需要先遍历到最左节点
-         if (curr != null) {
-            stack.push(curr);
-            curr = curr.left;
-         } else {
-            curr = stack.pop();
-            // 2. 当前节点是回溯后的根节点，并且没有右节点
-            // 6. 当前存在右节点，进入 line 29
-            if (curr.right == null || curr.right == last) {
-               // 3. 记录局部根节点的值
-               result.add(curr.val);
-               last = curr;
-               // 4. 当前节点已记录，下次循环时可直接回溯到局部根的父节点
-               curr = null;
-            } else {
-               // 3. 当前节点有右节点，且右节点未遍历，则将当前节点再次入栈
-               // 7. 进入右节点遍历，需要等右节点遍历完再回溯记录值，故而当前值需要再次入栈
-               stack.push(curr);
-               // 8. 这一步是为了从右节点回溯到当前节点后，再次进入右节点遍历
-               last = curr;
-               // 9. 当不存在右节点时，下次循环时可直接回溯到局部根的父节点，否则继续遍历右节点
-               curr = curr.right;
-            }
-         }
-      }
-      return result;
-   }
-}
-```
+<Tabs
+items={[
+{
+label: "前序遍历",
+key: "preOrder",
+children: <PreOrderContent />,
+forceRender: true,
+},
+{
+label: "中序遍历",
+key: "inOrder",
+children: <InOrderContent />,
+forceRender: true,
+},
+{
+label: "后序遍历",
+key: "postOrder",
+children: <PostOrderContent />,
+forceRender: true,
+},
+]}
+/>
