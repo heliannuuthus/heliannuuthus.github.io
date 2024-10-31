@@ -1,16 +1,3 @@
----
-slug: 算法数据结构总结
-title: 算法数据结构总结
-authors: [heliannuuthus]
-tags: [Java]
----
-
-根据[代码随想录](https://programmercarl.com/)以及 [LeetCode 官方题解](https://leetcode.cn/problemset/all/)总结的，主要记录一些常见的数据结构与算法。
-
-<!-- truncate -->
-
-# 算法数据结构总结
-
 ## 数组
 
 ### 数据结构
@@ -213,6 +200,7 @@ LeetCode 官方题解直接上数学概念（不过不怎么难，也就看了�
 :::tip
 Java 内优先级队列可使用 `PriorityQueue` ，默认**小顶堆**，可通过传入 `Comparator` 实现**大顶堆**。当元素为复合类型时，可使用自定义结构，最好重写 `equals` 和 `hashCode` 方法，或者直接使用数组这种复合元素存储。
 :::
+<<<<<<< HEAD:blog/2024-10/AlgorithmAnddDataStructure.md
 
 ## 树
 
@@ -275,3 +263,5 @@ forceRender: true,
 },
 ]}
 />
+=======
+>>>>>>> 76883ed (cc):blog/2024-10/_partials/algorithmanddatastructure/algorithm-datastructure-part-1.md

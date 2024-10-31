@@ -1,0 +1,9 @@
+build
+coverage
+node_modules
+.next
+.vscode
+.idea
+.DS_Store
+.prettierignore
+pnpm-lock.yaml
