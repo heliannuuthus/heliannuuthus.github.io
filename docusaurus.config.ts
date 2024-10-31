@@ -42,7 +42,7 @@ const config: Config = {
 
       if (
         [`/_contents/`, `/_partials/`].some((path) =>
-          params.filePath.includes(path),
+          params.filePath.includes(path)
         )
       ) {
         result.frontMatter = {};
