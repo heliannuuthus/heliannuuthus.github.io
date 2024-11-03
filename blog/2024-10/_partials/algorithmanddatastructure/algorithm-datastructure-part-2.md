@@ -1,4 +1,4 @@
-## 树
+## 二叉树
 
 ### 数据结构
 
@@ -6,16 +6,15 @@
 2. 查询：需要遍历所有父节点
 3. 增删：需要遍历父节点
 
-### 算法思路
+### 二叉树的遍历
 
-#### 二叉树遍历
+:::note
 
-:::tip
-
-- 前序遍历：根节点在第一次遍历
-- 中序遍历：根节点在第二次遍历
-- 后序遍历：根节点在最后一次遍历
-  :::
+- 前序遍历：根节点在所有节点之前被遍历，顺序为根-左-右
+- 中序遍历：根节点在所有节点中间被遍历，顺序为左-根-右
+- 后序遍历：根节点在所有节点之后被遍历，顺序为左-右-根
+- 层序遍历：从上到下逐层遍历，顺序为根-左-右
+:::
 
 ##### 递归
 
@@ -31,31 +30,88 @@
 
 1. 迭代通常用于树的遍历，通过迭代可以快速遍历所有节点
 2. 迭代通常使用栈或队列实现
-
 import Tabs from "@site/src/components/Tabs";
-import PreOrderContent from "../../\_contents/tree-traversal/preorder.mdx";
-import InOrderContent from "../../\_contents/tree-traversal/inorder.mdx";
-import PostOrderContent from "../../\_contents/tree-traversal/postorder.mdx";
+import PreOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/preorder-traversal.mdx";
+import InOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/inorder-traversal.mdx";
+import PostOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/postorder-traversal.mdx";
+import PreOrderLoopContent from "../../\_contents/tree-traversal/loop/preorder-traversal.mdx";
+import InOrderLoopContent from "../../\_contents/tree-traversal/loop/inorder-traversal.mdx";
+import PostOrderLoopContent from "../../\_contents/tree-traversal/loop/postorder-traversal.mdx";
 
 <Tabs
 items={[
 {
-label: "前序遍历",
-key: "preOrder",
-children: <PreOrderContent />,
+label: "递归遍历",
+key: "recursive",
+children: (
+  <Tabs
+  items={[
+    {
+      label: "前序遍历",
+      key: "preOrder",
+      children: <PreOrderRecursiveContent />,
+      forceRender: true,
+    },
+    {
+      label: "中序遍历",
+      key: "inOrder",
+      children: <InOrderRecursiveContent />,
+      forceRender: true,
+    },
+    {
+      label: "后序遍历",
+      key: "postOrder", 
+      children: <PostOrderRecursiveContent />,
+      forceRender: true,
+    }
+  ]}
+  />
+),
 forceRender: true,
 },
 {
-label: "中序遍历",
-key: "inOrder",
-children: <InOrderContent />,
+label: "迭代遍历",
+key: "loop",
+children: (
+  <Tabs
+  items={[
+    {
+      label: "前序遍历",
+      key: "preOrder",
+      children: <PreOrderLoopContent />,
+      forceRender: true,
+    },
+    {
+      label: "中序遍历",
+      key: "inOrder", 
+      children: <InOrderLoopContent />,
+      forceRender: true,
+    },
+    {
+      label: "后序遍历",
+      key: "postOrder",
+      children: <PostOrderLoopContent />,
+      forceRender: true,
+    }
+  ]}
+  />
+),
 forceRender: true,
-},
-{
-label: "后序遍历",
-key: "postOrder",
-children: <PostOrderContent />,
-forceRender: true,
-},
+}
 ]}
 />
+
+### 二叉树的深度和高度
+
+- 二叉树的深度：从根节点到叶子节点的最长路径，可使用后续遍历
+- 二叉树的高度：从叶子节点到根节点的最长路径，可使用前序遍历
+
+import Image from "@site/src/components/Image";
+import Flex from "@site/src/components/Flex";
+
+<Flex justify="center">
+  <Image
+    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-03/二叉树的深度和高度.drawio-2024-11-03-19-49-45.png"
+    alt="二叉树的深度和高度示意图"
+  />
+</Flex>
