@@ -40,6 +40,15 @@ const config: Config = {
         return result;
       }
 
+      if (
+        [`/_contents/`, `/_partials/`].some((path) =>
+          params.filePath.includes(path),
+        )
+      ) {
+        result.frontMatter = {};
+        return result;
+      }
+
       result.frontMatter.description =
         result.frontMatter.description?.replaceAll("{{MY_VAR}}", "MY_VALUE");
 
@@ -104,6 +113,10 @@ const config: Config = {
           position: "right",
         },
       ],
+    },
+    tableOfContents: {
+      minHeadingLevel: 2,
+      maxHeadingLevel: 5,
     },
     footer: {
       style: "dark",
