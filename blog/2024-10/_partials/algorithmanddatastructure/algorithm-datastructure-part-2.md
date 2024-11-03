@@ -39,12 +39,14 @@ import PostOrderRecursiveContent from "../../_contents/tree-traversal/recursive/
 import PreOrderLoopContent from "../../_contents/tree-traversal/loop/preorder-traversal.mdx";
 import InOrderLoopContent from "../../_contents/tree-traversal/loop/inorder-traversal.mdx";
 import PostOrderLoopContent from "../../_contents/tree-traversal/loop/postorder-traversal.mdx";
+import LevelOrderRecursiveContent from "../../_contents/tree-traversal/recursive/levelorder-traversal.mdx";
+import LevelOrderLoopContent from "../../_contents/tree-traversal/loop/levelorder-traversal.mdx";
 
 <Tabs
   items={[
     {
       label: "前序遍历",
-      key: "preOrder",
+      key: "preOrder", 
       forceRender: true,
       children: [
         <Flex justify="center">
@@ -62,7 +64,7 @@ import PostOrderLoopContent from "../../_contents/tree-traversal/loop/postorder-
               forceRender: true,
             },
             {
-              label: "迭代遍历",
+              label: "迭代遍历", 
               key: "loop",
               children: <PreOrderLoopContent />,
               forceRender: true,
@@ -73,7 +75,6 @@ import PostOrderLoopContent from "../../_contents/tree-traversal/loop/postorder-
         ...item,
         forceRender: true,
       })),
-
     },
     {
       label: "中序遍历",
@@ -90,7 +91,7 @@ import PostOrderLoopContent from "../../_contents/tree-traversal/loop/postorder-
           items={[
             {
               label: "递归遍历",
-              key: "recursive", 
+              key: "recursive",
               children: (
                 <>
                   <InOrderRecursiveContent />
@@ -132,8 +133,40 @@ import PostOrderLoopContent from "../../_contents/tree-traversal/loop/postorder-
             },
             {
               label: "迭代遍历",
-              key: "loop", 
+              key: "loop",
               children: <PostOrderLoopContent />,
+              forceRender: true,
+            }
+          ]}
+        />
+      ].map((item) => ({
+        ...item,
+        forceRender: true,
+      })),
+    },
+    {
+      label: "层序遍历",
+      key: "levelOrder",
+      forceRender: true,
+      children: [
+        <Flex justify="center">
+          <Image
+            src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-03/二叉树的层序遍历.drawio-2024-11-03-23-00-59.png"
+            alt="二叉树层序遍历"
+          />
+        </Flex>,
+        <Tabs
+          items={[
+            {
+              label: "递归遍历",
+              key: "recursive",
+              children: <LevelOrderRecursiveContent />,
+              forceRender: true,
+            },
+            {
+              label: "迭代遍历",
+              key: "loop",
+              children: <LevelOrderLoopContent />,
               forceRender: true,
             }
           ]}
