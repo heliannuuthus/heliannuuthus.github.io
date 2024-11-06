@@ -33,6 +33,7 @@
 import Tabs from "@site/src/components/Tabs";
 import Image from "@site/src/components/Image";
 import Flex from "@site/src/components/Flex";
+<<<<<<< Updated upstream
 import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/preorder-traversal.mdx";
 import InOrderRecursiveContent from "../../_contents/tree-traversal/recursive/inorder-traversal.mdx";
 import PostOrderRecursiveContent from "../../_contents/tree-traversal/recursive/postorder-traversal.mdx";
@@ -41,6 +42,18 @@ import InOrderLoopContent from "../../_contents/tree-traversal/loop/inorder-trav
 import PostOrderLoopContent from "../../_contents/tree-traversal/loop/postorder-traversal.mdx";
 import LevelOrderRecursiveContent from "../../_contents/tree-traversal/recursive/levelorder-traversal.mdx";
 import LevelOrderLoopContent from "../../_contents/tree-traversal/loop/levelorder-traversal.mdx";
+=======
+import PreOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/preorder-traversal.mdx";
+import InOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/inorder-traversal.mdx";
+import PostOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/postorder-traversal.mdx";
+import PreOrderLoopContent from "../../\_contents/tree-traversal/loop/preorder-traversal.mdx";
+import InOrderLoopContent from "../../\_contents/tree-traversal/loop/inorder-traversal.mdx";
+import PostOrderLoopContent from "../../\_contents/tree-traversal/loop/postorder-traversal.mdx";
+import LevelOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/levelorder-traversal.mdx";
+import LevelOrderLoopContent from "../../\_contents/tree-traversal/loop/levelorder-traversal.mdx";
+import PreAndInOrderBuildTreeContent from "../../\_contents/tree-traversal/recursive/preandinorder-build-tree.mdx";
+import PostAndInOrderBuildTreeContent from "../../\_contents/tree-traversal/recursive/postandinorder-build-tree.mdx";
+>>>>>>> Stashed changes
 
 <Tabs
   items={[
@@ -190,3 +203,24 @@ import LevelOrderLoopContent from "../../_contents/tree-traversal/loop/levelorde
     alt="二叉树的深度和高度示意图"
   />
 </Flex>
+
+### 恢复二叉树
+
+> 恢复二叉树一定需要中序序列
+
+<Tabs
+items={[
+{
+label: "前序和中序",
+key: "preAndInOrder",
+children: <PreAndInOrderBuildTreeContent />,
+forceRender: true,
+},
+{
+label: "后序和中序",
+key: "postAndInOrder",
+children: <PostAndInOrderBuildTreeContent />,
+forceRender: true,
+}
+]}
+/>
