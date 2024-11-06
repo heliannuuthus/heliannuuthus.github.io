@@ -34,6 +34,7 @@ import Tabs from "@site/src/components/Tabs";
 import Image from "@site/src/components/Image";
 import Flex from "@site/src/components/Flex";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Collapse from "@site/src/components/Collapse";
 import PreOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/preorder-traversal.mdx";
 import InOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/inorder-traversal.mdx";
@@ -46,6 +47,9 @@ import LevelOrderLoopContent from "../../\_contents/tree-traversal/loop/levelord
 import PreAndInOrderBuildTreeContent from "../../\_contents/tree-traversal/recursive/preandinorder-build-tree.mdx";
 import PostAndInOrderBuildTreeContent from "../../\_contents/tree-traversal/recursive/postandinorder-build-tree.mdx";
 =======
+=======
+<<<<<<< Updated upstream
+>>>>>>> f4d3aa4 (build tree)
 import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/preorder-traversal.mdx";
 import InOrderRecursiveContent from "../../_contents/tree-traversal/recursive/inorder-traversal.mdx";
 import PostOrderRecursiveContent from "../../_contents/tree-traversal/recursive/postorder-traversal.mdx";
@@ -54,7 +58,22 @@ import InOrderLoopContent from "../../_contents/tree-traversal/loop/inorder-trav
 import PostOrderLoopContent from "../../_contents/tree-traversal/loop/postorder-traversal.mdx";
 import LevelOrderRecursiveContent from "../../_contents/tree-traversal/recursive/levelorder-traversal.mdx";
 import LevelOrderLoopContent from "../../_contents/tree-traversal/loop/levelorder-traversal.mdx";
+<<<<<<< HEAD
 >>>>>>> a8e8ea9 (recursive tree traversal)
+=======
+=======
+import PreOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/preorder-traversal.mdx";
+import InOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/inorder-traversal.mdx";
+import PostOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/postorder-traversal.mdx";
+import PreOrderLoopContent from "../../\_contents/tree-traversal/loop/preorder-traversal.mdx";
+import InOrderLoopContent from "../../\_contents/tree-traversal/loop/inorder-traversal.mdx";
+import PostOrderLoopContent from "../../\_contents/tree-traversal/loop/postorder-traversal.mdx";
+import LevelOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/levelorder-traversal.mdx";
+import LevelOrderLoopContent from "../../\_contents/tree-traversal/loop/levelorder-traversal.mdx";
+import PreAndInOrderBuildTreeContent from "../../\_contents/tree-traversal/recursive/preandinorder-build-tree.mdx";
+import PostAndInOrderBuildTreeContent from "../../\_contents/tree-traversal/recursive/postandinorder-build-tree.mdx";
+>>>>>>> Stashed changes
+>>>>>>> f4d3aa4 (build tree)
 
 <Collapse label="代码块以及图例">
 <Tabs
@@ -317,6 +336,7 @@ children: [
   />
 </Flex>
 
+<<<<<<< HEAD
 ### 通过序列构造二叉树
 
 :::note
@@ -332,6 +352,12 @@ children: [
 :::
 
 <Collapse label="代码块以及正在画的图例">
+=======
+### 恢复二叉树
+
+> 恢复二叉树一定需要中序序列
+
+>>>>>>> f4d3aa4 (build tree)
 <Tabs
 items={[
 {
@@ -347,6 +373,7 @@ children: <PostAndInOrderBuildTreeContent />,
 forceRender: true,
 }
 ]}
+<<<<<<< HEAD
 />
 </Collapse>
 
@@ -358,3 +385,6 @@ forceRender: true,
    2. 左子树以**序列最左**为起点，以**根节点**为终点（此时右边界不可达）
    3. 右子树以**根节点 + 1** 为起点，以**序列最右 + 1** 为终点（此时右边界亦不可达）
 3. 通过递归的手段可以轻松构造左右子树
+=======
+/>
+>>>>>>> f4d3aa4 (build tree)
