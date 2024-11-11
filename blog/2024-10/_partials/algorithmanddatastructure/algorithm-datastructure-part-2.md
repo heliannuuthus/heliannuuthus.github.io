@@ -35,6 +35,7 @@ import Tabs from "@site/src/components/Tabs";
 import Image from "@site/src/components/Image";
 import Flex from "@site/src/components/Flex";
 import Collapse from "@site/src/components/Collapse";
+import Steps from "@site/src/components/Steps";
 import PreOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/preorder-traversal.mdx";
 import InOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/inorder-traversal.mdx";
 import PostOrderRecursiveContent from "../../\_contents/tree-traversal/recursive/postorder-traversal.mdx";
@@ -196,7 +197,7 @@ forceRender: true,
   />
 </Flex>
 
-### 通过序列构造二叉树
+### 使用序列构造二叉树
 
 :::note
 
@@ -209,6 +210,22 @@ forceRender: true,
   - 3 的节点无法确定是 2 节点的左节点还是右节点
 
 :::
+
+<Steps current={0} direction="vertical" items={[{
+title: <>通过前序或者后序的<strong>第一个节点</strong>或者<strong>最后一个节点</strong>确定根节点</>,
+key: "1",
+description: <>1. 前序（局部）的<strong>第一个节点</strong>或者后序（局部）的<strong>最后一个节点</strong>都代表的是<strong>根（局部）节点</strong></>,
+}, {
+title: <>从中序查找对应的根节点并将该节点的左右子树分割开 [左子树, 根节点, 右子树]</>,
+key: "2",
+description: <>1. 注意划分左右子树的区间（左闭右开，其他可视情况而定）<br/>2. 左子树以<strong>序列最左</strong>为起点，以<strong>根节点</strong>为终点（此时右边界不可达）<br/>3. 右子树以<strong>根节点 + 1</strong> 为起点，以<strong>序列最右 + 1</strong> 为终点（此时右边界亦不可达）</>,
+},
+{
+title: <>通过递归的手段可以轻松构造左右子树</>,
+key: "3",
+}
+
+]} />
 
 <Collapse label="代码块以及正在画的图例">
 <Tabs
@@ -229,11 +246,16 @@ forceRender: true,
 />
 </Collapse>
 
-大致步骤为
+### 二叉搜索树
 
-1. 通过前序或者后序的**第一个节点**或者**最后一个节点**确定根节点
-2. 从中序查找对应的根节点并将该节点的左右子树分割开 [左子树, 根节点, 右子树]
-   1. 注意划分左右子树的区间（左闭右开，其他可视情况而定）
-   2. 左子树以**序列最左**为起点，以**根节点**为终点（此时右边界不可达）
-   3. 右子树以**根节点 + 1** 为起点，以**序列最右 + 1** 为终点（此时右边界亦不可达）
-3. 通过递归的手段可以轻松构造左右子树
+- 二叉搜索树的性质：左子树所有节点都小于根节点，右子树所有节点都大于根节点
+- 二叉搜索树的**中序遍历**结果是一个**递增序列**
+
+#### 前驱节点指针
+
+- 中序遍历是有序集合，并且通常自底向上遍历，因此可以利用前驱节点指针，计算相邻两个节点之间的特征
+
+#### Morris 遍历
+
+- 利用[_线索二叉树_](https://en.wikipedia.org/wiki/Threaded_binary_tree)的性质，在遍历过程中减少空间复杂度
+- 时间复杂度为 _O(n)_，空间复杂度为 _O(1)_（不包括递归栈）

@@ -1,5 +1,5 @@
 ---
-slug: 算法数据结构总结
+slug: algorithm-datastructure
 title: 算法数据结构总结
 authors: [heliannuuthus]
 tags: [Java]
