@@ -2,7 +2,7 @@
 
 [![deploy](https://github.com/heliannuuthus/heliannuuthus.github.io/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/heliannuuthus/heliannuuthus.github.io/actions/workflows/deploy.yml)
 
-发音为 */hɪˈlaɪənˌnuːθəsəs/*。拉丁语中的 "helianthus annuus"，也就是向日葵的学名。
+发音为 _/hɪˈlaɪənˌnuːθəsəs/_。拉丁语中的 "helianthus annuus"，也就是向日葵的学名。
 
 ### 关于我
 
@@ -14,5 +14,5 @@
 
 目前博客主要记录一些技术上的总结，以及一些技术上的思考（如果你觉得博客内容不正确可以联系我，我也会及时修正 heliannuuthus@gmail.com）。
 
-- [Linux 效率工具](https://heliannuuthus.github.io/blog/2024-11/linux-tools): 记录一些 Linux 装机必备的工具
-- [算法与数据结构](https://heliannuuthus.github.io/blog/2024-10/algorithm-datastructure): 基于 [代码随想录](https://programmercarl.com/) 和 [LeetCode 官方题解](https://leetcode.cn/problemset/all/) 总结的
+- [Linux 效率工具](https://heliannuuthus.github.io/linux-tools): 记录一些 Linux 装机必备的工具
+- [算法与数据结构](https://heliannuuthus.github.io/algorithm-datastructure): 基于 [代码随想录](https://programmercarl.com/) 和 [LeetCode 官方题解](https://leetcode.cn/problemset/all/) 总结的
