@@ -3,7 +3,8 @@ import type { Config } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
 import remarkCodeImport from "remark-code-import";
 import remarkBreaks from "remark-breaks";
-
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 const config: Config = {
   title: "heliannuuthus",
@@ -76,7 +77,8 @@ const config: Config = {
       {
         docs: false,
         blog: {
-          remarkPlugins: [remarkCodeImport, remarkBreaks],
+          remarkPlugins: [remarkCodeImport, remarkBreaks, remarkMath],
+          rehypePlugins: [rehypeKatex],
           blogSidebarTitle: "最近的发布",
           routeBasePath: "/",
           showReadingTime: true,
