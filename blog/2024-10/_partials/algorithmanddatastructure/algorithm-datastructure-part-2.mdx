@@ -46,6 +46,10 @@ import LevelOrderRecursiveContent from "../../\_contents/tree-traversal/recursiv
 import LevelOrderLoopContent from "../../\_contents/tree-traversal/loop/levelorder-traversal.mdx";
 import PreAndInOrderBuildTreeContent from "../../\_contents/tree-traversal/recursive/preandinorder-build-tree.mdx";
 import PostAndInOrderBuildTreeContent from "../../\_contents/tree-traversal/recursive/postandinorder-build-tree.mdx";
+import MorrisTraversalPreOrderContent from "../../\_contents/morris-traversal/preorder-traversal.mdx";
+import MorrisTraversalInOrderContent from "../../\_contents/morris-traversal/inorder-traversal.mdx";
+import MorrisTraversalPostOrderContent from "../../\_contents/morris-traversal/postorder-traversal.mdx";
+
 
 <Collapse label="代码块以及图例">
 <Tabs
@@ -253,9 +257,37 @@ forceRender: true,
 
 #### 前驱节点指针
 
-- 中序遍历是有序集合，并且通常自底向上遍历，因此可以利用前驱节点指针，计算相邻两个节点之间的特征
+- 中序遍历是有序集合，并且通常自底向上遍历，因此可以利用前驱节点指针，使用邻近两个节点之间的特征属性
 
 #### Morris 遍历
 
+> Morris 遍历只会访问每个节点两次，常规递归遍历会访问每个节点三次 \
+> 利用此规则可以对[验证二叉搜索树](https://leetcode.cn/problems/validate-binary-search-tree/description)以及[计算二叉树的节点个数](https://leetcode.cn/problems/count-complete-tree-nodes/description)等题目进行优化
+
 - 利用[_线索二叉树_](https://en.wikipedia.org/wiki/Threaded_binary_tree)的性质，在遍历过程中减少空间复杂度
 - 时间复杂度为 _O(n)_，空间复杂度为 _O(1)_（不包括递归栈）
+
+<Collapse label="代码块">
+<Tabs
+items={[
+{
+label: "Morris 前序遍历",
+key: "morrisPreOrder",
+children: <MorrisTraversalPreOrderContent />,
+forceRender: true,
+}, 
+{
+label: "Morris 中序遍历",
+key: "morrisInOrder",
+children: <MorrisTraversalInOrderContent />,
+forceRender: true,
+},
+{
+label: "Morris 后序遍历",
+key: "morrisPostOrder",
+children: <MorrisTraversalPostOrderContent />,
+forceRender: true,
+}
+]}
+/>
+</Collapse>
