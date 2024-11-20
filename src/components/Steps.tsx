@@ -11,7 +11,9 @@ const useStyles = createStyles(({ token, css }) => ({
           .replace("rgb", "rgba")
           .replace(")", ", 0.45)")};
       }
-      .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+      .ant-steps-item-container
+        > .ant-steps-item-content
+        > .ant-steps-item-title {
         color: ${token.colorText
           .replace("rgb", "rgba")
           .replace(")", ", 0.45)")};
@@ -33,7 +35,7 @@ const Steps = ({ items, ...props }: StepsProps) => {
     (item, index) => ({
       ...item,
       description: index === current ? item.description : undefined,
-    })
+    }),
   );
 
   return (

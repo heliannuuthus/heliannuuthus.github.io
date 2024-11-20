@@ -13,15 +13,17 @@ const ConfigProviderWrapper = ({ children }: { children: React.ReactNode }) => {
     <ConfigProvider
       theme={{
         token: {
-          colorText: colorMode === "dark" ? "rgb(128, 128, 128)" : "rgb(100, 102, 104)",
-          colorPrimary: colorMode === "dark" ? "rgb(37, 194, 160)" : "rgb(46, 133, 85)",
-          colorPrimaryHover: colorMode === "dark" ? "rgb(33, 175, 144)" : "rgb(41, 120, 76)",
-          colorPrimaryActive: colorMode === "dark" ? "rgb(31, 165, 136)" : "rgb(39, 113, 72)",
+          colorText:
+            colorMode === "dark" ? "rgb(128, 128, 128)" : "rgb(100, 102, 104)",
+          colorPrimary:
+            colorMode === "dark" ? "rgb(37, 194, 160)" : "rgb(46, 133, 85)",
+          colorPrimaryHover:
+            colorMode === "dark" ? "rgb(33, 175, 144)" : "rgb(41, 120, 76)",
+          colorPrimaryActive:
+            colorMode === "dark" ? "rgb(31, 165, 136)" : "rgb(39, 113, 72)",
         },
         components: {
-          Steps: {
-            
-          },
+          Steps: {},
         },
       }}
     >
