@@ -6,7 +6,9 @@
 2. 查询：需要遍历所有父节点
 3. 增删：需要遍历父节点
 
-### 二叉树的遍历
+### 算法思路
+
+#### 二叉树的遍历
 
 :::note
 
@@ -16,20 +18,16 @@
 - 层序遍历：从上到下逐层遍历，顺序为根-左-右
   :::
 
-##### 递归
+- 递归
 
-> 较为简单，不赘述
+  1. 递归通常用于树的遍历，通过递归可以快速遍历所有节点
+  2. 递归的终止条件通常是节点为空
+  3. 递归的返回值通常是当前节点的值
 
-1. 递归通常用于树的遍历，通过递归可以快速遍历所有节点
-2. 递归的终止条件通常是节点为空
-3. 递归的返回值通常是当前节点的值
+- 迭代
 
-##### 迭代
-
-> 较为复杂，详细解释一下
-
-1. 迭代通常用于树的遍历，通过迭代可以快速遍历所有节点
-2. 迭代通常使用栈或队列实现
+  1. 迭代通常用于树的遍历，通过迭代可以快速遍历所有节点
+  2. 迭代通常使用栈或队列实现
 
 import Tabs from "@site/src/components/Tabs";
 import Image from "@site/src/components/Image";
@@ -60,8 +58,8 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
         children: [
           <Flex justify="center" key="preOrderImage">
             <Image
-              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-10-29/二叉树前序遍历-2024-10-29-21-30-38.png"
-              alt="二叉树前序遍历"
+              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的前序遍历-2024-11-20-20-41-25.png"
+              alt="二叉树的前序遍历"
             />
           </Flex>,
           <Tabs
@@ -93,7 +91,7 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
         children: [
           <Flex justify="center" key="inOrderImage">
             <Image
-              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-10-29/二叉树中序遍历.drawio-2024-10-29-21-44-24.png"
+              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的中序遍历-2024-11-20-20-44-04.png"
               alt="二叉树中序遍历"
             />
           </Flex>,
@@ -130,7 +128,7 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
         children: [
           <Flex justify="center" key="postOrderImage">
             <Image
-              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-10-29/二叉树后序遍历.drawio-2024-10-29-21-44-37.png"
+              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的后序遍历-2024-11-20-20-44-31.png"
               alt="二叉树后序遍历"
             />
           </Flex>,
@@ -163,7 +161,7 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
         children: [
           <Flex justify="center" key="levelOrderImage">
             <Image
-              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-03/二叉树的层序遍历.drawio-2024-11-03-23-00-59.png"
+              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的层序遍历-2024-11-20-20-44-50.png"
               alt="二叉树层序遍历"
             />
           </Flex>,
@@ -192,31 +190,47 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
     ]}
   />
 </Collapse>
-### 二叉树的深度和高度
 
-- 二叉树的深度：从根节点到叶子节点的最长路径，可使用后续遍历
-- 二叉树的高度：从叶子节点到根节点的最长路径，可使用前序遍历
+#### 二叉树的性质
 
-<Flex justify="center" key="depthAndHeightImage">
+- [对称二叉树](https://leetcode.cn/problems/symmetric-tree/description)
+
+  1. 前序遍历左、右子树，分为内外两侧去处理
+  2. 左子树的左节点和右子树的右节点，左子树的右节点和右子树的左节点
+
+- 二叉树[深度](https://leetcode.cn/problems/maximum-depth-of-binary-tree/description)和[高度](https://leetcode.cn/problems/minimum-depth-of-binary-tree/description)
+
+  - 二叉树的深度：从根节点到叶子节点的最长路径，可使用后续遍历
+  - 二叉树的高度：从叶子节点到根节点的最长路径，可使用前序遍历
+
+<Flex justify="center" key="binaryTreeHeightAndDepthImage">
   <Image
-    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-03/二叉树的深度和高度.drawio-2024-11-03-19-49-45.png"
-    alt="二叉树的深度和高度示意图"
+    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的高度和深度-2024-11-20-20-51-52.png"
+    alt="二叉树的高度和深度"
   />
 </Flex>
 
-### 使用序列构造二叉树
+- [节点个数](https://leetcode.cn/problems/count-complete-tree-nodes/description)
+
+  1. 利用完全二叉树的性质，首先判断是否为完全二叉树
+  2. 如果是完全二叉树，则节点个数为 \(2^h - 1\)（可统计最左侧路径与最右侧路径是否相同）
+  3. 否则，前序遍历递归统计左右子树的节点个数（递归分别统计当前节点左右子树的深度）
+
+- [构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description)
 
 :::note
 
 - 通过序列构造二叉树一定需要中序序列
 - 前序和后序序列无法唯一确定一棵二叉树
 
-  e.g.
-
-  - 前序：[1, 2, 3] 后序：[3, 2, 1]
-  - 3 的节点无法确定是 2 节点的左节点还是右节点
-
 :::
+
+<Flex justify="center" key="preAndPostOrderImage">
+  <Image
+    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/前后序列无法构造二叉树-2024-11-20-21-10-49.png"
+    alt="前后序列无法构造二叉树"
+  />
+</Flex>
 
 <Steps current={0} direction="vertical" items={[{
 title: <>通过前序或者后序的<strong>第一个节点</strong>或者<strong>最后一个节点</strong>确定根节点</>,
@@ -253,16 +267,156 @@ key: "3",
   />
 </Collapse>
 
-### 二叉搜索树
+- [构造最大二叉树](https://leetcode.cn/problems/maximum-binary-tree/description)
 
-- 二叉搜索树的性质：左子树所有节点都小于根节点，右子树所有节点都大于根节点
-- 二叉搜索树的**中序遍历**结果是一个**递增序列**
+  - 遍历数组，找到最大值作为根节点
+  - 使用递归的手段构造左右子树，如[构造二叉树](#构造二叉树)
 
-#### 前驱节点指针
+- [平衡二叉树](https://leetcode.cn/problems/balanced-binary-tree/description)
 
-- 中序遍历是有序集合，并且通常自底向上遍历，因此可以利用前驱节点指针，使用邻近两个节点之间的特征属性
+  > 每个节点的左右子树高度差不超过 1
 
-#### Morris 遍历
+  - **后序递归遍历**左右子树，如果高度差大于 1 直接返回 false，否则继续递归判断左右子树是否平衡
+  - 可通过旋转操作调整树的结构，使其保持平衡
+
+<Flex justify="center" key="binaryTreeLeftRotationText">
+  二叉树的左旋
+</Flex>
+
+<Flex justify="center" key="binaryTreeLeftRotationImage">
+  <Image
+    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的左旋-2024-11-20-20-57-58.png"
+    alt="二叉树的左旋"
+  />
+</Flex>
+
+<Flex justify="center" key="binaryTreeRightRotationText">
+  二叉树的右旋
+</Flex>
+
+<Flex justify="center" key="binaryTreeRightRotationImage">
+  <Image
+    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的右旋-2024-11-20-20-57-41.png"
+    alt="二叉树的右旋"
+  />
+</Flex>
+
+- [二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths/description)
+
+  - **前序递归遍历**左右子树，将路径拼接起来
+  - 单层可用一个 StringBuilder，当到达叶子节点时，将 StringBuilder 加入结果集
+  - 回溯时，将 StringBuilder 的最后一个节点删除
+
+- [左叶子的和](https://leetcode.cn/problems/sum-of-left-leaves/description)
+
+  - **前序递归遍历**从父节点判断是否为左叶子节点
+  - 递归遍历左右子树，将左叶子节点的值相加
+
+- [左下角的值](https://leetcode.cn/problems/find-bottom-left-tree-value/description)
+
+  - **前序递归遍历**左右子树，记录最大深度，当到达叶子节点时，更新最大深度，并记录当前节点的值
+  - 也可**层序遍历**，最后一层的第一个节点
+
+- [路径总和](https://leetcode.cn/problems/path-sum/description)
+
+  - **前序递归遍历**左右子树，将路径上的节点值相加，当等于目标值时，返回 true
+  - 到达叶子节点时，如果路径和等于目标值，返回 true
+
+- [翻转二叉树](https://leetcode.cn/problems/invert-binary-tree/description)
+
+  - **前序递归遍历**左右子树，交换左右子树
+
+- [合并二叉树](https://leetcode.cn/problems/merge-two-binary-trees/description)
+
+  - 递归遍历左右子树，将当前节点的值相加
+
+#### 公共祖先问题
+
+- [二叉树的公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/description)
+
+  - **后序递归遍历**（先左后右）左右子树，当找到目标节点时，返回当前节点
+  - 递归遍历左右子树，当左右子树都找到目标节点时，返回当前节点
+
+- [二叉搜索树的公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/description)
+
+  - 利用二叉搜索树的性质，如果当前节点大于目标节点，则向左子树遍历，否则向右子树遍历
+  - 找到一个节点大于等于目标节点，小于等于目标节点时，返回当前节点
+
+## 二叉搜索树
+
+### 数据结构
+
+> 左子树所有节点都小于根节点，右子树所有节点都大于根节点
+
+:::tip
+
+二叉搜索树的**中序遍历**是有序的，可结合前驱节点指针进行大小比较
+
+:::
+
+<Flex justify="center" key="binarySearchTreeImage">
+  <Image
+    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/完全二叉搜索树-2024-11-20-21-17-44.png"
+    alt="完全二叉搜索树"
+  />
+</Flex>
+
+#### 算法思路
+
+#### 二叉搜索树的性质
+
+- [二叉搜索树中的搜索](https://leetcode.cn/problems/search-in-a-binary-search-tree/description)
+
+  - **前序递归遍历**左右子树，如果当前节点大于目标节点，则向左子树遍历，否则向右子树遍历
+  - 如果当前节点等于目标节点，返回当前节点
+
+- [二叉搜索树的验证](https://leetcode.cn/problems/validate-binary-search-tree/description)
+
+  - **前序递归遍历**左右子树，如果当前节点大于左子树的最大值，小于右子树的最小值，则返回 true
+
+- [二叉搜索树的最小绝对差](https://leetcode.cn/problems/minimum-absolute-difference-in-bst/description)
+
+  - **中序递归遍历**左右子树，可利用前驱节点指针
+  - 如果当前节点大于前驱节点，则更新最小绝对差，否则返回 false
+  - 利用 [Morris 遍历](#Morris遍历)可以减少空间复杂度
+
+- [二叉搜索树中的众数](https://leetcode.cn/problems/find-mode-in-binary-search-tree/description)
+
+  - **中序递归遍历**左右子树，可利用前驱节点指针
+  - 如果相同众数大于当前众数，则更新众数，否则返回当前众数
+  - 利用 [Morris 遍历](#Morris遍历)可以减少空间复杂度
+
+- [二叉搜索树转换成累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree/description)
+
+  - **反向后序遍历**（即先右后左）左右子树，可利用前驱节点指针
+  - 递归遍历左右子树，将当前节点的值加上右子树的值
+
+#### 二叉搜索树的修改
+
+- [二叉搜索树的插入](https://leetcode.cn/problems/insert-into-a-binary-search-tree/description)
+
+  - **前序递归遍历**左右子树，比较当前节点大小和待插入节点大小
+  - 如果当前节点大于待插入节点，且左子树为空，则插入左子树，否则向左子树遍历
+  - 如果当前节点小于待插入节点，且右子树为空，则插入右子树，否则向右子树遍历
+  - 重复上述步骤，直到找到合适的位置
+
+- [二叉搜索树的删除](https://leetcode.cn/problems/delete-node-in-a-bst/description)
+
+  - **前序递归遍历**左右子树，找到待删除节点
+  - 如果待删除节点没有子树，直接删除
+  - 如果待删除节点只有一个子树，则将子树替换待删除节点
+  - 如果待删除节点有两个子树
+    - 可将左子树的最右节点作为新根节点，将右子树作为新根节点的右子树
+    - 也可将右子树的最左节点作为新根节点，将左子树作为新根节点的左子树
+
+<Flex justify="center" key="binarySearchTreeDeleteImage">
+  <Image
+    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二搜索叉树的删除-2024-11-20-22-02-37.png"
+    alt="二搜索叉树的删除"
+  />
+</Flex>
+
+#### Morris遍历
 
 > Morris 遍历只会访问每个节点两次，常规递归遍历会访问每个节点三次 \
 > 利用此规则可以对[验证二叉搜索树](https://leetcode.cn/problems/validate-binary-search-tree/description)以及[计算二叉树的节点个数](https://leetcode.cn/problems/count-complete-tree-nodes/description)等题目进行优化
