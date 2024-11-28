@@ -1,8 +1,97 @@
+import Flex from "@site/src/components/Flex";
+import { Text } from "@site/src/components/Typography";
+
 ## 递归回溯
 
-### 递归问题分类：
+> 该类问题存在模板，但是需要根据实际情况进行调整
+
+### 问题分类
 
 - 组合问题：通常情况下是给定一组元素，从中选出若干个元素，组合问题通常是**无序**的
 - 切割问题：这类问题和组合很像，但是**有序**，例如分割回文串、组合总和等
 - 子集问题：和组合问题类似，只是需要全遍历，而组合可以提前返回
 - 排列问题：和组合问题解题思路类似，但是需要考虑顺序
+- 棋盘问题：通常是二维矩阵，需要考虑边界条件
+
+### 回溯模板
+
+:::info
+
+<Flex vertical justifyContent="center">
+  <Text style={{ alignSelf: "center" }}>
+    Carl: 回溯法解决的问题都可以抽象为树形结构
+  </Text>
+  <img
+    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-28/回溯抽象树-2024-11-28-21-27-09.png"
+    alt="回溯抽象树-2024-11-28-21-27-09"
+  />
+</Flex>
+
+:::
+
+```java
+public void backtracking(parameters) {
+    if (should return) {
+        save result;
+        return;
+    }
+
+    for (choice : current choices) {
+        // process current choice;
+        backtracking(path, choices); // recursive call
+        // backtracking;
+    }
+}
+```
+
+### 算法思路
+
+> 递归回溯其实是暴力的解法，最多剪枝做以下优化，并不优雅
+
+#### 组合问题
+
+> 按照模板套用即可，关注点在剪枝的策略
+
+- 满足条件后可直接返回，不需要遍历所有情况
+- 每一层循环的开始位置也能剪除一部分
+
+#### 切割问题
+
+- 通常需要遍历所有情况，如何定义切割位置
+- 通常伴随前置条件，判断是否可以提前结束当前分支
+- 如何结束递归，如何定义递归的数据结构
+- 判断是否是回文串
+
+#### 子集问题
+
+- 通常不需要结束递归，需要遍历所有情况
+- 每层的开始位置一定是不同的，通常由递归到边界层数告知
+- 去重可选择使用 set 或者 used 数组，但是需要判断是层去重还是分支去重
+
+#### 排列问题
+
+- 通常是有序的，并且都从 0 开始
+- 需要去重，通常使用 used 数组（相较 set 更优）
+
+#### [重新安排行程](https://leetcode.cn/problems/reconstruct-itinerary/description)
+
+- 题本身不难，但是需要选择最优的存储介质
+- 可以通过排序的手段，将多个序列转换为单个序列
+- 使用 kv 结构存储多次往返的节点
+
+#### 棋盘问题
+
+- 二维矩阵，通常需要考虑边界条件
+- 利用递归的特性可以做对同行或者同列的剪枝
+
+#### 数独问题
+
+- 同行重复，或者同列重复，或者同 3x3 重复
+- 可通过取模运算找到 3x3 边界进行判断
+
+:::danger
+
+关于动态规划以及贪心算法，一直是我的薄弱项
+决定阅读《算法竞赛进阶指南》认真的学习一下再进行单独总结。
+
+:::
