@@ -1,29 +1,29 @@
-Welcome:
-  label: Welcome
-  permalink: /welcome
-  description: Welcome tag description
-
 Java:
   label: Java
   permalink: /java
-  description: Java tag description
+  description: Java 编程语言相关
 
 Rust:
   label: Rust
   permalink: /rust
-  description: Rust tag description
+  description: Rust 编程语言相关
 
-Secret:
-  label: Secret
-  permalink: /secret
-  description: Secret tag description
+Cryptography:
+  label: Cryptography
+  permalink: /cryptography
+  description: 密码学相关
 
-K8S:
-  label: K8S
-  permalink: /k8s
-  description: K8S tag description
+Cloud:
+  label: Cloud
+  permalink: /cloud
+  description: 云原生相关
 
-Docker:
-  label: Docker
-  permalink: /docker
-  description: Docker tag description
+Container:
+  label: Container
+  permalink: /container
+  description: 容器相关
+
+Linux:
+  label: Linux
+  permalink: /linux
+  description: Linux 相关
