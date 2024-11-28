@@ -14,5 +14,5 @@
 
 目前博客主要记录一些技术上的总结，以及一些技术上的思考（如果你觉得博客内容不正确可以联系我，我也会及时修正 heliannuuthus@gmail.com）。
 
-- [Linux 效率工具](https://heliannuuthus.github.io/linux-tools): 记录一些 Linux 装机必备的工具
+- [开发效率工具](https://heliannuuthus.github.io/development-tools): 来自我对编程的习惯和偏好
 - [算法与数据结构](https://heliannuuthus.github.io/algorithm-datastructure): 基于 [代码随想录](https://programmercarl.com/) 和 [LeetCode 官方题解](https://leetcode.cn/problemset/all/) 总结的
