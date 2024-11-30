@@ -8,6 +8,26 @@ Rust:
   permalink: /rust
   description: Rust 编程语言相关
 
+Golang:
+  label: Golang
+  permalink: /golang
+  description: Golang 编程语言相关
+
+Python:
+  label: Python
+  permalink: /python
+  description: Python 编程语言相关
+
+Web Frontend:
+  label: Web Frontend
+  permalink: /web-frontend
+  description: Web 前端开发相关
+
+Web Backend:
+  label: Web Backend
+  permalink: /web-backend
+  description: Web 后端开发相关
+
 Cryptography:
   label: Cryptography
   permalink: /cryptography
@@ -27,3 +47,8 @@ Linux:
   label: Linux
   permalink: /linux
   description: Linux 相关
+
+CI/CD:
+  label: CI/CD
+  permalink: /cicd
+  description: CI/CD 相关
