@@ -1,7 +1,7 @@
 import Tabs from "@site/src/components/Tabs";
 import Image from "@site/src/components/Image";
 import Flex from "@site/src/components/Flex";
-import Collapse from "@site/src/components/Collapse";
+import { Collapse } from "@site/src/components/Collapse";
 import Steps from "@site/src/components/Steps";
 import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/preorder-traversal.mdx";
 import InOrderRecursiveContent from "../../_contents/tree-traversal/recursive/inorder-traversal.mdx";
@@ -232,21 +232,52 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
   />
 </Flex>
 
-<Steps current={0} direction="vertical" items={[{
-title: <>通过前序或者后序的<strong>第一个节点</strong>或者<strong>最后一个节点</strong>确定根节点</>,
-key: "1",
-description: <>1. 前序（局部）的<strong>第一个节点</strong>或者后序（局部）的<strong>最后一个节点</strong>都代表的是<strong>根（局部）节点</strong></>,
-}, {
-title: <>从中序查找对应的根节点并将该节点的左右子树分割开 [左子树, 根节点, 右子树]</>,
-key: "2",
-description: <>1. 注意划分左右子树的区间（左闭右开，其他可视情况而定）<br/>2. 左子树以<strong>序列最左</strong>为起点，以<strong>根节点</strong>为终点（此时右边界不可达）<br/>3. 右子树以<strong>根节点 + 1</strong> 为起点，以<strong>序列最右 + 1</strong> 为终点（此时右边界亦不可达）</>,
-},
-{
-title: <>通过递归的手段可以轻松构造左右子树</>,
-key: "3",
-}
-
-]} />
+<Steps
+  current={0}
+  direction="vertical"
+  items={[
+    {
+      title: (
+        <Text>
+          通过前序或者后序的<Text strong>第一个节点</Text>或者
+          <Text strong>最后一个节点</Text>确定根节点
+        </Text>
+      ),
+      key: "1",
+      description: (
+        <Text>
+          1. 前序（局部）的<Text strong>第一个节点</Text>或者后序（局部）的
+          <Text strong>最后一个节点</Text>都代表的是
+          <Text strong>根（局部）节点</Text>
+        </Text>
+      ),
+    },
+    {
+      title: (
+        <Text>
+          从中序查找对应的根节点并将该节点的左右子树分割开 [左子树, 根节点,
+          右子树]
+        </Text>
+      ),
+      key: "2",
+      description: (
+        <Text>
+          1. 注意划分左右子树的区间（左闭右开，其他可视情况而定）
+          <br />
+          2. 左子树以<Text strong>序列最左</Text>为起点，以
+          <Text strong>根节点</Text>为终点（此时右边界不可达）
+          <br />
+          3. 右子树以<Text strong>根节点 + 1</Text> 为起点，以
+          <Text strong>序列最右 + 1</Text> 为终点（此时右边界亦不可达）
+        </Text>
+      ),
+    },
+    {
+      title: <Text>通过递归的手段可以轻松构造左右子树</Text>,
+      key: "3",
+    },
+  ]}
+/>
 
 <Collapse label="代码块以及正在画的图例">
   <Tabs
@@ -416,7 +447,7 @@ key: "3",
   />
 </Flex>
 
-#### Morris遍历
+#### Morris 遍历
 
 > Morris 遍历只会访问每个节点两次，常规递归遍历会访问每个节点三次 \
 > 利用此规则可以对[验证二叉搜索树](https://leetcode.cn/problems/validate-binary-search-tree/description)以及[计算二叉树的节点个数](https://leetcode.cn/problems/count-complete-tree-nodes/description)等题目进行优化

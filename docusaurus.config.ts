@@ -125,7 +125,7 @@ const config: Config = {
     },
     footer: {
       style: "dark",
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} heliannuuthus. Built with Docusaurus.`,
     },
     prism: {
       additionalLanguages: ["java", "javadoc", "rust", "go", "bash", "python"],

@@ -1,0 +1,26 @@
+
+- Java 线程的状态：**New**、**Runnable**、**Blocked**、**Waiting**、**Timed Waiting**、**Terminated**。
+
+  - 线程创建后处于 **New** 状态。
+  - 调用 `start` 方法后，线程进入 **Runnable** 状态。
+  - 线程执行 `wait` 方法后，线程进入 **Waiting** 状态，无时间的等待。
+  - 线程执行 `sleep` 方法后，线程进入 **Timed Waiting** 状态，有时间等待。
+  - 线程执行完毕后，线程进入 **Terminated** 状态。
+
+- 线程状态的转换
+
+  <Flex justify="center">
+    <Image src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-05/线程状态的转换-2024-12-05-21-54-47.png" />
+  </Flex>
+
+  - **New**: 创建线程后，线程处于 **New** 状态。
+  - **Runnable** --> **Blocked** 状态：`synchronized`、`Lock`、`wait`、`sleep` 等
+  - **Blocked** 状态 --> **Runnable** 状态：`notify`、`notifyAll`、`interrupt` 等
+  - **Runnable** --> **Timed Waiting** 状态：`sleep(millis)`、`wait(millis)` 等
+  - **Timed Waiting** --> **Runnable** 状态：`notify`、`notifyAll`、`interrupt` 等
+  - **Waiting** --> **Runnable** 状态：`notify`、`notifyAll`、`interrupt` 等
+  - **Terminated**: 线程执行完毕后，线程进入 **Terminated** 状态。
+
+- Object 的 `wait` 方法和 `sleep` 方法
+  - `wait` 方法：会主动让出 CPU 资源
+  - `sleep` 方法：不会让出 CPU 资源

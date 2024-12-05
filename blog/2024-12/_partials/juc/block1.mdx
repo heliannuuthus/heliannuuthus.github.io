@@ -1,0 +1,76 @@
+import Steps from "@site/src/components/Steps";
+import { Text, Link } from "@site/src/components/Typography";
+
+1. 进程是操作系统**资源分配**的最小单位，**程序运行**的最小单元。线程是操作系统**调度任务**的最小单元。协程是协作式任务的最小单元，由应用程序定义，**类似一个代码块**。
+2. 进程间切换的上下文开销大，线程间切换的上下文开销小，协程间切换的上下文开销最小。
+
+   - 进程：由[**用户态**](./juc#用户态)切换到[**内核态**](./juc#内核态)，切换并保存[**虚拟地址空间**](./juc#虚拟地址空间)、[**页表**](./juc#页表)、[**内核栈**](./juc#内核栈)等，开销非常大。
+   - 线程：由[**用户态**](./juc#用户态)切换到[**内核态**](./juc#内核态)
+
+     <Steps
+       current={0}
+       direction="vertical"
+       items={[
+         {
+           key: "1",
+           title: (
+             <Text>
+               存储当前执行的指令位置到
+               <Link strong href="./juc#程序计数器">
+                 程序计数器
+               </Link>,
+             </Text>
+           ),
+         },
+         {
+           key: "2",
+           title: (
+             <Text>
+               存储当前局部变量，中间计算值到
+               <Link strong href="./juc#通用寄存器">
+                 通用寄存器
+               </Link>
+             </Text>
+           ),
+         },
+         {
+           key: "3",
+           title: (
+             <Text>
+               将用户栈指针
+               <Link strong href="./juc#栈指针">
+                 栈指针
+               </Link>
+               切换到内核
+               <Link strong href="./juc#栈指针">
+                 栈指针
+               </Link>，准备切换到内核态
+             </Text>
+           ),
+         },
+         {
+           key: "4",
+           title: <Text>找到内核函数入口转换为内核态执行</Text>,
+         },
+         {
+           title: (
+             <Text>
+               更换为新调度线程的
+               <Link strong href="./juc#程序计数器">
+                 程序计数器
+               </Link>、<Link strong href="./juc#通用寄存器">
+                 通用寄存器
+               </Link>、<Link strong href="./juc#栈指针">
+                 栈指针
+               </Link>
+               等，恢复执行
+             </Text>
+           ),
+           key: "5",
+         },
+       ]}
+     />
+
+   - 协程：**永远在[用户态](./juc.mdx#用户态)**，虽然也会像线程一样做一系列操作，但将内核态转换的过程抽象到协程库实现，开销最小。
+
+3. 进程可以持有多个线程，线程可以持有多个协程。
