@@ -1,0 +1,26 @@
+import Flex from "@site/src/components/Flex";
+import Image from "@site/src/components/Image";
+
+- 在 JDK21 之前，Java 线程几乎等同于操作系统线程，在 JDK21 之后，Java 线程是基于虚拟线程实现的。
+- 每个线程都有自己的[**程序计数器**](./juc#程序计数器)、[**虚拟机栈**](./juc#虚拟机栈)、[**本地方法栈**](./juc#本地方法栈)。
+
+  - **程序计数器**用于记录当前线程执行的字节码的行号指示器。保证多线程情况下线程切换后能恢复到正确的执行位置。
+  - **虚拟机栈**以及**本地方法栈**为了防止其他线程访问局部变量等，属于线程私有。
+
+  <Flex justify="center">
+    <Image src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-05/JVM运行时数据区之线程私有-2024-12-05-21-20-54.png" />
+  </Flex>
+
+- 所有线程共享的堆和方法区
+
+  - **堆**用于存储对象实例。
+  - **方法区**用于存储已被虚拟机加载的**类信息**、**常量**、**静态变量**、**即时编译器编译后的代码**等数据。
+
+  <Flex justify="center">
+    <Image src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-05/JVM运行时数据区之线程共享-2024-12-05-21-12-21.png" />
+  </Flex>
+
+- Java 从本质上来说，创建线程的方法只有 `Thread::start` 一种。
+
+  - `Runnable` 和 `Callable` 接口只是对线程执行任务的抽象，本质上还是通过 `Thread` 类来创建线程。
+  - 包括 `Executor` 框架、`Future` 模式、`Callable` 接口等都是对 `Thread` 类的封装。
