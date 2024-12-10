@@ -1,0 +1,31 @@
+import Thread from "../../_contents/juc/threadlocal/thread.mdx";
+import ThreadLocal from "../../_contents/juc/threadlocal/threadlocal.mdx";
+import ThreadLocalMap from "../../_contents/juc/threadlocal/threadlocalmap.mdx";
+import { Collapse } from "@site/src/components/Collapse";
+
+- `ThreadLocal` 实现了不同线程间变量的隔离。
+
+- `ThreadLocal` 的实现原理
+
+  - `Thread` 内部维护了一个名为 **threadLocals** 的 `ThreadLocalMap` 对象，用于存储线程本地变量。以及一个名为 **inheritableThreadLocals** 的 `ThreadLocalMap` 对象，用于传递给子线程。
+
+  <Collapse label="代码块">
+    <Thread />
+  </Collapse>
+
+  - 在使用 `ThreadLocal` 时，会调用 `ThreadLocal` 的 `get` 方法，该方法会从当前线程的 `threadLocals` 中获取变量。
+    - 如果当前线程的 `threadLocals` 为空，则调用 `ThreadLocal` 的 `setInitialValue` 方法，该方法会从当前线程的 `inheritableThreadLocals` 中获取变量。
+    - 如果当前线程的 `inheritableThreadLocals` 为空，则调用 `ThreadLocal` 的 `setInitialValue` 方法，该方法会从当前线程的 `threadLocals` 中获取变量。
+
+  <Collapse label="代码块">
+    <ThreadLocal />
+  </Collapse>
+
+- `ThreadLocal` 的内存泄漏问题
+
+  - `ThreadLocalMap` 使用[弱引用](./reference.mdx)，如果触发 GC 会第一时间回收弱引用对象，此时的 `ThreadLocalMap` 中的 `Entry` 的 `Key` 会为 `null`，此时 `Entry` 的 `value` 会一直存在，直到线程结束。
+  - 如果线程一直不结束，那么 `Entry` 的 `value` 会一直存在，导致内存泄漏。
+
+  <Collapse label="代码块">
+    <ThreadLocalMap />
+  </Collapse>

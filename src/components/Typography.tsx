@@ -1,5 +1,5 @@
-import { Typography } from "antd";
+import { Typography, List } from "antd";
 
 const { Title, Paragraph, Text, Link } = Typography;
 
-export { Title, Paragraph, Text, Link };
+export { Title, Paragraph, Text, Link, List };
