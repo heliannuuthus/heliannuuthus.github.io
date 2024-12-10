@@ -10,12 +10,16 @@ tags: [Java]
 <!-- truncate -->
 
 import { Collapses } from "@site/src/components/Collapse";
-import Block1 from "./_partials/juc/block1.mdx";
-import Block2 from "./_partials/juc/block2.mdx";
-import Block3 from "./_partials/juc/block3.mdx";
-import Block4 from "./_partials/juc/block4.mdx";
-import Block5 from "./_partials/juc/block5.mdx";
-import Block6 from "./_partials/juc/block6.mdx";
+import ProcessAndThread from "./_partials/juc/process-and-thread.mdx";
+import JavaThread from "./_partials/juc/java-thread.mdx";
+import JavaThreadState from "./_partials/juc/java-thread-state.mdx";
+import Deadlock from "./_partials/juc/deadlock.mdx";
+import Volatile from "./_partials/juc/volatile.mdx";
+import Lock from "./_partials/juc/lock.mdx";
+import Synchronized from "./_partials/juc/synchronized.mdx";
+import ThreadLocal from "./_partials/juc/threadlocal.mdx";
+import ThreadPool from "./_partials/juc/threadpool.mdx";
+import AQS from "./_partials/juc/AQS.mdx";
 
 ### 问题分类
 
@@ -23,27 +27,43 @@ import Block6 from "./_partials/juc/block6.mdx";
   items={[
     {
       label: "进程、线程和协程",
-      children: <Block1 />,
+      children: <ProcessAndThread />,
     },
     {
       label: "Java 线程的特点",
-      children: <Block2 />,
+      children: <JavaThread />,
     },
     {
       label: "Java 线程的状态",
-      children: <Block3 />,
+      children: <JavaThreadState />,
     },
     {
       label: "死锁问题",
-      children: <Block4 />,
+      children: <Deadlock />,
     },
     {
       label: "volatile 关键字",
-      children: <Block5 />,
+      children: <Volatile />,
     },
     {
       label: "乐观锁和悲观锁",
-      children: <Block6 />,
+      children: <Lock />,
+    },
+    {
+      label: "synchronized 关键字",
+      children: <Synchronized />,
+    },
+    {
+      label: "ThreadLocal",
+      children: <ThreadLocal />,
+    },
+    {
+      label: "线程池",
+      children: <ThreadPool />,
+    },
+    {
+      label: "AQS",
+      children: <AQS />,
     },
   ]}
 />
@@ -101,3 +121,15 @@ import Block6 from "./_partials/juc/block6.mdx";
 #### 本地方法栈
 
 用于存储线程执行的 `native` 修饰的方法信息。
+
+#### Mutex Lock
+
+操作系统提供的互斥锁，用于实现线程间的互斥访问。通过 Monitor 实现，
+本质是在获取对应共享资源的指令前插入 `monitorenter` 指令，在释放对应共享资源的指令后插入 `monitorexit` 指令。
+
+#### JVM 引用回收机制
+
+- 强引用：根可达时不会被回收。
+- 软引用：在内存不足时，会被垃圾回收器回收。
+- 弱引用：在垃圾回收时，会被回收。
+- 虚引用：在垃圾回收时，会被回收，并且会收到一个通知。

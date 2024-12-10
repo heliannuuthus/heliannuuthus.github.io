@@ -1,0 +1,72 @@
+import { Text, Link } from "@site/src/components/Typography";
+import Timeline from "@site/src/components/Timeline";
+import Step1 from "../../_contents/juc/synchronized/step1.mdx";
+import Step2 from "../../_contents/juc/synchronized/step2.mdx";
+import Step3 from "../../_contents/juc/synchronized/step3.mdx";
+
+> `synchronized` 是 Java 基于操作系统 **Mutex Lock** 的提供的**可重入**的**非公平**锁
+
+- 作用在不同位置
+
+  - 锁一个对象
+
+  ```java
+  private final Object lock = new Object();
+
+  synchronized (lock) {
+    // 代码块
+  }
+
+  synchronized (this) {
+    // 代码块
+  }
+
+  ```
+
+  - 锁整个类
+
+  ```java
+  synchronized (Class.class) {
+    // 代码块
+  }
+  ```
+
+  - 非静态方法上声明的形式锁的是**当前对象**
+
+  ```java
+  public synchronized void method() {
+    // 代码块
+  }
+
+  ```
+
+  - 静态方法上声明的形式锁的是**类**
+
+  ```java
+  public static synchronized void method() {
+    // 代码块
+  }
+  ```
+
+- 锁升级
+
+<Timeline
+  mode="alternate"
+  items={[
+    {
+      key: "1",
+      label: <Text type="danger">无锁转换为偏向锁</Text>,
+      children: <Step1 />,
+    },
+    {
+      key: "2",
+      label: <Text type="danger">偏向锁转换为轻量级锁</Text>,
+      children: <Step2 />,
+    },
+    {
+      key: "3",
+      label: <Text type="danger">轻量级锁转换为重量级锁</Text>,
+      children: <Step3 />,
+    },
+  ]}
+/>
