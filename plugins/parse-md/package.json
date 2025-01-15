@@ -1,0 +1,15 @@
+{
+  "name": "parse-md",
+  "version": "1.0.1",
+  "description": "Docusaurus plugin for managing terminologies",
+  "main": "index.js",
+  "author": "GRNET Developers <devs@lists.grnet.gr>",
+  "license": "BSD-2-Clause",
+  "private": false,
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "scripts": {
+    "build": "echo 'no build is required'"
+  }
+}
