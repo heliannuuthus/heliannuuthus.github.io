@@ -46,7 +46,7 @@ const config: Config = {
 
       if (
         [`/_contents/`, `/_partials/`].some((path) =>
-          params.filePath.includes(path),
+          params.filePath.includes(path)
         )
       ) {
         result.frontMatter = {};
@@ -103,7 +103,18 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
-
+  plugins: [
+    [
+      "heliannuuthus-docusaurus-terminology",
+      {
+        termsDir: "./blog/terms",
+        docsDir: "./blog",
+        glossaryFilepath: "./blog/glossary.md",
+        termPreviewComponentPath: "@site/src/components/TermPreview.tsx",
+      },
+    ],
+    ["./plugins/authors-list/index.js", { path: "./blog/authors.yml" }],
+  ],
   themeConfig: {
     navbar: {
       title: "heliannuuthus",
