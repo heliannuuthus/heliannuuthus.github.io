@@ -71,7 +71,7 @@ const config: Config = {
 
       if (
         [`/_contents/`, `/_partials/`].some((path) =>
-          params.filePath.includes(path),
+          params.filePath.includes(path)
         )
       ) {
         result.frontMatter = {};
@@ -133,8 +133,6 @@ const config: Config = {
       require.resolve("heliannuuthus-docusaurus-terminology"),
       {
         termsDir: "blog/terms",
-        glossaryDir: "blog",
-        glossaryFilepath: "blog/glossary.md",
         docsDir: "blog",
         glossaryFilepath: "./blog/glossary.md",
         termPreviewComponentPath: "@site/src/components/TermPreview.tsx",
