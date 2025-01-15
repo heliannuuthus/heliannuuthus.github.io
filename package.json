@@ -26,6 +26,7 @@
     "clsx": "^2.0.0",
     "echarts": "^5.5.1",
     "heliannuuthus-docusaurus-terminology": "file:./plugins/docusaurus-terminology",
+<<<<<<< HEAD
     "heliannuuthus-parse-md": "file:./plugins/parse-md",
     "heliannuuthus-terminology-store": "file:./plugins/terminology-store",
     "heliannuuthus-webpack-glossary-loader": "file:./plugins/webpack-glossary-loader",
@@ -33,6 +34,9 @@
     "heliannuuthus-webpack-terms-replace-loader": "file:./plugins/webpack-terms-replace-loader",
     "js-yaml": "^4.1.0",
     "pkg-up": "^5.0.0",
+=======
+    "js-yaml": "^4.1.0",
+>>>>>>> 137c798 (cc)
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

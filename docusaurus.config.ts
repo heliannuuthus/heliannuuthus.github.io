@@ -64,7 +64,7 @@ const config: Config = {
 
       if (
         [`/_contents/`, `/_partials/`].some((path) =>
-          params.filePath.includes(path),
+          params.filePath.includes(path)
         )
       ) {
         result.frontMatter = {};
@@ -126,10 +126,16 @@ const config: Config = {
       "heliannuuthus-docusaurus-terminology",
       {
         termsDir: "./blog/terms",
+<<<<<<< HEAD
         docsDir: "blog",
         glossaryFilepath: "./blog/glossary.md",
         termPreviewComponentPath: "@site/src/components/TermPreview.tsx",
         glossaryComponentPath: "@site/src/components/Glossary.tsx",
+=======
+        docsDir: "./blog",
+        glossaryFilepath: "./blog/glossary.md",
+        termPreviewComponentPath: "@site/src/components/TermPreview.tsx",
+>>>>>>> 137c798 (cc)
       },
     ],
     ["./plugins/authors-list/index.js", { path: "./blog/authors.yml" }],
