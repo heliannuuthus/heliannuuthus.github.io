@@ -1,0 +1,8 @@
+{
+  "name": "heliannuuthus-terminology-store",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "license": "BSD-2-Clause",
+  "private": false
+}

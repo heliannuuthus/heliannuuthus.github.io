@@ -1,0 +1,13 @@
+{
+  "name": "heliannuuthus-webpack-terms-loader",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "private": false,
+  "dependencies": {
+    "heliannuuthus-parse-md": "file:../parse-md",
+    "heliannuuthus-terminology-store": "file:../terminology-store",
+    "remark": "13.0.0",
+    "remark-html": "13.0.2"
+  }
+}

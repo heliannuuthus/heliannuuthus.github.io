@@ -1,10 +1,10 @@
 import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
-import remarkCodeImport from "remark-code-import";
-import remarkBreaks from "remark-breaks";
-import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import remarkBreaks from "remark-breaks";
+import remarkCodeImport from "remark-code-import";
+import remarkMath from "remark-math";
 
 const config: Config = {
   title: "heliannuuthus",
@@ -37,11 +37,29 @@ const config: Config = {
     mermaid: true,
     parseFrontMatter: async (params) => {
       // Reuse the default parser
+      if (params.filePath.includes("/terms/")) {
+        const id = params.filePath.split("/").pop()?.split(".")[0];
+        return {
+          frontMatter: {
+            id: id,
+            title: `${id}-terminology`,
+            authors: ["robot"],
+            description: `This is a terminology parsed by code logic.`,
+          },
+          content: params.fileContent,
+        };
+      }
       const result = await params.defaultParseFrontMatter(params);
-      console.log(params.filePath);
-      if (params.filePath.includes("/_contents/")) {
-        result.frontMatter = {};
-        return result;
+      if (params.filePath.includes("/glossary.md")) {
+        return {
+          frontMatter: {
+            id: "glossary",
+            title: "Glossary",
+            authors: ["robot"],
+            description: `This is a glossary parsed by code logic.`,
+          },
+          content: result.content,
+        };
       }
 
       if (
@@ -103,7 +121,19 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
-
+  plugins: [
+    [
+      "heliannuuthus-docusaurus-terminology",
+      {
+        termsDir: "./blog/terms",
+        docsDir: "blog",
+        glossaryFilepath: "./blog/glossary.md",
+        termPreviewComponentPath: "@site/src/components/TermPreview.tsx",
+        glossaryComponentPath: "@site/src/components/Glossary.tsx",
+      },
+    ],
+    ["./plugins/authors-list/index.js", { path: "./blog/authors.yml" }],
+  ],
   themeConfig: {
     navbar: {
       title: "heliannuuthus",
