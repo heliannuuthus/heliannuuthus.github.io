@@ -10,13 +10,13 @@ export default function (source) {
   const unixRegex = new RegExp(
     `(${this.query.termsDir
       .replace(/^\.\//, "")
-      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`,
   );
   const winRegex = new RegExp(
     `(${this.query.termsDir
       .replace(/\//g, "\\")
       .replace(/\./, "")
-      .replace(/[*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`
+      .replace(/[*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`,
   );
   const unixResourcePath = this.resourcePath;
   const winResourcePath = this.resourcePath.replace(/\\/, "\\\\");
@@ -27,23 +27,38 @@ export default function (source) {
       : unixResourcePath.match(unixRegex);
 
   if (termMatch) {
-    const data = parseMD(source);
+    const terms = parseMD(source);
     const resourcePath = termMatch[1].replace(/\d+-/, "");
-    data.map(async (element) => {
-      element.metadata.hoverText = element.metadata.hoverText
-        ? String(
-            unified()
-              .use(remarkParse)
-              .use(remarkRehype)
-              .use(rehypeSanitize)
-              .use(rehypeStringify)
-              .processSync(element.metadata.hoverText)
-          )
-        : "";
-      const termPath = resourcePath + `/${element.metadata.id}`;
-      store.addTerm(termPath, element);
-      this.emitFile(termPath + ".json", JSON.stringify(element));
-    });
+    const termData = terms.reduce((acc, term) => {
+      acc[term.metadata.id] = {
+        ...term,
+        metadata: {
+          ...term.metadata,
+          hoverText: term.metadata.hoverText
+            ? String(
+                unified()
+                  .use(remarkParse)
+                  .use(remarkRehype)
+                  .use(rehypeSanitize)
+                  .use(rehypeStringify)
+                  .processSync(term.metadata.hoverText),
+              )
+            : "",
+        },
+      };
+      return acc;
+    }, {});
+
+    store.addTerm(resourcePath, termData);
+    this.emitFile(resourcePath + ".json", JSON.stringify(termData));
+
+    return `
+
+import Terminology from "@site/src/components/Terminology";
+
+<Terminology />
+
+`;
   }
   return source;
 }

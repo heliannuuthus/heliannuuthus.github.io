@@ -1,10 +1,10 @@
 import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
-import remarkCodeImport from "remark-code-import";
-import remarkBreaks from "remark-breaks";
-import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import remarkBreaks from "remark-breaks";
+import remarkCodeImport from "remark-code-import";
+import remarkMath from "remark-math";
 
 const config: Config = {
   title: "heliannuuthus",
@@ -50,9 +50,21 @@ const config: Config = {
         };
       }
       const result = await params.defaultParseFrontMatter(params);
+      if (params.filePath.includes("/glossary.md")) {
+        return {
+          frontMatter: {
+            id: "glossary",
+            title: "Glossary",
+            authors: ["robot"],
+            description: `This is a glossary parsed by code logic.`,
+          },
+          content: result.content,
+        };
+      }
+
       if (
         [`/_contents/`, `/_partials/`].some((path) =>
-          params.filePath.includes(path)
+          params.filePath.includes(path),
         )
       ) {
         result.frontMatter = {};

@@ -63,7 +63,7 @@ const TermPreview = ({
 
   const fetchContent = async (
     url: string,
-    authors: Record<string, AuthorAttributes>
+    authors: Record<string, AuthorAttributes>,
   ) => {
     try {
       // 如果缓存存在且有数据，直接使用缓存
@@ -78,23 +78,27 @@ const TermPreview = ({
         });
         return;
       }
-
+      const [path, anchor] = url.split("#");
       // 否则从服务器获取
-      const response = await fetch(url);
+      const response = await fetch(path);
       const data = (await response.json()) as TermData;
-
+      const term = data[anchor];
+      console.log("term", term);
       // 更新状态和缓存
       setContent({
-        title: data.metadata.title,
-        content: data.metadata.hoverText,
-        authors: data.metadata.authors.reduce((acc, author) => {
-          acc[author] = authors[author];
-          return acc;
-        }, {} as Record<string, AuthorAttributes>),
+        title: term.metadata.title,
+        content: term.metadata.hoverText,
+        authors: term.metadata.authors.reduce(
+          (acc, author) => {
+            acc[author] = authors[author];
+            return acc;
+          },
+          {} as Record<string, AuthorAttributes>,
+        ),
       });
       if (typeof window !== "undefined") {
         window._cachedTerms = window._cachedTerms || {};
-        window._cachedTerms[url] = data;
+        window._cachedTerms[url] = term;
       }
     } catch (error) {
       console.error("Failed to fetch content:", error);
@@ -108,7 +112,9 @@ const TermPreview = ({
   return (
     <BrowserOnly
       fallback={
-        <Tooltip title={"网络好像出现了一些问题..."}>{children}</Tooltip>
+        <Tooltip title={<div>网络好像出现了一些问题...</div>}>
+          {children}
+        </Tooltip>
       }
     >
       {() => (

@@ -16,12 +16,12 @@ export default async function authorsListPlugin(context, ops) {
       };
     },
 
-    async contentLoaded({content, actions}) {
-      const {setGlobalData} = actions;
+    async contentLoaded({ content, actions }) {
+      const { setGlobalData } = actions;
       // 设置全局数据
       setGlobalData({
         authors: content.authors,
       });
     },
   };
-};
+}

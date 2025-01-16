@@ -7,13 +7,13 @@ const root =
   process.platform === "win32" ? path.win32.dirname(pkg) : path.dirname(pkg);
 
 export default function (source) {
-  const urlsRegex = /(?<!!)\[[^\]]+\]\([^)]+\)/g;
-  const urlRegex = /\[\s*(.*?)\s*\]\((.*?)\)/s;
+  const urlsRegex = /(?<!!)\[\[[^\]]+\]\]\([^)]+\)/g;
+  const urlRegex = /\[\[\s*(.*?)\s*\]\]\((.*?)\)/s;
   const urls = source.match(urlsRegex) || [];
   const importStatement = `
-import Term from "${this.query.termPreviewComponentPath}";
 
-  `;
+import Term from "${this.query.termPreviewComponentPath}";
+`;
   if (urls.length > 0) {
     const { content } = parseMD(source)[0];
     source = source.replace(content, importStatement + content);
@@ -28,7 +28,7 @@ import Term from "${this.query.termPreviewComponentPath}";
             : path.relative(root, this.resourcePath);
         const pathName = new URL(
           urlPath,
-          `http://heliannuuthus.com/${rel_path}`
+          `http://heliannuuthus.com/${rel_path}`,
         ).pathname;
         if (pathName.includes(this.query.termsDir.replace(/\./, ""))) {
           const termKey =
@@ -36,7 +36,7 @@ import Term from "${this.query.termPreviewComponentPath}";
             pathName.replace(/\.(md|mdx)$/, "");
           source = source.replace(
             mdUrl,
-            `<Term path="${termKey.replace(/\d+-/, "")}">${title}</Term>`
+            `<Term path="${termKey.replace(/\d+-/, "")}">${title}</Term>`,
           );
         }
       }
