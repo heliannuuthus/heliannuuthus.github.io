@@ -1,17 +1,12 @@
 {
   "name": "heliannuuthus-webpack-terms-replace-loader",
   "version": "1.0.0",
-  "description": "Webpack loader for replacing terms in markdown files",
+  "type": "module",
   "main": "index.js",
-  "author": "GRNET Developers <devs@lists.grnet.gr>",
-  "license": "BSD-2-Clause",
   "private": false,
   "dependencies": {
-    "pkg-up": "3.1.0",
-    "parse-md": "file:../parse-md",
-    "heliannuuthus-terminology-store": "file:../terminology-store"
-  },
-  "scripts": {
-    "build": "echo 'no build is required'"
+    "heliannuuthus-parse-md": "file:../parse-md",
+    "heliannuuthus-terminology-store": "file:../terminology-store",
+    "pkg-up": "3.1.0"
   }
 }

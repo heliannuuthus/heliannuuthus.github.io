@@ -1,17 +1,31 @@
-const { load } = require('js-yaml')
+import { load } from "js-yaml";
 
-const chunks = (arr, size) =>
-  Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
-    arr.slice(i * size, i * size + size)
-  )
+/**
+ * 将数组分割成指定大小的块
+ */
+const chunks = (arr, size) => {
+  const chunks = [];
+  for (let i = 0; i < arr.length; i += size) {
+    chunks.push(arr.slice(i, i + size));
+  }
+  return chunks;
+};
 
-// 主解析函数
-const parseMD = (contents) => {
+/**
+ * 解析 Markdown 文件内容
+ * @param {string} content - Markdown 文件内容
+ * @returns {{metadata: Object, content: string}[]} 解析后的 Markdown 块数组
+ */
+export const parseMD = (content) => {
+  if (!content || typeof content !== "string") {
+    return [{ metadata: {}, content: content || "" }];
+  }
+
   try {
-    const blocks = contents
+    const blocks = content
       .split(/^---$/m)
       .map((block) => block.trim())
-      .filter(Boolean)
+      .filter(Boolean);
 
     if (blocks.length === 1) {
       return [
@@ -19,17 +33,25 @@ const parseMD = (contents) => {
           metadata: {},
           content: blocks[0],
         },
-      ]
+      ];
     }
 
-    return chunks(blocks, 2).map(([metaBlock, contentBlock = '']) => ({
-      metadata: metaBlock ? load(metaBlock) : {},
-      content: contentBlock,
-    }))
-  } catch (error) {
-    console.error('Failed to parse markdown:', error)
-    return [{ metadata: {}, content: contents }]
-  }
-}
+    return chunks(blocks, 2).map(([metaBlock, contentBlock = ""]) => {
+      let metadata = {};
 
-module.exports = parseMD
+      try {
+        metadata = metaBlock ? load(metaBlock) : {};
+      } catch (metaError) {
+        console.warn("Failed to parse metadata block:", metaError);
+      }
+
+      return {
+        metadata,
+        content: contentBlock,
+      };
+    });
+  } catch (error) {
+    console.error("Failed to parse markdown:", error);
+    return [{ metadata: {}, content: content }];
+  }
+};

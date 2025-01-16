@@ -19,7 +19,7 @@ type TermMetadata = {
   authors: string[];
 };
 
-type TermData = {
+export type TermData = {
   content: string;
   metadata: TermMetadata;
 };
@@ -51,10 +51,10 @@ const Content = forwardRef(({ title, authors, content }: TermContent, ref) => {
 
 const TermPreview = ({
   children,
-  pathName,
+  path,
 }: {
   children: React.ReactNode;
-  pathName: string;
+  path: string;
 }) => {
   const { authors } = usePluginData("docusaurus-plugin-authors-list") as {
     authors: Record<string, AuthorAttributes>;
@@ -82,7 +82,6 @@ const TermPreview = ({
       // 否则从服务器获取
       const response = await fetch(url);
       const data = (await response.json()) as TermData;
-      console.log(data);
 
       // 更新状态和缓存
       setContent({
@@ -103,8 +102,8 @@ const TermPreview = ({
   };
 
   useEffect(() => {
-    fetchContent(`${pathName.replace(/\/$/, "")}.json`, authors);
-  }, [pathName]);
+    fetchContent(`${path.replace(/\/$/, "")}.json`, authors);
+  }, [path]);
 
   return (
     <BrowserOnly
@@ -127,7 +126,7 @@ const TermPreview = ({
               textDecoration: "underline dashed",
               textUnderlineOffset: "4px",
             }}
-            href={pathName.replace(/^\/blog/, "")}
+            href={path.replace(/^\/blog/, "")}
           >
             {children}
           </a>

@@ -1,16 +1,11 @@
 {
   "name": "heliannuuthus-webpack-glossary-loader",
   "version": "1.0.0",
-  "description": "Webpack loader for Docusaurus glossaries",
+  "type": "module",
   "main": "index.js",
-  "author": "GRNET Developers <devs@lists.grnet.gr>",
-  "license": "BSD-2-Clause",
   "private": false,
   "dependencies": {
-    "heliannuuthus-terminology-store": "file:../terminology-store",
-    "parse-md": "file:../parse-md"
-  },
-  "scripts": {
-    "build": "echo 'no build is required'"
+    "heliannuuthus-parse-md": "file:../parse-md",
+    "heliannuuthus-terminology-store": "file:../terminology-store"
   }
 }

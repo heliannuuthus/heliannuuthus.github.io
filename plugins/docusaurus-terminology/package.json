@@ -1,10 +1,8 @@
 {
   "name": "heliannuuthus-docusaurus-terminology",
   "version": "1.0.1",
-  "description": "Docusaurus plugin for managing terminologies",
+  "type": "module",
   "main": "index.js",
-  "author": "GRNET Developers <devs@lists.grnet.gr>",
-  "license": "BSD-2-Clause",
   "private": false,
   "dependencies": {
     "heliannuuthus-webpack-glossary-loader": "file:../webpack-glossary-loader",
@@ -13,8 +11,5 @@
     "heliannuuthus-terminology-store": "file:../terminology-store",
     "@grnet/docusaurus-term-preview": "2.0.0-rc.1",
     "@grnet/docusaurus-glossary-view": "2.0.0-rc.1"
-  },
-  "scripts": {
-    "build": "echo 'no build is required'"
   }
 }

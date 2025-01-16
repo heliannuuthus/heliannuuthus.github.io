@@ -6,3 +6,10 @@ heliannuuthus:
   page: true
   socials:
     github: heliannuuthus
+
+robot:
+  name: robot
+  title: I'm a robot. This article is text parsed by code logic.
+  url: https://heliannuuthus.github.io
+  image_url: https://heliannuuthus.github.io/img/logo.svg
+  page: false

@@ -1,7 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const docusaurusPath = path.resolve('.docusaurus');
-const glossaryPath = path.resolve('.docusaurus/glossary.json');
+import fs from "fs";
+import path from "path";
+
+const docusaurusPath = path.resolve(".docusaurus");
+const glossaryPath = path.resolve(".docusaurus/glossary.json");
 
 class TerminologyStore {
   constructor() {
@@ -11,7 +12,7 @@ class TerminologyStore {
       fs.mkdirSync(docusaurusPath);
     }
 
-    fs.writeFileSync(glossaryPath, '{}');
+    fs.writeFileSync(glossaryPath, "{}");
 
     this.terms = this.readGlossary();
     this.updated = Object.keys(this.terms);
@@ -25,7 +26,7 @@ class TerminologyStore {
   }
 
   readGlossary() {
-    return JSON.parse(fs.readFileSync(glossaryPath, 'utf8'));
+    return JSON.parse(fs.readFileSync(glossaryPath, "utf8"));
   }
 
   setUpdatedResourcePath(resourcePath) {
@@ -36,4 +37,5 @@ class TerminologyStore {
     this.updated = [];
   }
 }
-module.exports = new TerminologyStore()
+
+export const store = new TerminologyStore();

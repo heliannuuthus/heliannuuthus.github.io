@@ -1,18 +1,13 @@
 {
   "name": "heliannuuthus-webpack-terms-loader",
-  "version": "1.0.1",
-  "description": "Webpack loader for terminology",
+  "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
-  "author": "GRNET Developers <devs@lists.grnet.gr>",
-  "license": "BSD-2-Clause",
   "private": false,
   "dependencies": {
-    "parse-md": "file:../parse-md",
+    "heliannuuthus-parse-md": "file:../parse-md",
     "heliannuuthus-terminology-store": "file:../terminology-store",
     "remark": "13.0.0",
     "remark-html": "13.0.2"
-  },
-  "scripts": {
-    "build": "echo 'no build is required'"
   }
 }

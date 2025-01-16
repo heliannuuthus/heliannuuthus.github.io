@@ -37,13 +37,19 @@ const config: Config = {
     mermaid: true,
     parseFrontMatter: async (params) => {
       // Reuse the default parser
-      const result = await params.defaultParseFrontMatter(params);
-      console.log(params.filePath);
-      if (params.filePath.includes("/_contents/")) {
-        result.frontMatter = {};
-        return result;
+      if (params.filePath.includes("/terms/")) {
+        const id = params.filePath.split("/").pop()?.split(".")[0];
+        return {
+          frontMatter: {
+            id: id,
+            title: `${id}-terminology`,
+            authors: ["robot"],
+            description: `This is a terminology parsed by code logic.`,
+          },
+          content: params.fileContent,
+        };
       }
-
+      const result = await params.defaultParseFrontMatter(params);
       if (
         [`/_contents/`, `/_partials/`].some((path) =>
           params.filePath.includes(path)
@@ -108,9 +114,10 @@ const config: Config = {
       "heliannuuthus-docusaurus-terminology",
       {
         termsDir: "./blog/terms",
-        docsDir: "./blog",
+        docsDir: "blog",
         glossaryFilepath: "./blog/glossary.md",
         termPreviewComponentPath: "@site/src/components/TermPreview.tsx",
+        glossaryComponentPath: "@site/src/components/Glossary.tsx",
       },
     ],
     ["./plugins/authors-list/index.js", { path: "./blog/authors.yml" }],
