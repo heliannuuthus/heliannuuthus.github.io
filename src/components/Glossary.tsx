@@ -2,10 +2,9 @@ import BrowserOnly from "@docusaurus/BrowserOnly";
 import { useEffect, useState } from "react";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import { List, Skeleton, Avatar, Typography, Tooltip } from "antd";
-import { TermData } from "./TermPreview";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
-
+import { TermData } from "heliannuuthus-terminology-store";
 declare global {
   interface Window {
     _cachedGlossary: any;
@@ -31,6 +30,7 @@ const Glossary = () => {
             console.error(err);
           })
           .then((data) => {
+            console.log(data);
             window._cachedGlossary = data;
             setGlossaries(data);
           });
@@ -45,8 +45,6 @@ const Glossary = () => {
       {() => {
         return (
           <List
-            className="demo-loadmore-list"
-            itemLayout="horizontal"
             dataSource={Object.entries(glossaries)}
             renderItem={([filePath, value]: [
               string,
@@ -54,6 +52,7 @@ const Glossary = () => {
             ]) =>
               Object.entries(value).map(([key, value]) => (
                 <List.Item
+                  key={key}
                   actions={[
                     <a key="list-loadmore-edit">edit</a>,
                     <a key="list-loadmore-more">more</a>,
@@ -77,15 +76,10 @@ const Glossary = () => {
                     description={
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: value.metadata.hoverText,
+                          __html: value.metadata.description,
                         }}
                       />
                     }
-                  />
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: value.content,
-                    }}
                   />
                 </List.Item>
               ))

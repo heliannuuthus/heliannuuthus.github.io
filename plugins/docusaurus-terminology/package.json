@@ -2,8 +2,13 @@
   "name": "heliannuuthus-docusaurus-terminology",
   "version": "1.0.1",
   "type": "module",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "private": false,
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist"
+  },
   "dependencies": {
     "heliannuuthus-webpack-glossary-loader": "file:../webpack-glossary-loader",
     "heliannuuthus-webpack-terms-loader": "file:../webpack-terms-loader",
@@ -11,5 +16,11 @@
     "heliannuuthus-terminology-store": "file:../terminology-store",
     "@grnet/docusaurus-term-preview": "2.0.0-rc.1",
     "@grnet/docusaurus-glossary-view": "2.0.0-rc.1"
+  },
+  "devDependencies": {
+    "@types/webpack": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
   }
 }

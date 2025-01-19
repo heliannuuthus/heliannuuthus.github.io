@@ -2,12 +2,25 @@
   "name": "heliannuuthus-webpack-terms-loader",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "private": false,
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist"
+  },
   "dependencies": {
     "heliannuuthus-parse-md": "file:../parse-md",
     "heliannuuthus-terminology-store": "file:../terminology-store",
-    "remark": "13.0.0",
-    "remark-html": "13.0.2"
+    "unified": "^10.0.0",
+    "rehype-sanitize": "^5.0.0",
+    "rehype-stringify": "^9.0.0",
+    "remark-parse": "^10.0.0",
+    "remark-rehype": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/webpack": "^5.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
   }
 }
