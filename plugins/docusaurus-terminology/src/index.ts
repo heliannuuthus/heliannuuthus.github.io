@@ -35,7 +35,7 @@ export interface TerminologyOptions {
 
 export default async function DocusaurusTerminologyPlugin(
   context: DocusaurusContext,
-  options: TerminologyOptions
+  options: TerminologyOptions,
 ) {
   const unixFormattedTermsPath = options.termsDir
     .replace(/^\.\//, "")
@@ -82,7 +82,7 @@ export default async function DocusaurusTerminologyPlugin(
     configureWebpack(
       config: Configuration,
       isServer: boolean,
-      utils: ConfigureWebpackUtils
+      utils: ConfigureWebpackUtils,
     ) {
       options.baseUrl = config.output?.publicPath as string;
 
@@ -103,7 +103,7 @@ export default async function DocusaurusTerminologyPlugin(
             (kider: RuleSetUseItem) =>
               typeof kider === "object" &&
               typeof kider.loader === "string" &&
-              kider.loader.includes("plugin-content-docs")
+              kider.loader.includes("plugin-content-docs"),
           )
         );
       });
@@ -117,7 +117,7 @@ export default async function DocusaurusTerminologyPlugin(
               (kider: RuleSetUseItem) =>
                 typeof kider === "object" &&
                 typeof kider.loader === "string" &&
-                kider.loader.includes("mdx-loader")
+                kider.loader.includes("mdx-loader"),
             )
           );
         });
@@ -148,7 +148,9 @@ export default async function DocusaurusTerminologyPlugin(
             enforce: "pre",
             use: [
               {
-                loader: require.resolve("heliannuuthus-webpack-glossary-loader"),
+                loader: require.resolve(
+                  "heliannuuthus-webpack-glossary-loader",
+                ),
                 options,
               },
             ],

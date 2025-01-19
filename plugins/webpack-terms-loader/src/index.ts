@@ -18,19 +18,19 @@ interface WebpackTermsLoaderContext
 
 export default function loader(
   this: WebpackTermsLoaderContext,
-  source: string
+  source: string,
 ) {
   const unixRegex = new RegExp(
     `(${this.query.termsDir
       .replace(/^\.\//, "")
-      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`,
   );
 
   const winRegex = new RegExp(
     `(${this.query.termsDir
       .replace(/\//g, "\\")
       .replace(/\./, "")
-      .replace(/[*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`
+      .replace(/[*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`,
   );
 
   const unixResourcePath = this.resourcePath;
@@ -44,36 +44,40 @@ export default function loader(
   if (termMatch) {
     const terms = parse<TermMetadata>(source);
     const resourcePath = termMatch[1].replace(/\d+-/, "");
-    const termMap = terms.reduce((acc, term) => {
-      acc[term.metadata.slug] = {
-        ...term,
-        metadata: {
-          ...term.metadata,
-          description: unified()
+    const termMap = terms.reduce(
+      (acc, term) => {
+        acc[term.metadata.slug] = {
+          ...term,
+          metadata: {
+            ...term.metadata,
+            description: unified()
+              .use(remarkParse)
+              .use(remarkRehype)
+              .use(rehypeSanitize)
+              .use(rehypeStringify)
+              .processSync(term.metadata.description)
+              .toString("utf-8"),
+            authors: term.metadata.authors || ["robot"],
+          },
+          content: unified()
             .use(remarkParse)
             .use(remarkRehype)
             .use(rehypeSanitize)
             .use(rehypeStringify)
-            .processSync(term.metadata.description)
+            .processSync(term.content)
             .toString("utf-8"),
-          authors: term.metadata.authors || ["robot"],
-        },
-        content: unified()
-          .use(remarkParse)
-          .use(remarkRehype)
-          .use(rehypeSanitize)
-          .use(rehypeStringify)
-          .processSync(term.content)
-          .toString("utf-8"),
-      };
+        };
 
-      return acc;
-    }, {} as Record<string, TermData>);
+        return acc;
+      },
+      {} as Record<string, TermData>,
+    );
 
     store.addTerm(resourcePath, termMap);
     this.emitFile(resourcePath + ".json", JSON.stringify(termMap));
 
     return `
+    
 import Terminology from "@site/src/components/Terminology";
 
 <Terminology />

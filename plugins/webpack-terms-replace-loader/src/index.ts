@@ -21,15 +21,15 @@ const root =
 
 export default function loader(
   this: WebpackTermsReplaceLoaderContext,
-  source: string
+  source: string,
 ) {
   const urlsRegex = /(?<!!)\[\[[^\]]+\]\]\([^)]+\)/g;
   const urlRegex = /\[\[\s*(.*?)\s*\]\]\((.*?)\)/s;
   const urls = source.match(urlsRegex) || [];
   const importStatement = `
+
 import Term from "${this.query.termPreviewComponentPath}";
 `;
-
   if (urls.length > 0) {
     const { content } = parse<TermMetadata>(source)[0];
     source = source.replace(content, importStatement + content);
@@ -45,22 +45,17 @@ import Term from "${this.query.termPreviewComponentPath}";
           process.platform === "win32"
             ? path.win32.relative(root, this.resourcePath)
             : path.relative(root, this.resourcePath);
+        const url = new URL(urlPath, `http://heliannuuthus.com/${rel_path}`);
 
-        const pathName = new URL(
-          urlPath,
-          `http://heliannuuthus.com/${rel_path}`
-        ).pathname;
-
-        if (pathName.includes(this.query.termsDir.replace(/\./, ""))) {
-          const termKey =
-            this.query.baseUrl.replace(/\/$/, "") +
-            pathName.replace(/\.(md|mdx)$/, "");
-
-          source = source.replace(
-            mdUrl,
-            `<Term path="${termKey.replace(/\d+-/, "")}">${title}</Term>`
-          );
-        }
+        const termKey =
+          this.query.baseUrl.replace(/\/$/, "") +
+          url.pathname.replace(/\.(md|mdx)$/, "");
+        source = source.replace(
+          mdUrl,
+          `<Term path="${termKey.replace(/\d+-/, "")}" anchor="${
+            url.hash
+          }">${title}</Term>`,
+        );
       }
     }
   }

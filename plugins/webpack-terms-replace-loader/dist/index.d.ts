@@ -1,13 +1,17 @@
-import { LoaderContext } from 'webpack';
+import { LoaderContext } from "webpack";
 
 interface WebpackTermsReplaceLoaderOptions {
-    termPreviewComponentPath: string;
-    termsDir: string;
-    baseUrl: string;
+  termPreviewComponentPath: string;
+  termsDir: string;
+  baseUrl: string;
 }
-interface WebpackTermsReplaceLoaderContext extends LoaderContext<WebpackTermsReplaceLoaderOptions> {
-    query: WebpackTermsReplaceLoaderOptions;
+interface WebpackTermsReplaceLoaderContext
+  extends LoaderContext<WebpackTermsReplaceLoaderOptions> {
+  query: WebpackTermsReplaceLoaderOptions;
 }
-declare function loader(this: WebpackTermsReplaceLoaderContext, source: string): string;
+declare function loader(
+  this: WebpackTermsReplaceLoaderContext,
+  source: string,
+): string;
 
 export { loader as default };

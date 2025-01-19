@@ -1,6 +1,7 @@
 import { Tooltip, Avatar, Typography } from "antd";
 import { forwardRef, useState, useEffect } from "react";
 import { usePluginData } from "@docusaurus/useGlobalData";
+import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
 import BrowserOnly from "@docusaurus/BrowserOnly";
 import { TermData } from "heliannuuthus-terminology-store";
@@ -40,14 +41,17 @@ const Content = forwardRef(({ title, authors, content }: TermContent, ref) => {
 const TermPreview = ({
   children,
   path,
+  anchor,
 }: {
   children: React.ReactNode;
   path: string;
+  anchor: string;
 }) => {
+  const [content, setContent] = useState<TermContent | null>(null);
+  const { withBaseUrl } = useBaseUrlUtils();
   const { authors } = usePluginData("docusaurus-plugin-authors-list") as {
     authors: Record<string, AuthorAttributes>;
   };
-  const [content, setContent] = useState<TermContent | null>(null);
 
   const fetchContent = async (
     url: string,
@@ -66,13 +70,11 @@ const TermPreview = ({
         });
         return;
       }
-      const [path, anchor] = url.split("#");
       // 否则从服务器获取
-      const response = await fetch(path);
+      anchor = anchor.substring(1);
+      const response = await fetch(withBaseUrl(`/blog/${path}.json`));
       const data = (await response.json()) as Record<string, TermData>;
-      console.log("data", data);
       const term = data[anchor];
-      console.log("term", term);
       // 更新状态和缓存
       setContent({
         title: term.metadata.title,
@@ -121,7 +123,7 @@ const TermPreview = ({
               textDecoration: "underline dashed",
               textUnderlineOffset: "4px",
             }}
-            href={path.replace(/^\/blog/, "")}
+            href={`${path.replace(/^\/blog/, "")}${anchor}`}
           >
             {children}
           </a>

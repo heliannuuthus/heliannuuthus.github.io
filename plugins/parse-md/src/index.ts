@@ -32,7 +32,7 @@ export const parse = <T>(content: string): MarkdownBlock<T>[] => {
       let metadata = {} as T;
 
       try {
-        metadata = (metaBlock ? load(metaBlock) as T : {}) as T;
+        metadata = (metaBlock ? (load(metaBlock) as T) : {}) as T;
       } catch (metaError) {
         console.warn("Failed to parse metadata block:", metaError);
       }
@@ -43,4 +43,4 @@ export const parse = <T>(content: string): MarkdownBlock<T>[] => {
     console.error("Failed to parse markdown:", error);
     return [{ metadata: {} as T, content: content }];
   }
-}; 
+};

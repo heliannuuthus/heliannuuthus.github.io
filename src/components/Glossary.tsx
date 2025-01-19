@@ -48,7 +48,7 @@ const Glossary = () => {
             dataSource={Object.entries(glossaries)}
             renderItem={([filePath, value]: [
               string,
-              Record<string, TermData>
+              Record<string, TermData>,
             ]) =>
               Object.entries(value).map(([key, value]) => (
                 <List.Item

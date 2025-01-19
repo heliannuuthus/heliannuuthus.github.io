@@ -92,7 +92,7 @@ const Terminology = () => {
               </Paragraph>
             ),
           };
-        }
+        },
       )}
     />
   );

@@ -12,7 +12,10 @@ var parse = (content) => {
     return [{ metadata: {}, content: content || "" }];
   }
   try {
-    const blocks = content.split(/^---$/m).map((block) => block.trim()).filter(Boolean);
+    const blocks = content
+      .split(/^---$/m)
+      .map((block) => block.trim())
+      .filter(Boolean);
     if (blocks.length === 1) {
       return [{ metadata: {}, content: blocks[0] }];
     }
@@ -30,7 +33,5 @@ var parse = (content) => {
     return [{ metadata: {}, content }];
   }
 };
-export {
-  parse
-};
+export { parse };
 //# sourceMappingURL=index.js.map

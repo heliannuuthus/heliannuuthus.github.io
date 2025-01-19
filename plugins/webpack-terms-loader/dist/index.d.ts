@@ -1,11 +1,15 @@
-import { LoaderContext } from 'webpack';
+import { LoaderContext } from "webpack";
 
 interface WebpackTermsLoaderOptions {
-    termsDir: string;
+  termsDir: string;
 }
-interface WebpackTermsLoaderContext extends LoaderContext<WebpackTermsLoaderOptions> {
-    query: WebpackTermsLoaderOptions;
+interface WebpackTermsLoaderContext
+  extends LoaderContext<WebpackTermsLoaderOptions> {
+  query: WebpackTermsLoaderOptions;
 }
-declare function loader(this: WebpackTermsLoaderContext, source: string): string;
+declare function loader(
+  this: WebpackTermsLoaderContext,
+  source: string,
+): string;
 
 export { loader as default };

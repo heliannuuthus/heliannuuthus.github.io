@@ -1,12 +1,16 @@
-import { LoaderContext } from 'webpack';
+import { LoaderContext } from "webpack";
 
 interface WebpackGlossaryLoaderOptions {
-    glossaryComponentPath: string;
-    glossaryDir: string;
+  glossaryComponentPath: string;
+  glossaryDir: string;
 }
-interface WebpackGlossaryLoaderContext extends LoaderContext<WebpackGlossaryLoaderOptions> {
-    query: WebpackGlossaryLoaderOptions;
+interface WebpackGlossaryLoaderContext
+  extends LoaderContext<WebpackGlossaryLoaderOptions> {
+  query: WebpackGlossaryLoaderOptions;
 }
-declare function loader(this: WebpackGlossaryLoaderContext, source: string): string;
+declare function loader(
+  this: WebpackGlossaryLoaderContext,
+  source: string,
+): string;
 
 export { loader as default };

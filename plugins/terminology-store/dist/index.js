@@ -37,7 +37,5 @@ var TerminologyStore = class _TerminologyStore {
   }
 };
 var store = TerminologyStore.getInstance();
-export {
-  store
-};
+export { store };
 //# sourceMappingURL=index.js.map

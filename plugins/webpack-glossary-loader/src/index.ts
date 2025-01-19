@@ -8,13 +8,14 @@ interface WebpackGlossaryLoaderOptions {
   glossaryDir: string;
 }
 
-interface WebpackGlossaryLoaderContext extends LoaderContext<WebpackGlossaryLoaderOptions> {
+interface WebpackGlossaryLoaderContext
+  extends LoaderContext<WebpackGlossaryLoaderOptions> {
   query: WebpackGlossaryLoaderOptions;
 }
 
 export default function loader(
   this: WebpackGlossaryLoaderContext,
-  source: string
+  source: string,
 ) {
   const importStatement = `
 import Glossary from "${
@@ -27,15 +28,16 @@ import Glossary from "${
   this.addDependency(
     path.posix.join(
       (this.query as WebpackGlossaryLoaderOptions).glossaryDir,
-      "glossary.json"
-    )
+      "glossary.json",
+    ),
   );
+
   this.emitFile(
     path.posix.join(
       (this.query as WebpackGlossaryLoaderOptions).glossaryDir,
-      "glossary.json"
+      "glossary.json",
     ),
-    JSON.stringify(store.terms)
+    JSON.stringify(store.terms),
   );
 
   const { content } = parse<TermMetadata>(source)[0];
