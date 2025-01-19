@@ -1,0 +1,29 @@
+{
+  "name": "heliannuuthus-docusaurus-plugins",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r build",
+    "clean": "pnpm -r clean",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "heliannuuthus-parse-md": "file:./parse-md",
+    "heliannuuthus-terminology-store": "file:./terminology-store",
+    "js-yaml": "^4.1.0",
+    "unified": "^10.0.0",
+    "rehype-sanitize": "^5.0.0",
+    "rehype-stringify": "^9.0.0",
+    "remark-parse": "^10.0.0",
+    "remark-rehype": "^10.0.0",
+    "package-up": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "tsup": "^8.0.0",
+    "@types/webpack": "^5.0.0",
+    "@types/js-yaml": "^4.0.9",
+    "@docusaurus/tsconfig": "3.7.0",
+    "@docusaurus/types": "3.7.0"
+  }
+}

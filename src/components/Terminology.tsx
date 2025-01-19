@@ -1,5 +1,4 @@
 import { Avatar, Collapse, Typography, Tooltip } from "antd";
-import { TermData } from "@site/src/components/TermPreview";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import { useEffect, useState } from "react";
 import { useLocation } from "@docusaurus/router";
@@ -7,7 +6,7 @@ import { CaretRightOutlined } from "@ant-design/icons";
 
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
-
+import { TermData } from "heliannuuthus-terminology-store";
 const { Text, Paragraph, Link } = Typography;
 
 const Terminology = () => {
@@ -24,6 +23,7 @@ const Terminology = () => {
     fetch(withBaseUrl(`/blog${location.pathname.replace(/\/$/, "")}.json`))
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setTermData(data);
       });
 
@@ -43,10 +43,10 @@ const Terminology = () => {
         <CaretRightOutlined rotate={isActive ? 90 : 0} />
       )}
       items={Object.entries(termData).map(
-        ([anchor, term]: [string, TermData]) => {
+        ([slug, term]: [string, TermData]) => {
           return {
-            key: anchor,
-            label: <div id={anchor}>{term.metadata.title}</div>,
+            key: slug,
+            label: <div id={slug}>{term.metadata.title}</div>,
             children: (
               <span dangerouslySetInnerHTML={{ __html: term.content }} />
             ),
@@ -92,7 +92,7 @@ const Terminology = () => {
               </Paragraph>
             ),
           };
-        },
+        }
       )}
     />
   );

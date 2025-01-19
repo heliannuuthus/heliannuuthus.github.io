@@ -3,7 +3,7 @@ import { forwardRef, useState, useEffect } from "react";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
 import BrowserOnly from "@docusaurus/BrowserOnly";
-
+import { TermData } from "heliannuuthus-terminology-store";
 const { Text, Link, Title } = Typography;
 
 declare global {
@@ -11,18 +11,6 @@ declare global {
     _cachedTerms: Record<string, any>;
   }
 }
-
-type TermMetadata = {
-  id: string;
-  title: string;
-  hoverText: string;
-  authors: string[];
-};
-
-export type TermData = {
-  content: string;
-  metadata: TermMetadata;
-};
 
 type TermContent = {
   title: string;
@@ -81,15 +69,16 @@ const TermPreview = ({
       const [path, anchor] = url.split("#");
       // 否则从服务器获取
       const response = await fetch(path);
-      const data = (await response.json()) as TermData;
+      const data = (await response.json()) as Record<string, TermData>;
+      console.log("data", data);
       const term = data[anchor];
       console.log("term", term);
       // 更新状态和缓存
       setContent({
         title: term.metadata.title,
-        content: term.metadata.hoverText,
+        content: term.metadata.description,
         authors: term.metadata.authors.reduce(
-          (acc, author) => {
+          (acc: Record<string, AuthorAttributes>, author: string) => {
             acc[author] = authors[author];
             return acc;
           },

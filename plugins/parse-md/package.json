@@ -2,12 +2,22 @@
   "name": "heliannuuthus-parse-md",
   "version": "1.0.0",
   "description": "Docusaurus plugin for managing terminologies",
-  "main": "index.js",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "author": "GRNET Developers <devs@lists.grnet.gr>",
   "license": "BSD-2-Clause",
   "private": false,
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist"
+  },
   "dependencies": {
     "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
   }
 }

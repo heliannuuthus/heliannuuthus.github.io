@@ -23,7 +23,7 @@ import { Collapse } from "@site/src/components/Collapse";
 
 - `ThreadLocal` 的内存泄漏问题
 
-  - `ThreadLocalMap` 使用[弱引用](./reference.mdx)，如果触发 GC 会第一时间回收弱引用对象，此时的 `ThreadLocalMap` 中的 `Entry` 的 `Key` 会为 `null`，此时 `Entry` 的 `value` 会一直存在，直到线程结束。
+  - `ThreadLocalMap` 使用[[**弱引用**]](blog/terms/java#weak-reference)，如果触发 GC 会第一时间回收弱引用对象，此时的 `ThreadLocalMap` 中的 `Entry` 的 `Key` 会为 `null`，此时 `Entry` 的 `value` 会一直存在，直到线程结束。
   - 如果线程一直不结束，那么 `Entry` 的 `value` 会一直存在，导致内存泄漏。
 
   <Collapse label="代码块">
