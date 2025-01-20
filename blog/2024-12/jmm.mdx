@@ -21,7 +21,7 @@ import Image from "@site/src/components/Image";
 
 CPU 每个核心都有自己的缓存，当发生写操作时，会先写入缓存中，然后由缓存通过总线通知其他 CPU 核心更新数据，我们称这种特性为**缓存一致性**。
 
-<Flex justifyContent="center">
+<Flex justify="center">
   <Image src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-02/CPU的缓存模型-2024-12-02-21-56-53.png" />
 </Flex>
 
@@ -53,9 +53,7 @@ MESI 协议中定义了缓存行四种状态：
 对于**编译器优化重排序**以及**指令并行重排序**，有不同的解决办法：
 
 - 编译器优化重排序：通过禁止特定类型的编译器优化重排序来解决。
-- 指令并行重排序：通过插入[内存屏障](https://en.wikipedia.org/wiki/Memory_barrier)来解决。
-
-> **内存屏障**也称为**内存栅栏**，是一种**屏障指令**，用于禁止特定类型的指令重排序和确保特定操作的执行顺序。
+- 指令并行重排序：通过插入[[内存屏障]](/terms/java#memory-barrier)来解决。
 
 :::info 关系说明
 通常程序运行在操作系统上，而 CPU 缓存模型可以看作是操作系统上**程序与内存**的缩影。

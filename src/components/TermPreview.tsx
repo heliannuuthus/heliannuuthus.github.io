@@ -59,14 +59,14 @@ const TermPreview = ({
   ) => {
     try {
       // 如果缓存存在且有数据，直接使用缓存
-      if (typeof window !== "undefined" && window._cachedTerms?.[url]) {
+      if (
+        typeof window !== "undefined" &&
+        window._cachedTerms?.[`${url}-${anchor}`]
+      ) {
         setContent({
-          title: window._cachedTerms[url].metadata.title,
-          content: window._cachedTerms[url].metadata.hoverText,
-          authors: {
-            [window._cachedTerms[url].metadata.author]:
-              authors[window._cachedTerms[url].metadata.author],
-          },
+          title: window._cachedTerms[`${url}-${anchor}`].metadata.title,
+          content: window._cachedTerms[`${url}-${anchor}`].metadata.hoverText,
+          authors: window._cachedTerms[`${url}-${anchor}`].metadata.authors,
         });
         return;
       }
@@ -89,7 +89,7 @@ const TermPreview = ({
       });
       if (typeof window !== "undefined") {
         window._cachedTerms = window._cachedTerms || {};
-        window._cachedTerms[url] = term;
+        window._cachedTerms[`${url}-${anchor}`] = term;
       }
     } catch (error) {
       console.error("Failed to fetch content:", error);
@@ -98,7 +98,7 @@ const TermPreview = ({
 
   useEffect(() => {
     fetchContent(`${path.replace(/\/$/, "")}.json`, authors);
-  }, [path]);
+  }, [path, anchor]);
 
   return (
     <BrowserOnly

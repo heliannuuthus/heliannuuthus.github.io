@@ -100,6 +100,31 @@ description: 指向当前执行指令的地址指针。
 
 ---
 
+slug: general-register
+title: 通用寄存器
+description: CPU 中用于存储和操作数据的重要组成部分。
+
+---
+
+通用寄存器通常用于存储和操作数据，如算术运算、逻辑运算、数据传输等。
+
+---
+
+slug: stack-pointer
+title: 栈指针
+description: 指向当前栈顶的指针。
+
+---
+
+栈指针（SP）在 Java 中的特点：
+
+1. 每个线程都有独立的栈指针
+2. 栈指针指向当前栈顶
+3. 用于栈操作，如压栈、出栈
+4. 是实现线程切换和恢复的关键
+
+---
+
 slug: jvm-stack
 title: 虚拟机栈
 description: Java 线程执行的栈内存区域。
@@ -120,6 +145,21 @@ JVM 栈是线程私有的内存空间，包含：
 3. 常见问题：
    - 递归调用过深导致栈溢出
    - 大量线程导致内存不足
+
+---
+
+slug: native-method-stack
+title: 本地方法栈
+description: 执行本地方法的栈内存区域。
+
+---
+
+本地方法栈是线程私有的内存空间，用于执行本地方法（Native Method）：
+
+1. 本地方法通常由 C/C++ 实现
+2. 本地方法栈与虚拟机栈类似，但用于本地方法的执行
+3. 可能抛出 StackOverflowError
+4. 通常不支持动态扩展
 
 ---
 
@@ -150,38 +190,64 @@ Java 中的互斥锁实现：
 
 ---
 
-slug: jvm-reference
-title: JVM 引用回收机制
-description: Java 虚拟机的对象引用类型。
+slug: strong-reference
+title: 强引用
+description: 只要强引用存在，对象就不会被回收。
 
 ---
 
-Java 的引用类型分为四种：
+- 最常见的引用类型
+- 只要强引用存在，对象就不会被回收
+- 即使发生 OOM 也不会回收
+- 例如：`Object obj = new Object()`、 静态变量、常量、类引用
 
-1. 强引用（Strong Reference）：
+---
 
-   - 最常见的引用类型
-   - 只要强引用存在，对象就不会被回收
-   - 即使发生 OOM 也不会回收
-   - 例如：`Object obj = new Object()`
+slug: soft-reference
+title: 软引用
+description: 内存不足时会被回收。
 
-2. 软引用（Soft Reference）：
+---
 
-   - 用于内存敏感的缓存
-   - 内存不足时会被回收
-   - 通过 `SoftReference` 类实现
-   - 常用于图片缓存、网页缓存等
+- 用于内存敏感的缓存
+- 内存不足时会被回收
+- 通过 `SoftReference` 类实现
+- 常用于图片缓存、网页缓存等
 
-3. 弱引用（Weak Reference）：
+---
 
-   - 比软引用更弱
-   - 下一次 GC 时必定回收
-   - 通过 `WeakReference` 类实现
-   - 常用于 WeakHashMap 等容器
+slug: weak-reference
+title: 弱引用
+description: 比软引用更弱，下一次 GC 时必定回收。
 
-4. 虚引用（Phantom Reference）：
-   - 最弱的引用关系
-   - 随时可能被回收
-   - 必须和引用队列（ReferenceQueue）一起使用
-   - 用于跟踪对象被回收的状态
-   - 通过 `PhantomReference` 类实现
+---
+
+- 比软引用更弱
+- 下一次 GC 时必定回收
+- 通过 `WeakReference` 类实现
+- 常用于 WeakHashMap 等容器
+
+---
+
+slug: phantom-reference
+title: 虚引用
+description: 最弱的引用关系，随时可能被回收。
+
+---
+
+- 最弱的引用关系
+- 随时可能被回收
+- 必须和引用队列（ReferenceQueue）一起使用
+- 用于跟踪对象被回收的状态
+- 通过 `PhantomReference` 类实现
+
+---
+
+slug: memory-barrier
+title: 内存屏障
+description: 内存屏障是一种同步机制，用于确保指令的执行顺序。
+
+---
+
+- 内存屏障可以分为读屏障（Load Barrier）和写屏障（Store Barrier）。
+- 内存屏障可以确保指令的执行顺序，防止指令重排序。
