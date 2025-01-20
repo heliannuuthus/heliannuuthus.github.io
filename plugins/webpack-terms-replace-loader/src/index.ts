@@ -29,6 +29,7 @@ export default function loader(
   const importStatement = `
 
 import Term from "${this.query.termPreviewComponentPath}";
+
 `;
   if (urls.length > 0) {
     const { content } = parse<TermMetadata>(source)[0];

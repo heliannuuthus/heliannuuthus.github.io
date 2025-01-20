@@ -1,4 +1,4 @@
-import { Avatar, Collapse, Typography, Tooltip } from "antd";
+import { Avatar, Collapse, Typography, Tooltip, Row, Col, Anchor } from "antd";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import { useEffect, useState } from "react";
 import { useLocation } from "@docusaurus/router";
@@ -7,6 +7,8 @@ import { CaretRightOutlined } from "@ant-design/icons";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
 import { TermData } from "heliannuuthus-terminology-store";
+import TOCInline from "@theme/TOCInline";
+
 const { Text, Paragraph, Link } = Typography;
 
 const Terminology = () => {
@@ -23,12 +25,23 @@ const Terminology = () => {
     fetch(withBaseUrl(`/blog${location.pathname.replace(/\/$/, "")}.json`))
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setTermData(data);
+        const hash = location.hash.substring(1);
+        if (hash) {
+          setActiveKey([hash]);
+          setTimeout(() => {
+            setActiveKey([hash]);
+            const element = document.getElementById(hash);
+            if (element) {
+              element.closest(".ant-collapse-item").scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          }, 100);
+        }
       });
-
-    setActiveKey([location.hash.substring(1)]);
-  }, []);
+  }, [location.hash]);
 
   return (
     <Collapse

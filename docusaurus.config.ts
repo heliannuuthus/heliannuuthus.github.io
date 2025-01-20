@@ -135,6 +135,8 @@ const config: Config = {
         termsDir: "blog/terms",
         glossaryDir: "blog",
         glossaryFilepath: "blog/glossary.md",
+        docsDir: "blog",
+        glossaryFilepath: "./blog/glossary.md",
         termPreviewComponentPath: "@site/src/components/TermPreview.tsx",
         glossaryComponentPath: "@site/src/components/Glossary.tsx",
       },

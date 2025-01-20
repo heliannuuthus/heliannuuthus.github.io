@@ -27,6 +27,8 @@ const ConfigProviderWrapper = ({ children }: { children: React.ReactNode }) => {
             colorMode === "dark" ? "rgb(25, 25, 25)" : "rgb(240, 240, 240)",
           colorBgContainer:
             colorMode === "dark" ? "rgb(30, 30, 30)" : "rgb(255, 255, 255)",
+          colorTextDescription:
+            colorMode === "dark" ? "rgb(128, 128, 128)" : "rgb(100, 102, 104)",
         },
         components: {
           Steps: {},

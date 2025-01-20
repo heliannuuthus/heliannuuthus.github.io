@@ -12,6 +12,7 @@ function loader(source) {
   const importStatement = `
 
 import Term from "${this.query.termPreviewComponentPath}";
+
 `;
   if (urls.length > 0) {
     const { content } = parse(source)[0];
