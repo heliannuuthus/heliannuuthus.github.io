@@ -13,30 +13,6 @@ var __require = /* @__PURE__ */ ((x) =>
 // src/index.ts
 import fs from "fs";
 async function DocusaurusTerminologyPlugin(context, options) {
-  const unixFormattedTermsPath = options.termsDir
-    .replace(/^\.\//, "")
-    .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const winFormattedTermsPath = options.termsDir
-    .replace(/\//g, "\\")
-    .replace(/\./, "")
-    .replace(/[*+?^${}()|[\]\\]/g, "\\$&");
-  const termsPath =
-    process.platform === "win32"
-      ? winFormattedTermsPath
-      : unixFormattedTermsPath;
-  const termsRegex = new RegExp(`${termsPath}.*?.mdx?$`);
-  const unixFormattedGlossaryPath = options.glossaryFilepath
-    .replace(/^\.\//, "")
-    .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const winFormattedGlossaryPath = options.glossaryFilepath
-    .replace(/\//g, "\\")
-    .replace(/\./, "")
-    .replace(/[*+?^${}()|[\]\\]/g, "\\$&");
-  const glossaryPath =
-    process.platform === "win32"
-      ? winFormattedGlossaryPath
-      : unixFormattedGlossaryPath;
-  const glossaryRegex = new RegExp(`${glossaryPath}`);
   try {
     fs.rm("node_modules/.cache", { recursive: true }, (err) => {
       if (err) {
@@ -90,36 +66,18 @@ async function DocusaurusTerminologyPlugin(context, options) {
         });
       }
       if (rule && Array.isArray(rule.use)) {
-        rule.oneOf = [
+        rule.use.push(
           {
-            test: termsRegex,
-            enforce: "pre",
-            use: [
-              {
-                loader: __require.resolve("heliannuuthus-webpack-terms-loader"),
-                options,
-              },
-            ],
+            loader: __require.resolve("heliannuuthus-webpack-terms-loader"),
+            options,
           },
           {
-            test: glossaryRegex,
-            enforce: "pre",
-            use: [
-              {
-                loader: __require.resolve(
-                  "heliannuuthus-webpack-glossary-loader",
-                ),
-                options,
-              },
-            ],
+            loader: __require.resolve(
+              "heliannuuthus-webpack-terms-replace-loader",
+            ),
+            options,
           },
-        ];
-        rule.use.push({
-          loader: __require.resolve(
-            "heliannuuthus-webpack-terms-replace-loader",
-          ),
-          options,
-        });
+        );
       }
       return {
         mergeStrategy: { module: "replace" },

@@ -23,52 +23,16 @@ export interface ConfigureWebpackUtils {
 }
 
 export interface TerminologyOptions {
-  termsDir: string;
-  glossaryFilepath: string;
   baseUrl?: string;
   resolved?: boolean;
   glossaryTerms?: Record<string, any>;
   termPreviewComponentPath?: string;
-  glossaryComponentPath?: string;
-  glossaryDir?: string;
 }
 
 export default async function DocusaurusTerminologyPlugin(
   context: DocusaurusContext,
   options: TerminologyOptions,
 ) {
-  const unixFormattedTermsPath = options.termsDir
-    .replace(/^\.\//, "")
-    .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-  const winFormattedTermsPath = options.termsDir
-    .replace(/\//g, "\\")
-    .replace(/\./, "")
-    .replace(/[*+?^${}()|[\]\\]/g, "\\$&");
-
-  const termsPath =
-    process.platform === "win32"
-      ? winFormattedTermsPath
-      : unixFormattedTermsPath;
-
-  const termsRegex = new RegExp(`${termsPath}.*?\.mdx?$`);
-
-  const unixFormattedGlossaryPath = options.glossaryFilepath
-    .replace(/^\.\//, "")
-    .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-  const winFormattedGlossaryPath = options.glossaryFilepath
-    .replace(/\//g, "\\")
-    .replace(/\./, "")
-    .replace(/[*+?^${}()|[\]\\]/g, "\\$&");
-
-  const glossaryPath =
-    process.platform === "win32"
-      ? winFormattedGlossaryPath
-      : unixFormattedGlossaryPath;
-
-  const glossaryRegex = new RegExp(`${glossaryPath}`);
-
   try {
     fs.rm("node_modules/.cache", { recursive: true }, (err) => {
       if (err) {
@@ -132,35 +96,18 @@ export default async function DocusaurusTerminologyPlugin(
       }
 
       if (rule && Array.isArray(rule.use)) {
-        rule.oneOf = [
+        rule.use.push(
           {
-            test: termsRegex,
-            enforce: "pre",
-            use: [
-              {
-                loader: require.resolve("heliannuuthus-webpack-terms-loader"),
-                options,
-              },
-            ],
+            loader: require.resolve("heliannuuthus-webpack-terms-loader"),
+            options,
           },
           {
-            test: glossaryRegex,
-            enforce: "pre",
-            use: [
-              {
-                loader: require.resolve(
-                  "heliannuuthus-webpack-glossary-loader",
-                ),
-                options,
-              },
-            ],
+            loader: require.resolve(
+              "heliannuuthus-webpack-terms-replace-loader",
+            ),
+            options,
           },
-        ];
-
-        rule.use.push({
-          loader: require.resolve("heliannuuthus-webpack-terms-replace-loader"),
-          options,
-        });
+        );
       }
 
       return {

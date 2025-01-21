@@ -38,6 +38,10 @@ class TerminologyStore {
     return { resourcePath };
   }
 
+  exists(resourcePath: string): boolean {
+    return this.terms[resourcePath] !== undefined;
+  }
+
   readGlossary(): Record<string, Record<string, TermData>> {
     return JSON.parse(fs.readFileSync(glossaryPath, "utf8"));
   }

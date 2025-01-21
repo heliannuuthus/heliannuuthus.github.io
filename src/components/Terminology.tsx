@@ -7,7 +7,6 @@ import { CaretRightOutlined } from "@ant-design/icons";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
 import { TermData } from "heliannuuthus-terminology-store";
-import TOCInline from "@theme/TOCInline";
 
 const { Text, Paragraph, Link } = Typography;
 

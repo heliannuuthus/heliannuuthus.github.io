@@ -53,9 +53,7 @@ import Term from "${this.query.termPreviewComponentPath}";
           url.pathname.replace(/\.(md|mdx)$/, "");
         source = source.replace(
           mdUrl,
-          `<Term path="${termKey.replace(/\d+-/, "")}" anchor="${
-            url.hash
-          }">${title}</Term>`,
+          `<Term path="${termKey.replace(/\d+-/, "")}" anchor="${url.hash}">${title}</Term>`,
         );
       }
     }

@@ -19,6 +19,7 @@ declare class TerminologyStore {
   ): {
     resourcePath: string;
   };
+  exists(resourcePath: string): boolean;
   readGlossary(): Record<string, Record<string, TermData>>;
   setUpdatedResourcePath(resourcePath: string): void;
   clearUpdatedResourcePaths(): void;
