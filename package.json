@@ -31,7 +31,6 @@
     "heliannuuthus-docusaurus-terminology": "file:./plugins/docusaurus-terminology",
     "heliannuuthus-parse-md": "file:./plugins/parse-md",
     "heliannuuthus-terminology-store": "file:./plugins/terminology-store",
-    "heliannuuthus-webpack-glossary-loader": "file:./plugins/webpack-glossary-loader",
     "heliannuuthus-webpack-terms-loader": "file:./plugins/webpack-terms-loader",
     "heliannuuthus-webpack-terms-replace-loader": "file:./plugins/webpack-terms-replace-loader",
     "package-up": "^5.0.0",

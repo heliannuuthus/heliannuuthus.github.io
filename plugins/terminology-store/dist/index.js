@@ -20,6 +20,9 @@ var TerminologyStore = class _TerminologyStore {
     this.setUpdatedResourcePath(resourcePath);
     return { resourcePath };
   }
+  exists(resourcePath) {
+    return this.terms[resourcePath] !== void 0;
+  }
   readGlossary() {
     return JSON.parse(fs.readFileSync(glossaryPath, "utf8"));
   }

@@ -72,23 +72,13 @@ export default function loader(
       },
       {} as Record<string, TermData>,
     );
-
-    store.addTerm(resourcePath, termMap);
-    this.emitFile(resourcePath + ".json", JSON.stringify(termMap));
-
+    if (!store.exists(resourcePath)) {
+      store.addTerm(resourcePath, termMap);
+      this.emitFile(resourcePath + ".json", JSON.stringify(termMap));
+    }
     return `
 
-import TOCInline from '@theme/TOCInline';
 import Terminology from "@site/src/components/Terminology";
-
-<TOCInline
-  toc={toc.filter((node) => {
-    console.log(node);
-    return node.level === 2 || node.level === 4;
-  })}
-  minHeadingLevel={2}
-  maxHeadingLevel={4}
-/>
 
 <Terminology />
 `;

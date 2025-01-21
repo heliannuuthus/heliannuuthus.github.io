@@ -19,14 +19,10 @@ interface ConfigureWebpackUtils {
   getBabelLoader: (...args: any[]) => any;
 }
 interface TerminologyOptions {
-  termsDir: string;
-  glossaryFilepath: string;
   baseUrl?: string;
   resolved?: boolean;
   glossaryTerms?: Record<string, any>;
   termPreviewComponentPath?: string;
-  glossaryComponentPath?: string;
-  glossaryDir?: string;
 }
 declare function DocusaurusTerminologyPlugin(
   context: DocusaurusContext,

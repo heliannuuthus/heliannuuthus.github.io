@@ -47,9 +47,6 @@ importers:
       heliannuuthus-terminology-store:
         specifier: file:./plugins/terminology-store
         version: file:plugins/terminology-store
-      heliannuuthus-webpack-glossary-loader:
-        specifier: file:./plugins/webpack-glossary-loader
-        version: file:plugins/webpack-glossary-loader
       heliannuuthus-webpack-terms-loader:
         specifier: file:./plugins/webpack-terms-loader
         version: file:plugins/webpack-terms-loader
@@ -3341,9 +3338,6 @@ packages:
 
   heliannuuthus-terminology-store@file:plugins/terminology-store:
     resolution: {directory: plugins/terminology-store, type: directory}
-
-  heliannuuthus-webpack-glossary-loader@file:plugins/webpack-glossary-loader:
-    resolution: {directory: plugins/webpack-glossary-loader, type: directory}
 
   heliannuuthus-webpack-terms-loader@file:plugins/webpack-terms-loader:
     resolution: {directory: plugins/webpack-terms-loader, type: directory}
@@ -10804,7 +10798,6 @@ snapshots:
       '@grnet/docusaurus-glossary-view': 2.0.0-rc.1(@docusaurus/core@3.7.0(@mdx-js/react@3.1.0(@types/react@19.0.7)(react@18.3.1))(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@grnet/docusaurus-term-preview': 2.0.0-rc.1(@docusaurus/core@3.7.0(@mdx-js/react@3.1.0(@types/react@19.0.7)(react@18.3.1))(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4)
       heliannuuthus-terminology-store: file:plugins/terminology-store
-      heliannuuthus-webpack-glossary-loader: file:plugins/webpack-glossary-loader
       heliannuuthus-webpack-terms-loader: file:plugins/webpack-terms-loader
       heliannuuthus-webpack-terms-replace-loader: file:plugins/webpack-terms-replace-loader
     transitivePeerDependencies:
@@ -10819,11 +10812,6 @@ snapshots:
       js-yaml: 4.1.0
 
   heliannuuthus-terminology-store@file:plugins/terminology-store: {}
-
-  heliannuuthus-webpack-glossary-loader@file:plugins/webpack-glossary-loader:
-    dependencies:
-      heliannuuthus-parse-md: file:plugins/parse-md
-      heliannuuthus-terminology-store: file:plugins/terminology-store
 
   heliannuuthus-webpack-terms-loader@file:plugins/webpack-terms-loader:
     dependencies:
