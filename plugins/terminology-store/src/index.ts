@@ -39,7 +39,7 @@ class TerminologyStore {
   }
 
   exists(resourcePath: string): boolean {
-    return this.terms[resourcePath] !== undefined;
+    return resourcePath in this.terms;
   }
 
   readGlossary(): Record<string, Record<string, TermData>> {

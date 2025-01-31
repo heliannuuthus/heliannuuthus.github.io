@@ -1,0 +1,82 @@
+---
+slug: uri
+title: 统一资源表示符
+description: 标识互联网上的资源
+---
+
+URI（Uniform Resource Identifier，统一资源标识符）是一个用于标识互联网上资源的字符串。它是一个通用的资源标识符系统，包含了 [[URL]](/terms/web#url) 和 [[URN]](/terms/web#urn) 两种形式。
+
+## URI 的组成部分
+
+一个完整的 URI 通常包含以下几个部分：
+
+- 协议（scheme）：如 http、https、ftp 等
+- 授权信息（authority）：包含域名和端口
+- 路径（path）：资源在服务器上的具体位置
+- 查询参数（query）：以 ? 开始的键值对
+- 片段标识符（fragment）：以 # 开始的部分
+
+---
+
+slug: url
+title: 统一资源定位符
+description: 指定资源的具体位置。
+
+---
+
+URL（Uniform Resource Locator，统一资源定位符）是互联网上用于定位资源的标准地址格式。它是 URI 的一个子集，专门用于准确描述如何访问某个资源。
+
+## URL 的组成部分
+
+一个标准的 URL 通常包含以下部分：
+
+> https://www.example.com:443/path/to/resource?key=value#section
+
+- 协议（Protocol）：`https://`
+- 主机名（Hostname）：`www.example.com`
+- 端口号（Port）：`:443`
+- 路径（Path）：`/path/to/resource`
+- 查询参数（Query String）：`?key=value`
+- 片段标识符（Fragment）：`#section`
+
+## 常见的协议
+
+- `http://`: 超文本传输协议，用于在 Web 浏览器和 Web 服务器之间传输数据。
+- `https://`: 安全的 HTTP 协议，使用 SSL/TLS 加密传输数据，提供数据加密和身份验证。
+- `ftp://`: 文件传输协议，用于在计算机之间传输文件。
+- `smtp://`: 简单邮件传输协议，用于在计算机之间传输电子邮件。
+
+---
+
+slug: urn
+title: 统一资源名称
+description: 通过唯一的名字标识资源，与具体的位置无关。
+
+---
+
+URN（Uniform Resource Name，统一资源名称）是一种持久的、位置无关的资源标识符，URN 使用唯一的名字来标识资源。
+
+## URN 的特点
+
+- 永久性：即使资源的位置发生变化，URN 仍然保持不变
+- 唯一性：每个 URN 都是独一无二的
+- 可读性：采用层次化的命名方式，类似：urn:namespace:name
+- 位置无关：不依赖于资源的具体位置
+
+## 常见示例
+
+- UUID（通用唯一标识符）：`urn:uuid:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
+- IETF RFC：`urn:ietf:rfc:2648`
+
+---
+
+slug: urlencode
+title: URL 编码
+description: 将非 ASCII 字符转换为 ASCII 字符集中的字符，通常用于 URL 中。
+
+---
+
+URL 只能使用 ASCII 字符集中的字符，其他字符（如中文）需要进行 URL 编码，例如：
+
+- 空格转换为 `%20` 或 `+`
+- 中文字符转换为 `%XX` 格式的编码
