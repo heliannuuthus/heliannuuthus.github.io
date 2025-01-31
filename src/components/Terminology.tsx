@@ -1,12 +1,13 @@
-import { Avatar, Collapse, Typography, Tooltip, Row, Col, Anchor } from "antd";
+import { Avatar, Collapse, Typography, Tooltip } from "antd";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import { useEffect, useState } from "react";
+import React from "react";
 import { useLocation } from "@docusaurus/router";
 import { CaretRightOutlined } from "@ant-design/icons";
-
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
 import { TermData } from "heliannuuthus-terminology-store";
+import MDXRenderer from "./MDXRender";
 
 const { Text, Paragraph, Link } = Typography;
 
@@ -59,9 +60,7 @@ const Terminology = () => {
           return {
             key: slug,
             label: <div id={slug}>{term.metadata.title}</div>,
-            children: (
-              <span dangerouslySetInnerHTML={{ __html: term.content }} />
-            ),
+            children: <MDXRenderer content={term.content} />,
             styles: {
               header: {
                 padding: 0,
@@ -104,7 +103,7 @@ const Terminology = () => {
               </Paragraph>
             ),
           };
-        },
+        }
       )}
     />
   );

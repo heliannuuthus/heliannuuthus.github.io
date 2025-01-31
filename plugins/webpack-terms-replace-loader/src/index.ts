@@ -26,11 +26,14 @@ export default function loader(
   const urlsRegex = /(?<!!)\[\[[^\]]+\]\]\([^)]+\)/g;
   const urlRegex = /\[\[\s*(.*?)\s*\]\]\((.*?)\)/s;
   const urls = source.match(urlsRegex) || [];
-  const importStatement = `
+  const importStatement = this.resourcePath.includes("/terms/")
+    ? ""
+    : `
 
 import Term from "${this.query.termPreviewComponentPath}";
 
 `;
+
   if (urls.length > 0) {
     const { content } = parse<TermMetadata>(source)[0];
     source = source.replace(content, importStatement + content);
@@ -53,7 +56,9 @@ import Term from "${this.query.termPreviewComponentPath}";
           url.pathname.replace(/\.(md|mdx)$/, "");
         source = source.replace(
           mdUrl,
-          `<Term path="${termKey.replace(/\d+-/, "")}" anchor="${url.hash}">${title}</Term>`,
+          `<Term path="${termKey.replace(/\d+-/, "")}" anchor="${
+            url.hash
+          }">${title}</Term>`,
         );
       }
     }

@@ -59,7 +59,8 @@ export default async function DocusaurusTerminologyPlugin(
       }
       options.resolved = true;
 
-      let rule = (config.module?.rules as WebpackRule[]).find((rule) => {
+      const rules = config.module?.rules as WebpackRule[];
+      let rule = rules.find((rule) => {
         return (
           rule.use &&
           Array.isArray(rule.use) &&
@@ -73,7 +74,7 @@ export default async function DocusaurusTerminologyPlugin(
       });
 
       if (!rule) {
-        rule = (config.module?.rules as WebpackRule[]).find((rule) => {
+        rule = rules.find((rule) => {
           return (
             rule.use &&
             Array.isArray(rule.use) &&
@@ -88,7 +89,7 @@ export default async function DocusaurusTerminologyPlugin(
       }
 
       if (!rule) {
-        rule = (config.module?.rules as WebpackRule[]).find((rule) => {
+        rule = rules.find((rule) => {
           if (!rule.test) return false;
           const ruleRegExp = new RegExp(rule.test as string);
           return ruleRegExp.test("test.md") && ruleRegExp.test("test.mdx");
