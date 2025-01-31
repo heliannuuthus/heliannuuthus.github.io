@@ -8,7 +8,7 @@
 
 主修 [Java](https://www.java.com/) 和 [Rust](https://www.rust-lang.org/)
 
-[Golang](https://golang.org/) 和 [Python](https://www.python.org/) 也会写（这也是为什么本博客不用 [hexo](https://hexo.io/) 而使用 [docusaurus](https://docusaurus.io/) 的原因之一）。
+[Golang](https://golang.org/)、[Python](https://www.python.org/) 和 [React](https://react.dev/) 也会写（这也是为什么本博客不用 [hexo](https://hexo.io/) 而使用 [docusaurus](https://docusaurus.io/) 的原因之一）。
 
 ### 博客内容
 
