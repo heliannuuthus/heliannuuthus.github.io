@@ -2,7 +2,7 @@
   "name": "heliannuuthus-docusaurus-plugins",
   "private": true,
   "scripts": {
-    "build": "pnpm -r build",
+    "build": "pnpm install && pnpm --filter heliannuuthus-parse-md --filter heliannuuthus-terminology-store build && pnpm install && pnpm --filter \"!heliannuuthus-parse-md\" --filter \"!heliannuuthus-terminology-store\" -r build",
     "clean": "pnpm -r clean",
     "typecheck": "tsc --noEmit"
   },
@@ -17,7 +17,7 @@
     "@docusaurus/tsconfig": "3.7.0",
     "@docusaurus/types": "3.7.0",
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^20.0.0",
+    "@types/node": "^22.12.0",
     "@types/react": "^19.0.8",
     "@types/webpack": "^5.0.0",
     "tsup": "^8.0.0",

@@ -13,8 +13,7 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "install:plugins": "cd plugins && pnpm i --frozen-lockfile && cd ..",
-    "build:plugins": "cd plugins && pnpm build && cd ..",
+    "install:plugins": "cd plugins && pnpm build && cd ..",
     "clean:plugins": "cd plugins && pnpm clean && cd ..",
     "rebuild:plugins": "cd plugins && pnpm build && cd .. && pnpm i"
   },
@@ -38,8 +37,8 @@
     "js-yaml": "^4.1.0",
     "package-up": "^5.0.0",
     "prism-react-renderer": "^2.3.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "rehype-katex": "^7.0.1",
     "rehype-sanitize": "^6.0.0",
     "rehype-stringify": "^10.0.1",
@@ -56,7 +55,7 @@
     "@docusaurus/tsconfig": "3.7.0",
     "@docusaurus/types": "3.7.0",
     "remark-code-import": "^1.2.0",
-    "typescript": "~5.5.2"
+    "typescript": "~5.7.3"
   },
   "browserslist": {
     "production": [
