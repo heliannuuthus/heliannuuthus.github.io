@@ -13,12 +13,12 @@ const remarkTooltip: Plugin<[TooltipOptions?], Nodes> =
     options: TooltipOptions = {
       tooltip: "Tooltip",
       comment: "Comment",
-    },
+    }
   ) =>
   (tree: Nodes) => {
     const { tooltip, comment } = options;
     findAndReplace(tree, [
-      /\[\[\s*(.*?)\s*\]\]\[(.*?)\]/g,
+      /\[\[((?:[^|\]]|\\\|)+)\|((?:[^|\]]|\\\|)+)\]\]/g,
       (_match: string, content: string, title: string): PhrasingContent => {
         return {
           type: "mdxJsxTextElement",
@@ -27,7 +27,7 @@ const remarkTooltip: Plugin<[TooltipOptions?], Nodes> =
             {
               type: "mdxJsxAttribute",
               name: "title",
-              value: title,
+              value: title.replace(/\\\|/g, "|"),
             },
           ],
           children: [
@@ -44,7 +44,7 @@ const remarkTooltip: Plugin<[TooltipOptions?], Nodes> =
               children: [
                 {
                   type: "text",
-                  value: content,
+                  value: content.replace(/\\\|/g, "|"),
                 },
               ],
             },
