@@ -3,20 +3,22 @@ import React, { useEffect, useState, Suspense } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import * as runtime from "react/jsx-runtime";
 import { evaluate } from "@mdx-js/mdx";
-import Term from "./TermPreview";
+import type { UseMdxComponents } from "@mdx-js/mdx";
 
-const components = {
-  Term,
-};
-
-const MDXRender = ({ content }) => {
+const MDXRender = ({
+  content,
+  components,
+}: {
+  content: string;
+  components?: UseMdxComponents | null;
+}) => {
   const [Component, setComponent] = useState(() => () => null);
 
   useEffect(() => {
     (async () => {
       await evaluate(content, {
         ...runtime,
-        useMDXComponents: () => components,
+        useMDXComponents: components,
       }).then((exports) => {
         setComponent(() => exports.default);
       });
@@ -25,7 +27,7 @@ const MDXRender = ({ content }) => {
 
   if (!Component) {
     return (
-      <MDXProvider components={components}>
+      <MDXProvider components={components()}>
         <div>unknown component</div>
       </MDXProvider>
     );
@@ -33,7 +35,7 @@ const MDXRender = ({ content }) => {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <MDXProvider components={components}>
+      <MDXProvider components={components()}>
         <Component />
       </MDXProvider>
     </Suspense>

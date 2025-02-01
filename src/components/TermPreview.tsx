@@ -1,11 +1,16 @@
-import { Tooltip, Avatar, Typography } from "antd";
+import { Tooltip, Avatar, Typography, Drawer, Skeleton, Button } from "antd";
 import { forwardRef, useState, useEffect } from "react";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
 import BrowserOnly from "@docusaurus/BrowserOnly";
 import { TermData } from "heliannuuthus-terminology-store";
-const { Text, Link, Title } = Typography;
+import { isMobile, isIPad13, isTablet } from "react-device-detect";
+import MDXRender from "./MDXRender";
+import { BookFilled } from "@ant-design/icons";
+import { useHistory } from "@docusaurus/router";
+import { PopoverAvatars, DrawerAvatars } from "./Avatar";
+const { Text, Link, Title, Paragraph } = Typography;
 
 declare global {
   interface Window {
@@ -13,30 +18,128 @@ declare global {
   }
 }
 
+const useMobile = isMobile || isIPad13 || isTablet;
+
 type TermContent = {
   title: string;
+  description: string;
   content: string;
   authors: Record<string, AuthorAttributes>;
 };
 
-const Content = forwardRef(({ title, authors, content }: TermContent, ref) => {
+const TooltipsPreview = ({
+  path,
+  anchor,
+  children,
+  content,
+}: {
+  path: string;
+  anchor: string;
+  children: React.ReactNode;
+  content: TermContent;
+}) => {
   return (
-    <Typography>
-      <Title level={5}>{title}</Title>
-      <div dangerouslySetInnerHTML={{ __html: content }} />
-      {Object.entries(authors).map(([author, authorAttributes]) => (
-        <div key={author}>
-          <Avatar
-            src={authorAttributes.image_url as string}
-            style={{ marginRight: 8 }}
+    <Tooltip
+      trigger={"click"}
+      styles={{
+        root: {
+          maxWidth: "520px",
+          maxHeight: "32vh",
+          overflow: "auto",
+        },
+      }}
+      title={
+        <>
+          <Title level={1} children={content.title} />
+          <Typography.Paragraph
+            style={{ marginBottom: 16, display: "flex", alignItems: "center" }}
+          >
+            <PopoverAvatars authors={content.authors} />
+            <Text> 贡献</Text>
+          </Typography.Paragraph>
+          <MDXRender
+            content={content.content}
+            components={() => ({ Term: TermPreview })}
           />
-          <Link href={authorAttributes.url}>{author}</Link>
-          <Text> 贡献</Text>
-        </div>
-      ))}
-    </Typography>
+        </>
+      }
+      children={
+        <Link
+          style={{
+            textDecoration: "underline dashed",
+            textUnderlineOffset: "4px",
+          }}
+          children={children}
+        />
+      }
+    />
   );
-});
+};
+
+const DrawerPreview = ({
+  path,
+  anchor,
+  children,
+  content,
+}: {
+  path: string;
+  anchor: string;
+  children: React.ReactNode;
+  content: TermContent;
+}) => {
+  const [open, setOpen] = useState(false);
+  const history = useHistory();
+  return (
+    <>
+      <Link
+        style={{
+          textDecoration: "underline dashed",
+          textUnderlineOffset: "4px",
+        }}
+        href={`${path.replace(/^\/blog/, "")}${anchor}`}
+        onClick={(e) => {
+          e.preventDefault();
+          setOpen(true);
+        }}
+        children={children}
+      />
+      <Drawer
+        placement="bottom"
+        title={content.title}
+        open={open}
+        onClose={() => setOpen(false)}
+        closable={false}
+        footer={
+          <Button
+            href={`${path.replace(/^\/blog/, "")}${anchor}`}
+            type="link"
+            icon={<BookFilled />}
+            onClick={() => {
+              history.push(`${path.replace(/^\/blog/, "")}${anchor}`);
+            }}
+          >
+            词典
+          </Button>
+        }
+      >
+        <Typography.Paragraph
+          style={{
+            marginBottom: 0,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <DrawerAvatars authors={content.authors} />
+          <Text> 贡献</Text>
+        </Typography.Paragraph>
+        <MDXRender
+          content={content.content}
+          components={() => ({ Term: TermPreview })}
+        />
+      </Drawer>
+    </>
+  );
+};
 
 const TermPreview = ({
   children,
@@ -65,8 +168,10 @@ const TermPreview = ({
       ) {
         setContent({
           title: window._cachedTerms[`${url}-${anchor}`].metadata.title,
-          content: window._cachedTerms[`${url}-${anchor}`].metadata.hoverText,
+          description:
+            window._cachedTerms[`${url}-${anchor}`].metadata.description,
           authors: window._cachedTerms[`${url}-${anchor}`].metadata.authors,
+          content: window._cachedTerms[`${url}-${anchor}`].content,
         });
         return;
       }
@@ -78,7 +183,7 @@ const TermPreview = ({
       // 更新状态和缓存
       setContent({
         title: term.metadata.title,
-        content: term.metadata.description,
+        description: term.metadata.description,
         authors: term.metadata.authors.reduce(
           (acc: Record<string, AuthorAttributes>, author: string) => {
             acc[author] = authors[author];
@@ -86,6 +191,7 @@ const TermPreview = ({
           },
           {} as Record<string, AuthorAttributes>,
         ),
+        content: term.content,
       });
       if (typeof window !== "undefined") {
         window._cachedTerms = window._cachedTerms || {};
@@ -108,27 +214,27 @@ const TermPreview = ({
         </Tooltip>
       }
     >
-      {() => (
-        <Tooltip
-          title={
-            <Content
-              title={content?.title}
-              content={content?.content}
-              authors={content?.authors}
+      {() =>
+        content ? (
+          useMobile ? (
+            <DrawerPreview
+              path={path}
+              anchor={anchor}
+              content={content}
+              children={children}
             />
-          }
-        >
-          <a
-            style={{
-              textDecoration: "underline dashed",
-              textUnderlineOffset: "4px",
-            }}
-            href={`${path.replace(/^\/blog/, "")}${anchor}`}
-          >
-            {children}
-          </a>
-        </Tooltip>
-      )}
+          ) : (
+            <TooltipsPreview
+              path={path}
+              anchor={anchor}
+              content={content}
+              children={children}
+            />
+          )
+        ) : (
+          "loading..."
+        )
+      }
     </BrowserOnly>
   );
 };
