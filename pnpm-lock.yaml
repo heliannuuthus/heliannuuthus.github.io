@@ -30,11 +30,11 @@ importers:
         specifier: ^3.0.0
         version: 3.1.0(@types/react@19.0.7)(react@19.0.0)
       antd:
-        specifier: ^5.0.0
-        version: 5.23.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: ^5.23.3
+        version: 5.23.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       antd-style:
         specifier: ^3.7.1
-        version: 3.7.1(@types/react@19.0.7)(antd@5.23.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 3.7.1(@types/react@19.0.7)(antd@5.23.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
@@ -47,6 +47,9 @@ importers:
       heliannuuthus-parse-md:
         specifier: file:./plugins/parse-md
         version: file:plugins/parse-md
+      heliannuuthus-remark-tooltip:
+        specifier: file:./packages/remark-tooltip
+        version: file:packages/remark-tooltip
       heliannuuthus-terminology-store:
         specifier: file:./plugins/terminology-store
         version: file:plugins/terminology-store
@@ -217,6 +220,12 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
 
+  '@ant-design/cssinjs@1.23.0':
+    resolution: {integrity: sha512-7GAg9bD/iC9ikWatU9ym+P9ugJhi/WbsTWzcKN6T4gU0aehsprtke1UAaaSxxkjjmkJb3llet/rbUSLPgwlY4w==}
+    peerDependencies:
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+
   '@ant-design/fast-color@2.0.6':
     resolution: {integrity: sha512-y2217gk4NqL35giHl72o6Zzqji9O7vHh9YmhUVkPtAOpoTCH4uWxo/pr4VE8t0+ChEPs0qo4eJRC5Q1eXWo3vA==}
     engines: {node: '>=8.x'}
@@ -226,6 +235,13 @@ packages:
 
   '@ant-design/icons@5.5.2':
     resolution: {integrity: sha512-xc53rjVBl9v2BqFxUjZGti/RfdDeA8/6KYglmInM2PNqSXc/WfuGDTifJI/ZsokJK0aeKvOIbXc9y2g8ILAhEA==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+
+  '@ant-design/icons@5.6.0':
+    resolution: {integrity: sha512-Mb6QkQmPLZsmIHJ6oBsoyKrrT8/kAUdQ6+8q38e2bQSclROi69SiDlI4zZroaIPseae1w110RJH0zGrphAvlSQ==}
     engines: {node: '>=8'}
     peerDependencies:
       react: '>=16.0.0'
@@ -1989,8 +2005,8 @@ packages:
       antd: '>=5.8.1'
       react: '>=18'
 
-  antd@5.23.1:
-    resolution: {integrity: sha512-rg5xd5LotHw0IRyo/nsiUN/EEV3e+xU4V4UmIb/62hMN9+3APyz1Ohjf17a+fN13jC8sNY1hP1K252SU2Th0xA==}
+  antd@5.23.3:
+    resolution: {integrity: sha512-xDvwl7C43/NZ9rTOS1bkbuKoSxqZKf6FlaSW/BRsV8QST3Ce2jGx7dJzYahKIZwe3WNSgvEXAlTrckBHMKHcgQ==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -3304,6 +3320,9 @@ packages:
 
   heliannuuthus-parse-md@file:plugins/parse-md:
     resolution: {directory: plugins/parse-md, type: directory}
+
+  heliannuuthus-remark-tooltip@file:packages/remark-tooltip:
+    resolution: {directory: packages/remark-tooltip, type: directory}
 
   heliannuuthus-terminology-store@file:plugins/terminology-store:
     resolution: {directory: plugins/terminology-store, type: directory}
@@ -6192,13 +6211,25 @@ snapshots:
 
   '@ant-design/cssinjs-utils@1.1.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@ant-design/cssinjs': 1.22.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@ant-design/cssinjs': 1.23.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@babel/runtime': 7.26.0
       rc-util: 5.44.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
   '@ant-design/cssinjs@1.22.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@babel/runtime': 7.26.0
+      '@emotion/hash': 0.8.0
+      '@emotion/unitless': 0.7.5
+      classnames: 2.5.1
+      csstype: 3.1.3
+      rc-util: 5.44.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      stylis: 4.3.5
+
+  '@ant-design/cssinjs@1.23.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@emotion/hash': 0.8.0
@@ -6217,6 +6248,16 @@ snapshots:
   '@ant-design/icons-svg@4.4.2': {}
 
   '@ant-design/icons@5.5.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@ant-design/colors': 7.2.0
+      '@ant-design/icons-svg': 4.4.2
+      '@babel/runtime': 7.26.0
+      classnames: 2.5.1
+      rc-util: 5.44.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+
+  '@ant-design/icons@5.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@ant-design/colors': 7.2.0
       '@ant-design/icons-svg': 4.4.2
@@ -8972,7 +9013,7 @@ snapshots:
 
   ansi-styles@6.2.1: {}
 
-  antd-style@3.7.1(@types/react@19.0.7)(antd@5.23.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  antd-style@3.7.1(@types/react@19.0.7)(antd@5.23.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@ant-design/cssinjs': 1.22.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@babel/runtime': 7.26.0
@@ -8981,7 +9022,7 @@ snapshots:
       '@emotion/react': 11.14.0(@types/react@19.0.7)(react@19.0.0)
       '@emotion/serialize': 1.3.3
       '@emotion/utils': 1.4.2
-      antd: 5.23.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      antd: 5.23.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react: 19.0.0
       use-merge-value: 1.2.0(react@19.0.0)
     transitivePeerDependencies:
@@ -8989,13 +9030,13 @@ snapshots:
       - react-dom
       - supports-color
 
-  antd@5.23.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  antd@5.23.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@ant-design/colors': 7.2.0
-      '@ant-design/cssinjs': 1.22.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@ant-design/cssinjs': 1.23.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@ant-design/cssinjs-utils': 1.1.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@ant-design/fast-color': 2.0.6
-      '@ant-design/icons': 5.5.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@ant-design/icons': 5.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@ant-design/react-slick': 1.1.2(react@19.0.0)
       '@babel/runtime': 7.26.0
       '@rc-component/color-picker': 2.0.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -10594,6 +10635,8 @@ snapshots:
   heliannuuthus-parse-md@file:plugins/parse-md:
     dependencies:
       js-yaml: 4.1.0
+
+  heliannuuthus-remark-tooltip@file:packages/remark-tooltip: {}
 
   heliannuuthus-terminology-store@file:plugins/terminology-store: {}
 
