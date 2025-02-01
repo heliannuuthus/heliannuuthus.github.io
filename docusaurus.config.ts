@@ -5,6 +5,7 @@ import rehypeKatex from "rehype-katex";
 import remarkBreaks from "remark-breaks";
 import remarkCodeImport from "remark-code-import";
 import remarkMath from "remark-math";
+import remarkTooltip from "heliannuuthus-remark-tooltip";
 import path from "path";
 
 const config: Config = {
@@ -91,7 +92,12 @@ const config: Config = {
       {
         docs: false,
         blog: {
-          remarkPlugins: [remarkCodeImport, remarkBreaks, remarkMath],
+          remarkPlugins: [
+            remarkTooltip,
+            remarkCodeImport,
+            remarkBreaks,
+            remarkMath,
+          ],
           rehypePlugins: [rehypeKatex],
           blogSidebarTitle: "最近的发布",
           routeBasePath: "/",
