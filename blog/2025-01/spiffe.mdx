@@ -5,15 +5,15 @@ authors: [heliannuuthus]
 tags: [Cloud]
 ---
 
-SPIFFE 是一个开源的身份框架标准，用于在动态的云原生环境中为服务和工作负载提供安全可靠的身份识别和认证机制。
+SPIFFE 是一套开源标准，用于解决由于现代网络环境中资源动态变化（如弹性扩缩容、多运行时等）与环境复杂异构（如多云混合架构、跨平台支持等）所带来安全问题。
 
-<!---truncate-->
+<!-- truncate -->
 
 ## Concepect
 
 ### SPIFFE ID
 
-> 一个[[统一资源表示符]](/terms/web#uri)，用于标识一个[工作负载](#Workload)
+> 本质是[[统一资源标识符]](/terms/web#uri)，用于标识一个[工作负载](#Workload)
 
 - 通常格式为 **_spiffe://trust-domain/path/service-name_**
 
@@ -23,4 +23,8 @@ SPIFFE 是一个开源的身份框架标准，用于在动态的云原生环境�
 
 ### SVID
 
-> SVID 全称
+> SVID 全称 Service Identity Verification Information，用于验证服务身份
+
+- 包含一个[SPIFFE ID](#SPIFFE-ID)
+- 包含一个[签名](#Signature)
+- 包含一个[过期时间](#Expiration)

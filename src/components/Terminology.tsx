@@ -8,7 +8,7 @@ import { usePluginData } from "@docusaurus/useGlobalData";
 import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
 import { TermData } from "heliannuuthus-terminology-store";
 import MDXRenderer from "./MDXRender";
-
+import TermPreview from "./TermPreview";
 const { Text, Paragraph, Link } = Typography;
 
 const Terminology = () => {
@@ -60,7 +60,12 @@ const Terminology = () => {
           return {
             key: slug,
             label: <div id={slug}>{term.metadata.title}</div>,
-            children: <MDXRenderer content={term.content} />,
+            children: (
+              <MDXRenderer
+                content={term.content}
+                components={() => ({ Term: TermPreview })}
+              />
+            ),
             styles: {
               header: {
                 padding: 0,
@@ -103,7 +108,7 @@ const Terminology = () => {
               </Paragraph>
             ),
           };
-        }
+        },
       )}
     />
   );
