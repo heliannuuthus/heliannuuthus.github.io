@@ -47,6 +47,9 @@ importers:
       heliannuuthus-parse-md:
         specifier: file:./plugins/parse-md
         version: file:plugins/parse-md
+      heliannuuthus-remark-external-link:
+        specifier: file:./packages/remark-external-link
+        version: file:packages/remark-external-link
       heliannuuthus-remark-tooltip:
         specifier: file:./packages/remark-tooltip
         version: file:packages/remark-tooltip
@@ -3320,6 +3323,9 @@ packages:
 
   heliannuuthus-parse-md@file:plugins/parse-md:
     resolution: {directory: plugins/parse-md, type: directory}
+
+  heliannuuthus-remark-external-link@file:packages/remark-external-link:
+    resolution: {directory: packages/remark-external-link, type: directory}
 
   heliannuuthus-remark-tooltip@file:packages/remark-tooltip:
     resolution: {directory: packages/remark-tooltip, type: directory}
@@ -10635,6 +10641,8 @@ snapshots:
   heliannuuthus-parse-md@file:plugins/parse-md:
     dependencies:
       js-yaml: 4.1.0
+
+  heliannuuthus-remark-external-link@file:packages/remark-external-link: {}
 
   heliannuuthus-remark-tooltip@file:packages/remark-tooltip: {}
 

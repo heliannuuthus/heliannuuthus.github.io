@@ -4,7 +4,8 @@ import { MDXProvider } from "@mdx-js/react";
 import * as runtime from "react/jsx-runtime";
 import { evaluate } from "@mdx-js/mdx";
 import type { UseMdxComponents } from "@mdx-js/mdx";
-
+import remarkTooltip from "heliannuuthus-remark-tooltip";
+import remarkExternalLink from "heliannuuthus-remark-external-link";
 const MDXRender = ({
   content,
   components,
@@ -14,15 +15,29 @@ const MDXRender = ({
 }) => {
   const [Component, setComponent] = useState(() => () => null);
 
+  const evaluateContent = async () => {
+    await evaluate(content, {
+      ...runtime,
+      remarkPlugins: [
+        remarkTooltip,
+        [
+          remarkExternalLink,
+          {
+            href: "/external-link",
+            target: "_blank",
+            rel: ["noopener", "noreferrer"],
+            test: (node: any) => node.url.startsWith("http"),
+          },
+        ],
+      ],
+      useMDXComponents: components,
+    }).then((exports) => {
+      setComponent(() => exports.default);
+    });
+  };
+
   useEffect(() => {
-    (async () => {
-      await evaluate(content, {
-        ...runtime,
-        useMDXComponents: components,
-      }).then((exports) => {
-        setComponent(() => exports.default);
-      });
-    })();
+    evaluateContent();
   }, [content]);
 
   if (!Component) {

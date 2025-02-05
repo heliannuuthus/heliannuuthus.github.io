@@ -1,5 +1,5 @@
-import { Tooltip, Avatar, Typography, Drawer, Skeleton, Button } from "antd";
-import { forwardRef, useState, useEffect } from "react";
+import { Tooltip, Typography, Drawer, Button } from "antd";
+import { useState, useEffect } from "react";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
@@ -10,7 +10,7 @@ import MDXRender from "./MDXRender";
 import { BookFilled } from "@ant-design/icons";
 import { useHistory } from "@docusaurus/router";
 import { PopoverAvatars, DrawerAvatars } from "./Avatar";
-const { Text, Link, Title, Paragraph } = Typography;
+const { Text, Link, Title } = Typography;
 
 declare global {
   interface Window {
@@ -40,6 +40,7 @@ const TooltipsPreview = ({
 }) => {
   return (
     <Tooltip
+      arrow={false}
       trigger={"click"}
       styles={{
         root: {
@@ -158,7 +159,7 @@ const TermPreview = ({
 
   const fetchContent = async (
     url: string,
-    authors: Record<string, AuthorAttributes>,
+    authors: Record<string, AuthorAttributes>
   ) => {
     try {
       // 如果缓存存在且有数据，直接使用缓存
@@ -189,7 +190,7 @@ const TermPreview = ({
             acc[author] = authors[author];
             return acc;
           },
-          {} as Record<string, AuthorAttributes>,
+          {} as Record<string, AuthorAttributes>
         ),
         content: term.content,
       });
