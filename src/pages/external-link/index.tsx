@@ -1,7 +1,6 @@
 import { useLocation } from "@docusaurus/router";
 import { Result, Button, Typography } from "antd";
-import { QuestionCircleFilled, LinkOutlined } from "@ant-design/icons";
-import ConfigProviderWrapper from "@site/src/components/ConfigProvider";
+import { QuestionCircleFilled } from "@ant-design/icons";
 const { Paragraph, Text } = Typography;
 
 export default function ExternalLinkPage() {
