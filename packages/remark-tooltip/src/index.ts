@@ -12,7 +12,7 @@ const remarkTooltip: Plugin<[TooltipOptions?], Nodes> =
     options: TooltipOptions = {
       tooltip: "Tooltip",
       comment: "Comment",
-    }
+    },
   ) =>
   (tree: Nodes) => {
     const { tooltip, comment } = options;

@@ -1,7 +1,10 @@
 import { theme } from "antd";
 import { useEffect, useState } from "react";
 
-import { ThemeProvider as AntdStyledThemeProvider, ThemeProviderProps } from "antd-style";
+import {
+  ThemeProvider as AntdStyledThemeProvider,
+  ThemeProviderProps,
+} from "antd-style";
 
 // 自定义 Hook，用于监听 <html> 元素上 data-theme 属性的变化
 function useHtmlTheme() {

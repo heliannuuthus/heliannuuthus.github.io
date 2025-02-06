@@ -24,14 +24,7 @@ export default function ExternalLinkPage() {
           <pre>
             <Paragraph>链接安全性未知，是否继续？</Paragraph>
             <Paragraph>
-              <Text
-                
-                ellipsis={{
-                  
-                }}
-              >
-                {href}
-              </Text>
+              <Text ellipsis={{}}>{href}</Text>
             </Paragraph>
           </pre>
         </div>
