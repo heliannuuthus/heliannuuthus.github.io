@@ -1,4 +1,4 @@
-import { Tooltip, Typography, Drawer, Button } from "antd";
+import { Typography, Drawer, Button } from "antd";
 import { useState, useEffect } from "react";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
@@ -10,6 +10,7 @@ import MDXRender from "./MDXRender";
 import { BookFilled } from "@ant-design/icons";
 import { useHistory } from "@docusaurus/router";
 import { PopoverAvatars, DrawerAvatars } from "./Avatar";
+import Tooltip from "@site/src/components/Tooltip";
 const { Text, Link, Title } = Typography;
 
 declare global {
@@ -62,6 +63,14 @@ const TooltipsPreview = ({
             content={content.content}
             components={() => ({ Term: TermPreview })}
           />
+          <Tooltip title={`更多内容请前往 ${path.split("/")[2]} 词典`}>
+            <Button
+              type="link"
+              href={`${path}${anchor}`}
+              icon={<BookFilled />}
+              children={`词典 >`}
+            />
+          </Tooltip>
         </>
       }
       children={
