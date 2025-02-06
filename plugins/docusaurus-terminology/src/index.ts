@@ -40,7 +40,6 @@ export default async function DocusaurusTerminologyPlugin(
       }
     });
   } catch (err) {}
-
   return {
     name: "terminology-docusaurus-plugin",
     configureWebpack(
@@ -68,7 +67,7 @@ export default async function DocusaurusTerminologyPlugin(
             (kider: RuleSetUseItem) =>
               typeof kider === "object" &&
               typeof kider.loader === "string" &&
-              kider.loader.includes("plugin-content-docs"),
+              kider.loader.includes("plugin-content-blog"),
           )
         );
       });
@@ -110,7 +109,6 @@ export default async function DocusaurusTerminologyPlugin(
           },
         );
       }
-
       return {
         mergeStrategy: { module: "replace" },
         module: config.module,

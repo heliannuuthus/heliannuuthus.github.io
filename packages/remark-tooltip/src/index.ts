@@ -2,7 +2,6 @@ import { Plugin } from "unified";
 import { Nodes, PhrasingContent } from "mdast";
 import { findAndReplace } from "mdast-util-find-and-replace";
 import { MdxJsxTextElement } from "mdast-util-mdx-jsx";
-
 export interface TooltipOptions {
   tooltip?: string;
   comment?: string;
@@ -18,7 +17,7 @@ const remarkTooltip: Plugin<[TooltipOptions?], Nodes> =
   (tree: Nodes) => {
     const { tooltip, comment } = options;
     findAndReplace(tree, [
-      /\[\[((?:[^|\]]|\\\|)+)\|((?:[^|\]]|\\\|)+)\]\]/g,
+      /\[\[(.*?)(?<!\\)\|(.*?)\]\]/gs,
       (_match: string, content: string, title: string): PhrasingContent => {
         return {
           type: "mdxJsxTextElement",
