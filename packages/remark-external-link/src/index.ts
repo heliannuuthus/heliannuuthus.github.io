@@ -14,7 +14,7 @@ const remarkExternalLink: Plugin<[ExternalLinkOptions?], Nodes> =
       href: "/external-link",
       target: "_blank",
       rel: ["nofollow", "noopener", "noreferrer"],
-    }
+    },
   ) =>
   (tree: Nodes) => {
     const { test } = options;

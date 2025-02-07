@@ -1,7 +1,10 @@
 import { theme } from "antd";
 import { useEffect, useState } from "react";
 
-import { ThemeProvider as AntdStyledThemeProvider, ThemeProviderProps } from "antd-style";
+import {
+  ThemeProvider as AntdStyledThemeProvider,
+  ThemeProviderProps,
+} from "antd-style";
 
 // 自定义 Hook，用于监听 <html> 元素上 data-theme 属性的变化
 function useHtmlTheme() {
@@ -65,10 +68,14 @@ export default function ThemeProvider({
           fontSizeHeading3: 24,
           fontSizeHeading4: 20,
           fontSizeHeading5: 16,
+          fontFamily: "Noto Sans SC, sans-serif, Arial, Helvetica",
         },
         components: {
           Steps: {},
           Table: {},
+          Layout: {
+            headerBg: dark ? "rgb(30, 30, 30)" : "rgb(240, 240, 240)",
+          },
         },
       }}
     >

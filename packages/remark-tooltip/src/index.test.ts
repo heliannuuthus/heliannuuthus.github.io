@@ -19,7 +19,7 @@ describe("remarkTooltip", () => {
     const output = await process(input);
     expect(output).toContain('<Tooltip title=" 提示">');
     expect(output).toContain(
-      '<Comment type="secondary">{" tooltip 内容"}</Comment>'
+      '<Comment type="secondary">{" tooltip 内容"}</Comment>',
     );
   });
 
@@ -30,7 +30,7 @@ describe("remarkTooltip", () => {
     const output = await process(input);
     expect(output).toContain(`<Tooltip title="多行\n标题">`);
     expect(output).toContain(
-      `<Comment type="secondary">{"多行\\n内容"}</Comment>`
+      `<Comment type="secondary">{"多行\\n内容"}</Comment>`,
     );
   });
 
@@ -57,7 +57,7 @@ describe("remarkTooltip", () => {
     const output = await process(input);
     expect(output).toContain('<Tooltip title="特殊*|字符!">');
     expect(output).toContain(
-      '<Comment type="secondary">{"包含 | * ! @ # $ 的内容"}</Comment>'
+      '<Comment type="secondary">{"包含 | * ! @ # $ 的内容"}</Comment>',
     );
   });
 });
