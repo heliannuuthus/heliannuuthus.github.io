@@ -1,5 +1,7 @@
-import Annuus from "./_annuus";
+import Annuus from "@site/src/pages/_annuus";
 import Layout from "@theme/Layout";
+import Declaration from "@site/src/pages/_declaration";
+import { Title } from "@site/src/components/Typography";
 
 export default function Home() {
   return (
@@ -12,9 +14,20 @@ export default function Home() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          flexDirection: "column",
         }}
       >
-        <Annuus />
+        <div
+          style={{
+            margin: "130px 0 100px 0",
+          }}
+        >
+          <Annuus />
+          <Title level={1} style={{ marginTop: "48px" }}>
+            heliannuuthus
+          </Title>
+        </div>
+        <Declaration />
       </div>
     </Layout>
   );

@@ -147,6 +147,12 @@ const config: Config = {
     ["./plugins/authors-list/index.js", { path: "./blog/authors.yml" }],
   ],
   themeConfig: {
+    algolia: {
+      apiKey: "61111111111111111111111111111111",
+      indexName: "heliannuuthus",
+      appId: "heliannuuthus",
+      contextualSearch: true,
+    },
     navbar: {
       title: "heliannuuthus",
       logo: {
@@ -154,7 +160,20 @@ const config: Config = {
         src: "img/logo.svg",
       },
       items: [
-        { to: "blog/", label: "博客", position: "right" },
+        { to: "blog/", label: "Blog", position: "left" },
+        {
+          type: "dropdown",
+          label: "OpenSource",
+          position: "left",
+          items: [
+            {
+              to: "https://github.com/heliannuuthus/captcha",
+              label: "Captcha",
+              description:
+                "Captcha is a node service for generating captcha images.",
+            },
+          ],
+        },
         {
           type: "search",
           position: "right",
