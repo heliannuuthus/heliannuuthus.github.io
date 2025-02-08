@@ -56,12 +56,12 @@ importers:
       heliannuuthus-parse-md:
         specifier: file:./plugins/parse-md
         version: file:plugins/parse-md
+      heliannuuthus-remark-comment-tooltip:
+        specifier: file:./packages/remark-comment-tooltip
+        version: file:packages/remark-comment-tooltip
       heliannuuthus-remark-external-link:
         specifier: file:./packages/remark-external-link
         version: file:packages/remark-external-link
-      heliannuuthus-remark-tooltip:
-        specifier: file:./packages/remark-tooltip
-        version: file:packages/remark-tooltip
       heliannuuthus-terminology-store:
         specifier: file:./plugins/terminology-store
         version: file:plugins/terminology-store
@@ -104,6 +104,9 @@ importers:
       remark-breaks:
         specifier: ^4.0.0
         version: 4.0.0
+      remark-directive:
+        specifier: ^3.0.1
+        version: 3.0.1
       remark-html:
         specifier: ^16.0.1
         version: 16.0.1
@@ -3376,11 +3379,11 @@ packages:
   heliannuuthus-parse-md@file:plugins/parse-md:
     resolution: {directory: plugins/parse-md, type: directory}
 
+  heliannuuthus-remark-comment-tooltip@file:packages/remark-comment-tooltip:
+    resolution: {directory: packages/remark-comment-tooltip, type: directory}
+
   heliannuuthus-remark-external-link@file:packages/remark-external-link:
     resolution: {directory: packages/remark-external-link, type: directory}
-
-  heliannuuthus-remark-tooltip@file:packages/remark-tooltip:
-    resolution: {directory: packages/remark-tooltip, type: directory}
 
   heliannuuthus-terminology-store@file:plugins/terminology-store:
     resolution: {directory: plugins/terminology-store, type: directory}
@@ -5340,8 +5343,8 @@ packages:
     resolution: {integrity: sha512-fgwLruqlZbVOIhCJFjY+JDwPZhA4/eK3InJzN8Ox8UDdtudpG212JwtRj6la+lAzJU7JmSEyewZSukVZdknt3Q==}
     engines: {node: '>= 12'}
 
-  remark-directive@3.0.0:
-    resolution: {integrity: sha512-l1UyWJ6Eg1VPU7Hm/9tt0zKtReJQNOA4+iDMAxTyZNWnJnFlbS/7zhiel/rogTLQ2vMYwDzSJa4BiVNqGlqIMA==}
+  remark-directive@3.0.1:
+    resolution: {integrity: sha512-gwglrEQEZcZYgVyG1tQuA+h58EZfq5CSULw7J90AFuCTyib1thgHPoqQ+h9iFvU6R+vnZ5oNFQR5QKgGpk741A==}
 
   remark-emoji@4.0.1:
     resolution: {integrity: sha512-fHdvsTR1dHkWKev9eNyhTo4EFwbUvJ8ka9SgeWkMPYFX4WoI7ViVBms3PjlQYgw5TLvNQso3GUB/b/8t3yo+dg==}
@@ -7598,7 +7601,7 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
       rehype-raw: 7.0.0
-      remark-directive: 3.0.0
+      remark-directive: 3.0.1
       remark-emoji: 4.0.1
       remark-frontmatter: 5.0.0
       remark-gfm: 4.0.0
@@ -10796,9 +10799,9 @@ snapshots:
     dependencies:
       js-yaml: 4.1.0
 
-  heliannuuthus-remark-external-link@file:packages/remark-external-link: {}
+  heliannuuthus-remark-comment-tooltip@file:packages/remark-comment-tooltip: {}
 
-  heliannuuthus-remark-tooltip@file:packages/remark-tooltip: {}
+  heliannuuthus-remark-external-link@file:packages/remark-external-link: {}
 
   heliannuuthus-terminology-store@file:plugins/terminology-store: {}
 
@@ -13246,7 +13249,7 @@ snapshots:
       to-gatsby-remark-plugin: 0.1.0
       unist-util-visit: 4.1.2
 
-  remark-directive@3.0.0:
+  remark-directive@3.0.1:
     dependencies:
       '@types/mdast': 4.0.4
       mdast-util-directive: 3.0.0

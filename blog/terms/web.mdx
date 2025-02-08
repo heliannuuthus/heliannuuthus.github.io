@@ -2,10 +2,10 @@
 slug: uri
 title: 统一资源标识符
 authors: [heliannuuthus, robot]
-description: 互联网内用于标识资源的标准字符串，通常包含 [[URL]](/terms/web#url) 和 [[URN]](/terms/web#urn) 两种形式
+description: 互联网内用于标识资源的标准字符串，通常包含 [[URL]](/blog/terms/web#url) 和 [[URN]](/blog/terms/web#urn) 两种形式
 ---
 
-> URI（Uniform Resource Identifier，统一资源标识符）是一个用于标识互联网内资源的字符串。它是一个通用的资源标识符系统，包含了 [[URL]](/terms/web#url) 和 [[URN]](/terms/web#urn) 两种形式。
+> URI（Uniform Resource Identifier，统一资源标识符）是一个用于标识互联网内资源的字符串。它是一个通用的资源标识符系统，包含了 [[URL]](/blog/terms/web#url) 和 [[URN]](/blog/terms/web#urn) 两种形式。
 
 ## URI 的组成部分
 
@@ -25,11 +25,11 @@ description: 互联网内用于定位资源的标准地址格式。
 
 ---
 
-> URL（Uniform Resource Locator，统一资源定位符）是互联网内用于定位资源的标准地址格式。它是 [[URI]](/terms/web#uri) 的一个子集，专门用于准确描述如何访问某个资源。
+> URL（Uniform Resource Locator，统一资源定位符）是互联网内用于定位资源的标准地址格式。它是 [[URI]](/blog/terms/web#uri) 的一个子集，专门用于准确描述如何访问某个资源。
 
 ## URL 的格式和组成
 
-_[[https://|协议]][[www.example.com|主机名]][[:443|端口号]][[/path/to/resource|路径]][[?key=value|查询参数]][[#section|片段标识符]]_
+_:ctip[https://]{title="协议"}:ctip[www.example.com]{title="主机名"}:ctip[:443]{title="端口号"}:ctip[/path/to/resource]{title="路径"}:ctip[?key=value]{title="查询参数"}:ctip[#section]{title="片段标识符"}_
 
 ## 常见的协议
 
@@ -64,7 +64,7 @@ description: 互联网内通过唯一的名字标识资源，与具体的位置�
 
 slug: urlencode
 title: URL 编码
-description: 将非 ASCII 字符转换为 ASCII 字符集中的字符，通常用于 [[URL]](/terms/web#url) 中。
+description: 将非 ASCII 字符转换为 ASCII 字符集中的字符，通常用于 [[URL]](/blog/terms/web#url) 中。
 
 ---
 
@@ -81,25 +81,25 @@ description: 由 [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519) 定义的一
 
 ---
 
-> 通常我们见到的都是用 `.` 分隔的三段([[jws]](/terms/web#jws))或五段([[jwe]](/terms/web#jwe)) Base64Url 编码的 JSON 对象。
+> 通常我们见到的都是用 `.` 分隔的三段([[jws]](/blog/terms/web#jws))或五段([[jwe]](/blog/terms/web#jwe)) Base64Url 编码的 JSON 对象。
 
 ## JWT 的格式和组成
 
-> 用 `.` 分隔的三段([[jws]](/terms/web#jws))或五段([[jwe]](/terms/web#jwe)) Base64Url 编码的 JSON 对象
+> 用 `.` 分隔的三段([[jws]](/blog/terms/web#jws))或五段([[jwe]](/blog/terms/web#jwe)) Base64Url 编码的 JSON 对象
 
-- [[JOSE|JSON Object Signing and Encryption]] Header：包含令牌的类型和签名算法，一些常见的字段：
-  - **[[typ|type]]**：token 的类型，如果存在最好指定为 **JWT**，表示当前是 JWT token
-  - **[[cty|content-type]]**：内容类型，当使用嵌套的 jws 或者 jwe 时，必须指定为 **JWT**（建议使用大写字母），反之常规情况**不推荐使用**
-  - **[[alg|algorithm]]**：算法，在 [[jwa]](/terms/web#jwa) 中定义，在 [[jws]](/terms/web#jws) 和 [[jwe]](/terms/web#jwe) 中值不一致。
+- :ctip[JOSE]{title="JSON Object Signing and Encryption"} Header：包含令牌的类型和签名算法，一些常见的字段：
+  - :ctip[**typ**]{title="type"}：token 的类型，如果存在最好指定为 **JWT**，表示当前是 JWT token
+  - :ctip[**cty**]{title="content-type"}：内容类型，当使用嵌套的 jws 或者 jwe 时，必须指定为 **JWT**（建议使用大写字母），反之常规情况**不推荐使用**
+  - :ctip[**alg**]{title="algorithm"}：算法，在 [[jwa]](/blog/terms/web#jwa) 中定义，在 [[jws]](/blog/terms/web#jws) 和 [[jwe]](/blog/terms/web#jwe) 中值不一致。
 - JWT Claims：代表一个完整的 JSON 对象，存在三种类别的 Claims，分别是：
   - Registered Claims：由 IANA 定义的声明，例如：
-    - **[[iss|issuer]]**：签发者, 签发 token 的实体
-    - **[[sub|subject]]**：主题, token 的主体信息，通常是用户标识
-    - **[[aud|audience]]**：受众, token 的接收者，验证 token 方
-    - **[[exp|expiration]]**：过期时间, token 的过期时间
-    - **[[nbf|not before]]**：生效时间, token 的生效时间
-    - **[[iat|issued at]]**：签发时间, token 的签发时间
-    - **[[jti|jwt id]]**：token 的唯一标识
+    - :ctip[**iss**]{title="issuer"}：签发者, 签发 token 的实体
+    - :ctip[**sub**]{title="subject"}：主题, token 的主体信息，通常是用户标识
+    - :ctip[**aud**]{title="audience"}：受众, token 的接收者，验证 token 方
+    - :ctip[**exp**]{title="expiration"}：过期时间, token 的过期时间
+    - :ctip[**nbf**]{title="not before"}：生效时间, token 的生效时间
+    - :ctip[**iat**]{title="issued at"}：签发时间, token 的签发时间
+    - :ctip[**jti**]{title="jwt id"}：token 的唯一标识
   - Public Claims：由 IANA 定义的声明，例如：`token-type: jwt` 等
   - Private Claims：由使用方定义的声明，例如：`role`, `scope`
 
@@ -124,19 +124,19 @@ description: 用于在 JWT 中进行加密、解密、签名、验证的算法�
 
 ## jwe alg
 
-> jwe 中 alg 字段通常用于指定是否包装 cek，如果是 `dir` 则直接使用 cek 采用 enc 字段指定的算法进行加密
+> jwe 中 alg 字段通常用于指定是否包装 :ctip[`cek`]{title="Content Encryption Key"}，如果是 `dir` 则直接使用 `cek` 和 `enc` 字段指定的算法进行加密
 
-- [RSAES-PKCS1-v1_5](https://www.rfc-editor.org/rfc/rfc8017)：RSA 基于 PKCS#1 padding 的加密算法加密 cek，e.g. `RSA1_5`
-- [RSAES-OAEP](https://www.rfc-editor.org/rfc/rfc8017)：RSA 基于 OAEP padding 的加密算法加密 cek，e.g. `RSA-OAEP`, `RSA-OAEP-256`
-- [AesKeyWrap](https://www.rfc-editor.org/rfc/rfc8017)：一种使用 Aes 密钥包装 cek 的算法，再用 cek 加密明文数据，e.g. `A128KW`, `A192KW`, `A256KW`
+- [RSAES-PKCS1-v1_5](https://www.rfc-editor.org/rfc/rfc8017)：RSA 基于 PKCS#1 padding 的加密算法加密 `cek`，e.g. `RSA1_5`
+- [RSAES-OAEP](https://www.rfc-editor.org/rfc/rfc8017)：RSA 基于 OAEP padding 的加密算法加密 `cek`，e.g. `RSA-OAEP`, `RSA-OAEP-256`
+- [AesKeyWrap](https://www.rfc-editor.org/rfc/rfc8017)：一种使用 Aes 密钥包装 `cek` 的算法，再用 `cek` 加密明文数据，e.g. `A128KW`, `A192KW`, `A256KW`
 - [AesGCMKeyWrap](https://www.rfc-editor.org/rfc/rfc8017)：区别于 AesKeyWrap，使用 GCM 模式进行加密，通常 Header 中伴随 `iv` 和 `tag` 使用，e.g. `A128GCMKW`, `A192GCMKW`, `A256GCMKW`
-  - **[[iv|Initialization Vector]]**：初始化向量
-  - **[[tag|Authentication Tag]]**：认证标签
+  - :ctip[**iv**]{title="Initialization Vector"}：初始化向量
+  - :ctip[**tag**]{title="Authentication Tag"}：认证标签
 - [ECDH-ES](https://www.rfc-editor.org/rfc/rfc4753)：椭圆曲线 Diffie-Hellman 算法协商出来的密钥，使用 ConcateKDF+SHA-256 生成指定长度的密钥，直接用于加密正文数据，e.g. `ECDH-ES`
 - [ECDH-ESWithAesKeyWrap](https://www.rfc-editor.org/rfc/rfc8017)：区别于 ECDH-ES，使用 Diffie-Hellman 算法交换出来的密钥，使用 ConcateKDF+SHA-256 生成指定长度的密钥，该密钥**仅对生成的 cek 进行包装**，e.g. `ECDH-ES+A128KW`, `ECDH-ES+A192KW`, `ECDH-ES+A256KW`
-  - **[[epk|Ephemeral Public Key]]**：用于 Diffie-Hellman 算法交换的临时公钥
-  - **[[apu|Agreement Party UInfo]]**：发送方的附加信息，会在 ConcateKDF 中使用
-  - **[[apv|Agreement Party VInfo]]**：接收方的附加信息，会在 ConcateKDF 中使用
+  - :ctip[**epk**]{title="Ephemeral Public Key"}：用于 Diffie-Hellman 算法交换的临时公钥
+  - :ctip[**apu**]{title="Agreement Party UInfo"}：发送方的附加信息，会在 ConcateKDF 中使用
+  - :ctip[**apv**]{title="Agreement Party VInfo"}：接收方的附加信息，会在 ConcateKDF 中使用
 - [PBES2](https://www.rfc-editor.org/rfc/rfc8018)：使用 PBKDF2 密码生成算法加上散列函数输出指定长度的密钥，对 cek 进行包装，e.g. `PBES2-HS256+A128KW`
 - dir：直接使用 cek 采用 enc 字段指定的算法进行加密
 

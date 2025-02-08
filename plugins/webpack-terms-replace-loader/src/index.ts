@@ -35,6 +35,7 @@ import Term from "${this.query.termPreviewComponentPath}";
 `;
 
   if (urls.length > 0) {
+    this.addDependency(this.resourcePath);
     const { content } = parse<TermMetadata>(source)[0];
     source = source.replace(content, importStatement + content);
 

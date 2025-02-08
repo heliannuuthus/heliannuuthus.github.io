@@ -4,7 +4,8 @@ import { MDXProvider } from "@mdx-js/react";
 import * as runtime from "react/jsx-runtime";
 import { evaluate } from "@mdx-js/mdx";
 import type { UseMdxComponents } from "@mdx-js/mdx";
-import remarkTooltip from "heliannuuthus-remark-tooltip";
+import remarkCommentTooltip from "heliannuuthus-remark-comment-tooltip";
+import remarkDirective from "remark-directive";
 import remarkExternalLink from "heliannuuthus-remark-external-link";
 const MDXRender = ({
   content,
@@ -19,7 +20,8 @@ const MDXRender = ({
     await evaluate(content, {
       ...runtime,
       remarkPlugins: [
-        remarkTooltip,
+        remarkDirective,
+        remarkCommentTooltip,
         [
           remarkExternalLink,
           {
