@@ -1,5 +1,5 @@
 {
-  "name": "heliannuuthus-remark-tooltip",
+  "name": "heliannuuthus-remark-comment-tooltip",
   "version": "1.0.0",
   "type": "module",
   "main": "./dist/index.js",

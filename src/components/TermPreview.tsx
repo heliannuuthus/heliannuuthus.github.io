@@ -1,4 +1,4 @@
-import { Typography, Drawer, Button } from "antd";
+import { Typography, Drawer, Button, Card, Divider, Space } from "antd";
 import { useState, useEffect } from "react";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
@@ -6,12 +6,13 @@ import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
 import BrowserOnly from "@docusaurus/BrowserOnly";
 import { TermData } from "heliannuuthus-terminology-store";
 import { isMobile, isIPad13, isTablet } from "react-device-detect";
-import MDXRender from "./MDXRender";
-import { BookFilled } from "@ant-design/icons";
+import MDXRender from "@site/src/components/MDXRender";
+import { BookFilled, EditOutlined } from "@ant-design/icons";
 import { useHistory } from "@docusaurus/router";
-import { PopoverAvatars, DrawerAvatars } from "./Avatar";
+import { PopoverAvatars, DrawerAvatars } from "@site/src/components/Avatar";
 import Tooltip from "@site/src/components/Tooltip";
 const { Text, Link, Title } = Typography;
+import { Comment } from "@site/src/components/Typography";
 
 declare global {
   interface Window {
@@ -46,12 +47,46 @@ const TooltipsPreview = ({
       styles={{
         root: {
           maxWidth: "520px",
-          maxHeight: "32vh",
-          overflow: "auto",
+        },
+        body: {
+          padding: 0,
         },
       }}
       title={
-        <>
+        <Card
+          style={{
+            padding: 0,
+          }}
+          title={content.title}
+          styles={{
+            header: {},
+            body: {
+              maxHeight: "32vh",
+              overflow: "auto",
+            },
+          }}
+          bordered={false}
+          actions={[
+            <Tooltip
+              title={`更多内容请前往 ${path.split("/").filter(Boolean)[2]} 词典`}
+            >
+              <Button
+                type="link"
+                href={`${path}${anchor}`}
+                icon={<BookFilled />}
+                children={`词典`}
+              />
+            </Tooltip>,
+            <Tooltip title={`内容描述有问题？提交 PR 修改`}>
+              <Button
+                type="link"
+                href={`https://github.com/heliannuuthus/heliannuuthus.github.io/edit/master${path}.mdx`}
+                icon={<EditOutlined key="edit" />}
+                children={`编辑`}
+              />
+            </Tooltip>,
+          ]}
+        >
           <Title level={1} children={content.title} />
           <Typography.Paragraph
             style={{ marginBottom: 16, display: "flex", alignItems: "center" }}
@@ -61,17 +96,13 @@ const TooltipsPreview = ({
           </Typography.Paragraph>
           <MDXRender
             content={content.content}
-            components={() => ({ Term: TermPreview })}
+            components={() => ({
+              Term: TermPreview,
+              Comment: Comment,
+              Tooltip: Tooltip,
+            })}
           />
-          <Tooltip title={`更多内容请前往 ${path.split("/")[2]} 词典`}>
-            <Button
-              type="link"
-              href={`${path}${anchor}`}
-              icon={<BookFilled />}
-              children={`词典 >`}
-            />
-          </Tooltip>
-        </>
+        </Card>
       }
       children={
         <Link
@@ -106,7 +137,7 @@ const DrawerPreview = ({
           textDecoration: "underline dashed",
           textUnderlineOffset: "4px",
         }}
-        href={`${path.replace(/^\/blog/, "")}${anchor}`}
+        href={`${path}${anchor}`}
         onClick={(e) => {
           e.preventDefault();
           setOpen(true);
@@ -120,16 +151,26 @@ const DrawerPreview = ({
         onClose={() => setOpen(false)}
         closable={false}
         footer={
-          <Button
-            href={`${path.replace(/^\/blog/, "")}${anchor}`}
-            type="link"
-            icon={<BookFilled />}
-            onClick={() => {
-              history.push(`${path.replace(/^\/blog/, "")}${anchor}`);
-            }}
+          <Space
+            style={{ width: "100%", justifyContent: "space-around" }}
+            align="center"
+            split={<Divider type="vertical" />}
           >
-            词典
-          </Button>
+            <Button
+              href={`${path}${anchor}`}
+              type="link"
+              icon={<BookFilled />}
+              target="_blank"
+              children={`词典`}
+            />
+            <Button
+              type="link"
+              href={`https://github.com/heliannuuthus/heliannuuthus.github.io/edit/master${path}.mdx`}
+              target="_blank"
+              icon={<EditOutlined key="edit" />}
+              children={`编辑`}
+            />
+          </Space>
         }
       >
         <Typography.Paragraph
@@ -144,7 +185,11 @@ const DrawerPreview = ({
         </Typography.Paragraph>
         <MDXRender
           content={content.content}
-          components={() => ({ Term: TermPreview })}
+          components={() => ({
+            Term: TermPreview,
+            Comment: Comment,
+            Tooltip: Tooltip,
+          })}
         />
       </Drawer>
     </>
@@ -187,7 +232,7 @@ const TermPreview = ({
       }
       // 否则从服务器获取
       anchor = anchor.substring(1);
-      const response = await fetch(withBaseUrl(`/blog/${path}.json`));
+      const response = await fetch(withBaseUrl(`${path}.json`));
       const data = (await response.json()) as Record<string, TermData>;
       const term = data[anchor];
       // 更新状态和缓存
