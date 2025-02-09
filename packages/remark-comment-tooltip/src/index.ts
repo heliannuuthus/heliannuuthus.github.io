@@ -42,13 +42,7 @@ const remarkCtip: Plugin<[TooltipOptions?]> = (
             {
               type: "mdxJsxTextElement",
               name: comment,
-              attributes: [
-                {
-                  type: "mdxJsxAttribute",
-                  name: "type",
-                  value: "secondary",
-                },
-              ],
+              attributes: [],
               children: directiveNode.children,
             },
           ],

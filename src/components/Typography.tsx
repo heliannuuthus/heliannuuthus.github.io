@@ -11,6 +11,7 @@ const useStyles = createStyles(({ css, isDarkMode }) => {
       transition: box-shadow 0.3s;
       display: inline-block;
       border-radius: 6px;
+      color: ${isDarkMode ? "#48abfa" : "#1971c2"};
 
       &:hover {
         box-shadow: ${isDarkMode
