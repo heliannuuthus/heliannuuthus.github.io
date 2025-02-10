@@ -3371,6 +3371,9 @@ packages:
   heliannuuthus-terminology-store@file:plugins/terminology-store:
     resolution: {directory: plugins/terminology-store, type: directory}
 
+  heliannuuthus-webpack-terms-loader@file:plugins/webpack-terms-loader:
+    resolution: {directory: plugins/webpack-terms-loader, type: directory}
+
   heliannuuthus-webpack-terms-replace-loader@file:plugins/webpack-terms-replace-loader:
     resolution: {directory: plugins/webpack-terms-replace-loader, type: directory}
 
@@ -10714,6 +10717,7 @@ snapshots:
 
   heliannuuthus-docusaurus-terminology@file:plugins/docusaurus-terminology:
     dependencies:
+      heliannuuthus-webpack-terms-loader: file:plugins/webpack-terms-loader
       heliannuuthus-webpack-terms-replace-loader: file:plugins/webpack-terms-replace-loader
 
   heliannuuthus-parse-md@file:plugins/parse-md: {}
@@ -10723,6 +10727,8 @@ snapshots:
   heliannuuthus-remark-external-link@file:packages/remark-external-link: {}
 
   heliannuuthus-terminology-store@file:plugins/terminology-store: {}
+
+  heliannuuthus-webpack-terms-loader@file:plugins/webpack-terms-loader: {}
 
   heliannuuthus-webpack-terms-replace-loader@file:plugins/webpack-terms-replace-loader: {}
 

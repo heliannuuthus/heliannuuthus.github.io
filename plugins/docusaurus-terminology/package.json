@@ -10,6 +10,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "heliannuuthus-webpack-terms-loader": "file:../webpack-terms-loader",
     "heliannuuthus-webpack-terms-replace-loader": "file:../webpack-terms-replace-loader"
   },
   "devDependencies": {
