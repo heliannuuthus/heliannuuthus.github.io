@@ -16,6 +16,7 @@ export default async function loader(
   this: WebpackTermsLoaderContext,
   source: string,
 ) {
+  this.cacheable(false);
   const unixRegex = new RegExp(
     `(${this.query.termsDir
       .replace(/^\.\//, "")
@@ -55,7 +56,6 @@ export default async function loader(
       {} as Record<string, TermData>,
     );
     store.addTerm(resourcePath, termMap);
-    this.addDependency(this.resourcePath);
     this.emitFile(resourcePath + ".json", JSON.stringify(termMap));
     return `
 

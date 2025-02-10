@@ -9,11 +9,6 @@
     "build": "tsup",
     "clean": "rm -rf dist"
   },
-  "dependencies": {
-    "heliannuuthus-parse-md": "file:../parse-md",
-    "heliannuuthus-terminology-store": "file:../terminology-store",
-    "package-up": "^5.0.0"
-  },
   "devDependencies": {
     "@types/webpack": "^5.0.0",
     "tsup": "^8.0.0",

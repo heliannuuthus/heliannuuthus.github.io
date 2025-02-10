@@ -2155,9 +2155,7 @@ snapshots:
     dependencies:
       '@types/hast': 3.0.4
 
-  heliannuuthus-parse-md@file:parse-md:
-    dependencies:
-      js-yaml: 4.1.0
+  heliannuuthus-parse-md@file:parse-md: {}
 
   heliannuuthus-terminology-store@file:terminology-store: {}
 

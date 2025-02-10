@@ -1,5 +1,5 @@
 {
-  "name": "heliannuuthus-docusaurus-terminology",
+  "name": "heliannuuthus-docusaurus-authors",
   "version": "1.0.1",
   "type": "module",
   "main": "./dist/index.js",
@@ -9,9 +9,7 @@
     "build": "tsup",
     "clean": "rm -rf dist"
   },
-  "dependencies": {
-    "heliannuuthus-webpack-terms-replace-loader": "file:../webpack-terms-replace-loader"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/webpack": "^5.0.0",
     "@types/node": "^22.13.1",

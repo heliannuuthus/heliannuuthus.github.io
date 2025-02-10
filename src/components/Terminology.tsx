@@ -158,7 +158,7 @@ const TermItem = ({ slug, term, authors }: TermItemProps) => {
 const Terminology = () => {
   const { withBaseUrl } = useBaseUrlUtils();
   const location = useLocation();
-  const { authors } = usePluginData("docusaurus-plugin-authors-list") as {
+  const { authors } = usePluginData("authors-docusaurus-plugin") as {
     authors: Record<string, AuthorAttributes>;
   };
 
