@@ -155,6 +155,13 @@ const config: Config = {
       appId: "heliannuuthus",
       contextualSearch: true,
     },
+    mermaid: {
+      theme: { light: "base", dark: "dark" },
+      options: {
+        layout: "elk",
+        look: "handDrawn",
+      },
+    },
     navbar: {
       title: "heliannuuthus",
       logo: {
