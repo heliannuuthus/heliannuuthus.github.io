@@ -1,6 +1,6 @@
 {
-  "name": "heliannuuthus-webpack-terms-replace-loader",
-  "version": "1.0.0",
+  "name": "heliannuuthus-docusaurus-authors",
+  "version": "1.0.1",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,10 +9,11 @@
     "build": "tsup",
     "clean": "rm -rf dist"
   },
+  "dependencies": {},
   "devDependencies": {
     "@types/webpack": "^5.0.0",
+    "@types/node": "^22.13.1",
     "tsup": "^8.0.0",
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0"
+    "typescript": "^5.0.0"
   }
 }

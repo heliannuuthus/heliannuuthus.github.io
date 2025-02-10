@@ -11,10 +11,7 @@
   },
   "dependencies": {
     "heliannuuthus-webpack-terms-loader": "file:../webpack-terms-loader",
-    "heliannuuthus-webpack-terms-replace-loader": "file:../webpack-terms-replace-loader",
-    "heliannuuthus-terminology-store": "file:../terminology-store",
-    "@grnet/docusaurus-term-preview": "2.0.0-rc.1",
-    "@grnet/docusaurus-glossary-view": "2.0.0-rc.1"
+    "heliannuuthus-webpack-terms-replace-loader": "file:../webpack-terms-replace-loader"
   },
   "devDependencies": {
     "@types/webpack": "^5.0.0",

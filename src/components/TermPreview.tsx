@@ -207,7 +207,7 @@ const TermPreview = ({
 }) => {
   const [content, setContent] = useState<TermContent | null>(null);
   const { withBaseUrl } = useBaseUrlUtils();
-  const { authors } = usePluginData("docusaurus-plugin-authors-list") as {
+  const { authors } = usePluginData("authors-docusaurus-plugin") as {
     authors: Record<string, AuthorAttributes>;
   };
 

@@ -146,7 +146,10 @@ const config: Config = {
         termPreviewComponentPath: "@site/src/components/TermPreview.tsx",
       },
     ],
-    ["./plugins/authors-list/index.js", { path: "./blog/authors.yml" }],
+    [
+      require.resolve("heliannuuthus-docusaurus-authors"),
+      { path: "./blog/authors.yml" },
+    ],
   ],
   themeConfig: {
     algolia: {

@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import type { Plugin } from "@docusaurus/types";
 import type { Configuration, RuleSetRule, RuleSetUseItem } from "webpack";
 
 export interface DocusaurusContext {
@@ -32,7 +33,7 @@ export interface TerminologyOptions {
 export default async function DocusaurusTerminologyPlugin(
   context: DocusaurusContext,
   options: TerminologyOptions,
-) {
+): Promise<Plugin<any>> {
   try {
     fs.rm("node_modules/.cache", { recursive: true }, (err) => {
       if (err) {
@@ -42,11 +43,7 @@ export default async function DocusaurusTerminologyPlugin(
   } catch (err) {}
   return {
     name: "terminology-docusaurus-plugin",
-    configureWebpack(
-      config: Configuration,
-      isServer: boolean,
-      utils: ConfigureWebpackUtils,
-    ) {
+    configureWebpack(config, isServer, utils, content) {
       options.baseUrl = config.output?.publicPath as string;
 
       if (!options.resolved) {
@@ -95,7 +92,25 @@ export default async function DocusaurusTerminologyPlugin(
         });
       }
 
-      if (rule && Array.isArray(rule.use)) {
+      if (
+        rule &&
+        Array.isArray(rule.use) &&
+        !rules.find((r) => {
+          return (
+            r.use &&
+            Array.isArray(r.use) &&
+            r.use.some(
+              (kider: RuleSetUseItem) =>
+                typeof kider === "object" &&
+                typeof kider.loader === "string" &&
+                (kider.loader.includes("heliannuuthus-webpack-terms-loader") ||
+                  kider.loader.includes(
+                    "heliannuuthus-webpack-terms-replace-loader",
+                  )),
+            )
+          );
+        })
+      ) {
         rule.use.push(
           {
             loader: require.resolve("heliannuuthus-webpack-terms-loader"),
