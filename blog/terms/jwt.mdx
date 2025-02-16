@@ -4,11 +4,11 @@ title: JSON Web Token
 description: 由 [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519) 定义的一种开放标准，用于在各方之间安全地传输信息作为 JSON 对象。
 ---
 
-> 通常我们见到的都是用 `.` 分隔的三段([jws](/blog/terms/jwt.mdx#jws))或五段([jwe](/blog/terms/jwt.mdx#jwe)) Base64Url 编码的 JSON 对象。
+> 通常我们见到的都是用 `.` 分隔的三段(:term[jws]{./blog/terms/jwt.mdx#jws})或五段(:term[jwe]{./blog/terms/jwt.mdx#jwe}) Base64Url 编码的 JSON 对象。
 
 ## JWT 的格式和组成
 
-> 用 `.` 分隔的三段([[jws]](/blog/terms/jwt#jws))或五段([[jwe]](/blog/terms/jwt#jwe)) Base64Url 编码的 JSON 对象
+> 用 `.` 分隔的三段(:term[jws]{./blog/terms/jwt.mdx#jws})或五段(:term[jwe]{./blog/terms/jwt.mdx#jwe}) Base64Url 编码的 JSON 对象
 
 ### JOSE Header
 
@@ -20,16 +20,16 @@ description: 由 [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519) 定义的一
 
 - :ctip[**typ**]{title="type"}：token 的类型，如果存在最好指定为 **JWT**，表示当前是 JWT token
 - :ctip[**cty**]{title="content-type"}：内容类型，当使用嵌套的 jws 或者 jwe 时，必须指定为 **JWT**（建议使用大写字母），反之常规情况**不推荐使用**
-- :ctip[**alg**]{title="algorithm"}：算法，在 [[jwa]](/blog/terms/jwt#jwa) 中定义，在 [[jws]](/blog/terms/jwt#jws) 和 [[jwe]](/blog/terms/jwt#jwe) 中值不一致。
+- :ctip[**alg**]{title="algorithm"}：算法，在 :term[jwa]{./blog/terms/jwt#jwa} 中定义，在 :term[jws]{./blog/terms/jwt#jws} 和 :term[jwe]{./blog/terms/jwt#jwe} 中值不一致。
 
 ### Serialization
 
 > JOSE Header 的序列化有两种，分别是 JWS Compact Serialization 和 JWE JSON Serialization
 
 - JWS Compact Serialization：
+
   - 该种序列方式会舍弃掉 JWS Unprotected Header，此时的 JWS Protected Header 和 JOSE Header 相同。
   - 格式为 Base64Url(JOSE Header) || '.' || Base64Url(Payload) || '.' || Base64Url(Signature)
-
 
 - JWE JSON Serialization：
   - 该种序列方式将 JWS Protected Header 和 JWS Unprotected Header 取并集，作为 JOSE Header
@@ -98,7 +98,7 @@ description: 在[RFC 7518](https://www.rfc-editor.org/rfc/rfc7518)中定义用�
 - [ECDH-ESWithAesKeyWrap](https://www.rfc-editor.org/rfc/rfc8017)：区别于 ECDH-ES，使用 Diffie-Hellman 算法交换出来的密钥，
   使用 ConcateKDF+SHA-256 生成指定长度的密钥，该密钥**仅对生成的 cek 进行包装**。
   e.g. `ECDH-ES+A128KW`, `ECDH-ES+A192KW`, `ECDH-ES+A256KW`
-  - :ctip[**epk**]{title="Ephemeral Public Key"}:ctip[(required)]{title="使用该算法，该字段必须存在于 Header 中"}：用于 Diffie-Hellman 算法交换[[jwk]](/blog/terms/jwt#jwk) 格式的临时公钥
+  - :ctip[**epk**]{title="Ephemeral Public Key"}:ctip[(required)]{title="使用该算法，该字段必须存在于 Header 中"}：用于 Diffie-Hellman 算法交换:term[jwk]{./blog/terms/jwt#jwk} 格式的临时公钥
   - :ctip[**apu**]{title="Agreement Party UInfo"}:ctip[(required)]{title="使用该算法，该字段必须存在于 Header 中"}：发送方的附加信息，会在 ConcateKDF 中使用
   - :ctip[**apv**]{title="Agreement Party VInfo"}:ctip[(required)]{title="使用该算法，该字段必须存在于 Header 中"}：接收方的附加信息，会在 ConcateKDF 中使用
 - [PBES2](https://www.rfc-editor.org/rfc/rfc8018)：使用 PBKDF2 密码生成算法加上散列函数输出指定长度的密钥，对 cek 进行包装。
@@ -151,22 +151,22 @@ description: 在 [RFC 7515](https://www.rfc-editor.org/rfc/rfc7515) 中定义用
 ### JOSE Header
 
 - JOSE Header：`alg`、`cty`、`typ` 参考 [JWT-JOSE Header](#jwt)
-  - :ctip[`jku`]{title="JWK Set URL"}:ctip[(optional)]{title="可选的字段"}：是一个 [[URI]](/blog/terms/web#uri)，指向一组 JSON 编码的公共密钥资源，其中一个与 jws 的签名密钥相关联。
+  - :ctip[**jku**]{title="JWK Set URL"}:ctip[(optional)]{title="可选的字段"}：是一个 :term[uri]{./blog/terms/web#uri}，指向一组 JSON 编码的公共密钥资源，其中一个与 jws 的签名密钥相关联。
     如果使用 HTTP 获取密钥，则必须使用传输层安全协议保护（TLS）
-  - :ctip[`jwk`]{title="JSON Web Key"}:ctip[(optional)]{title="可选的字段"}：用于数字签名的 JWK 的 JSON 对象
-  - :ctip[`kid`]{title="Key ID"}:ctip[(optional)]{title="可选的字段"}：标识着当前 jws 被哪一个 jwk 保护（签名），通常在 **jwk set** 中使用 `kid` 找到对应的 jwk 进行验证。
-  - :ctip[`x5u`]{title="X.509 URL"}:ctip[(optional)]{title="可选的字段"}：X.509 证书/证书链的 URL 地址，当前证书格式为 PEM，且证书的公钥必须与 jws 的签名私钥匹配，该证书可用于查找上级证书
+  - :ctip[**jwk**]{title="JSON Web Key"}:ctip[(optional)]{title="可选的字段"}：用于数字签名的 JWK 的 JSON 对象
+  - :ctip[**kid**]{title="Key ID"}:ctip[(optional)]{title="可选的字段"}：标识着当前 jws 被哪一个 jwk 保护（签名），通常在 **jwk set** 中使用 `kid` 找到对应的 jwk 进行验证。
+  - :ctip[**x5u**]{title="X.509 URL"}:ctip[(optional)]{title="可选的字段"}：X.509 证书/证书链的 URL 地址，当前证书格式为 PEM，且证书的公钥必须与 jws 的签名私钥匹配，该证书可用于查找上级证书
     该证书的获取若使用 HTTP 协议，则必须使用传输层安全协议保护（TLS）
-  - :ctip[`x5c`]{title="X.509 Certificate Chain"}:ctip[(optional)]{title="可选的字段"}：X.509 证书/证书链，以 JSON 格式表示，单个证书以 Base64(NoUrl)-[[der]](/blog/terms/crypto#der) 编码的形式存放。
-  - :ctip[`x5t`]{title="X.509 Certificate SHA-1 Thumbprint"}:ctip[(optional)]{title="可选的字段"}：X.509 证书以 Base64Url 编码的 SHA-1 摘要
-  - :ctip[`x5t#S256`]{title="X.509 Certificate SHA-256 Thumbprint"}:ctip[(optional)]{title="可选的字段"}：X.509 证书以 Base64Url 编码的 SHA-256 摘要
-  - :ctip[`crit`]{title="Critical"}:ctip[(optional)]{title="可选的字段"}：声明一个字符串数组，用于表示该 jws 的 JOSE Header 内一些字段是验证方必须验证的，若验证方验证不了则应当拒绝当前 jws。
+  - :ctip[**x5c**]{title="X.509 Certificate Chain"}:ctip[(optional)]{title="可选的字段"}：X.509 证书/证书链，以 JSON 格式表示，单个证书以 Base64(NoUrl)-:term[der]{./blog/terms/crypto#der} 编码的形式存放。
+  - :ctip[**x5t**]{title="X.509 Certificate SHA-1 Thumbprint"}:ctip[(optional)]{title="可选的字段"}：X.509 证书以 Base64Url 编码的 SHA-1 摘要
+  - :ctip[**x5t#S256**]{title="X.509 Certificate SHA-256 Thumbprint"}:ctip[(optional)]{title="可选的字段"}：X.509 证书以 Base64Url 编码的 SHA-256 摘要
+  - :ctip[**crit**]{title="Critical"}:ctip[(optional)]{title="可选的字段"}：声明一个字符串数组，用于表示该 jws 的 JOSE Header 内一些字段是验证方必须验证的，若验证方验证不了则应当拒绝当前 jws。
 - Payload：参考 [JWT-Payload](#jwt)
 - Signature: 计算签名需要使用 `alg` 字段指定的算法，输入的格式是 ASCII(Base64Url(JOSE Header) || '.' || Base64Url(Payload))，输出的格式是 Base64Url(Signature)
 
 :::tip
 在 [RFC 7515](https://www.rfc-editor.org/rfc/rfc7515#section-10) 中针对一些攻击手段提出了一些建议，例如 x5t 中使用的 SHA-1 算法，在 RFC 8017 中已经不推荐使用，因此建议使用 x5t#S256 替代 x5t。更多的建议可以参考 [RFC 7515](https://www.rfc-editor.org/rfc/rfc7515#section-10) 的 10 节。
-::: 
+:::
 
 ---
 

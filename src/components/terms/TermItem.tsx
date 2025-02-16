@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { List, Button } from "antd";
 import { UpOutlined, DownOutlined } from "@ant-design/icons";
-import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
-import { useLocation } from "@docusaurus/router";
-import { usePluginData } from "@docusaurus/useGlobalData";
-import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
+import { isMobile, isIPad13, isTablet } from "react-device-detect";
 import { TermData } from "heliannuuthus-terminology-store";
 import MDXRenderer from "@site/src/components/MDXRender";
-import TermPreview from "@site/src/components/TermPreview";
-import Tooltip from "@site/src/components/Tooltip";
-import { Comment } from "@site/src/components/Typography";
 import { createStyles } from "antd-style";
 import { PopoverAvatars, DrawerAvatars } from "@site/src/components/Avatar";
-import { isMobile, isIPad13, isTablet } from "react-device-detect";
+import { Author } from "heliannuuthus-docusaurus-authors";
 
 const useMobile = isMobile || isIPad13 || isTablet;
 
@@ -20,7 +14,7 @@ const useMobile = isMobile || isIPad13 || isTablet;
 interface TermItemProps {
   slug: string;
   term: TermData;
-  authors: Record<string, AuthorAttributes>;
+  authors: Record<string, Author>;
   expanded?: boolean;
 }
 
@@ -89,14 +83,7 @@ const TermItemContent = ({
             maxHeight: expanded ? "none" : "100px",
           }}
         >
-          <MDXRenderer
-            content={content}
-            components={() => ({
-              Term: TermPreview,
-              Comment: Comment,
-              Tooltip: Tooltip,
-            })}
-          />
+          <MDXRenderer content={content} />
         </div>
         {!expanded && (
           <div className={cx(styles.shadowLayer)}>
@@ -139,49 +126,11 @@ const TermItem = ({ slug, term, authors }: TermItemProps) => {
           )
         }
         title={term.metadata.title}
-        description={
-          <MDXRenderer
-            components={() => ({
-              Term: TermPreview,
-              Comment: Comment,
-              Tooltip: Tooltip,
-            })}
-            content={term.metadata.description}
-          />
-        }
+        description={<MDXRenderer content={term.metadata.description} />}
       />
       <TermItemContent slug={slug} content={term.content} />
     </List.Item>
   );
 };
 
-const Terminology = () => {
-  const { withBaseUrl } = useBaseUrlUtils();
-  const location = useLocation();
-  const { authors } = usePluginData("authors-docusaurus-plugin") as {
-    authors: Record<string, AuthorAttributes>;
-  };
-
-  const [termData, setTermData] = useState<Record<string, TermData>>({});
-
-  useEffect(() => {
-    // 根据当前路由，加载对应的 JSON 数据
-    fetch(withBaseUrl(`${location.pathname.replace(/\/$/, "")}.json`))
-      .then((res) => res.json())
-      .then((data) => {
-        setTermData(data);
-      });
-  }, [location.pathname, withBaseUrl]);
-
-  return (
-    <List
-      itemLayout="vertical"
-      dataSource={Object.entries(termData)}
-      renderItem={([slug, term]: [string, TermData]) => (
-        <TermItem slug={slug} term={term} authors={authors} />
-      )}
-    />
-  );
-};
-
-export default Terminology;
+export default TermItem;

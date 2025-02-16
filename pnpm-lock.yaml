@@ -59,12 +59,18 @@ importers:
       heliannuuthus-parse-md:
         specifier: file:./plugins/parse-md
         version: file:plugins/parse-md
+      heliannuuthus-remark-admomition:
+        specifier: file:./packages/remark-admomition
+        version: file:packages/remark-admomition
       heliannuuthus-remark-comment-tooltip:
         specifier: file:./packages/remark-comment-tooltip
         version: file:packages/remark-comment-tooltip
       heliannuuthus-remark-external-link:
         specifier: file:./packages/remark-external-link
         version: file:packages/remark-external-link
+      heliannuuthus-remark-terminology:
+        specifier: file:./packages/remark-terminology
+        version: file:packages/remark-terminology
       heliannuuthus-terminology-store:
         specifier: file:./plugins/terminology-store
         version: file:plugins/terminology-store
@@ -3362,20 +3368,23 @@ packages:
   heliannuuthus-parse-md@file:plugins/parse-md:
     resolution: {directory: plugins/parse-md, type: directory}
 
+  heliannuuthus-remark-admomition@file:packages/remark-admomition:
+    resolution: {directory: packages/remark-admomition, type: directory}
+
   heliannuuthus-remark-comment-tooltip@file:packages/remark-comment-tooltip:
     resolution: {directory: packages/remark-comment-tooltip, type: directory}
 
   heliannuuthus-remark-external-link@file:packages/remark-external-link:
     resolution: {directory: packages/remark-external-link, type: directory}
 
+  heliannuuthus-remark-terminology@file:packages/remark-terminology:
+    resolution: {directory: packages/remark-terminology, type: directory}
+
   heliannuuthus-terminology-store@file:plugins/terminology-store:
     resolution: {directory: plugins/terminology-store, type: directory}
 
   heliannuuthus-webpack-terms-loader@file:plugins/webpack-terms-loader:
     resolution: {directory: plugins/webpack-terms-loader, type: directory}
-
-  heliannuuthus-webpack-terms-replace-loader@file:plugins/webpack-terms-replace-loader:
-    resolution: {directory: plugins/webpack-terms-replace-loader, type: directory}
 
   history@4.10.1:
     resolution: {integrity: sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==}
@@ -10718,19 +10727,20 @@ snapshots:
   heliannuuthus-docusaurus-terminology@file:plugins/docusaurus-terminology:
     dependencies:
       heliannuuthus-webpack-terms-loader: file:plugins/webpack-terms-loader
-      heliannuuthus-webpack-terms-replace-loader: file:plugins/webpack-terms-replace-loader
 
   heliannuuthus-parse-md@file:plugins/parse-md: {}
+
+  heliannuuthus-remark-admomition@file:packages/remark-admomition: {}
 
   heliannuuthus-remark-comment-tooltip@file:packages/remark-comment-tooltip: {}
 
   heliannuuthus-remark-external-link@file:packages/remark-external-link: {}
 
+  heliannuuthus-remark-terminology@file:packages/remark-terminology: {}
+
   heliannuuthus-terminology-store@file:plugins/terminology-store: {}
 
   heliannuuthus-webpack-terms-loader@file:plugins/webpack-terms-loader: {}
-
-  heliannuuthus-webpack-terms-replace-loader@file:plugins/webpack-terms-replace-loader: {}
 
   history@4.10.1:
     dependencies:

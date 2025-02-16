@@ -12,7 +12,7 @@ import { useHistory } from "@docusaurus/router";
 import { PopoverAvatars, DrawerAvatars } from "@site/src/components/Avatar";
 import Tooltip from "@site/src/components/Tooltip";
 const { Text, Link, Title } = Typography;
-import { Comment } from "@site/src/components/Typography";
+import { Author } from "heliannuuthus-docusaurus-authors";
 
 declare global {
   interface Window {
@@ -26,7 +26,7 @@ type TermContent = {
   title: string;
   description: string;
   content: string;
-  authors: Record<string, AuthorAttributes>;
+  authors: Record<string, Author>;
 };
 
 const TooltipsPreview = ({
@@ -68,7 +68,9 @@ const TooltipsPreview = ({
           bordered={false}
           actions={[
             <Tooltip
-              title={`更多内容请前往 ${path.split("/").filter(Boolean)[2]} 词典`}
+              title={`更多内容请前往 ${
+                path.split("/").filter(Boolean)[2]
+              } 词典`}
             >
               <Button
                 type="link"
@@ -94,14 +96,7 @@ const TooltipsPreview = ({
             <PopoverAvatars authors={content.authors} />
             <Text> 贡献</Text>
           </Typography.Paragraph>
-          <MDXRender
-            content={content.content}
-            components={() => ({
-              Term: TermPreview,
-              Comment: Comment,
-              Tooltip: Tooltip,
-            })}
-          />
+          <MDXRender content={content.content} />
         </Card>
       }
       children={
@@ -129,7 +124,6 @@ const DrawerPreview = ({
   content: TermContent;
 }) => {
   const [open, setOpen] = useState(false);
-  const history = useHistory();
   return (
     <>
       <Link
@@ -183,14 +177,7 @@ const DrawerPreview = ({
           <DrawerAvatars authors={content.authors} />
           <Text> 贡献</Text>
         </Typography.Paragraph>
-        <MDXRender
-          content={content.content}
-          components={() => ({
-            Term: TermPreview,
-            Comment: Comment,
-            Tooltip: Tooltip,
-          })}
-        />
+        <MDXRender content={content.content} />
       </Drawer>
     </>
   );

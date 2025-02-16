@@ -2,7 +2,7 @@
   "name": "heliannuuthus-docusaurus-packages",
   "private": true,
   "scripts": {
-    "build": "pnpm install && pnpm -r build",
+    "build": "pnpm install && pnpm vitest --run && pnpm -r build",
     "clean": "pnpm -r clean",
     "typecheck": "tsc --noEmit",
     "test": "vitest",

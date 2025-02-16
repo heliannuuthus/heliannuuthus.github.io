@@ -26,8 +26,7 @@ export interface ConfigureWebpackUtils {
 export interface TerminologyOptions {
   baseUrl?: string;
   resolved?: boolean;
-  glossaryTerms?: Record<string, any>;
-  termPreviewComponentPath?: string;
+  glossaryComponentPath?: string;
 }
 
 export default async function DocusaurusTerminologyPlugin(
@@ -45,14 +44,6 @@ export default async function DocusaurusTerminologyPlugin(
     name: "terminology-docusaurus-plugin",
     configureWebpack(config, isServer, utils, content) {
       options.baseUrl = config.output?.publicPath as string;
-
-      if (!options.resolved) {
-        for (const term in options.glossaryTerms) {
-          options.glossaryTerms[`${config.output?.publicPath}${term}`] =
-            options.glossaryTerms[term];
-          delete options.glossaryTerms[term];
-        }
-      }
       options.resolved = true;
 
       const rules = config.module?.rules as WebpackRule[];
@@ -103,26 +94,15 @@ export default async function DocusaurusTerminologyPlugin(
               (kider: RuleSetUseItem) =>
                 typeof kider === "object" &&
                 typeof kider.loader === "string" &&
-                (kider.loader.includes("heliannuuthus-webpack-terms-loader") ||
-                  kider.loader.includes(
-                    "heliannuuthus-webpack-terms-replace-loader",
-                  )),
+                kider.loader.includes("heliannuuthus-webpack-terms-loader"),
             )
           );
         })
       ) {
-        rule.use.push(
-          {
-            loader: require.resolve("heliannuuthus-webpack-terms-loader"),
-            options,
-          },
-          {
-            loader: require.resolve(
-              "heliannuuthus-webpack-terms-replace-loader",
-            ),
-            options,
-          },
-        );
+        rule.use.push({
+          loader: require.resolve("heliannuuthus-webpack-terms-loader"),
+          options,
+        });
       }
       return {
         mergeStrategy: { module: "replace" },

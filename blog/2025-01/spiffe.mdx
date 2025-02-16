@@ -13,7 +13,7 @@ SPIFFE（Secure Production Identity Framework for Everyone），发音：_/ˈsp�
 
 ### SPIFFE ID
 
-> 本质是[[统一资源标识符]](/blog/terms/web#uri)，用于标识一个[工作负载](#Workload)
+> 本质是:term[统一资源标识符]{./blog/terms/web#uri}，用于标识一个[工作负载](#Workload)
 
 通常格式为：
 
@@ -33,8 +33,8 @@ SPIFFE（Secure Production Identity Framework for Everyone），发音：_/ˈsp�
 
 SVID 通常用于验证[工作负载](#Workload)的身份，有以下两种格式：
 
-- [[JWT]](/blog/terms/jwt#jwt)：适用于非 TLS 的场景，比如基于 HTTP Header 的认证
-- [[X.509]](/blog/terms/crypto#x509)：适用于 TLS 的场景，比如需要证书的双向认证（mTLS）
+- :term[JWT]{./blog/terms/jwt#jwt}：适用于非 TLS 的场景，比如基于 HTTP Header 的认证
+- :term[X.509]{./blog/terms/crypto#x509}：适用于 TLS 的场景，比如需要证书的双向认证（mTLS）
 
 并且为了保证安全性，其本身的**_有效时间通常只设置几分钟_**，并且需要**定期更新**。
 
