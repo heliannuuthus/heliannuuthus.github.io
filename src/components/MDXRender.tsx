@@ -3,16 +3,22 @@ import React, { useEffect, useState, Suspense } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import * as runtime from "react/jsx-runtime";
 import { evaluate } from "@mdx-js/mdx";
-import type { UseMdxComponents } from "@mdx-js/mdx";
 import remarkCommentTooltip from "heliannuuthus-remark-comment-tooltip";
 import remarkDirective from "remark-directive";
 import remarkExternalLink from "heliannuuthus-remark-external-link";
+import remarkAdmonition from "heliannuuthus-remark-admomition";
+import remarkTerminology from "heliannuuthus-remark-terminology";
+import MDXComponents from "@theme/MDXComponents";
+import TermPreview from "@site/src/components/terms/TermPreview";
+import { Comment } from "@site/src/components/Typography";
+import Tooltip from "@site/src/components/Tooltip";
+import TermAdmonition from "@theme/Admonition";
 const MDXRender = ({
   content,
   components,
 }: {
   content: string;
-  components?: UseMdxComponents | null;
+  components?: Record<string, React.ComponentType<any>>;
 }) => {
   const [Component, setComponent] = useState(() => () => null);
 
@@ -22,6 +28,13 @@ const MDXRender = ({
       remarkPlugins: [
         remarkDirective,
         remarkCommentTooltip,
+        remarkTerminology,
+        [
+          remarkAdmonition,
+          {
+            admonition: "TermAdmonition",
+          },
+        ],
         [
           remarkExternalLink,
           {
@@ -32,7 +45,17 @@ const MDXRender = ({
           },
         ],
       ],
-      useMDXComponents: components,
+      useMDXComponents: () => {
+        return {
+          ...MDXComponents,
+          ...components,
+          Comment,
+          Tooltip,
+          TermPreview,
+          TermAdmonition,
+          Term: TermPreview,
+        };
+      },
     }).then((exports) => {
       setComponent(() => exports.default);
     });
@@ -44,7 +67,7 @@ const MDXRender = ({
 
   if (!Component) {
     return (
-      <MDXProvider components={components()}>
+      <MDXProvider components={components}>
         <div>unknown component</div>
       </MDXProvider>
     );
@@ -52,7 +75,7 @@ const MDXRender = ({
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <MDXProvider components={components()}>
+      <MDXProvider components={components}>
         <Component />
       </MDXProvider>
     </Suspense>

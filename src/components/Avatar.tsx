@@ -5,15 +5,12 @@ import {
   Drawer as AntdDrawer,
   CardProps,
 } from "antd";
-import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
 import { Link } from "./Typography";
 import { useEffect, useState } from "react";
 import { PageFetchError, PageLoading } from "./Result";
+import { Author } from "heliannuuthus-docusaurus-authors";
 
-const Avatar = ({
-  author,
-  ...props
-}: { author: AuthorAttributes } & CardProps) => {
+const Avatar = ({ author, ...props }: { author: Author } & CardProps) => {
   const [loading, setLoading] = useState(true);
   const [iframe, setIframe] = useState<React.ReactNode>(null);
 
@@ -71,7 +68,7 @@ const Avatar = ({
   );
 };
 
-const DrawerAvatar = ({ author }: { author: AuthorAttributes }) => {
+const DrawerAvatar = ({ author }: { author: Author }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -101,11 +98,7 @@ const DrawerAvatar = ({ author }: { author: AuthorAttributes }) => {
   );
 };
 
-const DrawerAvatars = ({
-  authors,
-}: {
-  authors: Record<string, AuthorAttributes>;
-}) => {
+const DrawerAvatars = ({ authors }: { authors: Record<string, Author> }) => {
   return (
     <AntdAvatar.Group>
       {Object.entries(authors).map(([author, authorAttributes]) => (
@@ -115,11 +108,7 @@ const DrawerAvatars = ({
   );
 };
 
-const PopoverAvatars = ({
-  authors,
-}: {
-  authors: Record<string, AuthorAttributes>;
-}) => {
+const PopoverAvatars = ({ authors }: { authors: Record<string, Author> }) => {
   return (
     <AntdAvatar.Group>
       {Object.entries(authors).map(([author, authorAttributes]) => (

@@ -5,6 +5,7 @@ import type { LoaderContext } from "webpack";
 
 interface WebpackTermsLoaderOptions {
   termsDir: string;
+  glossaryComponentPath: string;
 }
 
 interface WebpackTermsLoaderContext
@@ -59,7 +60,7 @@ export default async function loader(
     this.emitFile(resourcePath + ".json", JSON.stringify(termMap));
     return `
 
-import Terminology from "@site/src/components/Terminology";
+import Terminology from "${this.query.glossaryComponentPath}";
 
 <Terminology />
 `;

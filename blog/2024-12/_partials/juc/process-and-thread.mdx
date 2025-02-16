@@ -1,12 +1,12 @@
 import Steps from "@site/src/components/Steps";
 import { Text, Link } from "@site/src/components/Typography";
-import TermPreview from "@site/src/components/TermPreview";
+import TermPreview from "@site/src/components/terms/TermPreview";
 
 1. 进程是操作系统**资源分配**的最小单位，**程序运行**的最小单元。线程是操作系统**调度任务**的最小单元。协程是协作式任务的最小单元，由应用程序定义，**类似一个代码块**。
 2. 进程间切换的上下文开销大，线程间切换的上下文开销小，协程间切换的上下文开销最小。
 
-   - 进程：由[[**用户态**]](/blog/terms/java#user-mode)切换到[[**内核态**]](/blog/terms/java#kernel-mode)，切换并保存[[**虚拟地址空间**]](/blog/terms/java#virtual-address-space)、[[**页表**]](/blog/terms/java#page-table)、[[**内核栈**]](/blog/terms/java#kernel-stack)等，开销非常大。
-   - 线程：由[[**用户态**]](/blog/terms/java#user-mode)切换到[[**内核态**]](/blog/terms/java#kernel-mode)
+   - 进程：由:term[**用户态**]{./blog/terms/java#user-mode}切换到:term[**内核态**]{./blog/terms/java#kernel-mode}，切换并保存:term[**虚拟地址空间**]{./blog/terms/java#virtual-address-space}、:term[**页表**]{./blog/terms/java#page-table}、:term[**内核栈**]{./blog/terms/java#kernel-stack}等，开销非常大。
+   - 线程：由:term[**用户态**]{./blog/terms/java#user-mode}切换到:term[**内核态**]{./blog/terms/java#kernel-mode}
 
      <Steps
        current={0}
@@ -67,7 +67,7 @@ import TermPreview from "@site/src/components/TermPreview";
              <Text>
                更换为新调度线程的
                <TermPreview
-                 path="/terms/java"
+                 path="/blog/terms/java"
                  anchor="#program-counter"
                  children={"程序计数器"}
                />
@@ -91,6 +91,6 @@ import TermPreview from "@site/src/components/TermPreview";
        ]}
      />
 
-   - 协程：**永远在[[**用户态**]](/blog/terms/java#user-mode)**，虽然也会像线程一样做一系列操作，但将内核态转换的过程抽象到协程库实现，开销最小。
+   - 协程：**永远在:term[**用户态**]{./blog/terms/java#user-mode}**，虽然也会像线程一样做一系列操作，但将内核态转换的过程抽象到协程库实现，开销最小。
 
 3. 进程可以持有多个线程，线程可以持有多个协程。
