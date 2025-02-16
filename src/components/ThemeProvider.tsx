@@ -45,7 +45,6 @@ export default function ThemeProvider({
       appearance={colorMode}
       theme={{
         algorithm: dark ? theme.darkAlgorithm : theme.defaultAlgorithm,
-
         token: {
           colorLink: dark ? "rgb(37, 194, 160)" : "rgb(46, 133, 85)",
           colorText: dark ? "rgb(128, 128, 128)" : "rgb(100, 102, 104)",
@@ -53,7 +52,7 @@ export default function ThemeProvider({
             ? "rgb(178, 178, 178)"
             : "rgb(100, 102, 104)",
           colorPrimary: dark ? "rgb(37, 194, 160)" : "rgb(46, 133, 85)",
-          colorPrimaryHover: dark ? "rgb(33, 175, 144)" : "rgb(41, 120, 76)",
+          colorPrimaryHover: dark ? "rgb(41, 120, 76)" : "rgb(33, 175, 144)",
           colorPrimaryActive: dark ? "rgb(31, 165, 136)" : "rgb(39, 113, 72)",
           colorTextDescription: dark
             ? "rgb(128, 128, 128)"
@@ -71,6 +70,9 @@ export default function ThemeProvider({
           fontFamily: "Noto Sans SC, sans-serif, Arial, Helvetica",
         },
         components: {
+          Button: {
+            colorPrimary: dark ? "rgb(37, 194, 160)" : "rgb(59, 219, 131)",
+          },
           Steps: {},
           Table: {},
           Layout: {
