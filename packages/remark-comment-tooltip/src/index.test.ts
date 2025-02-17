@@ -70,4 +70,11 @@ describe("remark-comment-tooltip", () => {
       '<Comment>{"包含 "}<_components.code>{"markdown"}</_components.code>{" 的内容"}</Comment>',
     );
   });
+
+  test("应该处理 id 属性", async () => {
+    const input = `:ctip[内容]{#提示}`;
+    const output = await process(input);
+    expect(output).toContain('<Tooltip title="提示">');
+    expect(output).toContain('<Comment>{"内容"}</Comment>');
+  });
 });
