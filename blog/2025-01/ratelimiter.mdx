@@ -1,11 +1,11 @@
 ---
 slug: ratelimiter
-title: 限流器
+title: Rate Limiter
 authors: [heliannuuthus]
 tags: [Web Backend]
 ---
 
-基于 Redisson 的滑动时间窗口限流器实现。
+基于 :term[Redisson]{./blog/terms/java#redisson} 的:term[滑动时间窗口]{./blog/terms/net#sliding-window-protocol}限流器实现。
 
 <!--truncate-->
 
@@ -13,14 +13,7 @@ tags: [Web Backend]
 
 ### 限流器
 
-限流器一词起源于电气工程，在电路中，固定电阻可起到降低电流的作用，达到保护电路的目的。后面随着计算机网络发展，流字被赋予了**流量**的含义，限流器也就有了**限制流量**的含义。
-
-### Redisson
-
-Redisson 是 Java 的 Redis 客户端，针对分布式架构提供了非常丰富的功能，包括分布式锁，分布式队列等。
-
-### 滑动时间窗口
-
-将一段时间分成多个时间窗口，每个窗口记录请求数
+限流器一词起源于电气工程，在电路中，固定电阻可起到降低电流的作用，达到保护电路的目的。
+后面随着计算机网络发展，流字被赋予了**流量**的含义，限流器也就有了**限制流量**的含义。
 
 ## 原理和设计
