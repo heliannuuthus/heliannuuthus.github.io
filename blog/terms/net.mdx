@@ -79,3 +79,38 @@ sequenceDiagram
         R-->>S: 发送 ACK (Ack = 801)
     end
 ```
+
+---
+
+slug: token-bucket
+title: 令牌桶
+authors: [heliannuuthus]
+description: 一种限制网络请求的频率的算法，允许请求突发最大值为桶容量。
+
+---
+
+> 令牌桶（Token Bucket）是一种限制网络请求的频率的算法，会保留未使用的令牌。
+
+- 时间恒定的生成令牌
+- 令牌的堆积不会超过最大容量
+- 令牌桶空后，多余的请求会被拒绝
+
+:::note
+
+令牌桶允许请求的突发，但是会限制请求的频率。
+
+:::
+
+---
+
+slug: leaky-bucket
+title: 漏桶
+authors: [heliannuuthus]
+description: 一种限制网络请求的频率的算法，不允许请求突发仅为流速。
+
+---
+
+> 漏桶（Leaky Bucket）是一种限制网络请求的频率的算法，会保留未使用的令牌。
+
+- 时间恒定的漏出令牌
+- 漏桶的流动速率恒定，不允许请求突发

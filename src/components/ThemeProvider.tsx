@@ -1,6 +1,5 @@
 import { theme } from "antd";
 import { useEffect, useState } from "react";
-import mermaid from "mermaid";
 import {
   ThemeProvider as AntdStyledThemeProvider,
   ThemeProviderProps,
@@ -39,17 +38,6 @@ export default function ThemeProvider({
   const colorMode = useHtmlTheme();
 
   const dark = colorMode !== "light";
-
-  useEffect(() => {
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: dark ? "dark" : "default",
-      themeVariables: {
-        fontFamily: "Noto Sans SC, sans-serif, Arial, Helvetica",
-      },
-      look: "handDrawn",
-    });
-  }, [colorMode]);
 
   return (
     <AntdStyledThemeProvider

@@ -236,6 +236,7 @@ InnoDB 默认隔离级别为**可重复读**，但由于 InnoDB 实现**可重�
   - UPDATE VALUE1 SET VALUE2 -> UPDATE VALUE1 SET VALUE1
 - 当前事务提交之后，如果其他的事务依赖当前事务的 undo log，则当前事务的 undo log 不会被删除，直到依赖的事务提交才会被 purge 线程删除
 
-<Flex justify="center">
-  <Image src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2025-01-13/RR-ReadView-2025-01-13-21-29-08.png" />
-</Flex>
+<Center
+  key="undoLogImage"
+  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2025-01-13/RR-ReadView-2025-01-13-21-29-08.png"
+/>

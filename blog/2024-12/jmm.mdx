@@ -21,9 +21,10 @@ import Image from "@site/src/components/Image";
 
 CPU 每个核心都有自己的缓存，当发生写操作时，会先写入缓存中，然后由缓存通过总线通知其他 CPU 核心更新数据，我们称这种特性为**缓存一致性**。
 
-<Flex justify="center">
-  <Image src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-02/CPU的缓存模型-2024-12-02-21-56-53.png" />
-</Flex>
+<Center
+  key="cpuCacheModelImage"
+  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-02/CPU的缓存模型-2024-12-02-21-56-53.png"
+/>
 
 MESI 协议中定义了缓存行四种状态：
 

@@ -162,16 +162,30 @@ const config: Config = {
   ],
   themeConfig: {
     algolia: {
-      apiKey: "61111111111111111111111111111111",
-      indexName: "heliannuuthus",
-      appId: "heliannuuthus",
+      apiKey: "25a6aa2d5c42b85c82ea37489d116162",
+      indexName: "heliannuuthusio",
+      appId: "VB0X62ZNK3",
       contextualSearch: true,
     },
     mermaid: {
-      theme: { light: "base", dark: "dark" },
+      theme: { light: "neutral", dark: "forest" },
       options: {
         layout: "elk",
         look: "handDrawn",
+        themeVariables: {
+          fontFamily: "Noto Sans SC",
+        },
+        xyChart: {
+          titleFontSize: "14px",
+          width: 500,
+          height: 350,
+          xAxis: {
+            titleFontSize: "12px",
+          },
+          yAxis: {
+            titleFontSize: "12px",
+          },
+        },
       },
     },
     navbar: {
