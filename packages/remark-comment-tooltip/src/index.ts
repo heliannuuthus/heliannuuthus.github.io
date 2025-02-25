@@ -33,11 +33,20 @@ const remarkCtip: Plugin<[TooltipOptions?]> = (
         const jsxNode: MdxJsxTextElement = {
           type: "mdxJsxTextElement",
           name: tooltip,
-          attributes: Object.entries(attributes).map(([name, value]) => ({
-            type: "mdxJsxAttribute",
-            name,
-            value,
-          })),
+          attributes: Object.entries(attributes).map(([name, value]) => {
+            if (name === "id" || name === "title") {
+              return {
+                type: "mdxJsxAttribute",
+                name: "title",
+                value,
+              };
+            }
+            return {
+              type: "mdxJsxAttribute",
+              name,
+              value,
+            };
+          }),
           children: [
             {
               type: "mdxJsxTextElement",

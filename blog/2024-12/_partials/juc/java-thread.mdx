@@ -1,5 +1,4 @@
-import Flex from "@site/src/components/Flex";
-import Image from "@site/src/components/Image";
+import Image, {Center} from "@site/src/components/Image";
 
 - Java 线程是 Java 虚拟机中执行任务的实体，是操作系统线程的抽象。
 - 在 JDK21 之前，Java 线程几乎等同于操作系统线程，在 JDK21 之后，Java 线程是基于虚拟线程实现的。
@@ -8,18 +7,20 @@ import Image from "@site/src/components/Image";
   - **程序计数器**用于记录当前线程执行的字节码的行号指示器。保证多线程情况下线程切换后能恢复到正确的执行位置。
   - **虚拟机栈**以及**本地方法栈**为了防止其他线程访问局部变量等，属于线程私有。
 
-  <Flex justify="center">
-    <Image src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-05/JVM运行时数据区之线程私有-2024-12-05-21-20-54.png" />
-  </Flex>
+  <Center
+    key="threadPrivateImage"
+    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-05/JVM运行时数据区之线程私有-2024-12-05-21-20-54.png"
+  />
 
 - 所有线程共享的堆和方法区
 
   - **堆**用于存储对象实例。
   - **方法区**用于存储已被虚拟机加载的**类信息**、**常量**、**静态变量**、**即时编译器编译后的代码**等数据。
 
-  <Flex justify="center">
-    <Image src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-05/JVM运行时数据区之线程共享-2024-12-05-21-12-21.png" />
-  </Flex>
+  <Center
+    key="threadSharedImage"
+    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-05/JVM运行时数据区之线程共享-2024-12-05-21-12-21.png"
+  />
 
 - Java 从本质上来说，创建线程的方法只有 `Thread::start` 一种。
 

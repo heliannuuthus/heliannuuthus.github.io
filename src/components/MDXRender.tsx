@@ -7,12 +7,15 @@ import remarkCommentTooltip from "heliannuuthus-remark-comment-tooltip";
 import remarkDirective from "remark-directive";
 import remarkExternalLink from "heliannuuthus-remark-external-link";
 import remarkAdmonition from "heliannuuthus-remark-admomition";
+import remarkMermaid from "heliannuuthus-remark-mermaid";
 import remarkTerminology from "heliannuuthus-remark-terminology";
 import MDXComponents from "@theme/MDXComponents";
 import TermPreview from "@site/src/components/terms/TermPreview";
 import { Comment } from "@site/src/components/Typography";
 import Tooltip from "@site/src/components/Tooltip";
 import TermAdmonition from "@theme/Admonition";
+import Mermaid from "@theme/Mermaid";
+
 const MDXRender = ({
   content,
   components,
@@ -21,7 +24,6 @@ const MDXRender = ({
   components?: Record<string, React.ComponentType<any>>;
 }) => {
   const [Component, setComponent] = useState(() => () => null);
-
   const evaluateContent = async () => {
     await evaluate(content, {
       ...runtime,
@@ -29,6 +31,7 @@ const MDXRender = ({
         remarkDirective,
         remarkCommentTooltip,
         remarkTerminology,
+        remarkMermaid,
         [
           remarkAdmonition,
           {
@@ -54,6 +57,7 @@ const MDXRender = ({
           TermPreview,
           TermAdmonition,
           Term: TermPreview,
+          Mermaid: Mermaid,
         };
       },
     }).then((exports) => {

@@ -1,5 +1,4 @@
-import Flex from "@site/src/components/Flex";
-import Image from "@site/src/components/Image";
+import Image, {Center} from "@site/src/components/Image";
 
 > Java 线程的状态是在应用层面定义线程状态，不受**操作系统控制**。意在**描述线程的运行状态**。
 
@@ -13,9 +12,10 @@ import Image from "@site/src/components/Image";
 
 - 线程状态的转换
 
-  <Flex justify="center">
-    <Image src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-05/线程状态的转换-2024-12-05-21-54-47.png" />
-  </Flex>
+  <Center
+    key="threadStateTransitionImage"
+    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-05/线程状态的转换-2024-12-05-21-54-47.png"
+  />
 
   - **New**: 创建线程后，线程处于 **New** 状态。
   - **Runnable** --> **Blocked** 状态：`synchronized`、`Lock`、`wait`、`sleep` 等

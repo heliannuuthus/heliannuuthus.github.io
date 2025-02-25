@@ -2,8 +2,8 @@
 ---
 
 import Tabs from "@site/src/components/Tabs";
-import Image from "@site/src/components/Image";
 import Flex from "@site/src/components/Flex";
+import Image, { Center } from "@site/src/components/Image";
 import { Text, Link } from "@site/src/components/Typography";
 import { Collapse } from "@site/src/components/Collapse";
 import Steps from "@site/src/components/Steps";
@@ -60,12 +60,11 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
         key: "preOrder",
         forceRender: true,
         children: [
-          <Flex justify="center" key="preOrderImage">
-            <Image
-              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的前序遍历-2024-11-20-20-41-25.png"
-              alt="二叉树的前序遍历"
-            />
-          </Flex>,
+          <Center
+            key="preOrderImage"
+            src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的前序遍历-2024-11-20-20-41-25.png"
+            alt="二叉树的前序遍历"
+          />,
           <Tabs
             key="preOrderTabs"
             items={[
@@ -93,12 +92,11 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
         key: "inOrder",
         forceRender: true,
         children: [
-          <Flex justify="center" key="inOrderImage">
-            <Image
-              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的中序遍历-2024-11-20-20-44-04.png"
-              alt="二叉树中序遍历"
-            />
-          </Flex>,
+          <Center
+            key="inOrderImage"
+            src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的中序遍历-2024-11-20-20-44-04.png"
+            alt="二叉树中序遍历"
+          />,
           <Tabs
             key="inOrderTabs"
             items={[
@@ -130,12 +128,11 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
         key: "postOrder",
         forceRender: true,
         children: [
-          <Flex justify="center" key="postOrderImage">
-            <Image
-              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的后序遍历-2024-11-20-20-44-31.png"
-              alt="二叉树后序遍历"
-            />
-          </Flex>,
+          <Center
+            key="postOrderImage"
+            src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的后序遍历-2024-11-20-20-44-31.png"
+            alt="二叉树后序遍历"
+          />,
           <Tabs
             key="postOrderTabs"
             items={[
@@ -163,12 +160,11 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
         key: "levelOrder",
         forceRender: true,
         children: [
-          <Flex justify="center" key="levelOrderImage">
-            <Image
-              src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的层序遍历-2024-11-20-20-44-50.png"
-              alt="二叉树层序遍历"
-            />
-          </Flex>,
+          <Center
+            key="levelOrderImage"
+            src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的层序遍历-2024-11-20-20-44-50.png"
+            alt="二叉树层序遍历"
+          />,
           <Tabs
             key="levelOrderTabs"
             items={[
@@ -207,12 +203,11 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
   - 二叉树的深度：从根节点到叶子节点的最长路径，可使用后续遍历
   - 二叉树的高度：从叶子节点到根节点的最长路径，可使用前序遍历
 
-<Flex justify="center" key="binaryTreeHeightAndDepthImage">
-  <Image
-    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的高度和深度-2024-11-20-20-51-52.png"
-    alt="二叉树的高度和深度"
-  />
-</Flex>
+<Center
+  key="binaryTreeHeightAndDepthImage"
+  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的高度和深度-2024-11-20-20-51-52.png"
+  alt="二叉树的高度和深度"
+/>
 
 - [节点个数](https://leetcode.cn/problems/count-complete-tree-nodes/description)
 
@@ -229,12 +224,11 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
 
 :::
 
-<Flex justify="center" key="preAndPostOrderImage">
-  <Image
-    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/前后序列无法构造二叉树-2024-11-20-21-10-49.png"
-    alt="前后序列无法构造二叉树"
-  />
-</Flex>
+<Center
+  key="preAndPostOrderImage"
+  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/前后序列无法构造二叉树-2024-11-20-21-10-49.png"
+  alt="前后序列无法构造二叉树"
+/>
 
 <Steps
   current={0}
@@ -318,23 +312,21 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
   二叉树的左旋
 </Flex>
 
-<Flex justify="center" key="binaryTreeLeftRotationImage">
-  <Image
-    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的左旋-2024-11-20-20-57-58.png"
-    alt="二叉树的左旋"
-  />
-</Flex>
+<Center
+  key="binaryTreeLeftRotationImage"
+  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的左旋-2024-11-20-20-57-58.png"
+  alt="二叉树的左旋"
+/>
 
 <Flex justify="center" key="binaryTreeRightRotationText">
   二叉树的右旋
 </Flex>
 
-<Flex justify="center" key="binaryTreeRightRotationImage">
-  <Image
-    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的右旋-2024-11-20-20-57-41.png"
-    alt="二叉树的右旋"
-  />
-</Flex>
+<Center
+  key="binaryTreeRightRotationImage"
+  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的右旋-2024-11-20-20-57-41.png"
+  alt="二叉树的右旋"
+/>
 
 - [二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths/description)
 
@@ -389,12 +381,11 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
 
 :::
 
-<Flex justify="center" key="binarySearchTreeImage">
-  <Image
-    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/完全二叉搜索树-2024-11-20-21-17-44.png"
-    alt="完全二叉搜索树"
-  />
-</Flex>
+<Center
+  key="binarySearchTreeImage"
+  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/完全二叉搜索树-2024-11-20-21-17-44.png"
+  alt="完全二叉搜索树"
+/>
 
 #### 算法思路
 
@@ -444,12 +435,11 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
     - 可将左子树的最右节点作为新根节点，将右子树作为新根节点的右子树
     - 也可将右子树的最左节点作为新根节点，将左子树作为新根节点的左子树
 
-<Flex justify="center" key="binarySearchTreeDeleteImage">
-  <Image
-    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二搜索叉树的删除-2024-11-20-22-02-37.png"
-    alt="二搜索叉树的删除"
-  />
-</Flex>
+<Center
+  key="binarySearchTreeDeleteImage"
+  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二搜索叉树的删除-2024-11-20-22-02-37.png"
+  alt="二搜索叉树的删除"
+/>
 
 #### Morris 遍历
 
