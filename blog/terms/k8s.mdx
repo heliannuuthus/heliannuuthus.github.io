@@ -1,0 +1,87 @@
+---
+slug: projected-volume
+title: 投影卷
+description: 投影卷是 k8s 1.12 版本引入的概念，在 1.20 版本稳定，通常用于在 pod 注入一些元数据或者 pod 身份信息
+authors: [heliannuuthus]
+---
+
+> 投影卷（Projected Volume）是 Kubernetes（简称 K8s）中一种特殊的卷类型，在 **Kubernetes 1.12** 版本以 Beta 状态引入，并在 **Kubernetes 1.20** 版本成为稳定（GA）特性。
+>
+> 它允许将多个数据源（如服务账户令牌、ConfigMap、Secret 或 Downward API）“投影”到一个统一的挂载路径，供 Pod 使用。投影卷通常用于在 Pod 中注入元数据或身份信息，提供更高的灵活性和安全性。
+
+## 什么是投影卷？
+
+投影卷的核心功能是将不同的数据源聚合到一个挂载目录中，以文件的形式提供给容器。它类似于投影仪将多个光源投射到同一屏幕的概念，因此得名“投影卷”。与传统的卷类型（如 `emptyDir` 或 `hostPath`）相比，投影卷更专注于配置数据的注入，而非存储。
+
+### 支持的数据源
+
+投影卷支持以下几种数据源：
+
+- **`serviceAccountToken`**：投影服务账户令牌（Projected Service Account Token，简称 PSAT），可自定义 `audience` 和 `expirationSeconds`。
+- **`configMap`**：将 ConfigMap 的键值对投影为文件。
+- **`secret`**：将 Secret 的键值对投影为文件。
+- **`downwardAPI`**：投影 Pod 或容器的元数据（如 Pod 名称、命名空间、标签等）。
+
+这些数据源可以组合使用，投影到同一卷中。
+
+## 功能与优势
+
+- **聚合性**：将多个数据源统一到一个挂载点，避免为每个数据源单独定义卷。
+- **灵活性**：支持自定义文件路径和内容，适合复杂配置需求。
+- **安全性**：通过 PSAT，支持短 TTL 和特定 Audience 的令牌注入，提升身份管理的安全性。
+- **动态性**：某些数据（如服务账户令牌）可由 Kubernetes 自动刷新。
+
+## 使用场景
+
+投影卷在以下场景中特别有用：
+
+1. **注入服务账户令牌**：
+   - 用于身份认证，例如 SPIRE 的 `k8s_psat` 自证，将自定义的 PSAT 注入 Pod。
+2. **配置管理**：
+   - 将 ConfigMap 和 Secret 组合注入，供应用读取配置或敏感数据。
+3. **元数据访问**：
+   - 通过 Downward API 注入 Pod 的运行时信息（如 Pod 名称或 IP），便于动态调整应用行为。
+
+## 示例代码
+
+以下是一个使用投影卷的 Pod 配置示例，展示如何注入自定义的服务账户令牌和其他数据源：
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod
+  namespace: default
+spec:
+  serviceAccountName: my-service-account
+  containers:
+    - name: app
+      image: my-app:latest
+      volumeMounts:
+        - name: projected-volume
+          mountPath: /var/run/secrets/projected
+          readOnly: true
+  volumes:
+    - name: projected-volume
+      projected:
+        sources:
+          - serviceAccountToken:
+              path: token
+              audience: spire-server
+              expirationSeconds: 3600
+          - configMap:
+              name: my-config
+              items:
+                - key: config-key
+                  path: config.txt
+          - secret:
+              name: my-secret
+              items:
+                - key: secret-key
+                  path: secret.txt
+          - downwardAPI:
+              items:
+                - path: pod-name
+                  fieldRef:
+                    fieldPath: metadata.name
+```

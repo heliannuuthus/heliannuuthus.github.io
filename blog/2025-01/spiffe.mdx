@@ -9,6 +9,8 @@ SPIFFE（Secure Production Identity Framework for Everyone），发音：_/ˈsp�
 
 <!-- truncate -->
 
+import { Collapse } from "@site/src/components/Collapse";
+
 ## 概览
 
 ### SPIFFE ID
@@ -80,6 +82,165 @@ SPIRE Agent 的组件：
 - Node Attestor：与 SPIRE Server 的 Node Attestor 插件通信，用于验证[工作负载](#Workload)的节点身份
 - Workload Attestor：从工作负载所在的 node 查询[工作负载](#Workload)的注册信息，再结合[工作负载](#Workload)使用注册策略时提交的属性值进行比对来验证工作负载的进程身份。
 - Key Manager：生成颁发给[工作负载](#Workload)的 X.509-SVID 的私钥
+
+### SPIRE 组件的互信
+
+> 仅对 k8s_psat 和 x509pop 两种**耐人寻味**的自证方式进行说明
+
+#### k8s_psat
+
+> psat(Projected Service Account Token) 是 k8s 1.12 版本引入的概念，在 1.20 版本稳定的一种新的服务账户令牌，用于替代 sat(Service Account Token)
+
+##### psat 和 sat 的区别
+
+- psat 是在 pod 的 :term[projected volume]{./blog/terms/k8s#projected-volume} 中注入的 sat，可手动声明 audience 以及过期时间（默认 1 小时）等属性
+- sat 是 pod 的令牌，在 1.22 之前没有固定过期时间，理论上和 Service Account 生命周期一致，从 1.22 开始，sat 的默认过期时间为 1 年（可调整）。
+
+##### 通信过程
+
+<Collapse label="通信过程">
+
+#### 请求
+
+```http
+POST /spire/agent/attest HTTP/1.1
+Host: spire-server.example.com
+Content-Type: application/json
+Content-Length: 1234
+
+{
+  "attestation_type": "k8s_psat",
+  "attestation_data": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEyMzQ1Njc4OTAifQ.eyJpc3MiOiJhcGkiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6c3BpcmU6c3BpcmUtYWdlbnQiLCJhdWQiOlsic3BpcmUtc2VydmVyIl0sImV4cCI6MTY3NzY1NDMyMSwiaWF0IjoxNjc3NjU0MDIxLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6InNwaXJlIiwicG9kIjp7Im5hbWUiOiJzcGlyZS1hZ2VudC14eXoxMjMiLCJ1aWQiOiJhMWIyYzNkNC1lNWY2LTc4OTAtYWJjZC1lZjEyMzQ1Njc4OTAifSwic2VydmljZWFjY291bnQiOnsibmFtZSI6InNwaXJlLWFnZW50In19fQ.signature_here"
+}
+```
+
+#### 响应
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 567
+
+{
+  "spiffe_id": "spiffe://<trust_domain>/spire/agent/k8s_psat/<cluster>/<node_UID>",
+  "status": "success",
+  "message": "Attestation successful"
+}
+```
+
+```http
+POST /spire/agent/svid HTTP/1.1
+Host: spire-server.example.com
+Content-Type: application/json
+Content-Length: 890
+
+{
+  "spiffe_id": "spiffe://<trust_domain>/spire/agent/k8s_psat/<cluster>/<node_UID>",
+  "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMII...==\n-----END CERTIFICATE REQUEST-----"
+}
+```
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 2345
+
+{
+  "svid": {
+    "certificate": "-----BEGIN CERTIFICATE-----\nMII...==\n-----END CERTIFICATE-----",
+    "ttl": 3600
+  },
+  "status": "success",
+  "message": "SVID issued"
+}
+```
+
+</Collapse>
+
+#### x509pop
+
+<Collapse label="x509pop">
+
+```http
+POST /spire/agent/attest HTTP/1.1
+Host: spire-server.example.com
+Content-Type: application/json
+Content-Length: 1234
+
+{
+  "attestation_type": "x509pop",
+  "attestation_data": {
+    "certificate": "-----BEGIN CERTIFICATE-----\nMIID...==\n-----END CERTIFICATE-----"
+  }
+}
+```
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 567
+
+{
+  "status": "challenge",
+  "challenge": "random-challenge-1234567890"
+}
+```
+
+```http
+POST /spire/agent/attest HTTP/1.1
+Host: spire-server.example.com
+Content-Type: application/json
+Content-Length: 890
+
+{
+  "attestation_type": "x509pop",
+  "attestation_data": {
+    "certificate": "-----BEGIN CERTIFICATE-----\nMIID...==\n-----END CERTIFICATE-----",
+    "challenge_response": "signature_of_random-challenge-1234567890"
+  }
+}
+```
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 678
+
+{
+  "spiffe_id": "spiffe://example.org/spire/agent/x509pop/sha1-fingerprint-abc123",
+  "status": "success",
+  "message": "Attestation successful"
+}
+```
+
+```http
+POST /spire/agent/svid HTTP/1.1
+Host: spire-server.example.com
+Content-Type: application/json
+Content-Length: 987
+
+{
+  "spiffe_id": "spiffe://<trust_domain>/spire/agent/x509pop/<fingerprint>",
+  "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMII...==\n-----END CERTIFICATE REQUEST-----"
+}
+```
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 2345
+
+{
+  "svid": {
+    "certificate": "-----BEGIN CERTIFICATE-----\nMII...==\n-----END CERTIFICATE-----",
+    "ttl": 3600
+  },
+  "status": "success",
+  "message": "SVID issued"
+}
+```
+
+</Collapse>
 
 ### 交互流程
 

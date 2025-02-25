@@ -226,7 +226,15 @@ const config: Config = {
       maxHeadingLevel: 5,
     },
     prism: {
-      additionalLanguages: ["java", "javadoc", "rust", "go", "bash", "python"],
+      additionalLanguages: [
+        "java",
+        "javadoc",
+        "rust",
+        "go",
+        "bash",
+        "python",
+        "http",
+      ],
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
       magicComments: [
