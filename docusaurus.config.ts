@@ -234,6 +234,7 @@ const config: Config = {
         "bash",
         "python",
         "http",
+        "sql"
       ],
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
