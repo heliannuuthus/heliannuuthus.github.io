@@ -18,17 +18,17 @@ description: 由 [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519) 定义的一
 
 > JOSE Header 的定义是相同的，但是 [jws](#jws) 和 [jwe](#jwe) 定义的值不一致
 
-- :ctip[**typ**]{#type}：token 的类型，如果存在最好指定为 **JWT**，表示当前是 JWT token
-- :ctip[**cty**]{#content-type}：内容类型，当使用嵌套的 jws 或者 jwe 时，必须指定为 **JWT**（建议使用大写字母），反之常规情况**不推荐使用**
-- :ctip[**alg**]{#algorithm}：算法，在 :term[jwa]{./blog/terms/jwt#jwa} 中定义，在 :term[jws]{./blog/terms/jwt#jws} 和 :term[jwe]{./blog/terms/jwt#jwe} 中值不一致。
+- :ctip[**typ**]{#type}:token 的类型，如果存在最好指定为 **JWT**，表示当前是 JWT token
+- :ctip[**cty**]{#content-type}:内容类型，当使用嵌套的 jws 或者 jwe 时，必须指定为 **JWT**（建议使用大写字母），反之常规情况**不推荐使用**
+- :ctip[**alg**]{#algorithm}:算法，在 :term[jwa]{./blog/terms/jwt#jwa} 中定义，在 :term[jws]{./blog/terms/jwt#jws} 和 :term[jwe]{./blog/terms/jwt#jwe} 中值不一致。
 
 ### Serialization
 
 > JOSE Header 的序列化有两种，分别是 JWS Compact Serialization 和 JWE JSON Serialization
 
-- JWS Compact Serialization：
+- JWS Compact Serialization:
 
-  - 该种序列方式会舍弃掉 JWS Unprotected Header，此时的 JWS Protected Header 和 JOSE Header 相同。
+  - 该种序列方式会舍弃掉 JWS Unprotected Header,此时的 JWS Protected Header 和 JOSE Header 相同。
   - 格式为 Base64Url(JOSE Header) || '.' || Base64Url(Payload) || '.' || Base64Url(Signature)
 
 - JWE JSON Serialization：

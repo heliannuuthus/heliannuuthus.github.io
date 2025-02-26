@@ -15,6 +15,7 @@ import { Comment } from "@site/src/components/Typography";
 import Tooltip from "@site/src/components/Tooltip";
 import TermAdmonition from "@theme/Admonition";
 import Mermaid from "@theme/Mermaid";
+import { Collapse } from "@site/src/components/Collapse";
 
 const MDXRender = ({
   content,
@@ -58,6 +59,7 @@ const MDXRender = ({
           TermAdmonition,
           Term: TermPreview,
           Mermaid: Mermaid,
+          Collapse: Collapse,
         };
       },
     }).then((exports) => {

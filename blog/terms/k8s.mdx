@@ -1,50 +1,114 @@
 ---
-slug: projected-volume
-title: 投影卷
-description: 投影卷是 k8s 1.12 版本引入的概念，在 1.20 版本稳定，通常用于在 pod 注入一些元数据或者 pod 身份信息
-authors: [heliannuuthus]
+slug: pod
+title: Pod
+description: Pod 是 K8S 抽象出来的一个逻辑概念，实体是一组**资源共享**的容器运行时单元，这些容器共享网络和存储卷
 ---
 
-> 投影卷（Projected Volume）是 Kubernetes（简称 K8s）中一种特殊的卷类型，在 **Kubernetes 1.12** 版本以 Beta 状态引入，并在 **Kubernetes 1.20** 版本成为稳定（GA）特性。
+> Pod 是 K8S 抽象出来的一个逻辑概念，实体是一组**资源共享**的容器运行时单元，这些容器共享网络和存储卷。
+
+### 功能和特点
+
+- Pod 的容器处于同一个`网络命名空间(Network Namespace)`，可通过 **localhost** 通信，也能通过容器名称通信
+- Pod 的容器共享存储卷，可以挂载多个存储卷
+- 通常通过 [Deployment](/blog/terms/k8s#deployment) 管理 Pod，不手动创建 Pod
+
+---
+
+slug: deployment
+title: Deployment
+description: Deployment 是 K8S 中用于管理 [Pod](/blog/terms/k8s#pod) 的控制器，确保应用程序以声明的方式运行。
+
+---
+
+> Deployment 是 K8S 中用于管理 [Pod](/blog/terms/k8s#pod) 的控制器，确保应用程序以声明的方式运行。
+
+### 功能和特点
+
+> 通常通过 Deployment 管理 [Pod](/blog/terms/k8s#pod)
+
+- 声明式控制 [Pod](/blog/terms/k8s#pod) 的副本数、更新策略
+- 支持 [Pod](/blog/terms/k8s#pod) 的滚动更新、回滚以及自动拓展
+- 通常一些安全策略也会通过 Deployment 加在 [Pod](/blog/terms/k8s#pod) 上
+
+---
+
+slug: configmap
+title: ConfigMap
+description: ConfigMap 是 K8S 中用于存储配置文件的资源，通常用于在 Pod 中注入一些数据（配置文件，环境变量等）
+
+---
+
+> ConfigMap 是 K8S 中用于存储配置文件的资源，通常用于在 [Pod](/blog/terms/k8s#pod) 中注入一些数据（配置文件，环境变量等）
+
+### 功能和特点
+
+- 可通过声明环境变量或卷（具体文件）的形式，将数据注入到 [Pod](/blog/terms/k8s#pod) 中
+- 通过环境变量注入时，不支持动态更新，卷注入时支持动态更新
+
+---
+
+slug: secret
+title: Secret
+description: Secret 是 K8S 中用于存储敏感数据的资源，通常用于在 [Pod](/blog/terms/k8s#pod) 中注入一些敏感数据（如密码、令牌等）
+
+---
+
+> Secret 是 K8S 中用于存储敏感数据的资源，通常用于在 [Pod](/blog/terms/k8s#pod) 中注入一些敏感数据（如密码、令牌等）
+
+### 功能和特点
+
+- 可通过声明环境变量或卷（具体文件）的形式，将数据注入到 [Pod](/blog/terms/k8s#pod) 中
+- 通过环境变量注入时，不支持动态更新，卷注入时支持动态更新
+- 在声明 **data** 时，通常为二进制数据，需要通过 `base64` 编码后，再声明到 **data** 中，所以大多数时候通过 **stringdata** 声明数据，让 K8S 自定合并到 **data** 中
+  - 在声明 **stringdata** 时，支持多行字符串，通过 `\n` 换行
+
+---
+
+slug: projected-volume
+title: Projected Volume
+description: Projected Volume 是 K8S 中一种特殊的卷类型，通常用于在 pod 注入一些元数据或者 pod 身份信息
+authors: [heliannuuthus]
+
+---
+
+> Projected Volume 是 K8S 中一种特殊的卷类型，在 **K8S 1.12** 版本以 Beta 状态引入，并在 **K8S 1.20** 版本成为稳定（GA）特性。
 >
-> 它允许将多个数据源（如服务账户令牌、ConfigMap、Secret 或 Downward API）“投影”到一个统一的挂载路径，供 Pod 使用。投影卷通常用于在 Pod 中注入元数据或身份信息，提供更高的灵活性和安全性。
+> 它允许将多个数据源（如服务账户令牌、[ConfigMap](/blog/terms/k8s#configmap)、[Secret](/blog/terms/k8s#secret) 或 [Downward API](/blog/terms/k8s#downward-api)）“投影”到一个统一的挂载路径，供 [Pod](/blog/terms/k8s#pod) 使用。投影卷通常用于在 [Pod](/blog/terms/k8s#pod) 中注入元数据或身份信息，提供更高的灵活性和安全性。
 
-## 什么是投影卷？
+### 定义
 
-投影卷的核心功能是将不同的数据源聚合到一个挂载目录中，以文件的形式提供给容器。它类似于投影仪将多个光源投射到同一屏幕的概念，因此得名“投影卷”。与传统的卷类型（如 `emptyDir` 或 `hostPath`）相比，投影卷更专注于配置数据的注入，而非存储。
+投影卷（Projected Volume）的核心功能是将不同的数据源聚合到一个挂载目录中，以文件的形式提供给容器。它类似于投影仪将多个光源投射到同一屏幕的概念，因此得名“投影卷”。与传统的卷类型（如 `emptyDir` 或 `hostPath`）相比，投影卷更专注于配置数据的注入，而非存储。
 
 ### 支持的数据源
 
-投影卷支持以下几种数据源：
+> 投影卷支持挂载多个数据源，这些数据源可以组合使用，根据投影卷的特性，可挂载在一个目录下。
 
-- **`serviceAccountToken`**：投影服务账户令牌（Projected Service Account Token，简称 PSAT），可自定义 `audience` 和 `expirationSeconds`。
-- **`configMap`**：将 ConfigMap 的键值对投影为文件。
-- **`secret`**：将 Secret 的键值对投影为文件。
-- **`downwardAPI`**：投影 Pod 或容器的元数据（如 Pod 名称、命名空间、标签等）。
+支持以下几种数据源：
 
-这些数据源可以组合使用，投影到同一卷中。
+- **`serviceAccountToken`**：投影服务账户令牌（Projected Service Account Token，简称 PSAT），可自定义 `audience` 和 `expirationSeconds`，默认过期时间为 1 小时。
+- **`configMap`**：将 [ConfigMap](/blog/terms/k8s#configmap) 的键值对投影为文件。
+- **`secret`**：将 [Secret](/blog/terms/k8s#secret) 的键值对投影为文件。
+- **`downwardAPI`**：投影 [Pod](/blog/terms/k8s#pod) 或容器的元数据（如 Pod 名称、命名空间、标签等）。
 
-## 功能与优势
+### 功能与优势
 
 - **聚合性**：将多个数据源统一到一个挂载点，避免为每个数据源单独定义卷。
 - **灵活性**：支持自定义文件路径和内容，适合复杂配置需求。
 - **安全性**：通过 PSAT，支持短 TTL 和特定 Audience 的令牌注入，提升身份管理的安全性。
 - **动态性**：某些数据（如服务账户令牌）可由 Kubernetes 自动刷新。
 
-## 使用场景
+### 使用场景
 
 投影卷在以下场景中特别有用：
 
 1. **注入服务账户令牌**：
    - 用于身份认证，例如 SPIRE 的 `k8s_psat` 自证，将自定义的 PSAT 注入 Pod。
 2. **配置管理**：
-   - 将 ConfigMap 和 Secret 组合注入，供应用读取配置或敏感数据。
+   - 将 [ConfigMap](/blog/terms/k8s#configmap) 和 [Secret](/blog/terms/k8s#secret) 组合注入，供应用读取配置或敏感数据。
 3. **元数据访问**：
-   - 通过 Downward API 注入 Pod 的运行时信息（如 Pod 名称或 IP），便于动态调整应用行为。
+   - 通过 Downward API 注入 [Pod](/blog/terms/k8s#pod) 的运行时信息（如 Pod 名称或 IP），便于动态调整应用行为。
 
-## 示例代码
-
-以下是一个使用投影卷的 Pod 配置示例，展示如何注入自定义的服务账户令牌和其他数据源：
+<Collapse label="以下是一个使用投影卷的 Pod 配置示例，展示如何注入各种数据源">
 
 ```yaml
 apiVersion: v1
@@ -85,3 +149,5 @@ spec:
                   fieldRef:
                     fieldPath: metadata.name
 ```
+
+</Collapse>
