@@ -2,7 +2,7 @@ import { Plugin } from "unified";
 import { Nodes, Paragraph, Text } from "mdast";
 import { visit } from "unist-util-visit";
 import { ContainerDirective } from "mdast-util-directive";
-import { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import { MdxJsxFlowElement, MdxJsxAttribute } from "mdast-util-mdx-jsx";
 import { inspect } from "unist-util-inspect";
 const origins = ["tip", "note", "warning", "danger", "info"];
 
@@ -39,15 +39,24 @@ const remarkAdmonition: Plugin<[AdmonitionOptions?], Nodes> =
         const directiveNode = node as Directive;
         const attributes = directiveNode.attributes || {};
         directiveNode.data = directiveNode.data || {};
-
-        const jsxNode: MdxJsxFlowElement = {
-          type: "mdxJsxFlowElement",
-          name: admonition,
-          attributes: Object.entries(attributes).map(([name, value]) => ({
+        const jsxAttributes = Object.entries(attributes)
+          .filter(([name]) => name !== "type")
+          .map(([name, value]) => ({
             type: "mdxJsxAttribute",
             name,
             value,
-          })),
+          })) as MdxJsxAttribute[];
+        const jsxNode: MdxJsxFlowElement = {
+          type: "mdxJsxFlowElement",
+          name: admonition,
+          attributes: [
+            ...jsxAttributes,
+            {
+              type: "mdxJsxAttribute",
+              name: "type",
+              value: directiveNode.name,
+            },
+          ],
           children: directiveNode.children,
         };
         Object.assign(node, jsxNode);

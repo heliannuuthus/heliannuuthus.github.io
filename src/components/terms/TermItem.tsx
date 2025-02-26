@@ -7,6 +7,8 @@ import MDXRenderer from "@site/src/components/MDXRender";
 import { createStyles } from "antd-style";
 import { PopoverAvatars, DrawerAvatars } from "@site/src/components/Avatar";
 import { Author } from "heliannuuthus-docusaurus-authors";
+import { Title } from "@site/src/components/Typography";
+import { useColorMode } from "@docusaurus/theme-common";
 
 const useMobile = isMobile || isIPad13 || isTablet;
 
@@ -125,7 +127,16 @@ const TermItem = ({ slug, term, authors }: TermItemProps) => {
             <PopoverAvatars authors={authors} />
           )
         }
-        title={term.metadata.title}
+        title={
+          <Title
+            style={{
+              color: "var(--ifm-color-term-title)",
+            }}
+            level={5}
+          >
+            {term.metadata.title}
+          </Title>
+        }
         description={<MDXRenderer content={term.metadata.description} />}
       />
       <TermItemContent slug={slug} content={term.content} />

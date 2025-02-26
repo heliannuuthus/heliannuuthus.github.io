@@ -9,6 +9,8 @@ SPIFFE（Secure Production Identity Framework for Everyone），发音：_/ˈsp�
 
 <!-- truncate -->
 
+import { Collapse } from "@site/src/components/Collapse";
+
 ## 概览
 
 ### SPIFFE ID
@@ -81,8 +83,197 @@ SPIRE Agent 的组件：
 - Workload Attestor：从工作负载所在的 node 查询[工作负载](#Workload)的注册信息，再结合[工作负载](#Workload)使用注册策略时提交的属性值进行比对来验证工作负载的进程身份。
 - Key Manager：生成颁发给[工作负载](#Workload)的 X.509-SVID 的私钥
 
-### 交互流程
+### SPIRE 组件的互信
 
+> 仅对 k8s_psat 和 x509pop 两种**耐人寻味**的自证方式进行说明
+
+#### k8s_psat
+
+> psat(:term[Projected]{./blog/terms/k8s#projected-volume} Service Account Token) 是 k8s 1.12 版本引入的概念，在 1.20 版本稳定的一种新的服务账户令牌，用于替代 sat(Service Account Token)
+
+1. agent 向 server 发送挂载在**指定路径下**的 projected service account token，开始自证
+2. server 向 K8S Server API 获取公钥，以验证 token 的合法性，验证成功后返回 spiffe_id
+3. agent 生成临时密钥对 spiffe_id 进行签名生成证书签名请求，server 验证后颁发 SVID
+
+<Collapse label="psat 的自证以及签发 SVID 的数据包">
+
+### 1. Agent 自证
+
+#### 请求
+
+```http
+POST /spire/agent/attest HTTP/1.1
+Host: {SPIRE_SERVER_HOST}
+Content-Type: application/json
+
+{
+  "attestation_type": "k8s_psat",
+  "attestation_data": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEyMzQ1Njc4OTAifQ.eyJpc3MiOiJhcGkiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6c3BpcmU6c3BpcmUtYWdlbnQiLCJhdWQiOlsic3BpcmUtc2VydmVyIl0sImV4cCI6MTY3NzY1NDMyMSwiaWF0IjoxNjc3NjU0MDIxLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6InNwaXJlIiwicG9kIjp7Im5hbWUiOiJzcGlyZS1hZ2VudC14eXoxMjMiLCJ1aWQiOiJhMWIyYzNkNC1lNWY2LTc4OTAtYWJjZC1lZjEyMzQ1Njc4OTAifSwic2VydmljZWFjY291bnQiOnsibmFtZSI6InNwaXJlLWFnZW50In19fQ.signature_here"
+}
+```
+
+#### 响应
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "spiffe_id": "spiffe://<trust_domain>/spire/agent/k8s_psat/<cluster>/<node_UID>",
+  "status": "success",
+  "message": "Attestation successful"
+}
+```
+
+### 2. Agent 获取 SVID
+
+- **`spiffe_id`**: 由 agent 成功自证后 server 颁发注册的 SPIFFE ID
+- **`csr`**: 通过本地的临时密钥对 spiffe_id 签名生成的签名请求
+
+#### 请求
+
+```http
+POST /spire/agent/svid HTTP/1.1
+Host: {SPIRE_SERVER_HOST}
+Content-Type: application/json
+
+{
+  "spiffe_id": "spiffe://<trust_domain>/spire/agent/k8s_psat/<cluster>/<node_UID>",
+  "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMII...==\n-----END CERTIFICATE REQUEST-----"
+}
+```
+
+#### 响应
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "svid": {
+    "certificate": "-----BEGIN CERTIFICATE-----\nMII...==\n-----END CERTIFICATE-----",
+    "ttl": 3600
+  },
+  "status": "success",
+  "message": "SVID issued"
+}
+```
+
+</Collapse>
+
+#### x509pop
+
+1. agent 携带预埋的 server 可信证书向 server 发起 challenge，server 返回 challenge code
+2. agent 使用预埋证书的对应的私钥签名 challenge code 后，发送给 server 进行验证，完成 challenge，返回 spiffe_id
+3. agent 生成临时密钥对 spiffe_id 进行签名生成证书签名请求，server 验证后颁发 SVID
+
+<Collapse label="x509pop 的 Challenge 以及签发 SVID 的数据包">
+
+### 1. Agent 发起 Challenge
+
+- **`certificate`**: 预埋进 agent 的 server 可信证书
+
+- **`challenge`**: 随机生成的 challenge code
+
+#### 请求
+
+```http
+POST /spire/agent/attest HTTP/1.1
+Host: {SPIRE_SERVER_HOST}
+Content-Type: application/json
+
+{
+  "attestation_type": "x509pop",
+  "attestation_data": {
+    "certificate": "-----BEGIN CERTIFICATE-----\nMIID...==\n-----END CERTIFICATE-----"
+  }
+}
+```
+
+#### 响应
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "status": "challenge",
+  "challenge": "random-challenge-1234567890"
+}
+```
+
+### 2. Agent 完成 Challenge
+
+- **`challenge_response`**: 对 challenge code 的签名
+
+#### 请求
+
+```http
+POST /spire/agent/attest HTTP/1.1
+Host: {SPIRE_SERVER_HOST}
+Content-Type: application/json
+
+{
+  "attestation_type": "x509pop",
+  "attestation_data": {
+    "certificate": "-----BEGIN CERTIFICATE-----\nMIID...==\n-----END CERTIFICATE-----",
+    "challenge_response": "signature_of_random-challenge-1234567890"
+  }
+}
+```
+
+#### 响应
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "spiffe_id": "spiffe://<trust_domain>/spire/agent/x509pop/<fingerprint>",
+  "status": "success",
+  "message": "Attestation successful"
+}
+```
+
+### 3. Agent 获取 SVID
+
+- **`spiffe_id`**: 由 agent 成功自证后 server 颁发注册的 SPIFFE ID
+- **`csr`**: 通过本地的临时密钥对 spiffe_id 签名生成的签名请求
+
+#### 请求
+
+```http
+POST /spire/agent/svid HTTP/1.1
+Host: {SPIRE_SERVER_HOST}
+Content-Type: application/json
+
+{
+  "spiffe_id": "spiffe://<trust_domain>/spire/agent/x509pop/<fingerprint>",
+  "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMII...==\n-----END CERTIFICATE REQUEST-----"
+}
+```
+
+#### 响应
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "svid": {
+    "certificate": "-----BEGIN CERTIFICATE-----\nMII...==\n-----END CERTIFICATE-----",
+    "ttl": 3600
+  },
+  "status": "success",
+  "message": "SVID issued"
+}
+```
+
+</Collapse>
+
+#### 交互图
+
+<Collapse label="采用 aws_iid 的自证方式验证身份">
 ```mermaid
 sequenceDiagram
     participant SS as SPIRE 服务器
@@ -126,4 +317,7 @@ sequenceDiagram
     SA->>SA: 使用工作负载选择器识别工作负载
     SA->>Workload: 返回 SVID（来自缓存）
     end
+
+```
+</Collapse>
 ```
