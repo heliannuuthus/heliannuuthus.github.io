@@ -65,7 +65,7 @@ const TooltipsPreview = ({
               overflow: "auto",
             },
           }}
-          bordered={false}
+          variant="outlined"
           actions={[
             <Tooltip
               title={`更多内容请前往 ${

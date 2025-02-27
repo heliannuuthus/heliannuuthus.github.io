@@ -24,24 +24,29 @@ import { Collapse } from "@site/src/components/Collapse";
 
 ## 原理和设计
 
-> 使用 Redis HashMap 结构实现令牌桶，使用 timestamp 作为桶的 key，使用请求数作为桶的 value。
+> 使用 Redis HashMap 结构实现:term[令牌桶]{./blog/terms/net#token-bucket}，使用 timestamp 作为桶的 key，使用请求数作为桶的 value。
 
 ### 基于令牌桶的滑动时间窗
 
-- 窗口大小设置为 10, :term[令牌桶]{./blog/terms/net#token-bucket}数量为 10
-- 窗口内允许请求数量为 100
-- 单个桶放行请求数量为 10
+- 窗口大小设置为 10，桶数量为 10
+- 窗口内生成的令牌数总量为 100
+- 单桶令牌数为 10，后续桶可向前**继承**令牌数（令牌的堆积）
+- 单次请求仅获取一个令牌
 
 <Steps
   current={0}
   direction="vertical"
   items={[
     {
-      title: <Text>第 1 秒统计，请求数为 10</Text>,
+      title: "时间过 1s 后，增量请求为 10，请求总数为 10",
       key: "1",
       description: (
-        <Mermaid
-          value={`
+        <>
+          1. 初始化桶，此时整个 HashMap 为空，可视为当前没有消耗令牌（即存在 100
+          个令牌） 2. 接收到请求，将当前时间戳对应的 key 设置为申请的令牌数 3.
+          当请求数大于等于限制时，拒绝请求
+          <Mermaid
+            value={`
 xychart-beta
 title "滑动时间窗口桶请求统计"
 x-axis [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -49,7 +54,8 @@ y-axis "请求数" 0 --> 15
 bar [10, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 bar [10, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       `}
-        />
+          />
+        </>
       ),
     },
     {
@@ -122,23 +128,53 @@ bar [14, 9, 0, 0, 0, 0, 0, 0, 0, 0]
 
 ### 交互图
 
+<Collapse label="Redis 计算逻辑">
+
 ```mermaid
 sequenceDiagram
-    participant Client as RedisCli
-    participant Server as Redis Server
+    participant C as Client
+    participant S as SlidingWindowRateLimiter
+    participant R as Redis Server (Redisson)
 
-    Client->>Server: HGETALL key <br/>(获取当前的全部桶)
-    Server-->>Client: 返回桶数据
-    Client->>Client: 遍历桶数据，记录并处理过期数据
+    C->>S: tryAcquire(permits)
+    activate S
+    S-->>S: 计算 当前时间 = currentTime / 1000 * bucketSize
+    S-->>S: 计算 窗口起点 = now - windowSize * bucketSize
 
-    alt 请求数 < 限制
-        Client->>Client: 将当前时间戳对应的桶请求数增加<br/>(增加请求计数)
-        Client->>Server: HMSET key timestamp requestCount<br/>(整体更新)
-        Client->>Client: 执行业务方法
-    else 请求数 >= 限制
-        Client->>Client: 拒绝请求
+    S->>R: getMap(key) → RMapReactive<Long, Integer>
+    activate R
+    R-->>S: 返回 buckets map
+    deactivate R
+
+    S->>R: buckets.getAll() 获取所有数据
+    activate R
+    R-->>S: 返回所有桶条目 (Map<Long, Integer>)
+    deactivate R
+
+    S-->>S: 过滤桶 (key > windowStart)
+    S-->>S: 计算窗口内总请求数
+
+    alt totalRequests >= maxRequests
+        S-->>S: 返回 Mono.just(false)
+        S->>C: false (超出速率限制)
+        deactivate S
+    else
+        S-->>S: 更新当前桶: compute(now, +permits)
+        S->>R: buckets.fastPutAll(updatedBuckets)
+        activate R
+        R-->>S: 返回成功响应
+        deactivate R
+        S-->>S: 返回 Mono.just(true)
+        S->>C: true (请求允许)
+        deactivate S
     end
+
+    S-->>S: 处理错误（若有） → Throw TooManyRequestsException
+    S->>C: 返回错误响应（若发生异常）
+    deactivate S
 ```
+
+</Collapse>
 
 ### 代码实现
 
@@ -155,6 +191,16 @@ sequenceDiagram
 #### 拓展性思考
 
 1. 该种方式与 `动态字符串` 以及 `Z-SET` 的区别是什么？有什么优缺点？
-2. 将配置项抽象到 ConfigurationProperties 内可实现动态窗口，但是如何解决配置变更的边界问题？
-3. 需要降级实现，当 Redis 不可用时，可以切换为本地限流器，或者直接关闭。
-4. 是否可通过统计请求数，来实现自适应的窗口？
+
+| 特性           | RMap (当前实现)    | String (动态字符串) | ZSet (有序集合)      |
+| -------------- | ------------------ | ------------------- | -------------------- |
+| **窗口类型**   | 滑动窗口           | 固定窗口            | 滑动窗口             |
+| **实现复杂度** | 中等               | 简单                | 中等                 |
+| **内存占用**   | 中等（桶数量相关） | 低                  | 高（每请求一个元素） |
+| **性能**       | 中等（多步操作）   | 高（单次操作）      | 中等（需清理操作）   |
+| **精确性**     | 高（可调粒度）     | 低（固定窗口）      | 高（时间戳精确）     |
+| **清理方式**   | 动态过滤           | TTL 自动过期        | 主动移除             |
+| **适用场景**   | 精确控制、分布式   | 高并发、简单需求    | 平滑窗口、高精度     |
+
+2. 将配置项抽象到 `ConfigurationProperties` 内可动态改变窗口大小，但是如何解决配置变更的边界问题？
+3. 是否可通过统计请求数，来实现自适应的窗口？
