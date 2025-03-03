@@ -15,7 +15,7 @@ import { Collapse } from "@site/src/components/Collapse";
 
 ### SPIFFE ID
 
-> 本质是:term[统一资源标识符]{./blog/terms/web#uri}，用于标识一个[工作负载](#Workload)
+> 本质是:term[统一资源标识符]{./blog/terms/web#uri}，用于标识一个[工作负载](#workload)
 
 通常格式为：
 
@@ -33,7 +33,7 @@ import { Collapse } from "@site/src/components/Collapse";
 
 > SVID 全称 SPIFFE Verifiable Identity Document，用于验证服务身份的凭证
 
-SVID 通常用于验证[工作负载](#Workload)的身份，有以下两种格式：
+SVID 通常用于验证[工作负载](#workload)的身份，有以下两种格式：
 
 - :term[JWT]{./blog/terms/jwt#jwt}：适用于非 TLS 的场景，比如基于 HTTP Header 的认证
 - :term[X.509]{./blog/terms/crypto#x509}：适用于 TLS 的场景，比如需要证书的双向认证（mTLS）
@@ -55,37 +55,38 @@ SPIRE（SPIFFE Runtime Environment） 是官方给出的 SPIFFE 规范的一种�
 （作为 SVID 颁发机构，管理注册策略并向代理签发 SVID）
 （部署在节点上，验证工作负载身份、颁发 SVID 并暴露 SPIFFE 工作负载 API）
 
-SPIRE 由 SPIRE 服务器和多个 SPIRE 代理组成，SPIRE Server 作为颁发 SVID 的颁发机构（也称为签名机构），还维护并管理[工作负载](#Workload)的注册表，SPIRE Agent 通过 SPIRE Server 验证每个工作负载的身份，SPIRE Server 再为其颁发 SVID。
-除此之外，SPIRE Agent 为[工作负载](#Workload)公开本地 SPIFFE 工作负载 API，工作负载可通过 SPIFFE 工作负载 API 获取 SVID 并进行身份验证。
+SPIRE 由 SPIRE 服务器和多个 SPIRE 代理组成，SPIRE Server 作为颁发 SVID 的颁发机构（也称为签名机构），还维护并管理[工作负载](#workload)的注册表，SPIRE Agent 通过 SPIRE Server 验证每个工作负载的身份，SPIRE Server 再为其颁发 SVID。
+除此之外，SPIRE Agent 为[工作负载](#workload)公开本地 SPIFFE 工作负载 API，工作负载可通过 SPIFFE 工作负载 API 获取 SVID 并进行身份验证。
 
 #### SPIRE Server
 
 SPIRE Server 由一系列的插件定义，SPIRE 也自己附带了一些插件，但是也能通过构建其他的插件来拓展 SPIRE 应对更多的场景。
 
-- Node Attestor：通常和 SPIRE Agent 一起用于验证[工作负载](#Workload)的节点身份
-- DataStore：用于存储[工作负载](#Workload)的注册信息，包括[工作负载](#Workload)注册历史、注册策略等。
-- KeyManager：用于控制和管理向[工作负载](#Workload)签发的 SVID（X.509 和 JWT 格式）。
+- Node Attestor：通常和 SPIRE Agent 一起用于验证[工作负载](#workload)的节点身份
+- DataStore：用于存储[工作负载](#workload)的注册信息，包括[工作负载](#workload)注册历史、注册策略等。
+- KeyManager：用于控制和管理向[工作负载](#workload)签发的 SVID（X.509 和 JWT 格式）。
 - Upstream Authority：默认情况 SPIRE Server 使用自身的服务器作为 CA，通过定义这个插件可以使用其他的 CA。
 
 #### SPIRE Agent
 
-> **SPIRE Agent**部署通常会部署在每个[工作负载](#Workload)所在的**节点**上，与[工作负载](#Workload)直接通信。
+> **SPIRE Agent** 部署通常会部署在每个[工作负载](#workload)所在的**节点**上，与[工作负载](#workload)直接通信。
 
 SPIRE Agent 的主要功能：
 
-- 向 SPIRE Server 拉取 SVID 并将其缓存，等待[工作负载](#Workload)主动索要。
-- 向节点上的[工作负载](#Workload)公开本地 SPIFFE 工作负载 API，并可证明其身份。
-- 为已识别的[工作负载](#Workload)颁发 SVID。
+- 向 SPIRE Server 拉取 SVID 并将其缓存，等待[工作负载](#workload)主动索要。
+- 向节点上的[工作负载](#workload)公开本地 SPIFFE 工作负载 API，并可证明其身份。
+- 为已识别的[工作负载](#workload)颁发 SVID。
 
 SPIRE Agent 的组件：
 
-- Node Attestor：与 SPIRE Server 的 Node Attestor 插件通信，用于验证[工作负载](#Workload)的节点身份
-- Workload Attestor：从工作负载所在的 node 查询[工作负载](#Workload)的注册信息，再结合[工作负载](#Workload)使用注册策略时提交的属性值进行比对来验证工作负载的进程身份。
-- Key Manager：生成颁发给[工作负载](#Workload)的 X.509-SVID 的私钥
+- Node Attestor：与 SPIRE Server 的 Node Attestor 插件通信，用于验证[工作负载](#workload)的节点身份
+- Workload Attestor：从工作负载所在的 node 查询[工作负载](#workload)的注册信息，再结合[工作负载](#workload)使用注册策略时提交的属性值进行比对来验证工作负载的进程身份。
+- Key Manager：生成颁发给[工作负载](#workload)的 X.509-SVID 的私钥
 
 ### SPIRE 组件的互信
 
-> 仅对 k8s_psat 和 x509pop 两种**耐人寻味**的自证方式进行说明
+> 考虑到实用性，会对 k8s_psat 和 x509pop 两种**耐人寻味**的互信方式进行解析
+> 针对共有云的最佳实践 aws_iid 做简单介绍
 
 #### k8s_psat
 
@@ -97,9 +98,9 @@ SPIRE Agent 的组件：
 
 <Collapse label="psat 的自证以及签发 SVID 的数据包">
 
-### 1. Agent 自证
+###### 1. Agent 自证
 
-#### 请求
+###### 请求
 
 ```http
 POST /spire/agent/attest HTTP/1.1
@@ -112,7 +113,7 @@ Content-Type: application/json
 }
 ```
 
-#### 响应
+###### 响应
 
 ```http
 HTTP/1.1 200 OK
@@ -125,12 +126,12 @@ Content-Type: application/json
 }
 ```
 
-### 2. Agent 获取 SVID
+###### 2. Agent 获取 SVID
 
 - **`spiffe_id`**: 由 agent 成功自证后 server 颁发注册的 SPIFFE ID
 - **`csr`**: 通过本地的临时密钥对 spiffe_id 签名生成的签名请求
 
-#### 请求
+###### 请求
 
 ```http
 POST /spire/agent/svid HTTP/1.1
@@ -143,7 +144,7 @@ Content-Type: application/json
 }
 ```
 
-#### 响应
+###### 响应
 
 ```http
 HTTP/1.1 200 OK
@@ -169,13 +170,13 @@ Content-Type: application/json
 
 <Collapse label="x509pop 的 Challenge 以及签发 SVID 的数据包">
 
-### 1. Agent 发起 Challenge
+###### 1. Agent 发起 Challenge
 
 - **`certificate`**: 预埋进 agent 的 server 可信证书
 
 - **`challenge`**: 随机生成的 challenge code
 
-#### 请求
+###### 请求
 
 ```http
 POST /spire/agent/attest HTTP/1.1
@@ -190,7 +191,7 @@ Content-Type: application/json
 }
 ```
 
-#### 响应
+###### 响应
 
 ```http
 HTTP/1.1 200 OK
@@ -202,11 +203,11 @@ Content-Type: application/json
 }
 ```
 
-### 2. Agent 完成 Challenge
+###### 2. Agent 完成 Challenge
 
 - **`challenge_response`**: 对 challenge code 的签名
 
-#### 请求
+###### 请求
 
 ```http
 POST /spire/agent/attest HTTP/1.1
@@ -222,7 +223,7 @@ Content-Type: application/json
 }
 ```
 
-#### 响应
+###### 响应
 
 ```http
 HTTP/1.1 200 OK
@@ -235,12 +236,12 @@ Content-Type: application/json
 }
 ```
 
-### 3. Agent 获取 SVID
+###### 3. Agent 获取 SVID
 
 - **`spiffe_id`**: 由 agent 成功自证后 server 颁发注册的 SPIFFE ID
 - **`csr`**: 通过本地的临时密钥对 spiffe_id 签名生成的签名请求
 
-#### 请求
+###### 请求
 
 ```http
 POST /spire/agent/svid HTTP/1.1
@@ -253,7 +254,7 @@ Content-Type: application/json
 }
 ```
 
-#### 响应
+###### 响应
 
 ```http
 HTTP/1.1 200 OK
@@ -271,9 +272,11 @@ Content-Type: application/json
 
 </Collapse>
 
-#### 交互图
+#### aws_iid
 
-<Collapse label="采用 aws_iid 的自证方式验证身份">
+> 通常需要云基础设施做数据支撑，允许 SPIRE Server 通过 API 的形式对数据进行验证
+
+<Collapse label="aws_iid 自证时序图">
 ```mermaid
 sequenceDiagram
     participant SS as SPIRE 服务器
@@ -281,41 +284,41 @@ sequenceDiagram
     participant AA as AWS API
     participant Workload as 工作负载
 
-    rect rgb(124, 124, 38)
-    SS->>SS: 启动 SPIRE 服务器
-    note over SS: 若未配置 Upstream Authority<br>则由 SPIRE Server 自己生成私钥和根证书对后续的 SVID 进行签名<br>否则使用 Upstream Authority 进行签名
-    SS->>SS: 生成 CA 证书
-    SS->>SS: 创建信任包
-    SS->>SS: 启用注册 API，开放工作负载注册
+    rect rgb(25, 113, 194)
+        SS->>SS: 启动 SPIRE 服务器
+        note over SS: 若未配置 Upstream Authority，则自行生成私钥和根证书用于签名 SVID；<br>否则使用 Upstream Authority 签名
+        SS->>SS: 生成 CA 证书
+        SS->>SS: 创建信任包
+        SS->>SS: 启用注册 API，接受工作负载注册
     end
 
-    rect rgb(124, 124, 38)
-    SA->>SA: 在 Node 上启动 SPIRE 代理
-    note over SA: 例如部署在 AWS 上则使用 AWS 实例身份文档
-    SA->>SA: 执行节点证明
-    SA->>SS: 通过 TLS 发送证明
-    SS->>AA: 调用 AWS API 验证证明
-    AA->>SS: 确认文档有效
-    note over SS: 可执行额外的证明步骤
+    rect rgb(25, 113, 194)
+        SA->>SA: 在节点上启动 SPIRE 代理
+        note over SA: 如部署在 AWS 上，则使用 AWS 实例身份文档
+        SA->>SA: 执行节点证明
+        SA->>SS: 通过 TLS 发送证明请求
+        SS->>AA: 调用 AWS API 验证证明
+        AA->>SS: 确认文档有效
+        note over SS: 可根据需要执行额外证明步骤
     end
 
-    rect rgb(124, 124, 38)
-    SS->>SA: 向代理颁发 SVID
-    SA->>SS: 请求注册条目（使用 SVID）
-    SS->>SS: 使用 SVID 认证代理
-    SS->>SA: 发送授权的注册条目
-    SA->>SA: 缓存注册条目
-    SA->>SA: 发送工作负载 CSR 到服务器
-    SS->>SA: 签名并返回工作负载 SVID
-    SA->>SA: 缓存工作负载 SVID
-    SA->>SA: 开始监听工作负载 API 套接字
+    rect rgb(25, 113, 194)
+        SS->>SA: 向代理颁发 SVID
+        SA->>SS: 使用 SVID 请求注册条目
+        SS->>SS: 通过 SVID 认证代理
+        SS->>SA: 返回授权的注册条目
+        SA->>SA: 缓存注册条目
+        SA->>SS: 发送工作负载 CSR 到服务器
+        SS->>SA: 签名并返回工作负载 SVID
+        SA->>SA: 缓存工作负载 SVID
+        SA->>SA: 监听工作负载 API 套接字
     end
 
-    rect rgb(124, 124, 38)
-    Workload->>SA: 请求工作负载 SVID
-    SA->>SA: 启动工作负载证明
-    SA->>SA: 使用工作负载选择器识别工作负载
-    SA->>Workload: 返回 SVID（来自缓存）
+    rect rgb(25, 113, 194)
+        Workload->>SA: 请求工作负载 SVID
+        SA->>SA: 启动工作负载证明
+        SA->>SA: 根据工作负载选择器识别身份
+        SA->>Workload: 返回缓存中的 SVID
     end
 
 ```
