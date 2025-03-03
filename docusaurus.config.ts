@@ -210,6 +210,11 @@ const config: Config = {
           ],
         },
         {
+          to: "/learning-route",
+          label: "Learning Route",
+          position: "right",
+        },
+        {
           type: "search",
           position: "right",
         },

@@ -1,5 +1,5 @@
 import { Row, Col, Grid, Card } from "antd";
-import { Title, Text, Paragraph } from "@site/src/components/Typography";
+import { Title, Text, Paragraph, Link } from "@site/src/components/Typography";
 const { useBreakpoint } = Grid;
 
 const data = [
@@ -56,7 +56,7 @@ const Declaration = () => {
                 hoverable
                 key={item.title}
                 title={item.title}
-                bordered={false}
+                variant="outlined"
               >
                 {item.content}
               </Card>
@@ -78,7 +78,7 @@ const Declaration = () => {
                 hoverable
                 key={item.title}
                 title={item.title}
-                bordered={false}
+                variant="outlined"
               >
                 {item.content}
               </Card>
@@ -99,7 +99,7 @@ const Declaration = () => {
               hoverable
               key={item.title}
               title={item.title}
-              bordered={false}
+              variant="outlined"
             >
               {item.content}
             </Card>
