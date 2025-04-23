@@ -16,5 +16,5 @@ export default {
   TermAdmonition,
   Term: TermPreview,
   TermPreview,
-  Collapse: CollapseHeading
+  CollapseHeading
 };

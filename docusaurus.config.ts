@@ -14,7 +14,12 @@ import rehypeKatex from "rehype-katex";
 import remarkCodeImport from "remark-code-import";
 import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
-
+import remarkBreaks from "heliannuuthus-remark-breaks";
+import remarkAdmonition from "heliannuuthus-remark-admomition";
+import { origins } from "heliannuuthus-remark-admomition";
+import remarkTerminology from "heliannuuthus-remark-terminology";
+import remarkCollapseTitle from "heliannuuthus-remark-collapse-title";
+import path from "path";
 import type { Options as BlogPluginOptions } from "@docusaurus/plugin-content-blog";
 import type { Options as PagePluginOptions } from "@docusaurus/plugin-content-pages";
 import type { Options as SVGRPluginOptions } from "@docusaurus/plugin-svgr";

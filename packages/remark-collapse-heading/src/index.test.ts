@@ -31,10 +31,10 @@ Content under h4
     const result = String(output);
 
     // 检查标题是否被转换为 Collapse 组件
-    expect(result).toContain('<Collapse title="Title 1" level="1"');
-    expect(result).toContain('<Collapse title="Title 2" level="2"');
-    expect(result).toContain('<Collapse title="Title 3" level="3"');
-    expect(result).toContain('<Collapse title="Title 4" level="4"');
+      expect(result).toContain('<CollapseHeading title="Title 1" level="1"');
+    expect(result).toContain('<CollapseHeading title="Title 2" level="2"');
+    expect(result).toContain('<CollapseHeading title="Title 3" level="3"');
+    expect(result).toContain('<CollapseHeading title="Title 4" level="4"');
   });
 
   it("should respect custom component name", async () => {
@@ -67,7 +67,9 @@ Content
 `;
     const output = await process(input);
     const result = String(output);
-    expect(result).toContain('<Collapse title="Title 2" level="2" collapsed');
+    expect(result).toContain(
+      '<CollapseHeading title="Title 2" level="2" collapsed'
+    );
   });
 
   it("should process nested collapsed headings", async () => {
@@ -82,13 +84,13 @@ More content
     const result = String(output);
 
     expect(result).toContain(
-      '<Collapse title="Parent Title" level="1" collapsed'
+      '<CollapseHeading title="Parent Title" level="1" collapsed'
     );
     expect(result).toContain(
-      '<Collapse title="Child Title" level="2" collapsed'
+      '<CollapseHeading title="Child Title" level="2" collapsed'
     );
     expect(result).toContain(
-      '<Collapse title="Grandchild Title" level="3" collapsed'
+      '<CollapseHeading title="Grandchild Title" level="3" collapsed'
     );
   });
 });

@@ -92,6 +92,9 @@ importers:
       heliannuuthus-remark-collapse-heading:
         specifier: file:./packages/remark-collapse-heading
         version: file:packages/remark-collapse-heading
+      heliannuuthus-remark-collapse-title:
+        specifier: file:./packages/remark-collapse-title
+        version: heliannuuthus-remark-admomition@file:packages/remark-collapse-title
       heliannuuthus-remark-comment-tooltip:
         specifier: file:./packages/remark-comment-tooltip
         version: file:packages/remark-comment-tooltip
@@ -177,9 +180,12 @@ importers:
       '@docusaurus/types':
         specifier: 3.8.1
         version: 3.8.1(acorn@8.14.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+<<<<<<< HEAD
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^5.2.0
         version: 5.2.2(prettier@3.5.3)
+=======
+>>>>>>> 6fc92b5 (some change)
       '@types/file-saver':
         specifier: ^2.0.7
         version: 2.0.7
@@ -3385,6 +3391,9 @@ packages:
 
   heliannuuthus-remark-admomition@file:packages/remark-admomition:
     resolution: {directory: packages/remark-admomition, type: directory}
+
+  heliannuuthus-remark-admomition@file:packages/remark-collapse-title:
+    resolution: {directory: packages/remark-collapse-title, type: directory}
 
   heliannuuthus-remark-collapse-heading@file:packages/remark-collapse-heading:
     resolution: {directory: packages/remark-collapse-heading, type: directory}
@@ -10490,6 +10499,8 @@ snapshots:
   heliannuuthus-parse-md@file:plugins/parse-md: {}
 
   heliannuuthus-remark-admomition@file:packages/remark-admomition: {}
+
+  heliannuuthus-remark-admomition@file:packages/remark-collapse-title: {}
 
   heliannuuthus-remark-collapse-heading@file:packages/remark-collapse-heading: {}
 
