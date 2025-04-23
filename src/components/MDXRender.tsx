@@ -3,6 +3,7 @@ import React, { useEffect, useState, Suspense } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import * as runtime from "react/jsx-runtime";
 import { evaluate } from "@mdx-js/mdx";
+import remarkParse from "remark-parse";
 import remarkCommentTooltip from "heliannuuthus-remark-comment-tooltip";
 import remarkDirective from "remark-directive";
 import remarkExternalLink from "heliannuuthus-remark-external-link";
@@ -16,6 +17,7 @@ import Tooltip from "@site/src/components/Tooltip";
 import TermAdmonition from "@theme/Admonition";
 import Mermaid from "@theme/Mermaid";
 import { Collapse } from "@site/src/components/Collapse";
+import remarkMath from "remark-math";
 
 const MDXRender = ({
   content,
@@ -29,6 +31,8 @@ const MDXRender = ({
     await evaluate(content, {
       ...runtime,
       remarkPlugins: [
+        remarkParse,
+        remarkMath,
         remarkDirective,
         remarkCommentTooltip,
         remarkTerminology,
