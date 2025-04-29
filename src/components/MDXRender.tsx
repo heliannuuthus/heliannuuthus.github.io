@@ -1,6 +1,6 @@
 // MDXRenderer.jsx
 import React, { useEffect, useState, Suspense } from "react";
-import { MDXProvider } from "@mdx-js/react";
+import { MDXProvider, useMDXComponents } from "@mdx-js/react";
 import * as runtime from "react/jsx-runtime";
 import { evaluate } from "@mdx-js/mdx";
 import remarkParse from "remark-parse";
@@ -18,6 +18,7 @@ import TermAdmonition from "@theme/Admonition";
 import Mermaid from "@theme/Mermaid";
 import { Collapse } from "@site/src/components/Collapse";
 import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 const MDXRender = ({
   content,
@@ -50,6 +51,14 @@ const MDXRender = ({
             target: "_blank",
             rel: ["noopener", "noreferrer"],
             test: (node: any) => node.url.startsWith("http"),
+          },
+        ],
+      ],
+      rehypePlugins: [
+        [
+          rehypeKatex,
+          {
+            output: "mathml",
           },
         ],
       ],
