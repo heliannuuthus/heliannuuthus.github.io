@@ -130,13 +130,13 @@ const TermItem = ({ slug, term, authors }: TermItemProps) => {
         title={
           <div>
             <Title
-            style={{
-              color: "var(--ifm-color-term-title)",
-            }}
-            level={5}
-          >
-            {term.metadata.title}
-          </Title>
+              style={{
+                color: "var(--ifm-color-term-title)",
+              }}
+              level={5}
+            >
+              {term.metadata.title}
+            </Title>
           </div>
         }
         description={<MDXRenderer content={term.metadata.description} />}
