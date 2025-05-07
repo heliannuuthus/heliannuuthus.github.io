@@ -1,5 +1,4 @@
-import type * as Preset from "@docusaurus/preset-classic";
-import type { Config } from "@docusaurus/types";
+import type { Config, ThemeConfig } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
 import rehypeKatex from "rehype-katex";
 import remarkBreaks from "remark-breaks";
@@ -12,33 +11,33 @@ import remarkAdmonition from "heliannuuthus-remark-admomition";
 import remarkTerminology from "heliannuuthus-remark-terminology";
 import path from "path";
 import type { Options as BlogPluginOptions } from "@docusaurus/plugin-content-blog";
+import type { Options as PagePluginOptions } from "@docusaurus/plugin-content-pages";
+
+const remarkPlugins = [
+  remarkDirective,
+  remarkTerminology,
+  remarkCommentTooltip,
+  [remarkAdmonition, { admonition: "TermAdmonition" }],
+  remarkCodeImport,
+  remarkBreaks,
+  remarkMath,
+];
+
+const rehypePlugins = [
+  rehypeKatex,
+  [
+    remarkExternalLink,
+    {
+      href: "/external-link",
+      target: "_blank",
+      rel: ["noopener", "noreferrer"],
+    },
+  ],
+];
+
 const blogConfig = {
-  remarkPlugins: [
-    remarkDirective,
-    remarkTerminology,
-    remarkCommentTooltip,
-    [
-      remarkAdmonition,
-      {
-        admonition: "TermAdmonition",
-      },
-    ],
-    remarkCodeImport,
-    remarkBreaks,
-    remarkMath,
-  ],
-  rehypePlugins: [
-    rehypeKatex,
-    [
-      remarkExternalLink,
-      {
-        href: "/external-link",
-        target: "_blank",
-        rel: ["noopener", "noreferrer"],
-        test: (node: any) => node.url.startsWith("http"),
-      },
-    ],
-  ],
+  remarkPlugins,
+  rehypePlugins,
   blogSidebarTitle: "最近的发布",
   showReadingTime: true,
   showLastUpdateAuthor: true,
@@ -85,6 +84,10 @@ const config: Config = {
   i18n: {
     defaultLocale: "en",
     locales: ["en"],
+  },
+  customFields: {
+    editUrl:
+      "https://github.com/heliannuuthus/heliannuuthus.github.io/edit/master",
   },
   markdown: {
     mermaid: true,
@@ -136,15 +139,34 @@ const config: Config = {
     },
   },
   themes: [
-    "@docusaurus/theme-mermaid",
     [
       "@docusaurus/theme-classic",
       {
         customCss: "./src/css/custom.css",
       },
     ],
+    "@docusaurus/theme-mermaid",
+    "@docusaurus/theme-search-algolia",
   ],
   plugins: [
+    [
+      "@docusaurus/plugin-content-pages",
+      {
+        id: "pages",
+        path: "src/pages",
+        routeBasePath: "/",
+      } satisfies PagePluginOptions,
+    ],
+    [
+      "@docusaurus/plugin-content-pages",
+      {
+        id: "terminology",
+        path: "terminology",
+        routeBasePath: "terms",
+        remarkPlugins,
+        rehypePlugins,
+      } satisfies PagePluginOptions,
+    ],
     [
       "@docusaurus/plugin-content-blog",
       {
@@ -166,8 +188,9 @@ const config: Config = {
     [
       require.resolve("heliannuuthus-docusaurus-terminology"),
       {
-        termsDir: "terminology",
-        termPreviewComponentPath: "@site/src/components/terms/TermPreview.tsx",
+        path: "terminology",
+        routeBasePath: "terms",
+        glossaries: "./static/terminologies.yml",
         glossaryComponentPath: "@site/src/components/terms/Terminology.tsx",
       },
     ],
@@ -272,7 +295,7 @@ const config: Config = {
         },
       ],
     },
-  } satisfies Preset.ThemeConfig,
+  } satisfies ThemeConfig,
 };
 
 export default config;

@@ -1,0 +1,34 @@
+crypto:
+  name: 密码学
+  description: 密码学相关术语，包括 X.509 证书、DER 编码、PEM 编码等
+  authors: [heliannuuthus, robot]
+
+java:
+  name: Java
+  description: Java 相关术语
+  authors: [heliannuuthus, robot]
+
+jwt:
+  name: Json Web Token
+  description: Json Web Token 相关术语
+  authors: [heliannuuthus, robot]
+
+kubernetes:
+  name: Kubernetes
+  description: Kubernetes 相关术语
+  authors: [heliannuuthus, robot]
+
+net:
+  name: 计算机网络
+  description: 计算机网络相关术语
+  authors: [robot]
+
+os:
+  name: 操作系统
+  description: 操作系统相关术语
+  authors: [robot]
+
+web:
+  name: web 开发
+  description: web 开发相关术语
+  authors: [heliannuuthus, robot]

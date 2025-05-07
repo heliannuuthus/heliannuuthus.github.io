@@ -5,7 +5,7 @@ authors: [heliannuuthus]
 tags: [Web Backend]
 ---
 
-基于 :term[Redisson]{./blog/terms/java#redisson} 的:term[滑动时间窗口]{./blog/terms/net#sliding-window-protocol}限流器实现。
+基于 :term[Redisson]{./terms/java#redisson} 的:term[滑动时间窗口]{./terms/net#sliding-window-protocol}限流器实现。
 
 <!--truncate-->
 
@@ -24,7 +24,7 @@ import { Collapse } from "@site/src/components/Collapse";
 
 ## 原理和设计
 
-> 使用 Redis HashMap 结构实现:term[令牌桶]{./blog/terms/net#token-bucket}，使用 timestamp 作为桶的 key，使用请求数作为桶的 value。
+> 使用 Redis HashMap 结构实现:term[令牌桶]{./terms/net#token-bucket}，使用 timestamp 作为桶的 key，使用请求数作为桶的 value。
 
 ### 基于令牌桶的滑动时间窗
 

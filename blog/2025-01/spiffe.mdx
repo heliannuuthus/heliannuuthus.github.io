@@ -15,7 +15,7 @@ import { Collapse } from "@site/src/components/Collapse";
 
 ### SPIFFE ID
 
-> 本质是:term[统一资源标识符]{./blog/terms/web#uri}，用于标识一个[工作负载](#workload)
+> 本质是:term[统一资源标识符]{./terms/web#uri}，用于标识一个[工作负载](#workload)
 
 通常格式为：
 
@@ -35,8 +35,8 @@ import { Collapse } from "@site/src/components/Collapse";
 
 SVID 通常用于验证[工作负载](#workload)的身份，有以下两种格式：
 
-- :term[JWT]{./blog/terms/jwt#jwt}：适用于非 TLS 的场景，比如基于 HTTP Header 的认证
-- :term[X.509]{./blog/terms/crypto#x509}：适用于 TLS 的场景，比如需要证书的双向认证（mTLS）
+- :term[JWT]{./terms/jwt#jwt}：适用于非 TLS 的场景，比如基于 HTTP Header 的认证
+- :term[X.509]{./terms/crypto#x509}：适用于 TLS 的场景，比如需要证书的双向认证（mTLS）
 
 并且为了保证安全性，其本身的**_有效时间通常只设置几分钟_**，并且需要**定期更新**。
 
@@ -90,7 +90,7 @@ SPIRE Agent 的组件：
 
 #### k8s_psat
 
-> psat(:term[Projected]{./blog/terms/k8s#projected-volume} Service Account Token) 是 k8s 1.12 版本引入的概念，在 1.20 版本稳定的一种新的服务账户令牌，用于替代 sat(Service Account Token)
+> psat(:term[Projected]{./terms/k8s#projected-volume} Service Account Token) 是 k8s 1.12 版本引入的概念，在 1.20 版本稳定的一种新的服务账户令牌，用于替代 sat(Service Account Token)
 
 1. agent 向 server 发送挂载在**指定路径下**的 projected service account token，开始自证
 2. server 向 K8S Server API 获取公钥，以验证 token 的合法性，验证成功后返回 spiffe_id

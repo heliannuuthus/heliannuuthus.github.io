@@ -4,7 +4,8 @@ import { store, TermMetadata, TermData } from "heliannuuthus-terminology-store";
 import type { LoaderContext } from "webpack";
 
 interface WebpackTermsLoaderOptions {
-  termsDir: string;
+  path: string;
+  routeBasePath: string;
   glossaryComponentPath: string;
 }
 
@@ -19,12 +20,12 @@ export default async function loader(
 ) {
   this.cacheable(false);
   const unixRegex = new RegExp(
-    `(${this.query.termsDir
+    `(${this.query.path
       .replace(/^\.\//, "")
       .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`
   );
   const winRegex = new RegExp(
-    `(${this.query.termsDir
+    `(${this.query.path
       .replace(/\//g, "\\")
       .replace(/\./, "")
       .replace(/[*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`
@@ -32,20 +33,13 @@ export default async function loader(
 
   const unixResourcePath = this.resourcePath;
   const winResourcePath = this.resourcePath.replace(/\\/, "\\\\");
-  const termMatch =
+  const matchs =
     process.platform === "win32"
       ? winResourcePath.match(winRegex)
       : unixResourcePath.match(unixRegex);
-  console.log(
-    `winResourcePath: ${winResourcePath}, winRegex: ${winRegex}, 
-    unixResourcePath: ${unixResourcePath}, unixRegex: ${unixRegex}, 
-    termMatch: ${JSON.stringify(
-      termMatch
-    )}`
-  );
-  if (termMatch) {
+  if (matchs) {
     const terms = parse<TermMetadata>(source);
-    const resourcePath = termMatch[1].replace(/\d+-/, "");
+    const resourcePath = matchs[1].replace(/\d+-/, "");
     const termMap = terms.reduce((acc, term) => {
       acc[term.metadata.slug] = {
         ...term,
@@ -58,8 +52,11 @@ export default async function loader(
       };
       return acc;
     }, {} as Record<string, TermData>);
-    store.addTerm(resourcePath, termMap);
-    this.emitFile(resourcePath + ".json", JSON.stringify(termMap));
+    store.addTerm(resourcePath.replace(this.query.path, ""), termMap);
+    this.emitFile(
+      resourcePath.replace(this.query.path, this.query.routeBasePath) + ".json",
+      JSON.stringify(termMap)
+    );
     return `
 
 import Terminology from "${this.query.glossaryComponentPath}";

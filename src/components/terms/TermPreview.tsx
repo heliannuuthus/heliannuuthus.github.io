@@ -8,11 +8,11 @@ import { TermData } from "heliannuuthus-terminology-store";
 import { isMobile, isIPad13, isTablet } from "react-device-detect";
 import MDXRender from "@site/src/components/MDXRender";
 import { BookFilled, EditOutlined } from "@ant-design/icons";
-import { useHistory } from "@docusaurus/router";
 import { PopoverAvatars, DrawerAvatars } from "@site/src/components/Avatar";
 import Tooltip from "@site/src/components/Tooltip";
 const { Text, Link, Title } = Typography;
 import { Author } from "heliannuuthus-docusaurus-authors";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
 declare global {
   interface Window {
@@ -32,11 +32,13 @@ type TermContent = {
 const TooltipsPreview = ({
   path,
   anchor,
+  editPath,
   children,
   content,
 }: {
   path: string;
   anchor: string;
+  editPath: string;
   children: React.ReactNode;
   content: TermContent;
 }) => {
@@ -82,7 +84,7 @@ const TooltipsPreview = ({
             <Tooltip title={`内容描述有问题？提交 PR 修改`}>
               <Button
                 type="link"
-                href={`https://github.com/heliannuuthus/heliannuuthus.github.io/edit/master${path}.mdx`}
+                href={editPath}
                 icon={<EditOutlined key="edit" />}
                 children={`编辑`}
               />
@@ -115,15 +117,28 @@ const TooltipsPreview = ({
 const DrawerPreview = ({
   path,
   anchor,
+  editPath,
   children,
   content,
 }: {
   path: string;
+  editPath: string;
   anchor: string;
   children: React.ReactNode;
   content: TermContent;
 }) => {
   const [open, setOpen] = useState(false);
+  const { siteConfig } = useDocusaurusContext();
+
+  const pluginOptions = siteConfig.plugins.filter((plugin) => {
+    if (plugin[0] === "@docusaurus/plugin-content-pages") {
+      return plugin[1] && plugin[1].id === "terminology";
+    }
+    return false;
+  })[0][1];
+
+  const directory = pluginOptions.routeBasePath;
+  const replacedPath = pluginOptions.path;
   return (
     <>
       <Link
@@ -159,7 +174,9 @@ const DrawerPreview = ({
             />
             <Button
               type="link"
-              href={`https://github.com/heliannuuthus/heliannuuthus.github.io/edit/master${path}.mdx`}
+              href={`https://github.com/heliannuuthus/heliannuuthus.github.io/edit/master/${path
+                .replace(/\/$/, "")
+                .replace(directory, replacedPath)}.mdx`}
               target="_blank"
               icon={<EditOutlined key="edit" />}
               children={`编辑`}
@@ -198,9 +215,24 @@ const TermPreview = ({
     authors: Record<string, AuthorAttributes>;
   };
 
+  const { siteConfig } = useDocusaurusContext();
+
+  const editPathPrefix = siteConfig.customFields.editUrl;
+
+  const options = siteConfig.plugins.filter((plugin) => {
+    if (plugin[0] === "@docusaurus/plugin-content-pages") {
+      return plugin[1] && plugin[1].id === "terminology";
+    }
+    return false;
+  })[0][1];
+
+  const editPath = `${editPathPrefix}${path
+    .replace(/\/$/, "")
+    .replace(options.routeBasePath, options.path)}.mdx`;
+
   const fetchContent = async (
     url: string,
-    authors: Record<string, AuthorAttributes>,
+    authors: Record<string, AuthorAttributes>
   ) => {
     try {
       // 如果缓存存在且有数据，直接使用缓存
@@ -231,7 +263,7 @@ const TermPreview = ({
             acc[author] = authors[author];
             return acc;
           },
-          {} as Record<string, AuthorAttributes>,
+          {} as Record<string, AuthorAttributes>
         ),
         content: term.content,
       });
@@ -261,6 +293,7 @@ const TermPreview = ({
           useMobile ? (
             <DrawerPreview
               path={path}
+              editPath={editPath}
               anchor={anchor}
               content={content}
               children={children}
@@ -268,6 +301,7 @@ const TermPreview = ({
           ) : (
             <TooltipsPreview
               path={path}
+              editPath={editPath}
               anchor={anchor}
               content={content}
               children={children}

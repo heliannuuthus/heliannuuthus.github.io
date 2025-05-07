@@ -15,21 +15,17 @@ export interface Author {
   socials: Record<string, string>;
 }
 
-interface AuthorsContent {
-  authors: Author[];
-}
-
 export default async function authorsListPlugin(
   context: LoadContext,
-  opts: AuthorsListPluginOptions,
-): Promise<Plugin<AuthorsContent>> {
+  opts: AuthorsListPluginOptions
+): Promise<Plugin<{ authors: Record<string, Author> }>> {
   return {
     name: "authors-docusaurus-plugin",
     async loadContent() {
       // 读取 YAML 文件
       const authorsPath = path.join(context.siteDir, opts.path);
       const authorsYaml = fs.readFileSync(authorsPath, "utf8");
-      const authors = yaml.load(authorsYaml) as Author[];
+      const authors = yaml.load(authorsYaml) as Record<string, Author>;
       return { authors };
     },
 
@@ -37,7 +33,7 @@ export default async function authorsListPlugin(
       const { setGlobalData } = actions;
       // 设置全局数据
       setGlobalData({
-        authors: (content as AuthorsContent).authors,
+        authors: (content as { authors: Record<string, Author> }).authors,
       });
     },
   };
