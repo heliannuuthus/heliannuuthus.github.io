@@ -53,6 +53,7 @@
     "heliannuuthus-remark-external-link": "file:./packages/remark-external-link",
     "heliannuuthus-remark-mermaid": "file:./packages/remark-mermaid",
     "heliannuuthus-remark-terminology": "file:./packages/remark-terminology",
+    "heliannuuthus-remark-breaks": "file:./packages/remark-breaks",
     "heliannuuthus-terminology-store": "file:./plugins/terminology-store",
     "js-yaml": "^4.1.0",
     "jszip": "^3.10.1",
