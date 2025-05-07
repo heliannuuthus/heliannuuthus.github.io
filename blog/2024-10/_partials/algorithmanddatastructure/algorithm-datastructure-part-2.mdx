@@ -215,7 +215,12 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
   2. 如果是完全二叉树，则节点个数为 \(2^h - 1\)（可统计最左侧路径与最右侧路径是否相同）
   3. 否则，前序遍历递归统计左右子树的节点个数（递归分别统计当前节点左右子树的深度）
 
-- [构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description)
+- <a
+    id="构造二叉树"
+    href="https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description"
+  >
+    构造二叉树
+  </a>
 
 :::note
 
@@ -299,7 +304,7 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
 - [构造最大二叉树](https://leetcode.cn/problems/maximum-binary-tree/description)
 
   - 遍历数组，找到最大值作为根节点
-  - 使用递归的手段构造左右子树，如[构造二叉树](#构造二叉树)
+  - 使用递归的手段构造左右子树，如[构造二叉树](/blog/algorithm-datastructure#构造二叉树)
 
 - [平衡二叉树](https://leetcode.cn/problems/balanced-binary-tree/description)
 
@@ -404,16 +409,15 @@ import MorrisTraversalPostOrderContent from "../../_contents/morris-traversal/po
 
   - **中序递归遍历**左右子树，可利用前驱节点指针
   - 如果当前节点大于前驱节点，则更新最小绝对差，否则返回 false
-  - 利用 [Morris 遍历](/blog/algorithm-datastructure#Morris遍历)可以减少空间复杂度
+  - 利用 [Morris 遍历](/blog/algorithm-datastructure#morris-遍历)可以减少空间复杂度
 
 - [二叉搜索树中的众数](https://leetcode.cn/problems/find-mode-in-binary-search-tree/description)
 
   - **中序递归遍历**左右子树，可利用前驱节点指针
   - 如果相同众数大于当前众数，则更新众数，否则返回当前众数
-  - 利用 [Morris 遍历](/blog/algorithm-datastructure#Morris遍历)可以减少空间复杂度
+  - 利用 [Morris 遍历](/blog/algorithm-datastructure#morris-遍历)可以减少空间复杂度
 
 - [二叉搜索树转换成累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree/description)
-
   - **反向后序遍历**（即先右后左）左右子树，可利用前驱节点指针
   - 递归遍历左右子树，将当前节点的值加上右子树的值
 

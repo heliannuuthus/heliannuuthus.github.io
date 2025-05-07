@@ -16,19 +16,19 @@ interface WebpackTermsLoaderContext
 
 export default async function loader(
   this: WebpackTermsLoaderContext,
-  source: string
+  source: string,
 ) {
   this.cacheable(false);
   const unixRegex = new RegExp(
     `(${this.query.path
       .replace(/^\.\//, "")
-      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`,
   );
   const winRegex = new RegExp(
     `(${this.query.path
       .replace(/\//g, "\\")
       .replace(/\./, "")
-      .replace(/[*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`
+      .replace(/[*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`,
   );
 
   const unixResourcePath = this.resourcePath;
@@ -40,22 +40,25 @@ export default async function loader(
   if (matchs) {
     const terms = parse<TermMetadata>(source);
     const resourcePath = matchs[1].replace(/\d+-/, "");
-    const termMap = terms.reduce((acc, term) => {
-      acc[term.metadata.slug] = {
-        ...term,
-        metadata: {
-          ...term.metadata,
-          description: term.metadata.description,
-          authors: term.metadata.authors || ["robot"],
-        },
-        content: term.content,
-      };
-      return acc;
-    }, {} as Record<string, TermData>);
+    const termMap = terms.reduce(
+      (acc, term) => {
+        acc[term.metadata.slug] = {
+          ...term,
+          metadata: {
+            ...term.metadata,
+            description: term.metadata.description,
+            authors: term.metadata.authors || ["robot"],
+          },
+          content: term.content,
+        };
+        return acc;
+      },
+      {} as Record<string, TermData>,
+    );
     store.addTerm(resourcePath.replace(this.query.path, ""), termMap);
     this.emitFile(
       resourcePath.replace(this.query.path, this.query.routeBasePath) + ".json",
-      JSON.stringify(termMap)
+      JSON.stringify(termMap),
     );
     return `
 

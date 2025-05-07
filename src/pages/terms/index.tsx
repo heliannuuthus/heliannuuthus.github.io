@@ -1,6 +1,5 @@
 import { MenuOutlined, SettingOutlined } from "@ant-design/icons";
 import { EditOutlined } from "@ant-design/icons";
-import { EllipsisOutlined } from "@ant-design/icons";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { Terminology } from "@site/plugins/docusaurus-terminology/src";
 import { Col, Row, Card, Flex, Button } from "antd";
@@ -29,12 +28,12 @@ export default () => {
     terminologies: Record<string, Terminology>;
   };
   const { authors: globalAuthors } = usePluginData(
-    "authors-docusaurus-plugin"
+    "authors-docusaurus-plugin",
   ) as {
     authors: Record<string, Author>;
   };
   const { styles } = useStyles();
-  useEffect(() => {}, [location]);
+  useEffect(() => {}, []);
 
   const {
     siteConfig: { customFields },
@@ -56,7 +55,7 @@ export default () => {
                 acc[author] = globalAuthors[author];
                 return acc;
               },
-              {} as Record<string, Author>
+              {} as Record<string, Author>,
             );
 
             return (
@@ -85,7 +84,7 @@ export default () => {
                         e.stopPropagation();
                         window.open(
                           `${customFields.editUrl}/${terminology.path}.mdx`,
-                          "_blank"
+                          "_blank",
                         );
                       }}
                       icon={<EditOutlined key="edit" />}

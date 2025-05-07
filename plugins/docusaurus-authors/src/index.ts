@@ -17,7 +17,7 @@ export interface Author {
 
 export default async function authorsListPlugin(
   context: LoadContext,
-  opts: AuthorsListPluginOptions
+  opts: AuthorsListPluginOptions,
 ): Promise<Plugin<{ authors: Record<string, Author> }>> {
   return {
     name: "authors-docusaurus-plugin",

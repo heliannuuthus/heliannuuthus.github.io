@@ -232,7 +232,7 @@ const TermPreview = ({
 
   const fetchContent = async (
     url: string,
-    authors: Record<string, AuthorAttributes>
+    authors: Record<string, AuthorAttributes>,
   ) => {
     try {
       // 如果缓存存在且有数据，直接使用缓存
@@ -263,7 +263,7 @@ const TermPreview = ({
             acc[author] = authors[author];
             return acc;
           },
-          {} as Record<string, AuthorAttributes>
+          {} as Record<string, AuthorAttributes>,
         ),
         content: term.content,
       });
