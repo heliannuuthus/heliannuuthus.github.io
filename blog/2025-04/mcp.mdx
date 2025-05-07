@@ -1,6 +1,6 @@
 ---
 slug: OAuth2.1-MCP
-title: MCP 的身份认证
+title: MCP 身份认证协议
 date: 2025-04-30
 authors: [heliannuuthus]
 tags: [AI]
@@ -13,10 +13,14 @@ tags: [AI]
 
 ## 前言
 
-MCP 从去年 10 月左右被提出，起初只有少部分活跃于 AI 开源社区的开发者关注，后续随着 Manus 突然出现，MCP 也逐渐被大众所熟知。
-在最初，应该是 [Claude Desktop](https://claude.ai/download) 真正的将 MCP 集成到自己的应用中，提供了非常棒的体验。随后 [Cursor](https://cursor.sh/)、[Cline](https://cline.ai/)、[n8n](https://n8n.io/) 等主流 AI 工具开始搭乘这次东风。
-开发者们开始通过 stdio 模式让 MCP Host 接入 MCP Server，当时的 MCP Server 都部署在本地或者干脆就是一个 `.py` 文件。
-随着大量用户涌入社区，社区开始出现 sse 模式的 MCP Server。当前模式下，MCP 可通过 `http` 或 `https` 协议来访问，并使用 :term[SSE]{./terms/net#sse} 协议来传输数据。
+MCP 从去年 10 月左右被提出，起初只有少部分活跃于 AI 开源社区的开发者关注，后续随着 [Manus](https://manus.im) 突然出现，MCP 也逐渐被大众所熟知。
+在最初，是 [Claude](https://claude.ai/download) 真正的将 MCP 集成到自己的应用中，提供了非常强大的用户体验。随后 [Cursor](https://cursor.sh/)、[Cline](https://cline.ai/)、[n8n](https://n8n.io/) 等主流 AI 工具开始搭乘这次东风。
+开发者们开始通过 stdio 模式将 MCP Server 注册到 MCP Host 中（其实就是一个 python 脚本）。
+随着大量用户涌入社区，社区开始出现 :term[SSE]{./terms/net#sse} 模式的 MCP Server。当前模式下，MCP 可通过 `http` 或 `https` 协议来访问，并使用 :term[SSE]{./terms/net#sse} 协议来传输数据。
 在 HTTP 的传统交互模式下，身份和权限是一个老生常谈的问题，在开发者使用 stdio 模式的时候这一点其实并没有很好体现。当企业想要部署可公开（并不是公网可访问）的 MCP Server 时，身份和权限就变得尤为重要。
 
-在
+
+## 协议内容
+
+> MCP 官网在 [2025-03-26 的规约](https://modelcontextprotocol.io/specification/2025-03-26/basic/authorization) 中提到了 MCP 的身份认证协议，并指出可借助 :term[OAuth 2.1]{./terms/auth#oauth} 使 MCP Client 可以替代用户访问受限的 MCP Server。
+

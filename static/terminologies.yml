@@ -8,12 +8,12 @@ java:
   description: Java 相关术语
   authors: [heliannuuthus, robot]
 
-jwt:
-  name: Json Web Token
-  description: Json Web Token 相关术语
+auth:
+  name: 认证和授权
+  description: 认证和授权相关术语
   authors: [heliannuuthus, robot]
 
-kubernetes:
+k8s:
   name: Kubernetes
   description: Kubernetes 相关术语
   authors: [heliannuuthus, robot]
