@@ -31,15 +31,24 @@ export interface TerminologyOptions {
 
 export default async function DocusaurusTerminologyPlugin(
   context: DocusaurusContext,
-  options: TerminologyOptions,
+  options: TerminologyOptions
 ): Promise<Plugin<any>> {
   try {
-    fs.rm("node_modules/.cache", { recursive: true }, (err) => {
+    fs.stat("node_modules/.cache", (err, stats) => {
       if (err) {
         console.error(err);
+        return;
+      } else if (stats.isDirectory()) {
+        fs.rm("node_modules/.cache", { recursive: true }, (err) => {
+          if (err) {
+            console.error(err);
+          }
+        });
       }
     });
-  } catch (err) {}
+  } catch (err) {
+    console.error(err);
+  }
   return {
     name: "terminology-docusaurus-plugin",
     configureWebpack(config, isServer, utils, content) {
@@ -47,6 +56,7 @@ export default async function DocusaurusTerminologyPlugin(
       options.resolved = true;
 
       const rules = config.module?.rules as WebpackRule[];
+
       let rule = rules.find((rule) => {
         return (
           rule.use &&
@@ -55,25 +65,12 @@ export default async function DocusaurusTerminologyPlugin(
             (kider: RuleSetUseItem) =>
               typeof kider === "object" &&
               typeof kider.loader === "string" &&
-              kider.loader.includes("plugin-content-blog"),
+              kider.loader.includes("mdx-loader")
           )
         );
       });
-
-      if (!rule) {
-        rule = rules.find((rule) => {
-          return (
-            rule.use &&
-            Array.isArray(rule.use) &&
-            rule.use.some(
-              (kider: RuleSetUseItem) =>
-                typeof kider === "object" &&
-                typeof kider.loader === "string" &&
-                kider.loader.includes("mdx-loader"),
-            )
-          );
-        });
-      }
+      
+      console.log(`found rule: ${JSON.stringify(rule)}`);
 
       if (!rule) {
         rule = rules.find((rule) => {
@@ -94,7 +91,7 @@ export default async function DocusaurusTerminologyPlugin(
               (kider: RuleSetUseItem) =>
                 typeof kider === "object" &&
                 typeof kider.loader === "string" &&
-                kider.loader.includes("heliannuuthus-webpack-terms-loader"),
+                kider.loader.includes("heliannuuthus-webpack-terms-loader")
             )
           );
         })
