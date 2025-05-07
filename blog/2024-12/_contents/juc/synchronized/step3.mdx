@@ -1,4 +1,4 @@
 import { Link } from "@site/src/components/Typography";
 
 - 通过 `CAS` 操作获取 **轻量级锁** _失败一定次数_，或者*存在自旋等待的线程*，则将锁对象的状态设置为 **重量级锁** - `10`。
-- 此时线程获取锁会阻塞，底层通过操作系统 :term[Mutex Lock]{./blog/terms/java#mutex-lock} 实现。
+- 此时线程获取锁会阻塞，底层通过操作系统 :term[Mutex Lock]{./terms/java#mutex-lock} 实现。

@@ -1,5 +1,4 @@
-import type * as Preset from "@docusaurus/preset-classic";
-import type { Config } from "@docusaurus/types";
+import type { Config, ThemeConfig } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
 import rehypeKatex from "rehype-katex";
 import remarkBreaks from "remark-breaks";
@@ -11,6 +10,52 @@ import remarkDirective from "remark-directive";
 import remarkAdmonition from "heliannuuthus-remark-admomition";
 import remarkTerminology from "heliannuuthus-remark-terminology";
 import path from "path";
+import type { Options as BlogPluginOptions } from "@docusaurus/plugin-content-blog";
+import type { Options as PagePluginOptions } from "@docusaurus/plugin-content-pages";
+
+const remarkPlugins = [
+  remarkDirective,
+  remarkTerminology,
+  [
+    remarkExternalLink,
+    {
+      href: "/external-link",
+      target: "_blank",
+      rel: ["noopener", "noreferrer"],
+      test: (node: any) => node.url.startsWith("http"),
+    },
+  ],
+  remarkCommentTooltip,
+  [remarkAdmonition, { admonition: "TermAdmonition" }],
+  remarkCodeImport,
+  remarkBreaks,
+  remarkMath,
+];
+
+const rehypePlugins = [rehypeKatex];
+
+const blogConfig = {
+  remarkPlugins,
+  rehypePlugins,
+  blogSidebarTitle: "最近的发布",
+  showReadingTime: true,
+  showLastUpdateAuthor: true,
+  showLastUpdateTime: true,
+  feedOptions: {
+    type: ["rss", "atom"],
+    xslt: true,
+  },
+  authorsMapPath: "../static/authors.yml",
+  tags: "../static/tags.yml",
+  // Please change this to your repo.
+  // Remove this to remove the "edit this page" links.
+  editUrl:
+    "https://github.com/heliannuuthus/heliannuuthus.github.io/tree/master/",
+  // Useful options to enforce blogging best practices
+  onInlineTags: "warn",
+  onInlineAuthors: "warn",
+  onUntruncatedBlogPosts: "warn",
+} as BlogPluginOptions;
 
 const config: Config = {
   title: "heliannuuthus",
@@ -38,6 +83,10 @@ const config: Config = {
   i18n: {
     defaultLocale: "en",
     locales: ["en"],
+  },
+  customFields: {
+    editUrl:
+      "https://github.com/heliannuuthus/heliannuuthus.github.io/edit/master",
   },
   markdown: {
     mermaid: true,
@@ -88,76 +137,65 @@ const config: Config = {
       return result;
     },
   },
-  themes: ["@docusaurus/theme-mermaid"],
-  presets: [
+  themes: [
     [
-      "classic",
+      "@docusaurus/theme-classic",
       {
-        docs: false,
-        blog: {
-          remarkPlugins: [
-            remarkDirective,
-            remarkTerminology,
-            remarkCommentTooltip,
-            [
-              remarkAdmonition,
-              {
-                admonition: "TermAdmonition",
-              },
-            ],
-            remarkCodeImport,
-            remarkBreaks,
-            remarkMath,
-          ],
-          rehypePlugins: [
-            rehypeKatex,
-            [
-              remarkExternalLink,
-              {
-                href: "/external-link",
-                target: "_blank",
-                rel: ["noopener", "noreferrer"],
-                test: (node: any) => node.url.startsWith("http"),
-              },
-            ],
-          ],
-          blogSidebarTitle: "最近的发布",
-          routeBasePath: "blog",
-          showReadingTime: true,
-          showLastUpdateAuthor: true,
-          showLastUpdateTime: true,
-          feedOptions: {
-            type: ["rss", "atom"],
-            xslt: true,
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/heliannuuthus/heliannuuthus.github.io/tree/master/",
-          // Useful options to enforce blogging best practices
-          onInlineTags: "warn",
-          onInlineAuthors: "warn",
-          onUntruncatedBlogPosts: "warn",
-        },
-        theme: {
-          customCss: "./src/css/custom.css",
-        },
-      } satisfies Preset.Options,
+        customCss: "./src/css/custom.css",
+      },
     ],
+    "@docusaurus/theme-mermaid",
+    "@docusaurus/theme-search-algolia",
   ],
   plugins: [
     [
+      "@docusaurus/plugin-content-pages",
+      {
+        id: "pages",
+        path: "src/pages",
+        routeBasePath: "/",
+      } satisfies PagePluginOptions,
+    ],
+    [
+      "@docusaurus/plugin-content-pages",
+      {
+        id: "terminology",
+        path: "terminology",
+        routeBasePath: "terms",
+        remarkPlugins,
+        rehypePlugins,
+      } satisfies PagePluginOptions,
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      {
+        ...blogConfig,
+        id: "blog",
+        routeBasePath: "blog",
+        path: "blog",
+      } satisfies BlogPluginOptions,
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      {
+        ...blogConfig,
+        id: "essay",
+        routeBasePath: "essay",
+        path: "essay",
+      } satisfies BlogPluginOptions,
+    ],
+    [
       require.resolve("heliannuuthus-docusaurus-terminology"),
       {
-        termsDir: "blog/terms",
-        docsDir: "blog",
-        termPreviewComponentPath: "@site/src/components/terms/TermPreview.tsx",
+        path: "terminology",
+        routeBasePath: "terms",
+        glossaries: "./static/terminologies.yml",
         glossaryComponentPath: "@site/src/components/terms/Terminology.tsx",
       },
     ],
     [
       require.resolve("heliannuuthus-docusaurus-authors"),
-      { path: "./blog/authors.yml" },
+      { path: "./static/authors.yml" },
     ],
   ],
   themeConfig: {
@@ -196,10 +234,17 @@ const config: Config = {
       },
       items: [
         { to: "blog/", label: "Blog", position: "left" },
+        { to: "essay/", label: "Essay", position: "left" },
+        { to: "terms/", label: "Terminology", position: "left" },
+        {
+          to: "/learning-route",
+          label: "Learning Route",
+          position: "right",
+        },
         {
           type: "dropdown",
           label: "OpenSource",
-          position: "left",
+          position: "right",
           items: [
             {
               to: "https://github.com/heliannuuthus/captcha",
@@ -208,11 +253,6 @@ const config: Config = {
                 "Captcha is a node service for generating captcha images.",
             },
           ],
-        },
-        {
-          to: "/learning-route",
-          label: "Learning Route",
-          position: "right",
         },
         {
           type: "search",
@@ -255,7 +295,7 @@ const config: Config = {
         },
       ],
     },
-  } satisfies Preset.ThemeConfig,
+  } satisfies ThemeConfig,
 };
 
 export default config;

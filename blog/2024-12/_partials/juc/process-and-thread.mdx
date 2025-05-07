@@ -5,8 +5,8 @@ import TermPreview from "@site/src/components/terms/TermPreview";
 1. 进程是操作系统**资源分配**的最小单位，**程序运行**的最小单元。线程是操作系统**调度任务**的最小单元。协程是协作式任务的最小单元，由应用程序定义，**类似一个代码块**。
 2. 进程间切换的上下文开销大，线程间切换的上下文开销小，协程间切换的上下文开销最小。
 
-   - 进程：由:term[**用户态**]{./blog/terms/os#user-mode}切换到:term[**内核态**]{./blog/terms/os#kernel-mode}，切换并保存:term[**虚拟地址空间**]{./blog/terms/os#virtual-address-space}、:term[**页表**]{./blog/terms/os#page-table}、:term[**内核栈**]{./blog/terms/os#kernel-stack}等，开销非常大。
-   - 线程：由:term[**用户态**]{./blog/terms/os#user-mode}切换到:term[**内核态**]{./blog/terms/os#kernel-mode}
+   - 进程：由:term[**用户态**]{./terms/os#user-mode}切换到:term[**内核态**]{./terms/os#kernel-mode}，切换并保存:term[**虚拟地址空间**]{./terms/os#virtual-address-space}、:term[**页表**]{./terms/os#page-table}、:term[**内核栈**]{./terms/os#kernel-stack}等，开销非常大。
+   - 线程：由:term[**用户态**]{./terms/os#user-mode}切换到:term[**内核态**]{./terms/os#kernel-mode}
 
      <Steps
        current={0}
@@ -18,7 +18,7 @@ import TermPreview from "@site/src/components/terms/TermPreview";
              <Text>
                存储当前执行的指令位置到
                <TermPreview
-                 path="/blog/terms/java"
+                 path="/terms/java"
                  anchor="#program-counter"
                  children={"程序计数器"}
                />
@@ -31,7 +31,7 @@ import TermPreview from "@site/src/components/terms/TermPreview";
              <Text>
                存储当前局部变量、中间计算值到
                <TermPreview
-                 path="/blog/terms/os"
+                 path="/terms/os"
                  anchor="#general-register"
                  children={"通用寄存器"}
                />
@@ -44,13 +44,13 @@ import TermPreview from "@site/src/components/terms/TermPreview";
              <Text>
                将用户栈指针
                <TermPreview
-                 path="/blog/terms/java"
+                 path="/terms/java"
                  anchor="#stack-pointer"
                  children={"栈指针"}
                />
                切换到内核
                <TermPreview
-                 path="/blog/terms/java"
+                 path="/terms/java"
                  anchor="#stack-pointer"
                  children={"栈指针"}
                />
@@ -67,19 +67,19 @@ import TermPreview from "@site/src/components/terms/TermPreview";
              <Text>
                更换为新调度线程的
                <TermPreview
-                 path="/blog/terms/java"
+                 path="/terms/java"
                  anchor="#program-counter"
                  children={"程序计数器"}
                />
                、
                <TermPreview
-                 path="/blog/terms/os"
+                 path="/terms/os"
                  anchor="#general-register"
                  children={"通用寄存器"}
                />
                、
                <TermPreview
-                 path="/blog/terms/java"
+                 path="/terms/java"
                  anchor="#stack-pointer"
                  children={"栈指针"}
                />
@@ -91,6 +91,6 @@ import TermPreview from "@site/src/components/terms/TermPreview";
        ]}
      />
 
-   - 协程：**永远在:term[**用户态**]{./blog/terms/os#user-mode}**，虽然也会像线程一样做一系列操作，但将内核态转换的过程抽象到协程库实现，开销最小。
+   - 协程：**永远在:term[**用户态**]{./terms/os#user-mode}**，虽然也会像线程一样做一系列操作，但将内核态转换的过程抽象到协程库实现，开销最小。
 
 3. 进程可以持有多个线程，线程可以持有多个协程。

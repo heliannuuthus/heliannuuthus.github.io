@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { List, Button } from "antd";
 import { UpOutlined, DownOutlined } from "@ant-design/icons";
-import { isMobile, isIPad13, isTablet } from "react-device-detect";
 import { TermData } from "heliannuuthus-terminology-store";
 import MDXRenderer from "@site/src/components/MDXRender";
 import { createStyles } from "antd-style";
+import { isMobile, isIPad13, isTablet } from "react-device-detect";
 import { PopoverAvatars, DrawerAvatars } from "@site/src/components/Avatar";
 import { Author } from "heliannuuthus-docusaurus-authors";
 import { Title } from "@site/src/components/Typography";
-import { useColorMode } from "@docusaurus/theme-common";
 
 const useMobile = isMobile || isIPad13 || isTablet;
 
