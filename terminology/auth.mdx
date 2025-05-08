@@ -1,14 +1,26 @@
 ---
+slug: oauth
+title: OAuth
+description: OAuth 是一种授权协议，用于在各方之间安全地传输信息作为 JSON 对象。
+---
+
+> OAuth 2.1 是一种授权协议，用于在各方之间安全地传输信息作为 JSON 对象。
+
+## TODO
+
+- [ ] 补充 OAuth 2.1 的规范
+
+---
 slug: jwt
 title: JSON Web Token
 description: 由 [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519) 定义的一种开放标准，用于在各方之间安全地传输信息作为 JSON 对象。
 ---
 
-> 通常我们见到的都是用 `.` 分隔的三段(:term[jws]{./terms/jwt.mdx#jws})或五段(:term[jwe]{./terms/jwt.mdx#jwe}) Base64Url 编码的 JSON 对象。
+> 通常我们见到的都是用 `.` 分隔的三段(:term[jws]{./terms/auth#jws})或五段(:term[jwe]{./terms/auth#jwe}) Base64Url 编码的 JSON 对象。
 
 ## JWT 的格式和组成
 
-> 用 `.` 分隔的三段(:term[jws]{./terms/jwt.mdx#jws})或五段(:term[jwe]{./terms/jwt.mdx#jwe}) Base64Url 编码的 JSON 对象
+> 用 `.` 分隔的三段(:term[jws]{./terms/auth#jws})或五段(:term[jwe]{./terms/auth#jwe}) Base64Url 编码的 JSON 对象
 
 ### JOSE Header
 
@@ -20,7 +32,7 @@ description: 由 [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519) 定义的一
 
 - :ctip[**typ**]{#type}:token 的类型，如果存在最好指定为 **JWT**，表示当前是 JWT token
 - :ctip[**cty**]{#content-type}:内容类型，当使用嵌套的 jws 或者 jwe 时，必须指定为 **JWT**（建议使用大写字母），反之常规情况**不推荐使用**
-- :ctip[**alg**]{#algorithm}:算法，在 :term[jwa]{./terms/jwt#jwa} 中定义，在 :term[jws]{./terms/jwt#jws} 和 :term[jwe]{./terms/jwt#jwe} 中值不一致。
+- :ctip[**alg**]{#algorithm}:算法，在 :term[jwa]{./terms/auth#jwa} 中定义，在 :term[jws]{./terms/auth#jws} 和 :term[jwe]{./terms/auth#jwe} 中值不一致。
 
 ### Serialization
 
@@ -98,7 +110,7 @@ description: 在[RFC 7518](https://www.rfc-editor.org/rfc/rfc7518)中定义用�
 - [ECDH-ESWithAesKeyWrap](https://www.rfc-editor.org/rfc/rfc8017)：区别于 ECDH-ES，使用 Diffie-Hellman 算法交换出来的密钥，
   使用 ConcateKDF+SHA-256 生成指定长度的密钥，该密钥**仅对生成的 cek 进行包装**。
   e.g. `ECDH-ES+A128KW`, `ECDH-ES+A192KW`, `ECDH-ES+A256KW`
-  - :ctip[**epk**]{title="Ephemeral Public Key"}:ctip[(required)]{title="使用该算法，该字段必须存在于 Header 中"}：用于 Diffie-Hellman 算法交换:term[jwk]{./terms/jwt#jwk} 格式的临时公钥
+  - :ctip[**epk**]{title="Ephemeral Public Key"}:ctip[(required)]{title="使用该算法，该字段必须存在于 Header 中"}：用于 Diffie-Hellman 算法交换:term[jwk]{./terms/auth#jwk} 格式的临时公钥
   - :ctip[**apu**]{title="Agreement Party UInfo"}:ctip[(required)]{title="使用该算法，该字段必须存在于 Header 中"}：发送方的附加信息，会在 ConcateKDF 中使用
   - :ctip[**apv**]{title="Agreement Party VInfo"}:ctip[(required)]{title="使用该算法，该字段必须存在于 Header 中"}：接收方的附加信息，会在 ConcateKDF 中使用
 - [PBES2](https://www.rfc-editor.org/rfc/rfc8018)：使用 PBKDF2 密码生成算法加上散列函数输出指定长度的密钥，对 cek 进行包装。
