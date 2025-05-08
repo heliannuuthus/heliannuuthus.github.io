@@ -13,6 +13,7 @@ import MDXComponents from "@theme/MDXComponents";
 import TermPreview from "@site/src/components/terms/TermPreview";
 import { Comment } from "@site/src/components/Typography";
 import Tooltip from "@site/src/components/Tooltip";
+import { NowrapTooltip } from "@site/src/components/Tooltip";
 import TermAdmonition from "@theme/Admonition";
 import Mermaid from "@theme/Mermaid";
 import { Collapse } from "@site/src/components/Collapse";
@@ -30,7 +31,13 @@ const MDXRender = ({
       ...runtime,
       remarkPlugins: [
         remarkDirective,
-        remarkCommentTooltip,
+        [
+          remarkCommentTooltip,
+          {
+            tooltip: "NowrapTooltip",
+            comment: "Comment",
+          },
+        ],
         remarkTerminology,
         remarkMermaid,
         [
@@ -55,6 +62,7 @@ const MDXRender = ({
           ...components,
           Comment,
           Tooltip,
+          NowrapTooltip,
           TermPreview,
           TermAdmonition,
           Term: TermPreview,
