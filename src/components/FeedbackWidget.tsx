@@ -14,10 +14,6 @@ const projectId = "kdmrkryn2r";
 const useStyles = createStyles(({ token }) => ({
   container: {
     marginTop: token.margin,
-    minWidth: "200px",
-  },
-  buttonGroup: {
-    maxWidth: "200px",
   },
 }));
 
@@ -66,7 +62,7 @@ export default function FeedbackWidget() {
       align="flex-end"
       vertical
     >
-      <Flex align="center" justify="center" vertical>
+      <Flex align="flex-end" justify="center" vertical>
         <span>
           <strong>该文章对你有帮助吗？</strong>
         </span>
