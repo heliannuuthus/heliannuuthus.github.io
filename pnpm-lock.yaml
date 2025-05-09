@@ -88,7 +88,7 @@ importers:
         version: file:packages/remark-admomition
       heliannuuthus-remark-breaks:
         specifier: file:./packages/remark-breaks
-        version: file:packages/remark-breaks
+        version: heliannuuthus-remark-external-link@file:packages/remark-breaks
       heliannuuthus-remark-comment-tooltip:
         specifier: file:./packages/remark-comment-tooltip
         version: file:packages/remark-comment-tooltip
@@ -116,6 +116,12 @@ importers:
       prism-react-renderer:
         specifier: ^2.3.0
         version: 2.4.1(react@19.1.0)
+      pushfeedback:
+        specifier: ^0.1.63
+        version: 0.1.63
+      pushfeedback-react:
+        specifier: ^0.1.63
+        version: 0.1.63
       react:
         specifier: ^19.0.0
         version: 19.1.0
@@ -1524,6 +1530,11 @@ packages:
   '@slorber/remark-comment@1.0.0':
     resolution: {integrity: sha512-RCE24n7jsOj1M0UPvIQCHTe7fI0sFL4S2nwKVWwHyVr/wI/H8GosgsJGyhnsZoGFnD/P2hLf1mSbrrgSLN93NA==}
 
+  '@stencil/core@2.22.3':
+    resolution: {integrity: sha512-kmVA0M/HojwsfkeHsifvHVIYe4l5tin7J5+DLgtl8h6WWfiMClND5K3ifCXXI2ETDNKiEk21p6jql3Fx9o2rng==}
+    engines: {node: '>=12.10.0', npm: '>=6.0.0'}
+    hasBin: true
+
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0':
     resolution: {integrity: sha512-b9MIk7yhdS1pMCZM8VeNfUlSKVRhsHZNMl5O9SfaX0l0t5wjdgu4IDzGB8bpnGBBOjGST3rRFVsaaEtI4W6f7g==}
     engines: {node: '>=14'}
@@ -2088,6 +2099,10 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
+  base64-arraybuffer@1.0.2:
+    resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
+    engines: {node: '>= 0.6.0'}
+
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
@@ -2459,6 +2474,9 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       postcss: ^8.4
+
+  css-line-break@2.1.0:
+    resolution: {integrity: sha512-FHcKFCZcAha3LwfVBhCQbW2nCNbkZXn7KVUJcsT5/P8YmfsVja0FMPJr0B903j/E69HUphKiV9iQArX8SDYA4w==}
 
   css-loader@6.11.0:
     resolution: {integrity: sha512-CTJ+AEQJjq5NzLga5pE39qdiSV56F8ywCIsqNIRF0r7BDgWsN25aazToqAFg7ZrtA/U016xudB3ffgweORxX7g==}
@@ -3381,11 +3399,11 @@ packages:
   heliannuuthus-remark-admomition@file:packages/remark-admomition:
     resolution: {directory: packages/remark-admomition, type: directory}
 
-  heliannuuthus-remark-breaks@file:packages/remark-breaks:
-    resolution: {directory: packages/remark-breaks, type: directory}
-
   heliannuuthus-remark-comment-tooltip@file:packages/remark-comment-tooltip:
     resolution: {directory: packages/remark-comment-tooltip, type: directory}
+
+  heliannuuthus-remark-external-link@file:packages/remark-breaks:
+    resolution: {directory: packages/remark-breaks, type: directory}
 
   heliannuuthus-remark-external-link@file:packages/remark-external-link:
     resolution: {directory: packages/remark-external-link, type: directory}
@@ -3445,6 +3463,10 @@ packages:
         optional: true
       webpack:
         optional: true
+
+  html2canvas-pro@1.5.10:
+    resolution: {integrity: sha512-CoYkD4+wrdX5j5HfkPu6CxFXWXQbGld3cxcQYiU4JVHfZSe3JeMEgAwBCYd6ROsn2nVETHyMUjXLQLcmCGjRqQ==}
+    engines: {node: '>=16.0.0'}
 
   htmlparser2@6.1.0:
     resolution: {integrity: sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==}
@@ -4930,6 +4952,12 @@ packages:
     resolution: {integrity: sha512-FLpr4flz5xZTSJxSeaheeMKN/EDzMdK7b8PTOC6a5PYFKTucWbdqjgqaEyH0shFiSJrVB1+Qqi4Tk19ccU6Aug==}
     engines: {node: '>=12.20'}
 
+  pushfeedback-react@0.1.63:
+    resolution: {integrity: sha512-eAVDAE5zGdmZyo2MZyZRQuzpUfiJl8WqObUAF72ypwLc7Itzi3VrZ5NTJz3mkOPYXxMwFvpmmJl+Xgh1AObWIg==}
+
+  pushfeedback@0.1.63:
+    resolution: {integrity: sha512-x56skjJIJJlfg8CM8l2lbWyhqdQnRWflmMFwjANoJ5RZzIOSA9bcL89inWVjlMbt/AKM143WsKI1v9/8BYOHbQ==}
+
   qs@6.13.0:
     resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
     engines: {node: '>=0.6'}
@@ -5807,6 +5835,9 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  text-segmentation@1.0.3:
+    resolution: {integrity: sha512-iOiPUo/BGnZ6+54OsWxZidGCsdU8YbE4PSpdPinp7DeMtUJNJBoJ/ouUSTJjHkh1KntHaltHl/gDs2FC4i5+Nw==}
+
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
 
@@ -6012,6 +6043,9 @@ packages:
   utils-merge@1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
+
+  utrie@1.0.2:
+    resolution: {integrity: sha512-1MLa5ouZiOmQzUbjbu9VmjLzn1QLXBhwpUa7kdLUQK+KQ5KA9I1vk5U4YHe/X2Ch7PYnJfWuWT+VbuxbGwljhw==}
 
   uuid@11.1.0:
     resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
@@ -8367,6 +8401,8 @@ snapshots:
       micromark-util-character: 1.2.0
       micromark-util-symbol: 1.1.0
 
+  '@stencil/core@2.22.3': {}
+
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.27.1)':
     dependencies:
       '@babel/core': 7.27.1
@@ -9094,6 +9130,8 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
+  base64-arraybuffer@1.0.2: {}
+
   base64-js@1.5.1: {}
 
   batch@0.6.1: {}
@@ -9506,6 +9544,10 @@ snapshots:
       postcss: 8.5.3
       postcss-selector-parser: 7.1.0
       postcss-value-parser: 4.2.0
+
+  css-line-break@2.1.0:
+    dependencies:
+      utrie: 1.0.2
 
   css-loader@6.11.0(webpack@5.99.8):
     dependencies:
@@ -10603,9 +10645,9 @@ snapshots:
 
   heliannuuthus-remark-admomition@file:packages/remark-admomition: {}
 
-  heliannuuthus-remark-breaks@file:packages/remark-breaks: {}
-
   heliannuuthus-remark-comment-tooltip@file:packages/remark-comment-tooltip: {}
+
+  heliannuuthus-remark-external-link@file:packages/remark-breaks: {}
 
   heliannuuthus-remark-external-link@file:packages/remark-external-link: {}
 
@@ -10674,6 +10716,11 @@ snapshots:
       tapable: 2.2.1
     optionalDependencies:
       webpack: 5.99.8
+
+  html2canvas-pro@1.5.10:
+    dependencies:
+      css-line-break: 2.1.0
+      text-segmentation: 1.0.3
 
   htmlparser2@6.1.0:
     dependencies:
@@ -12445,6 +12492,15 @@ snapshots:
     dependencies:
       escape-goat: 4.0.0
 
+  pushfeedback-react@0.1.63:
+    dependencies:
+      pushfeedback: 0.1.63
+
+  pushfeedback@0.1.63:
+    dependencies:
+      '@stencil/core': 2.22.3
+      html2canvas-pro: 1.5.10
+
   qs@6.13.0:
     dependencies:
       side-channel: 1.1.0
@@ -13595,6 +13651,10 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
+  text-segmentation@1.0.3:
+    dependencies:
+      utrie: 1.0.2
+
   text-table@0.2.0: {}
 
   throttle-debounce@5.0.2: {}
@@ -13797,6 +13857,10 @@ snapshots:
   utility-types@3.11.0: {}
 
   utils-merge@1.0.1: {}
+
+  utrie@1.0.2:
+    dependencies:
+      base64-arraybuffer: 1.0.2
 
   uuid@11.1.0: {}
 
