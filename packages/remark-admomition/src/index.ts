@@ -26,7 +26,7 @@ const remarkAdmonition: Plugin<[AdmonitionOptions?], Nodes> =
     options: AdmonitionOptions = {
       admonition: "Admonition",
       extension: {},
-    }
+    },
   ) =>
   (tree: Nodes) => {
     visit(tree, (node) => {

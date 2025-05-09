@@ -17,7 +17,7 @@ function AdmonitionContainer({
         ThemeClassNames.common.admonition,
         ThemeClassNames.common.admonitionType(type),
         styles.admonition,
-        className
+        className,
       )}
     >
       {children}

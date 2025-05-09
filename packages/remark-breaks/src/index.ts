@@ -12,7 +12,7 @@ const remarkRevertBreaks: Plugin<[BreaksOptions?], Nodes> =
   (
     options: BreaksOptions = {
       ignore: [],
-    }
+    },
   ) =>
   (tree: Nodes) => {
     visit(tree, "break", (_, index, parent) => {
@@ -30,7 +30,7 @@ const remarkRevertBreaks: Plugin<[BreaksOptions?], Nodes> =
       ],
       {
         ignore: options.ignore,
-      }
+      },
     );
   };
 

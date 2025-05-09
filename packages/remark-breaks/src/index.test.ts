@@ -18,7 +18,7 @@ describe("remarkBreaks 插件测试", () => {
   it("应该将普通换行符转换为 break 节点", async () => {
     const output = await process("第一行\n第二行");
     expect(output).toContain(
-      '<_components.p>{"第一行"}<_components.br />{"\\n"}{"第二行"}</_components.p>'
+      '<_components.p>{"第一行"}<_components.br />{"\\n"}{"第二行"}</_components.p>',
     );
   });
 
@@ -31,7 +31,7 @@ describe("remarkBreaks 插件测试", () => {
   it("应该处理不同类型的换行符", async () => {
     const output = await process("第一行\r\n第二行\r第三行");
     expect(output).toContain(
-      '<_components.p>{"第一行"}<_components.br />{"\\n"}{"第二行"}<_components.br />{"\\n"}{"第三行"}</_components.p>'
+      '<_components.p>{"第一行"}<_components.br />{"\\n"}{"第二行"}<_components.br />{"\\n"}{"第三行"}</_components.p>',
     );
   });
 
