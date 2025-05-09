@@ -9,6 +9,7 @@ import remarkExternalLink from "heliannuuthus-remark-external-link";
 import remarkAdmonition from "heliannuuthus-remark-admomition";
 import remarkMermaid from "heliannuuthus-remark-mermaid";
 import remarkTerminology from "heliannuuthus-remark-terminology";
+import remarkBreaks from "heliannuuthus-remark-breaks";
 import MDXComponents from "@theme/MDXComponents";
 import TermPreview from "@site/src/components/terms/TermPreview";
 import { Comment } from "@site/src/components/Typography";
@@ -39,6 +40,7 @@ const MDXRender = ({
           },
         ],
         remarkTerminology,
+        remarkBreaks,
         remarkMermaid,
         [
           remarkAdmonition,
