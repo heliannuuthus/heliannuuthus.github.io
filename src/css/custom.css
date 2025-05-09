@@ -187,3 +187,17 @@ ol ul {
 em {
   color: var(--ifm-color-italic);
 }
+
+.alert--thinking {
+  --ifm-alert-background-color: #e6fffb;
+  --ifm-alert-background-color-highlight: #b5f5ec;
+  --ifm-alert-foreground-color: var(--ifm-color-secondary-contrast-foreground);
+  --ifm-alert-border-color: #36cfc9;
+}
+
+.alert--nerd {
+  --ifm-alert-background-color: #ffd6e7;
+  --ifm-alert-background-color-highlight: #fff0f6;
+  --ifm-alert-foreground-color: var(--ifm-color-secondary-contrast-foreground);
+  --ifm-alert-border-color: #f759ab;
+}

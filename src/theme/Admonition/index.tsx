@@ -7,6 +7,8 @@ import TipIcon from "@site/static/img/admonition/tip.svg";
 import InfoIcon from "@site/static/img/admonition/info.svg";
 import WarningIcon from "@site/static/img/admonition/warning.svg";
 import DangerIcon from "@site/static/img/admonition/danger.svg";
+import ThinkingIcon from "@site/static/img/admonition/thinking.svg";
+import NerdIcon from "@site/static/img/admonition/nerd.svg";
 import AntdIcon from "@ant-design/icons";
 import { IconComponentProps } from "@ant-design/icons/lib/components/Icon";
 
@@ -38,6 +40,10 @@ export default function AdmonitionWrapper(props: Props): ReactNode {
       return <Admonition {...props} icon={<Icon component={WarningIcon} />} />;
     case "danger":
       return <Admonition {...props} icon={<Icon component={DangerIcon} />} />;
+    case "thinking":
+      return <Admonition {...props} icon={<Icon component={ThinkingIcon} />} />;
+    case "nerd":
+      return <Admonition {...props} icon={<Icon component={NerdIcon} />} />;
     default:
       return <Admonition {...props} />;
   }

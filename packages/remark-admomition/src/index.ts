@@ -3,8 +3,7 @@ import { Nodes, Paragraph, Text } from "mdast";
 import { visit } from "unist-util-visit";
 import { ContainerDirective } from "mdast-util-directive";
 import { MdxJsxFlowElement, MdxJsxAttribute } from "mdast-util-mdx-jsx";
-import { inspect } from "unist-util-inspect";
-const origins = ["tip", "note", "warning", "danger", "info"];
+export const origins = ["tip", "note", "warning", "danger", "info"];
 
 export interface Admonition {
   type: string;
@@ -27,7 +26,7 @@ const remarkAdmonition: Plugin<[AdmonitionOptions?], Nodes> =
     options: AdmonitionOptions = {
       admonition: "Admonition",
       extension: {},
-    },
+    }
   ) =>
   (tree: Nodes) => {
     visit(tree, (node) => {

@@ -1,13 +1,14 @@
 import type { Config, ThemeConfig } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
 import rehypeKatex from "rehype-katex";
-import remarkBreaks from "remark-breaks";
 import remarkCodeImport from "remark-code-import";
 import remarkMath from "remark-math";
 import remarkCommentTooltip from "heliannuuthus-remark-comment-tooltip";
 import remarkExternalLink from "heliannuuthus-remark-external-link";
 import remarkDirective from "remark-directive";
+import remarkBreaks from "heliannuuthus-remark-breaks";
 import remarkAdmonition from "heliannuuthus-remark-admomition";
+import { origins } from "heliannuuthus-remark-admomition";
 import remarkTerminology from "heliannuuthus-remark-terminology";
 import path from "path";
 import type { Options as BlogPluginOptions } from "@docusaurus/plugin-content-blog";
@@ -44,6 +45,10 @@ const rehypePlugins = [rehypeKatex];
 const blogConfig = {
   remarkPlugins,
   rehypePlugins,
+  admonitions: {
+    keywords: [...origins, "thinking", "nerd"],
+    extendDefaults: true,
+  },
   blogSidebarTitle: "最近的发布",
   showReadingTime: true,
   showLastUpdateAuthor: true,
