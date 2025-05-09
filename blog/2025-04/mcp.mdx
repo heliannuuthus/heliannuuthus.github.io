@@ -162,13 +162,13 @@ sequenceDiagram
   - 则 Base URL 为 `https://auth.heliannuuthus.com`
   - 服务器元数据端点为：`https://auth.heliannuuthus.com/.well-known/oauth-authorization-server`
 - 当没有发现服务器元数据端点时，MCP Client 应当使用默认的端点：
-  | Endpoint               | 默认路径     | 描述                  |
+  | Endpoint | 默认路径 | 描述 |
   | ---------------------- | ------------ | --------------------- |
-  | authorization_endpoint | `/authorize` | 授权端点              |
-  | token_endpoint         | `/token`     | 令牌端点              |
-  | registration_endpoint  | `/register`  | 注册端点              |
-  | userinfo_endpoint      | `/userinfo`  | 用户信息端点          |
-  | jwks_uri               | `/jwks`      | JSON Web Key Set 端点 |
+  | authorization_endpoint | `/authorize` | 授权端点 |
+  | token_endpoint | `/token` | 令牌端点 |
+  | registration_endpoint | `/register` | 注册端点 |
+  | userinfo_endpoint | `/userinfo` | 用户信息端点 |
+  | jwks_uri | `/jwks` | JSON Web Key Set 端点 |
 
 ```mermaid
 sequenceDiagram
