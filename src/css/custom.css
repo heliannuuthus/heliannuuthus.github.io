@@ -201,3 +201,40 @@ em {
   --ifm-alert-foreground-color: var(--ifm-color-secondary-contrast-foreground);
   --ifm-alert-border-color: #f759ab;
 }
+
+table {
+  display: table;
+  width: initial;
+  margin: 20px auto;
+}
+
+thead {
+  text-align: center;
+}
+
+tr {
+  border-bottom: 1px solid #ccc;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+table th {
+  padding: 8px;
+  border: none;
+  text-align: center;
+}
+
+table td {
+  padding: 8px;
+  border: none;
+}
+
+table thead tr {
+  border: none;
+}
+
+table tr:nth-child(2n) {
+  background-color: var(--ifm-table-background);
+}
