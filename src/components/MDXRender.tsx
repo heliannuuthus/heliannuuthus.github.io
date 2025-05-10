@@ -18,7 +18,9 @@ import { NowrapTooltip } from "@site/src/components/Tooltip";
 import TermAdmonition from "@theme/Admonition";
 import Mermaid from "@theme/Mermaid";
 import { Collapse } from "@site/src/components/Collapse";
-
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import remarkParse from "remark-parse";
 const MDXRender = ({
   content,
   components,
@@ -31,6 +33,8 @@ const MDXRender = ({
     await evaluate(content, {
       ...runtime,
       remarkPlugins: [
+        remarkParse,
+        remarkMath,
         remarkDirective,
         [
           remarkCommentTooltip,
@@ -58,6 +62,7 @@ const MDXRender = ({
           },
         ],
       ],
+      rehypePlugins: [rehypeKatex],
       useMDXComponents: () => {
         return {
           ...MDXComponents,
