@@ -162,12 +162,14 @@ sequenceDiagram
   - `https://auth.heliannuuthus.com/v1/mcp` 为 MCP Server 在 MCP Host 注册的地址
   - 则 Base URL 为 `https://auth.heliannuuthus.com`
   - 服务器元数据端点为：`https://auth.heliannuuthus.com/.well-known/oauth-authorization-server`
-- 当没有发现服务器元数据端点时，MCP Client 应当使用默认的端点：
+- 当没有发现服务器元数据端点时，MCP Client 会使用**默认端点**：
   | 端点类型 | 默认路径 | 描述 |
   | ---------------------- | ------------ | --------------------- |
   | authorization_endpoint | `/authorize` | 用于发起授权请求的端点 |
   | token_endpoint | `/token` | 用于获取凭证的端点 |
   | registration_endpoint | `/register` | 用于客户端动态注册的端点 |
+
+- 服务器元数据发现整体交互图如下：
 
 ```mermaid
 sequenceDiagram
@@ -192,3 +194,90 @@ sequenceDiagram
 ```
 
 ### 客户端动态注册
+
+> 通常 MCP Client 并不知道自己将要访问的 MCP Server 背后是哪个*认证服务提供商*，也并不知道自己是否已经在对应的认证服务器注册过。因此 MCP Client 期望通过*客户端动态注册*的方式来向认证服务器*注册/获取*自己的信息。
+
+动态注册主要为了解决以下问题：
+
+1. MCP Client 如果依赖于用户手动注册，这么过程会非常繁琐。
+2. MCP Client 和**新的 MCP Server** 之间能通过这种方式完全自动化的完成接入。
+3. MCP Server 可以自定义[服务器元数据发现](#服务器元数据发现)中的注册端点来**自定义客户端动态注册逻辑**。
+
+:::info
+
+如果 MCP Server （或者认证服务提供商）并不支持动态注册，那么需要由 MCP Client 对当前 MCP Server 采取定制化接入，以下方案仅供参考：
+
+- 针对该 MCP Server 进行 Client ID 的硬编码
+- 向用户展示一个页面，允许用户手动在认证服务提供商注册完客户端后，将注册的 Client ID 填写到页面中
+- MCP Server 和 MCP Client 通过 HTTP 传统交互模式来获取一些信息（可基于密码学保证数据的安全性和合法性，此处不展开）
+
+:::
+
+综上所述，完整的 MCP 认证授权交互图如下：
+
+```mermaid
+sequenceDiagram
+    actor User as User Agent
+    participant Client as 客户端
+    participant Server as 服务器
+    participant AuthServer as 认证服务器
+
+    Client->>Server: GET .well-known/oauth-authorization-server
+    alt 支持服务器元数据发现
+        Server-->>Client: 授权服务器元数据
+    else 不支持服务器元数据发现
+        Server->>Client: 404
+        Client->>Client: 使用默认端点
+    end
+    Client->>AuthServer: POST /register 客户端凭据
+
+    alt 已注册客户端
+        AuthServer-->>Client: 认证服务器元数据
+    else 未注册客户端
+        AuthServer ->> AuthServer: 注册客户端
+        AuthServer-->>Client: 认证服务器元数据
+    end
+
+    Client->>Client: 生成 PKCE 参数
+    Client->>User: 打开浏览器并带上授权URL + code_challenge
+
+    User->>AuthServer: 用户授权
+    activate AuthServer
+    AuthServer-->>Client: 重定向回调并附带 authorization_code
+    deactivate AuthServer
+
+    Client->>AuthServer: authorization_code + code_verifier 置换 Access Token
+    activate AuthServer
+    AuthServer-->>Client: 返回 Access Token (+ Refresh Token)
+    deactivate AuthServer
+
+    Client->>Server: 使用 Access Token 发送 MCP 请求
+    activate Server
+    Server-->>Client: 返回 MCP 响应
+    deactivate Server
+
+```
+
+### 访问凭据
+
+#### 使用规则
+
+> 完成授权流程后，MCP Client 能直接从 Auth Server 获取到 _Access Token_，即 MCP Client 可替代用户访问受限 MCP Server 的凭证。
+
+- MCP Client 使用凭证时必须放在请求头 `Authorization` 中
+
+  ```http
+  Authorization: Bearer <access_token>
+  ```
+
+- 访问凭证不能放在请求参数内，包括 query 和 body
+
+- MCP Server 必须强制对凭证进行校验，如果验证失败，必须返回 **401 Unauthorized** 状态码。无效或过期的凭证必须被拒绝，也返回 **401 Unauthorized** 状态码。
+
+:::tip
+
+1. 访问凭证**必须**按照 :ctip[**rfc9700**]{id="Best Current Practice for OAuth 2.0 Security"} 的最佳实践进行存储保管
+2. 授权端点**必须**以 `HTTPS` 协议来承载，保证通信的安全性
+3. 授权服务器**应该**支持访问凭证的*强制轮换*和*强制吊销*
+4. 授权服务器**必须**强制验证重定向 URL 的合法性，重定向 URL 必须是 `HTTPS` 或者 `localhost`
+   :::
