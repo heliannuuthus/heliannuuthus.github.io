@@ -4,12 +4,11 @@ title: MCP 身份认证协议
 date: 2025-04-30
 authors: [heliannuuthus]
 tags: [AI]
-draft: true
 ---
 
 _[MCP（Model Context Protocol）](https://modelcontextprotocol.io) 是一个用于在大模型（LLM）和应用（Application）之间交互的协议，它定义了大模型和应用之间的交互方式，以及大模型和应用之间的上下文传递方式_。统一模型和应用（其实可以视为工具）之间的交互方式，让大模型可以直接使用在线应用来拓展自身能力。
-MCP 从去年 10 月左右被提出，起初只有少部分活跃于 AI 开源社区的开发者关注，后续随着 [Manus](https://manus.im) 突然出现，MCP 也逐渐被大众所熟知。\
-在最初，是 [Claude](https://claude.ai/download) 真正的将 MCP 集成到自己的应用中，提供了非常强大的用户体验。随后 [Cursor](https://cursor.sh/)、[Cline](https://cline.ai/)、[n8n](https://n8n.io/) 等主流 AI 工具开始搭乘这次东风。\
+MCP 从去年 10 月左右 Anthropic 推动的一项开放标准，起初国内只有少部分活跃于 AI 开源社区的开发者关注，后续随着 [Manus](https://manus.im) 突然出现，MCP 也逐渐被国内大众所熟知。\
+在最初也是 [Anthropic（推出 Claude AI）](https://www.anthropic.com) 真正的将 MCP 集成到自己的应用中，提供了非常强大的用户体验。随后 [Cursor](https://cursor.sh/)、[Cline](https://cline.ai/)、[n8n](https://n8n.io/) 等主流 AI 工具开始搭乘这次东风。\
 开发者们开始通过 STDIO 模式将 MCP Server 注册到 MCP Host 中（其实就是一个 python 脚本）。\
 随着大量用户涌入社区，社区开始出现 :term[SSE]{./terms/net#sse} 模式的 MCP Server。当前模式下，MCP 可通过 `http` 或 `https` 协议来访问，并使用 :term[SSE]{./terms/net#sse} 协议来传输数据。
 在 HTTP 的传统交互模式下，身份和权限是一个老生常谈的问题，在开发者使用 stdio 模式的时候这一点其实并没有很好体现。当企业想要部署可公开（并不是公网可访问）的 MCP Server 时，身份和权限就变得尤为重要。
@@ -281,3 +280,6 @@ sequenceDiagram
 3. 授权服务器**应该**支持访问凭证的*强制轮换*和*强制吊销*
 4. 授权服务器**必须**强制验证重定向 URL 的合法性，重定向 URL 必须是 `HTTPS` 或者 `localhost`
    :::
+
+
+### 总结
