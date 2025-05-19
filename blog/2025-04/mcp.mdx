@@ -281,5 +281,16 @@ sequenceDiagram
 4. 授权服务器**必须**强制验证重定向 URL 的合法性，重定向 URL 必须是 `HTTPS` 或者 `localhost`
    :::
 
+:::nerd[总结]
 
-### 总结
+- 在 MCP 中的 OAuth 主要为了解决 MCP Client 和 MCP Server 在使用*远程调用*时，**身份认证**以及**权限控制**的问题
+
+  1. MCP Client **必须**支持 [:ctip[**rfc8414**]{id="OAuth 2.0 Authorization Server Metadata"}](https://datatracker.ietf.org/doc/html/rfc8414) 来发现 MCP Server 的认证方式，获取到*应用信息注册端点*以及*授权端点*
+  2. MCP Client **应该**支持 [:ctip[**rfc7591**]{id="OAuth 2.0 Dynamic Client Registration Protocol"}](https://datatracker.ietf.org/doc/html/rfc7591) 来向 OAuth Server 获取/动态注册自己作为应用的信息
+  3. 获取到信息后，应当自行实现授权流程，结合浏览器引导用户完成授权
+  4. 授权成功后，MCP Client **应当**使用 Access Token 来访问 MCP Server 的资源
+  5. MCP Server **应当**对 Access Token 进行校验，如果校验失败，**必须**返回 **401 Unauthorized** 状态码
+  6. 如果校验成功，MCP Server **应当**返回 MCP 响应
+
+- 在 MCP 中，OAuth 的认证流程和传统 OAuth 的认证流程基本一致，主要强调客户端的动态注册以及 MCP Server 需要扮演的元数据提供方的角色
+  :::

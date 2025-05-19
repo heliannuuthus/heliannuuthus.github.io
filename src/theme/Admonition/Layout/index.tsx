@@ -1,4 +1,4 @@
-import React, { type ReactNode } from "react";
+import React, { ReactNode } from "react";
 import clsx from "clsx";
 import { ThemeClassNames } from "@docusaurus/theme-common";
 
@@ -42,8 +42,15 @@ export default function AdmonitionLayout(props: Props): ReactNode {
   const { type, icon, title, children, className } = props;
   return (
     <AdmonitionContainer type={type} className={className}>
-      {title && title?.props.children !== type ? (
-        <AdmonitionHeading title={title} />
+      {title ? (
+        React.isValidElement(title) &&
+        typeof title.props.children === "string" ? (
+          title.props.children === type ? null : (
+            title
+          )
+        ) : typeof title === "string" ? (
+          <AdmonitionHeading title={title} />
+        ) : null
       ) : null}
       <AdmonitionBody icon={icon}>{children}</AdmonitionBody>
     </AdmonitionContainer>
