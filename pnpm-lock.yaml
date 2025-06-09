@@ -89,6 +89,9 @@ importers:
       heliannuuthus-remark-breaks:
         specifier: file:./packages/remark-breaks
         version: heliannuuthus-remark-external-link@file:packages/remark-breaks
+      heliannuuthus-remark-collapse-title:
+        specifier: file:./packages/remark-collapse-title
+        version: heliannuuthus-remark-admomition@file:packages/remark-collapse-title
       heliannuuthus-remark-comment-tooltip:
         specifier: file:./packages/remark-comment-tooltip
         version: file:packages/remark-comment-tooltip
@@ -3398,6 +3401,9 @@ packages:
 
   heliannuuthus-remark-admomition@file:packages/remark-admomition:
     resolution: {directory: packages/remark-admomition, type: directory}
+
+  heliannuuthus-remark-admomition@file:packages/remark-collapse-title:
+    resolution: {directory: packages/remark-collapse-title, type: directory}
 
   heliannuuthus-remark-comment-tooltip@file:packages/remark-comment-tooltip:
     resolution: {directory: packages/remark-comment-tooltip, type: directory}
@@ -10644,6 +10650,8 @@ snapshots:
   heliannuuthus-parse-md@file:plugins/parse-md: {}
 
   heliannuuthus-remark-admomition@file:packages/remark-admomition: {}
+
+  heliannuuthus-remark-admomition@file:packages/remark-collapse-title: {}
 
   heliannuuthus-remark-comment-tooltip@file:packages/remark-comment-tooltip: {}
 
