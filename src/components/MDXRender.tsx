@@ -63,7 +63,7 @@ const MDXRender = ({
             test: (node: any) => node.url.startsWith("http"),
           },
         ],
-        [remarkCollapseTitle, { depth: [2, 3, 4, 5], component: "Collapse" }],
+        remarkCollapseTitle,
       ],
       rehypePlugins: [
         [
