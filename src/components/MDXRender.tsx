@@ -3,6 +3,7 @@ import React, { useEffect, useState, Suspense } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import * as runtime from "react/jsx-runtime";
 import { evaluate } from "@mdx-js/mdx";
+import remarkParse from "remark-parse";
 import remarkCommentTooltip from "heliannuuthus-remark-comment-tooltip";
 import remarkDirective from "remark-directive";
 import remarkExternalLink from "heliannuuthus-remark-external-link";
@@ -10,6 +11,7 @@ import remarkAdmonition from "heliannuuthus-remark-admomition";
 import remarkMermaid from "heliannuuthus-remark-mermaid";
 import remarkTerminology from "heliannuuthus-remark-terminology";
 import remarkBreaks from "heliannuuthus-remark-breaks";
+import remarkCollapseTitle from "heliannuuthus-remark-collapse-title";
 import MDXComponents from "@theme/MDXComponents";
 import TermPreview from "@site/src/components/terms/TermPreview";
 import { Comment } from "@site/src/components/Typography";
@@ -20,7 +22,7 @@ import Mermaid from "@theme/Mermaid";
 import { Collapse } from "@site/src/components/Collapse";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import remarkParse from "remark-parse";
+
 const MDXRender = ({
   content,
   components,
@@ -61,8 +63,16 @@ const MDXRender = ({
             test: (node: any) => node.url.startsWith("http"),
           },
         ],
+        remarkCollapseTitle,
       ],
-      rehypePlugins: [rehypeKatex],
+      rehypePlugins: [
+        [
+          rehypeKatex,
+          {
+            output: "mathml",
+          },
+        ],
+      ],
       useMDXComponents: () => {
         return {
           ...MDXComponents,
