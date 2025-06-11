@@ -1,13 +1,12 @@
 import { describe, expect, it } from "vitest";
-import remarkCollapseTitle, { PluginOptions } from "./index";
+import remarkCollapseHeading, { PluginOptions } from "./index";
 import { compile } from "node_modules/@mdx-js/mdx/lib/compile";
-import remarkDirective from "remark-directive";
 
-describe("remark-collapse-title", () => {
+describe("remark-collapse-heading", () => {
   const process = async (content: string) => {
     const file = await compile(content, {
       outputFormat: "function-body",
-      remarkPlugins: [remarkCollapseTitle],
+      remarkPlugins: [remarkCollapseHeading],
       rehypePlugins: [],
       jsx: true,
     });
@@ -45,7 +44,7 @@ Content
         outputFormat: "function-body",
         remarkPlugins: [
           [
-            remarkCollapseTitle,
+            remarkCollapseHeading,
             { component: "CustomCollapse" } as PluginOptions,
           ],
         ],

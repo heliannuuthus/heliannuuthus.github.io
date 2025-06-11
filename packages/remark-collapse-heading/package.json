@@ -1,5 +1,5 @@
 {
-  "name": "heliannuuthus-remark-admomition",
+  "name": "heliannuuthus-remark-collapse-heading",
   "version": "1.0.0",
   "type": "module",
   "main": "./dist/index.js",

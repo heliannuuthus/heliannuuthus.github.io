@@ -11,7 +11,7 @@ import remarkAdmonition from "heliannuuthus-remark-admomition";
 import remarkMermaid from "heliannuuthus-remark-mermaid";
 import remarkTerminology from "heliannuuthus-remark-terminology";
 import remarkBreaks from "heliannuuthus-remark-breaks";
-import remarkCollapseTitle from "heliannuuthus-remark-collapse-title";
+import remarkCollapseHeading from "heliannuuthus-remark-collapse-heading";
 import MDXComponents from "@theme/MDXComponents";
 import TermPreview from "@site/src/components/terms/TermPreview";
 import { Comment } from "@site/src/components/Typography";
@@ -19,7 +19,7 @@ import Tooltip from "@site/src/components/Tooltip";
 import { NowrapTooltip } from "@site/src/components/Tooltip";
 import TermAdmonition from "@theme/Admonition";
 import Mermaid from "@theme/Mermaid";
-import { Collapse } from "@site/src/components/Collapse";
+import CollapseHeading from "@site/src/components/CollapseHeading";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 
@@ -63,7 +63,7 @@ const MDXRender = ({
             test: (node: any) => node.url.startsWith("http"),
           },
         ],
-        remarkCollapseTitle,
+        remarkCollapseHeading,
       ],
       rehypePlugins: [
         [
@@ -84,7 +84,7 @@ const MDXRender = ({
           TermAdmonition,
           Term: TermPreview,
           Mermaid: Mermaid,
-          Collapse: Collapse,
+          Collapse: CollapseHeading,
         };
       },
     }).then((exports) => {
