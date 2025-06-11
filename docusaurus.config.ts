@@ -10,6 +10,7 @@ import remarkBreaks from "heliannuuthus-remark-breaks";
 import remarkAdmonition from "heliannuuthus-remark-admomition";
 import { origins } from "heliannuuthus-remark-admomition";
 import remarkTerminology from "heliannuuthus-remark-terminology";
+import remarkCollapseHeading from "heliannuuthus-remark-collapse-heading";
 import path from "path";
 import type { Options as BlogPluginOptions } from "@docusaurus/plugin-content-blog";
 import type { Options as PagePluginOptions } from "@docusaurus/plugin-content-pages";
@@ -38,6 +39,7 @@ const remarkPlugins = [
   remarkCodeImport,
   remarkBreaks,
   remarkMath,
+  remarkCollapseHeading,
 ];
 
 const rehypePlugins = [rehypeKatex];

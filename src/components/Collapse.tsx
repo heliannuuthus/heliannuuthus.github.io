@@ -1,12 +1,10 @@
 import { Collapse as AntdCollapse, CollapseProps } from "antd";
+import { Title } from "@site/src/components/Typography";
 
-const Collapse: React.FC = ({
-  label,
-  children,
-}: {
+const Collapse: React.FC<{
   label: React.ReactNode;
   children: React.ReactNode;
-}) => (
+}> = ({ label, children }) => (
   <AntdCollapse
     bordered={false}
     defaultActiveKey={[""]}
@@ -20,11 +18,11 @@ const Collapse: React.FC = ({
   />
 );
 
-const Collapses: React.FC = ({ items }: { items: CollapseProps["items"] }) => (
+const Collapses: React.FC<{ items: CollapseProps["items"] }> = ({ items }) => (
   <AntdCollapse
     bordered={false}
     defaultActiveKey={[""]}
-    items={items.map((item, idx) => ({ ...item, key: idx.toString() }))}
+    items={items?.map((item, idx) => ({ ...item, key: idx.toString() }))}
   />
 );
 
