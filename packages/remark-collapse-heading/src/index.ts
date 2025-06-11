@@ -16,7 +16,11 @@ const plugin: Plugin<[PluginOptions], Root> = (
     heading: Heading,
     children: RootContent[],
   ): RootContent => {
-    const title = toString(heading);
+    let title = toString(heading);
+
+    // 检查标题是否以 "-" 开头
+    const isCollapsed = title.startsWith("-");
+    title = isCollapsed ? title.slice(1).trim() : title;
 
     return {
       type: "mdxJsxTextElement",
@@ -32,6 +36,11 @@ const plugin: Plugin<[PluginOptions], Root> = (
           name: "level",
           value: heading.depth,
         },
+        isCollapsed && {
+          type: "mdxJsxAttribute",
+          name: "collapsed",
+          value: null,
+        },
       ],
       children: [...children],
     } as any;
@@ -43,9 +52,8 @@ const plugin: Plugin<[PluginOptions], Root> = (
     const newChildren: RootContent[] = [];
 
     for (const node of tree.children) {
-      if (node.type === "heading" && node.depth <= 5) {
+      if (node.type === "heading" && node.depth <= 6) {
         const headingNode = node as Heading;
-
         // 把之前堆栈中内容封装为 collapse
         while (
           stack.length > 0 &&

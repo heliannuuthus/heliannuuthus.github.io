@@ -58,4 +58,14 @@ Content
 
     expect(result).toContain('<CustomCollapse title="Custom Title" level="2"');
   });
+
+  it("should collapse heading", async () => {
+    const input = `
+## - Title 2
+Content
+`;
+    const output = await process(input);
+    const result = String(output);
+    expect(result).toContain('<Collapse title="Title 2" level="2" collapsed');
+  });
 });
