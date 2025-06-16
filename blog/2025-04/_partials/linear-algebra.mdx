@@ -1,0 +1,151 @@
+#### 降维
+
+> 张量降维惯用手段为沿所有轴（或指定轴）进行运算（可以是求和或者均值），可得到一个标量（或者移除当前轴的新张量）
+
+以矩阵为例，沿所有轴求和，得到一个标量
+
+```python
+import torch
+
+x = torch.arange(4, dtype=torch.float32)
+print(x, x.shape, x.sum()) # 得到标量
+```
+
+沿单轴*求和*，得到一个移除当前轴的新张量
+
+```python
+x_sum = x.sum(axis=0) # 沿轴 0 求和
+print(x_sum, x_sum.shape)
+```
+
+沿单轴*求均值*，得到一个移除当前轴的新张量
+
+```python
+x_mean = x.mean(axis=0) # 沿轴 0 求均值
+x_average = x.sum(axis=0) / x.shape[0]
+print(x_mean, x_mean.shape)
+print(x_average, x_average.shape)
+```
+
+也可仅进行运算而不变换原始数据（非降为求和）
+
+```python
+x_sum = x.sum(axis=0, keepdims=True) # 沿轴 0 求和
+x_mean = x.mean(axis=0, keepdims=True) # 沿轴 0 求均值
+print(x_sum, x_sum.shape)
+print(x_mean, x_mean.shape)
+```
+
+#### 点积
+
+> 点积作用到向量时，结果为标量，作用到矩阵时，结果为矩阵（形状与原始矩阵相关）
+
+- **向量的点积**：两个向量 $\mathbf{a}=\begin{bmatrix} a_1 \\ a_2 \\ \cdots \\ a_n \end{bmatrix}$ 和 $\mathbf{b}=\begin{bmatrix} b_1 \\ b_2 \\ \cdots \\ b_n \end{bmatrix}$ 的点积是 $\mathbf{a}$ 的每个元素与 $\mathbf{b}$ 的对应元素相乘再相加得到 $\sum_{i=1}^{n} a_i b_i$
+
+- **矩阵和向量的点积**：矩阵 $\mathbf{A}=\begin{bmatrix} 0. & 1. & 2. & 3. \\ 4. & 5. & 6. & 7. \\ 8. & 9. & 10. & 11. \\ 12. & 13. & 14. & 15. \\ 16. & 17. & 18. & 19. \end{bmatrix}$ 和向量 $\mathbf{b}=\begin{bmatrix} 0. \\ 1. \\ 2. \\ 3. \\ \end{bmatrix}$ 的点积是矩阵 $\mathbf{A}$ 的每个行向量与向量 $\mathbf{b}$ 的点积得到 $ \begin{bmatrix} 0. \times 0. & 1. \times 1. & 2. \times 2. & 3. \times 3. \\ 4. \times 0. & 5. \times 1. & 6. \times 2. & 7. \times 3. \\ 8. \times 0. & 9. \times 1. & 10. \times 2. & 11. \times 3. \\ 12. \times 0. & 13. \times 1. & 14. \times 2. & 15. \times 3. \\ 16. \times 0. & 17. \times 1. & 18. \times 2. & 19. \times 3.
+  \end{bmatrix} = \begin{bmatrix} 0. & 1. & 4. & 9. \\ 4. & 10. & 18. & 28. \\ 8. & 18. & 30. & 42. \\ 12. & 27. & 42. & 57. \\ 16. & 36. & 54. & 72.
+  \end{bmatrix}
+  $
+
+- **矩阵的点积**: 矩阵 $\mathbf{A}=\begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{n1} & a_{n2} & \cdots & a_{nn} \end{bmatrix}$ 和矩阵 $\mathbf{B}=\begin{bmatrix} b_{11} & b_{12} & \cdots & b_{1m} \\ b_{21} & b_{22} & \cdots & b_{2m} \\ \vdots & \vdots & \ddots & \vdots \\ b_{n1} & b_{n2} & \cdots & b_{nm} \end{bmatrix}$ 的点积是矩阵 $\mathbf{A}$ 的每个行向量与矩阵 $\mathbf{B}$ 的每个列向量的点积得到
+  - 将 A 转换为列向量，那么 $a_1 \ a_2 \ \cdots \ a_n$ 都是一个列向量，列向量的转置为行向量，$\mathbf{A}$ 可以用以下形式表示：
+    $$
+    \mathbf{A} = \begin{bmatrix}
+    a^T_{1} \\ a^T_{2} \\ \cdots \\ a^T_{n} \\
+    \end{bmatrix}
+    $$
+  - 按照向量的点积规律，需要将 B 转换为行向量，才能和 A 的列向量进行点积运算，所以 $\mathbf{B}$ 可以表示为：
+    $$
+    \mathbf{B} = \begin{bmatrix}
+    b_{1} & b_{2} & \cdots & b_{n} \\
+    \end{bmatrix}
+    $$
+  - 矩阵的点积运算可以表示为：
+    $$
+    \mathbf{A} \cdot \mathbf{B} = \begin{bmatrix}
+    a^T_{1} \\ a^T_{2} \\ \cdots \\ a^T_{n} \\
+    \end{bmatrix} \cdot \begin{bmatrix}
+    b_{1} & b_{2} & \cdots & b_{n} \\
+    \end{bmatrix} = \begin{bmatrix}
+    a^T_{1} \cdot b_{1} & a^T_{1} \cdot b_{2} & \cdots & a^T_{1} \cdot b_{n} \\
+    a^T_{2} \cdot b_{1} & a^T_{2} \cdot b_{2} & \cdots & a^T_{2} \cdot b_{n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a^T_{n} \cdot b_{1} & a^T_{n} \cdot b_{2} & \cdots & a^T_{n} \cdot b_{n} \\
+    \end{bmatrix}
+    $$
+
+:::tip
+一组向量的加权和可以由向量和权重的点积来表示（$$ a \cdot b = a^T b = \sum\_{i=1}^{n} a_i b_i $$）
+:::
+
+```python
+import torch
+
+x = torch.arange(4, dtype=torch.float32)
+y = torch.ones(4, dtype=torch.float32)
+
+print(x, y)
+print(x.dot(y))
+```
+
+#### 范数
+
+> 线性代数中，向量范数是将向量映射为标量的**函数$\mathbf{f}$**
+
+##### 性质
+
+- 按常数因子 $\lambda$ 缩放向量，他的范数会按常数因子 $\lambda$ 的绝对值缩放
+
+$$
+\begin{aligned}
+\mathbf{f}(\lambda \mathbf{x}) = |\lambda| \mathbf{f}(\mathbf{x})
+\end{aligned}
+$$
+
+- 向量加减，范数会满足:ctip[三角不等式]{#任意两边之和大于第三边，对于向量来说模长小于等于模长之和}
+
+$$
+\begin{aligned}
+\mathbf{f}(\mathbf{x} + \mathbf{y}) \leq \mathbf{f}(\mathbf{x}) + \mathbf{f}(\mathbf{y})
+\end{aligned}
+$$
+
+- 非负性：对于所有向量 $\mathbf{x}$，有 $\mathbf{f}(\mathbf{x}) \geq 0$
+
+$$
+\begin{aligned}
+\mathbf{f}(\mathbf{x}) \geq 0
+\end{aligned}
+$$
+
+- 当且仅当向量全为 0 时，范数为 0
+
+$$
+\begin{aligned}
+\mathbf{f}(\mathbf{x}) = 0 \iff \mathbf{x} = \mathbf{0}
+\end{aligned}
+$$
+
+在机器视觉领域我们通常会用欧几里得距离计算两个色块的差异，其利用的是向量$L_2$范数，用于表示向量元素的平方和的平方根：
+
+$$
+\begin{aligned}
+\mathbf{||\mathbf{x}||_2} = \sqrt{\sum_{i=1}^{n} x_i^2}
+\end{aligned}
+$$
+
+也会有 $L_1$ 范数，用于表示向量元素的绝对值之和：
+
+$$
+\begin{aligned}
+\mathbf{||\mathbf{x}||_1} = \sum_{i=1}^{n} |x_i|
+\end{aligned}
+$$
+
+但是 $L_1$ 和 $L_2$ 范数都是 $L_p$ 范数的一种，$L_p$ 范数用于表示向量元素的 $p$ 次方和的 $1/p$ 次方：
+
+$$
+\begin{aligned}
+\mathbf{||\mathbf{x}||_p} = \left( \sum_{i=1}^{n} |x_i|^p \right)^{1/p}
+\end{aligned}
+$$
