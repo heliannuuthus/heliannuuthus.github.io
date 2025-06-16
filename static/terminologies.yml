@@ -3,6 +3,11 @@ crypto:
   description: 密码学相关术语，包括 X.509 证书、DER 编码、PEM 编码等
   authors: [heliannuuthus, robot]
 
+math:
+  name: 数学
+  description: 数学相关术语
+  authors: [heliannuuthus, robot]
+
 java:
   name: Java
   description: Java 相关术语

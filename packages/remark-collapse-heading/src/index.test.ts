@@ -1,19 +1,21 @@
 import { describe, expect, it } from "vitest";
-import remarkCollapseHeading, { PluginOptions } from "./index";
+import { CollapseHeadingOptions } from "./index";
+import { preprocessorPlugin, plugin } from "./index";
 import { compile } from "node_modules/@mdx-js/mdx/lib/compile";
 
 describe("remark-collapse-heading", () => {
   const process = async (content: string) => {
     const file = await compile(content, {
       outputFormat: "function-body",
-      remarkPlugins: [remarkCollapseHeading],
+      remarkPlugins: [preprocessorPlugin, plugin],
       rehypePlugins: [],
       jsx: true,
     });
 
     return file.toString();
   };
-  it("should transform h2 and h3 headings into collapsible components", async () => {
+
+  it("should transform headings into collapsible components", async () => {
     const input = `
 # Title 1
 ## Title 2
@@ -27,7 +29,7 @@ Content under h4
     const output = await process(input);
     const result = String(output);
 
-    // 检查 h2 和 h3 是否被转换为 Collapse 组件
+    // 检查标题是否被转换为 Collapse 组件
     expect(result).toContain('<Collapse title="Title 1" level="1"');
     expect(result).toContain('<Collapse title="Title 2" level="2"');
     expect(result).toContain('<Collapse title="Title 3" level="3"');
@@ -43,10 +45,8 @@ Content
       const file = await compile(content, {
         outputFormat: "function-body",
         remarkPlugins: [
-          [
-            remarkCollapseHeading,
-            { component: "CustomCollapse" } as PluginOptions,
-          ],
+          preprocessorPlugin,
+          [plugin, { component: "CustomCollapse" } as CollapseHeadingOptions],
         ],
         rehypePlugins: [],
         jsx: true,
@@ -59,7 +59,7 @@ Content
     expect(result).toContain('<CustomCollapse title="Custom Title" level="2"');
   });
 
-  it("should collapse heading", async () => {
+  it("should handle collapsed headings", async () => {
     const input = `
 ## - Title 2
 Content
@@ -67,5 +67,27 @@ Content
     const output = await process(input);
     const result = String(output);
     expect(result).toContain('<Collapse title="Title 2" level="2" collapsed');
+  });
+
+  it("should process nested collapsed headings", async () => {
+    const input = `
+# - Parent Title
+## - Child Title
+Content
+### - Grandchild Title
+More content
+`;
+    const output = await process(input);
+    const result = String(output);
+
+    expect(result).toContain(
+      '<Collapse title="Parent Title" level="1" collapsed',
+    );
+    expect(result).toContain(
+      '<Collapse title="Child Title" level="2" collapsed',
+    );
+    expect(result).toContain(
+      '<Collapse title="Grandchild Title" level="3" collapsed',
+    );
   });
 });

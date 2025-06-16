@@ -1,5 +1,5 @@
 import { createStyles } from "antd-style";
-import Icon, { CaretRightOutlined } from "@ant-design/icons";
+import Icon, { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import React from "react";
 import { Collapse as AntdCollapse } from "antd";
 import Heading, { HeadingType } from "@theme/Heading";
@@ -11,14 +11,6 @@ const useIconStyles = createStyles(({ css }) => ({
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
-    &.expanded {
-      transform: rotate(90deg);
-    }
-
-    &.collapsed {
-      transform: rotate(0deg);
-    }
   `,
 }));
 
@@ -27,10 +19,8 @@ const ExpandIcon: React.FC<{ isActive?: boolean }> = ({ isActive }) => {
   const { styles } = useIconStyles();
 
   return (
-    <span
-      className={`${styles.expandIcon} ${isActive ? "expanded" : "collapsed"}`}
-    >
-      <Icon component={CaretRightOutlined} />
+    <span className={styles.expandIcon}>
+      <Icon component={isActive ? EyeOutlined : EyeInvisibleOutlined} />
     </span>
   );
 };
@@ -52,23 +42,48 @@ const useStyles = createStyles(({ css }) => ({
       }
     }
   `,
+  collapseWrapper: css`
+    .ant-collapse-item {
+      .ant-collapse-header {
+        transition: all 0.2s ease-in-out;
+        .ant-collapse-expand-icon {
+          opacity: 0;
+          transition: opacity 0.2s ease-in-out;
+        }
+        &:hover {
+          .ant-collapse-expand-icon {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  `,
 }));
 
-const CollapseHeading: React.FC<{
+interface CollapseHeadingProps {
   title: string;
   level: 1 | 2 | 3 | 4 | 5 | 6;
   collapsed?: boolean;
   children: React.ReactNode | string;
-}> = ({ title, level, children, collapsed = false }) => {
-  const { styles } = useStyles();
+}
 
+const CollapseHeading: React.FC<CollapseHeadingProps> = ({
+  title,
+  level,
+  children,
+  collapsed = false,
+}: CollapseHeadingProps) => {
+  const { styles } = useStyles();
+  console.log(title, level, children, collapsed);
   return (
     <AntdCollapse
       bordered={false}
       ghost
+      expandIconPosition="end"
       expandIcon={({ isActive }) => <ExpandIcon isActive={isActive} />}
-      collapsible="icon"
+      collapsible="header"
       defaultActiveKey={collapsed ? [] : ["1"]}
+      className={styles.collapseWrapper}
       items={[
         {
           key: "1",
@@ -85,6 +100,7 @@ const CollapseHeading: React.FC<{
           classNames: {
             header: styles.header,
           },
+          showArrow: true,
           styles: {
             header: {
               padding: 0,

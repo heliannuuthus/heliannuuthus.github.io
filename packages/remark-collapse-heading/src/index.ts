@@ -3,12 +3,46 @@ import { Plugin } from "unified";
 import { Root, RootContent, Heading } from "mdast";
 import { toString } from "mdast-util-to-string";
 
-export interface PluginOptions {
+// 扩展 HeadingData 类型
+declare module "mdast" {
+  interface HeadingData {
+    collapsed?: boolean;
+  }
+}
+
+export interface CollapseHeadingOptions {
   component: string;
 }
 
-const plugin: Plugin<[PluginOptions], Root> = (
-  options: PluginOptions = { component: "Collapse" },
+// 预处理插件：处理标题中的折叠标记
+const preprocessorPlugin: Plugin<[], Root> = () => {
+  return (tree: Root) => {
+    for (const node of tree.children) {
+      if (node.type === "heading") {
+        const heading = node as Heading;
+        const title = toString(heading);
+
+        if (title.startsWith("-")) {
+          // 添加折叠标记
+          if (!heading.data) {
+            heading.data = {};
+          }
+          heading.data.collapsed = true;
+
+          // 移除标题中的 "-" 前缀
+          const firstChild = heading.children[0];
+          if (firstChild && firstChild.type === "text") {
+            firstChild.value = firstChild.value.slice(1).trim();
+          }
+        }
+      }
+    }
+  };
+};
+
+// 转换插件：将标题转换为折叠组件
+const plugin: Plugin<[CollapseHeadingOptions], Root> = (
+  options: CollapseHeadingOptions = { component: "Collapse" },
 ) => {
   const { component = "Collapse" } = options;
 
@@ -16,11 +50,8 @@ const plugin: Plugin<[PluginOptions], Root> = (
     heading: Heading,
     children: RootContent[],
   ): RootContent => {
-    let title = toString(heading);
-
-    // 检查标题是否以 "-" 开头
-    const isCollapsed = title.startsWith("-");
-    title = isCollapsed ? title.slice(1).trim() : title;
+    const title = toString(heading);
+    const isCollapsed = heading.data?.collapsed === true;
 
     return {
       type: "mdxJsxTextElement",
@@ -48,13 +79,12 @@ const plugin: Plugin<[PluginOptions], Root> = (
 
   return (tree: Root) => {
     const stack: { heading: Heading; children: RootContent[] }[] = [];
-
     const newChildren: RootContent[] = [];
 
     for (const node of tree.children) {
       if (node.type === "heading" && node.depth <= 6) {
         const headingNode = node as Heading;
-        // 把之前堆栈中内容封装为 collapse
+        // 处理堆栈中的内容
         while (
           stack.length > 0 &&
           stack[stack.length - 1].heading.depth >= headingNode.depth
@@ -78,7 +108,7 @@ const plugin: Plugin<[PluginOptions], Root> = (
       }
     }
 
-    // 处理残留的 stack
+    // 处理剩余的堆栈内容
     while (stack.length > 0) {
       const { heading, children } = stack.pop()!;
       const jsxNode = toCollapse(heading, children);
@@ -93,4 +123,6 @@ const plugin: Plugin<[PluginOptions], Root> = (
   };
 };
 
-export default plugin;
+export { preprocessorPlugin, plugin };
+
+export default { preprocessorPlugin, plugin };

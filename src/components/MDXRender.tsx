@@ -11,7 +11,10 @@ import remarkAdmonition from "heliannuuthus-remark-admomition";
 import remarkMermaid from "heliannuuthus-remark-mermaid";
 import remarkTerminology from "heliannuuthus-remark-terminology";
 import remarkBreaks from "heliannuuthus-remark-breaks";
-import remarkCollapseHeading from "heliannuuthus-remark-collapse-heading";
+import {
+  plugin as remarkCollapseHeading,
+  preprocessorPlugin as remarkCollapseHeadingPreprocessor,
+} from "heliannuuthus-remark-collapse-heading";
 import MDXComponents from "@theme/MDXComponents";
 import TermPreview from "@site/src/components/terms/TermPreview";
 import { Comment } from "@site/src/components/Typography";
@@ -34,8 +37,10 @@ const MDXRender = ({
   const evaluateContent = async () => {
     await evaluate(content, {
       ...runtime,
+
       remarkPlugins: [
         remarkParse,
+        remarkCollapseHeadingPreprocessor,
         remarkMath,
         remarkDirective,
         [

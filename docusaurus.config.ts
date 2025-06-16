@@ -10,11 +10,16 @@ import remarkBreaks from "heliannuuthus-remark-breaks";
 import remarkAdmonition from "heliannuuthus-remark-admomition";
 import { origins } from "heliannuuthus-remark-admomition";
 import remarkTerminology from "heliannuuthus-remark-terminology";
-import remarkCollapseHeading from "heliannuuthus-remark-collapse-heading";
+import {
+  plugin as remarkCollapseHeading,
+  preprocessorPlugin as remarkCollapseHeadingPreprocessor,
+} from "heliannuuthus-remark-collapse-heading";
 import path from "path";
 import type { Options as BlogPluginOptions } from "@docusaurus/plugin-content-blog";
 import type { Options as PagePluginOptions } from "@docusaurus/plugin-content-pages";
 import type { Options as SVGRPluginOptions } from "@docusaurus/plugin-svgr";
+
+const beforeDefaultRemarkPlugins = [remarkCollapseHeadingPreprocessor];
 
 const remarkPlugins = [
   remarkDirective,
@@ -45,6 +50,7 @@ const remarkPlugins = [
 const rehypePlugins = [rehypeKatex];
 
 const blogConfig = {
+  beforeDefaultRemarkPlugins,
   remarkPlugins,
   rehypePlugins,
   admonitions: {
@@ -75,7 +81,6 @@ const config: Config = {
   title: "heliannuuthus",
   tagline: "heliannuuthus",
   favicon: "img/favicon.ico",
-
   // Set the production url of your site here
   url: "https://site.heliannuuthus.com/",
   // Set the /<baseUrl>/ pathname under which your site is served
@@ -176,6 +181,7 @@ const config: Config = {
         id: "terminology",
         path: "terminology",
         routeBasePath: "terms",
+        beforeDefaultRemarkPlugins,
         remarkPlugins,
         rehypePlugins,
       } satisfies PagePluginOptions,
