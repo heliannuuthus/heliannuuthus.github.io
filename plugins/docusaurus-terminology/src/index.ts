@@ -120,7 +120,7 @@ export default async function DocusaurusTerminologyPlugin(
       ) as Record<string, Terminology>;
       Object.entries(terminologies).forEach(([key, terminology]) => {
         terminology.path = path.join(
-          options.path || "terminology",
+          options.path || "terminologies",
           key.toLowerCase().replace(/ /g, "-"),
         );
         terminology.slug = path.join(

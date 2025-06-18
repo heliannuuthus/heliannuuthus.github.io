@@ -37,3 +37,8 @@ web:
   name: web 开发
   description: web 开发相关术语
   authors: [heliannuuthus, robot]
+
+dl:
+  name: 深度学习
+  description: 深度学习相关术语
+  authors: [heliannuuthus, robot]

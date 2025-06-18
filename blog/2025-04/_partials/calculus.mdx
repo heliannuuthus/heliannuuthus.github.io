@@ -1,8 +1,10 @@
-##### 导数和微分
+#### 导数和微分
 
 > 通常定义导数为在函数的点的切线的斜率，微分描述在函数上的点附近的变化率
 
-对于函数 $f: R \to R$ 在区间内可微，则 f 在 x 处的导数被定义为：
+对于函数 $f: R \to R$ 在区间内可微
+
+则 f 在 x 处的导数 $f'(x)$ 被定义为：
 
 $$
 f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}
@@ -14,7 +16,9 @@ $$
 df = f'(x) \cdot dx
 $$
 
-通用函数的微分计算方法：
+##### 通用函数的微分方法
+
+- 常数：$\frac{d}{dx} (c) = 0$
 
 - 幂函数：$\frac{d}{dx} (x^n) = nx^{n-1}$
 
@@ -22,10 +26,60 @@ $$
 
 - 对数函数：$\frac{d}{dx} (\ln x) = \frac{1}{x}$
 
-- 三角函数：$\frac{d}{dx} (\sin x) = \cos x$
+- 三角函数：
+  - 正弦函数：$\frac{d}{dx} (\sin x) = \cos x$
+  - 余弦函数：$\frac{d}{dx} (\cos x) = -\sin x$
+  - 正切函数：$\frac{d}{dx} (\tan x) = \sec^2 x$
+  - 余切函数：$\frac{d}{dx} (\cot x) = -\csc^2 x$
+  - 正割函数：$\frac{d}{dx} (\sec x) = \sec x \tan x$
+  - 余割函数：$\frac{d}{dx} (\csc x) = -\csc x \cot x$
 
-##### 偏导数
+##### 函数的微分计算法则
 
-##### 梯度
+- 常数相乘法则：$\frac{d}{dx} (c \cdot f(x)) = c \cdot f'(x)$
 
-##### 链式法则
+- 加法法则：$\frac{d}{dx} (f(x) + g(x)) = f'(x) + g'(x)$
+
+- 乘法法则：$\frac{d}{dx} (f(x) \cdot g(x)) = f'(x) \cdot g(x) + f(x) \cdot g'(x)$
+
+- 除法法则：$\frac{d}{dx} (\frac{f(x)}{g(x)}) = \frac{f'(x) \cdot g(x) - f(x) \cdot g'(x)}{g(x)^2}$
+
+#### 偏导数
+
+针对单个变量 $x$ 的函数 $f(x)$ 的导数被定义为 $f'(x)$，而对于向量（多变量组合）的函数，则需要使用偏导数来计算。
+
+偏导数被定义为：
+
+$$
+\frac{\partial f}{\partial x_i} = \lim_{h \to 0} \frac{f(x_1, x_2, \cdots, x_i + h, \cdots, x_n) - f(x_1, x_2, \cdots, x_i, \cdots, x_n)}{h}
+$$
+
+将偏导数推广到向量，则有：
+
+$$
+\nabla f = (\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \cdots, \frac{\partial f}{\partial x_n})
+$$
+
+**即向量 $\nabla f$ 的每个分量都是对向量 $x$ 的每个变量求偏导数。**
+
+#### 梯度
+
+> 梯度和导数相关，但梯度是向量，导数是实数，梯度是导数在多变量情况下的推广。
+
+**对于输入为单个变量，输出为实数的函数 $f(x)$**，_其梯度为其导数_，公式为：
+
+$$
+\nabla f = \frac{d}{dx} f(x)
+$$
+
+**对于输入为向量，输出为实数的函数 $f(x_1, x_2, \cdots, x_n)$**，_其梯度为偏导数组成的向量_，公式为：
+
+$$
+\nabla f = (\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \cdots, \frac{\partial f}{\partial x_n})
+$$
+
+:::nerd
+在深度学习中每层神经网络之间由 **_权重矩阵_（通常还会添加同维度的偏置向量）桥接不同纬度矩阵的计算**。随后再通过激活函数将计算结果映射到非线性空间。
+:::
+
+#### 链式法则

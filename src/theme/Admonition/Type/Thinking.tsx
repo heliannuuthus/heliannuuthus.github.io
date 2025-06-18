@@ -10,12 +10,12 @@ import clsx from "clsx";
 import Translate from "@docusaurus/Translate";
 import type { Props } from "@theme/Admonition";
 import AdmonitionLayout from "@theme/Admonition/Layout";
-import IconInfo from "@theme/Admonition/Icon/Info";
+import ThinkingIcon from "@site/src/theme/Admonition/Icon/Thinking";
 
 const infimaClassName = "alert alert--thinking";
 
 const defaultProps = {
-  icon: <IconInfo />,
+  icon: <ThinkingIcon />,
   title: (
     <Translate
       id="theme.admonition.thinking"

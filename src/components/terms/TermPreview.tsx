@@ -132,7 +132,7 @@ const DrawerPreview = ({
 
   const pluginOptions = siteConfig.plugins.filter((plugin) => {
     if (plugin[0] === "@docusaurus/plugin-content-pages") {
-      return plugin[1] && plugin[1].id === "terminology";
+      return plugin[1] && plugin[1].id === "terminologies";
     }
     return false;
   })[0][1];
@@ -221,7 +221,7 @@ const TermPreview = ({
 
   const options = siteConfig.plugins.filter((plugin) => {
     if (plugin[0] === "@docusaurus/plugin-content-pages") {
-      return plugin[1] && plugin[1].id === "terminology";
+      return plugin[1] && plugin[1].id === "terminologies";
     }
     return false;
   })[0][1];
