@@ -1,7 +1,8 @@
-import { describe, expect, it } from "vitest";
-import { CollapseHeadingOptions } from "./index";
-import { preprocessorPlugin, plugin } from "./index";
 import { compile } from "node_modules/@mdx-js/mdx/lib/compile";
+import { describe, expect, it } from "vitest";
+
+import { CollapseHeadingOptions } from "./index";
+import { plugin, preprocessorPlugin } from "./index";
 
 describe("remark-collapse-heading", () => {
   const process = async (content: string) => {
@@ -9,7 +10,7 @@ describe("remark-collapse-heading", () => {
       outputFormat: "function-body",
       remarkPlugins: [preprocessorPlugin, plugin],
       rehypePlugins: [],
-      jsx: true,
+      jsx: true
     });
 
     return file.toString();
@@ -46,10 +47,10 @@ Content
         outputFormat: "function-body",
         remarkPlugins: [
           preprocessorPlugin,
-          [plugin, { component: "CustomCollapse" } as CollapseHeadingOptions],
+          [plugin, { component: "CustomCollapse" } as CollapseHeadingOptions]
         ],
         rehypePlugins: [],
-        jsx: true,
+        jsx: true
       });
       return file.toString();
     };
@@ -81,13 +82,13 @@ More content
     const result = String(output);
 
     expect(result).toContain(
-      '<Collapse title="Parent Title" level="1" collapsed',
+      '<Collapse title="Parent Title" level="1" collapsed'
     );
     expect(result).toContain(
-      '<Collapse title="Child Title" level="2" collapsed',
+      '<Collapse title="Child Title" level="2" collapsed'
     );
     expect(result).toContain(
-      '<Collapse title="Grandchild Title" level="3" collapsed',
+      '<Collapse title="Grandchild Title" level="3" collapsed'
     );
   });
 });

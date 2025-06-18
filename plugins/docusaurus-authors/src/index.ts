@@ -1,6 +1,7 @@
-import path from "path";
 import fs from "fs";
 import yaml from "js-yaml";
+import path from "path";
+
 import type { LoadContext, Plugin } from "@docusaurus/types";
 
 interface AuthorsListPluginOptions {
@@ -17,7 +18,7 @@ export interface Author {
 
 export default async function authorsListPlugin(
   context: LoadContext,
-  opts: AuthorsListPluginOptions,
+  opts: AuthorsListPluginOptions
 ): Promise<Plugin<{ authors: Record<string, Author> }>> {
   return {
     name: "authors-docusaurus-plugin",
@@ -33,8 +34,8 @@ export default async function authorsListPlugin(
       const { setGlobalData } = actions;
       // 设置全局数据
       setGlobalData({
-        authors: (content as { authors: Record<string, Author> }).authors,
+        authors: (content as { authors: Record<string, Author> }).authors
       });
-    },
+    }
   };
 }

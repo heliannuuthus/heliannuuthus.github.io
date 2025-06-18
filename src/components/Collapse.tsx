@@ -1,4 +1,5 @@
 import { Collapse as AntdCollapse, CollapseProps } from "antd";
+
 import { Title } from "@site/src/components/Typography";
 
 const Collapse: React.FC<{
@@ -12,8 +13,8 @@ const Collapse: React.FC<{
       {
         key: "1",
         label: label,
-        children: children,
-      },
+        children: children
+      }
     ]}
   />
 );

@@ -1,9 +1,9 @@
 import { theme } from "antd";
-import { useEffect, useState } from "react";
 import {
   ThemeProvider as AntdStyledThemeProvider,
-  ThemeProviderProps,
+  ThemeProviderProps
 } from "antd-style";
+import { useEffect, useState } from "react";
 
 // 自定义 Hook，用于监听 <html> 元素上 data-theme 属性的变化
 export const useHtmlTheme = () => {
@@ -21,7 +21,7 @@ export const useHtmlTheme = () => {
     });
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["data-theme"],
+      attributeFilter: ["data-theme"]
     });
     return () => {
       observer.disconnect();
@@ -66,15 +66,15 @@ export default function ThemeProvider({
           fontSizeHeading3: 24,
           fontSizeHeading4: 20,
           fontSizeHeading5: 16,
-          fontFamily: "Noto Sans SC, sans-serif, Arial, Helvetica",
+          fontFamily: "Noto Sans SC, sans-serif, Arial, Helvetica"
         },
         components: {
           Steps: {},
           Table: {},
           Layout: {
-            headerBg: dark ? "rgb(30, 30, 30)" : "rgb(240, 240, 240)",
-          },
-        },
+            headerBg: dark ? "rgb(30, 30, 30)" : "rgb(240, 240, 240)"
+          }
+        }
       }}
     >
       {children}

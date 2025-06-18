@@ -1,19 +1,22 @@
-import { Typography, Drawer, Button, Card, Divider, Space } from "antd";
-import { useState, useEffect } from "react";
-import { usePluginData } from "@docusaurus/useGlobalData";
-import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
-import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
-import BrowserOnly from "@docusaurus/BrowserOnly";
-import { TermData } from "heliannuuthus-terminology-store";
-import { isMobile, isIPad13, isTablet } from "react-device-detect";
-import MDXRender from "@site/src/components/MDXRender";
 import { BookFilled, EditOutlined } from "@ant-design/icons";
-import { PopoverAvatars, DrawerAvatars } from "@site/src/components/Avatar";
-import Tooltip from "@site/src/components/Tooltip";
-const { Text, Link, Title } = Typography;
+import { Button, Card, Divider, Drawer, Space, Typography } from "antd";
 import { Author } from "heliannuuthus-docusaurus-authors";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { Terminology } from "heliannuuthus-docusaurus-terminology";
+import { TermData } from "heliannuuthus-terminology-store";
+import { useEffect, useState } from "react";
+import { isIPad13, isMobile, isTablet } from "react-device-detect";
+
+import BrowserOnly from "@docusaurus/BrowserOnly";
+import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
+import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { usePluginData } from "@docusaurus/useGlobalData";
+
+import { DrawerAvatars, PopoverAvatars } from "@site/src/components/Avatar";
+import MDXRender from "@site/src/components/MDXRender";
+import Tooltip from "@site/src/components/Tooltip";
+
+const { Text, Link, Title } = Typography;
 
 declare global {
   interface Window {
@@ -36,7 +39,7 @@ const TooltipsPreview = ({
   editPath,
   glossary,
   children,
-  content,
+  content
 }: {
   path: string;
   anchor: string;
@@ -51,24 +54,24 @@ const TooltipsPreview = ({
       trigger={"click"}
       styles={{
         root: {
-          maxWidth: "520px",
+          maxWidth: "520px"
         },
         body: {
-          padding: 0,
-        },
+          padding: 0
+        }
       }}
       title={
         <Card
           style={{
-            padding: 0,
+            padding: 0
           }}
           title={content.title}
           styles={{
             header: {},
             body: {
               maxHeight: "32vh",
-              overflow: "auto",
-            },
+              overflow: "auto"
+            }
           }}
           variant="outlined"
           actions={[
@@ -93,7 +96,7 @@ const TooltipsPreview = ({
                 icon={<EditOutlined key="edit" />}
                 children={`编辑`}
               />
-            </Tooltip>,
+            </Tooltip>
           ]}
         >
           <Title level={1} children={content.title} />
@@ -110,7 +113,7 @@ const TooltipsPreview = ({
         <Link
           style={{
             textDecoration: "underline dashed",
-            textUnderlineOffset: "4px",
+            textUnderlineOffset: "4px"
           }}
           children={children}
         />
@@ -125,7 +128,7 @@ const DrawerPreview = ({
   editPath,
   glossary,
   children,
-  content,
+  content
 }: {
   path: string;
   editPath: string;
@@ -141,7 +144,7 @@ const DrawerPreview = ({
       <Link
         style={{
           textDecoration: "underline dashed",
-          textUnderlineOffset: "4px",
+          textUnderlineOffset: "4px"
         }}
         href={`${path}${anchor}`}
         onClick={(e) => {
@@ -183,7 +186,7 @@ const DrawerPreview = ({
           style={{
             marginBottom: 0,
             display: "flex",
-            alignItems: "center",
+            alignItems: "center"
           }}
         >
           <DrawerAvatars authors={content.authors} />
@@ -198,7 +201,7 @@ const DrawerPreview = ({
 const TermPreview = ({
   children,
   path,
-  anchor,
+  anchor
 }: {
   children: React.ReactNode;
   path: string;
@@ -232,7 +235,7 @@ const TermPreview = ({
 
   const fetchContent = async (
     url: string,
-    authors: Record<string, AuthorAttributes>,
+    authors: Record<string, AuthorAttributes>
   ) => {
     try {
       // 如果缓存存在且有数据，直接使用缓存
@@ -245,7 +248,7 @@ const TermPreview = ({
           description:
             window._cachedTerms[`${url}-${anchor}`].metadata.description,
           authors: window._cachedTerms[`${url}-${anchor}`].metadata.authors,
-          content: window._cachedTerms[`${url}-${anchor}`].content,
+          content: window._cachedTerms[`${url}-${anchor}`].content
         });
         return;
       }
@@ -263,9 +266,9 @@ const TermPreview = ({
             acc[author] = authors[author];
             return acc;
           },
-          {} as Record<string, AuthorAttributes>,
+          {} as Record<string, AuthorAttributes>
         ),
-        content: term.content,
+        content: term.content
       });
       if (typeof window !== "undefined") {
         window._cachedTerms = window._cachedTerms || {};

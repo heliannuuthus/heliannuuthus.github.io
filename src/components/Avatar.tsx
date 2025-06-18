@@ -1,14 +1,15 @@
 import {
   Avatar as AntdAvatar,
   Card as AntdCard,
-  Popover as AntdPopover,
   Drawer as AntdDrawer,
-  CardProps,
+  Popover as AntdPopover,
+  CardProps
 } from "antd";
-import { Link } from "./Typography";
-import { useEffect, useState } from "react";
-import { PageFetchError, PageLoading } from "./Result";
 import { Author } from "heliannuuthus-docusaurus-authors";
+import { useEffect, useState } from "react";
+
+import { PageFetchError, PageLoading } from "./Result";
+import { Link } from "./Typography";
 
 const Avatar = ({ author, ...props }: { author: Author } & CardProps) => {
   const [loading, setLoading] = useState(true);
@@ -17,7 +18,7 @@ const Avatar = ({ author, ...props }: { author: Author } & CardProps) => {
   useEffect(() => {
     setLoading(true);
     fetch(author.url, {
-      signal: AbortSignal.timeout(5000),
+      signal: AbortSignal.timeout(5000)
     })
       .then((res) => {
         if (res.status === 200) {
@@ -35,25 +36,25 @@ const Avatar = ({ author, ...props }: { author: Author } & CardProps) => {
   return (
     <AntdCard
       style={{
-        minWidth: 300,
+        minWidth: 300
       }}
       {...props}
       bordered={false}
       styles={{
         cover: {
-          minHeight: "72px",
+          minHeight: "72px"
         },
         body: {
           maxWidth: "478px",
           maxHeight: "100px",
-          overflow: "auto",
-        },
+          overflow: "auto"
+        }
       }}
       cover={loading ? <PageLoading /> : iframe}
       children={
         <div
           style={{
-            cursor: "pointer",
+            cursor: "pointer"
           }}
           onClick={() => window.open(author.url, "_blank")}
         >
@@ -80,8 +81,8 @@ const DrawerAvatar = ({ author }: { author: Author }) => {
         height={428}
         styles={{
           body: {
-            padding: 0,
-          },
+            padding: 0
+          }
         }}
         placement="bottom"
         open={open}
@@ -117,8 +118,8 @@ const PopoverAvatars = ({ authors }: { authors: Record<string, Author> }) => {
           trigger={"click"}
           styles={{
             body: {
-              padding: 0,
-            },
+              padding: 0
+            }
           }}
           content={<Avatar author={authorAttributes} />}
         >

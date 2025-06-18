@@ -1,7 +1,8 @@
-import { describe, expect, test } from "vitest";
 import { compile } from "@mdx-js/mdx";
-import remarkCommentTooltip from ".";
 import remarkDirective from "remark-directive";
+import { describe, expect, test } from "vitest";
+
+import remarkCommentTooltip from ".";
 
 describe("remark-comment-tooltip", () => {
   const process = async (content: string) => {
@@ -9,7 +10,7 @@ describe("remark-comment-tooltip", () => {
       outputFormat: "function-body",
       remarkPlugins: [remarkDirective, remarkCommentTooltip],
       rehypePlugins: [],
-      jsx: true,
+      jsx: true
     });
 
     return file.toString();
@@ -57,7 +58,7 @@ describe("remark-comment-tooltip", () => {
     console.log(output);
     expect(output).toContain('<Tooltip title="特殊*|字符!">');
     expect(output).toContain(
-      '<Comment>{"包含 \\\\| * ! @ # $ 的内容"}</Comment>',
+      '<Comment>{"包含 \\\\| * ! @ # $ 的内容"}</Comment>'
     );
   });
 
@@ -67,7 +68,7 @@ describe("remark-comment-tooltip", () => {
     console.log(output);
     expect(output).toContain('<Tooltip title="特殊*|字符!">');
     expect(output).toContain(
-      '<Comment>{"包含 "}<_components.code>{"markdown"}</_components.code>{" 的内容"}</Comment>',
+      '<Comment>{"包含 "}<_components.code>{"markdown"}</_components.code>{" 的内容"}</Comment>'
     );
   });
 

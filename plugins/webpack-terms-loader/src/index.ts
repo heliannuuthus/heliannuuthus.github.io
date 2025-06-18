@@ -1,6 +1,6 @@
 import { createHash } from "crypto";
 import { parse } from "heliannuuthus-parse-md";
-import { store, TermMetadata, TermData } from "heliannuuthus-terminology-store";
+import { TermData, TermMetadata, store } from "heliannuuthus-terminology-store";
 import type { LoaderContext } from "webpack";
 
 interface WebpackTermsLoaderOptions {
@@ -16,19 +16,19 @@ interface WebpackTermsLoaderContext
 
 export default async function loader(
   this: WebpackTermsLoaderContext,
-  source: string,
+  source: string
 ) {
   this.cacheable(false);
   const unixRegex = new RegExp(
     `(${this.query.path
       .replace(/^\.\//, "")
-      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`,
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`
   );
   const winRegex = new RegExp(
     `(${this.query.path
       .replace(/\//g, "\\")
       .replace(/\./, "")
-      .replace(/[*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`,
+      .replace(/[*+?^${}()|[\]\\]/g, "\\$&")}.*?)\.(md|mdx)`
   );
 
   const unixResourcePath = this.resourcePath;
@@ -47,18 +47,18 @@ export default async function loader(
           metadata: {
             ...term.metadata,
             description: term.metadata.description,
-            authors: term.metadata.authors || ["robot"],
+            authors: term.metadata.authors || ["robot"]
           },
-          content: term.content,
+          content: term.content
         };
         return acc;
       },
-      {} as Record<string, TermData>,
+      {} as Record<string, TermData>
     );
     store.addTerm(resourcePath.replace(this.query.path, ""), termMap);
     this.emitFile(
       resourcePath.replace(this.query.path, this.query.routeBasePath) + ".json",
-      JSON.stringify(termMap),
+      JSON.stringify(termMap)
     );
     return `
 

@@ -4,13 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-import React, { type ReactNode } from "react";
 import clsx from "clsx";
+import React, { type ReactNode } from "react";
+
 import Translate from "@docusaurus/Translate";
+
+import ThinkingIcon from "@site/src/theme/Admonition/Icon/Thinking";
+
 import type { Props } from "@theme/Admonition";
 import AdmonitionLayout from "@theme/Admonition/Layout";
-import ThinkingIcon from "@site/src/theme/Admonition/Icon/Thinking";
 
 const infimaClassName = "alert alert--thinking";
 
@@ -23,7 +25,7 @@ const defaultProps = {
     >
       thinking
     </Translate>
-  ),
+  )
 };
 
 export default function AdmonitionTypeThinking(props: Props): ReactNode {

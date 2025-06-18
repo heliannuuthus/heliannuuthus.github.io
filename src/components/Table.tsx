@@ -11,7 +11,7 @@ const useStyles = createStyles(({ token, css }) => ({
     th {
       border: none;
     },
-  `,
+  `
 }));
 
 const Table = ({ ...props }: TableProps<any>) => {

@@ -1,7 +1,7 @@
 // plugins/remark-collapse-headings.ts
-import { Plugin } from "unified";
-import { Root, RootContent, Heading } from "mdast";
+import { Heading, Root, RootContent } from "mdast";
 import { toString } from "mdast-util-to-string";
+import { Plugin } from "unified";
 
 // 扩展 HeadingData 类型
 declare module "mdast" {
@@ -42,13 +42,13 @@ const preprocessorPlugin: Plugin<[], Root> = () => {
 
 // 转换插件：将标题转换为折叠组件
 const plugin: Plugin<[CollapseHeadingOptions], Root> = (
-  options: CollapseHeadingOptions = { component: "Collapse" },
+  options: CollapseHeadingOptions = { component: "Collapse" }
 ) => {
   const { component = "Collapse" } = options;
 
   const toCollapse = (
     heading: Heading,
-    children: RootContent[],
+    children: RootContent[]
   ): RootContent => {
     const title = toString(heading);
     const isCollapsed = heading.data?.collapsed === true;
@@ -60,20 +60,20 @@ const plugin: Plugin<[CollapseHeadingOptions], Root> = (
         {
           type: "mdxJsxAttribute",
           name: "title",
-          value: title,
+          value: title
         },
         {
           type: "mdxJsxAttribute",
           name: "level",
-          value: heading.depth,
+          value: heading.depth
         },
         isCollapsed && {
           type: "mdxJsxAttribute",
           name: "collapsed",
-          value: null,
-        },
+          value: null
+        }
       ],
-      children: [...children],
+      children: [...children]
     } as any;
   };
 

@@ -1,8 +1,9 @@
 import { compile } from "@mdx-js/mdx";
-import remarkAdmonition from "./index";
-import { describe, it, expect } from "vitest";
 import { Link } from "mdast";
 import remarkDirective from "remark-directive";
+import { describe, expect, it } from "vitest";
+
+import remarkAdmonition from "./index";
 
 describe("remarkAdmonition 插件 (MDX 编译测试)", () => {
   const process = async (content: string) => {
@@ -19,14 +20,14 @@ describe("remarkAdmonition 插件 (MDX 编译测试)", () => {
                 tips: {
                   icon: "💡💡",
                   type: "tips",
-                  title: "tips",
-                },
-              },
-            },
-          ],
+                  title: "tips"
+                }
+              }
+            }
+          ]
         ],
         rehypePlugins: [],
-        jsx: true,
+        jsx: true
       })
     ).toString();
   };
@@ -34,7 +35,7 @@ describe("remarkAdmonition 插件 (MDX 编译测试)", () => {
   it("正常转换为 admonition", async () => {
     const output = await process(":::tips\n  hello\n:::");
     expect(output).toContain(
-      '<Admonition icon="💡💡" title="tips" type="tips">',
+      '<Admonition icon="💡💡" title="tips" type="tips">'
     );
     expect(output).toContain("hello");
     expect(output).toContain("</Admonition>");
@@ -43,7 +44,7 @@ describe("remarkAdmonition 插件 (MDX 编译测试)", () => {
   it("覆盖默认配置 admonition", async () => {
     const output = await process(':::tips{title="good tip"}\n  hello\n:::');
     expect(output).toContain(
-      '<Admonition icon="💡💡" title="good tip" type="tips">',
+      '<Admonition icon="💡💡" title="good tip" type="tips">'
     );
     expect(output).toContain("hello");
     expect(output).toContain("</Admonition>");
@@ -52,7 +53,7 @@ describe("remarkAdmonition 插件 (MDX 编译测试)", () => {
   it("解析 label admonition", async () => {
     const output = await process(":::tips[good tip]\n  hello\n:::");
     expect(output).toContain(
-      '<Admonition icon="💡💡" title="good tip" type="tips">',
+      '<Admonition icon="💡💡" title="good tip" type="tips">'
     );
     expect(output).toContain("hello");
     expect(output).toContain("</Admonition>");

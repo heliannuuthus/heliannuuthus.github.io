@@ -1,7 +1,7 @@
-import { Plugin } from "unified";
-import { visit } from "unist-util-visit";
 import { TextDirective } from "mdast-util-directive";
 import { MdxJsxTextElement } from "mdast-util-mdx-jsx";
+import { Plugin } from "unified";
+import { visit } from "unist-util-visit";
 
 export interface TooltipOptions {
   tooltip?: string;
@@ -15,8 +15,8 @@ interface Directive extends TextDirective {
 const remarkCtip: Plugin<[TooltipOptions?]> = (
   options: TooltipOptions = {
     tooltip: "Tooltip",
-    comment: "Comment",
-  },
+    comment: "Comment"
+  }
 ) => {
   const { tooltip = "Tooltip", comment = "Comment" } = options;
 
@@ -38,13 +38,13 @@ const remarkCtip: Plugin<[TooltipOptions?]> = (
               return {
                 type: "mdxJsxAttribute",
                 name: "title",
-                value,
+                value
               };
             }
             return {
               type: "mdxJsxAttribute",
               name,
-              value,
+              value
             };
           }),
           children: [
@@ -52,9 +52,9 @@ const remarkCtip: Plugin<[TooltipOptions?]> = (
               type: "mdxJsxTextElement",
               name: comment,
               attributes: [],
-              children: directiveNode.children,
-            },
-          ],
+              children: directiveNode.children
+            }
+          ]
         };
 
         // 将转换后的 JSX 节点赋值回原节点

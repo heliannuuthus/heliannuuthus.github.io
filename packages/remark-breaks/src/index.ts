@@ -1,8 +1,8 @@
-import { Plugin } from "unified";
 import { Nodes } from "mdast";
+import { findAndReplace } from "mdast-util-find-and-replace";
+import { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 import { Test } from "unist-util-visit";
-import { findAndReplace } from "mdast-util-find-and-replace";
 
 export interface BreaksOptions {
   ignore?: Test;
@@ -11,8 +11,8 @@ export interface BreaksOptions {
 const remarkRevertBreaks: Plugin<[BreaksOptions?], Nodes> =
   (
     options: BreaksOptions = {
-      ignore: [],
-    },
+      ignore: []
+    }
   ) =>
   (tree: Nodes) => {
     visit(tree, "break", (_, index, parent) => {
@@ -26,11 +26,11 @@ const remarkRevertBreaks: Plugin<[BreaksOptions?], Nodes> =
         /\r?\n|\r/g,
         (_) => {
           return { type: "break" };
-        },
+        }
       ],
       {
-        ignore: options.ignore,
-      },
+        ignore: options.ignore
+      }
     );
   };
 

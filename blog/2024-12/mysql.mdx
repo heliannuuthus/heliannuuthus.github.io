@@ -10,11 +10,12 @@ unlisted: true
 
 <!-- truncate -->
 
+import Image, { Center } from "@site/src/components/Image";
 import Tabs from "@site/src/components/Tabs";
 import MySQLDataTypes from "@site/src/customize/2024/MysqlDataTypes";
-import Manuscript from "./_contents/mysql/manuscript.mdx";
+
 import Machine from "./_contents/mysql/machine.mdx";
-import Image, { Center } from "@site/src/components/Image";
+import Manuscript from "./_contents/mysql/manuscript.mdx";
 
 ## 架构
 
@@ -132,13 +133,13 @@ InnoDB 将数据加载到 `BufferPool` 中是以配置的 `innodb_page_size` 为
     {
       label: "手写语句",
       key: "manuscript",
-      children: <Manuscript />,
+      children: <Manuscript />
     },
     {
       label: "实际执行",
       key: "machine",
-      children: <Machine />,
-    },
+      children: <Machine />
+    }
   ]}
 />
 

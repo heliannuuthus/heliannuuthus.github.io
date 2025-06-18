@@ -1,8 +1,10 @@
-import { useLocation } from "@docusaurus/router";
-import { Result, Button, Typography } from "antd";
 import { QuestionCircleFilled } from "@ant-design/icons";
+import { Button, Result, Typography } from "antd";
 import { createStyles } from "antd-style";
 import { useEffect, useState } from "react";
+
+import { useLocation } from "@docusaurus/router";
+
 const { Paragraph, Text } = Typography;
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
@@ -28,7 +30,7 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
         opacity: 0;
       }
     }
-  `,
+  `
 }));
 
 export default function ExternalLinkPage() {
@@ -64,7 +66,7 @@ export default function ExternalLinkPage() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "center"
           }}
         >
           <pre>

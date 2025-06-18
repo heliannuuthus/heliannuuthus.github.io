@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
-import { FeedbackButton } from "pushfeedback-react";
-import { defineCustomElements } from "pushfeedback/loader";
-import "pushfeedback/dist/pushfeedback/pushfeedback.css";
-import LikeSvg from "@site/static/img/like.svg";
-import { Button as AntdButton, Flex, Space, Typography } from "antd";
 import Icon from "@ant-design/icons";
+import { Button as AntdButton, Flex, Space, Typography } from "antd";
 import { createStyles } from "antd-style";
+import { FeedbackButton } from "pushfeedback-react";
+import "pushfeedback/dist/pushfeedback/pushfeedback.css";
+import { defineCustomElements } from "pushfeedback/loader";
+import React, { useEffect } from "react";
+
+import LikeSvg from "@site/static/img/like.svg";
 
 const { Text } = Typography;
 
@@ -13,8 +14,8 @@ const projectId = "kdmrkryn2r";
 
 const useStyles = createStyles(({ token }) => ({
   container: {
-    marginTop: token.margin,
-  },
+    marginTop: token.margin
+  }
 }));
 
 const Button = ({ like }: { like: boolean }) => {
@@ -35,7 +36,7 @@ const Button = ({ like }: { like: boolean }) => {
               fontSize: 16,
               transform: like
                 ? "rotate(0deg) translateY(2.5px)"
-                : "rotate(180deg) translateY(-3.5px)",
+                : "rotate(180deg) translateY(-3.5px)"
             }}
             component={LikeSvg}
           />

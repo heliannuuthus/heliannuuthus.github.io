@@ -1,6 +1,7 @@
+import { Link, Nodes } from "mdast";
 import { Plugin } from "unified";
-import { Nodes, Link } from "mdast";
 import { selectAll } from "unist-util-select";
+
 export interface ExternalLinkOptions {
   href: string;
   target?: string;
@@ -13,8 +14,8 @@ const remarkExternalLink: Plugin<[ExternalLinkOptions?], Nodes> =
     options: ExternalLinkOptions = {
       href: "/external-link",
       target: "_blank",
-      rel: ["nofollow", "noopener", "noreferrer"],
-    },
+      rel: ["nofollow", "noopener", "noreferrer"]
+    }
   ) =>
   (tree: Nodes) => {
     const { test } = options;
@@ -26,15 +27,15 @@ const remarkExternalLink: Plugin<[ExternalLinkOptions?], Nodes> =
       value.data = {
         hProperties: {
           ...(options.href && {
-            href: `${options.href}?href=${(value as Link).url}`,
+            href: `${options.href}?href=${(value as Link).url}`
           }),
           ...(options.target && {
-            target: options.target,
+            target: options.target
           }),
           ...(options.rel && {
-            rel: options.rel.join(" "),
-          }),
-        },
+            rel: options.rel.join(" ")
+          })
+        }
       };
     });
   };

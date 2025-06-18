@@ -1,13 +1,15 @@
-import TimelineItem from "@site/src/components/Timeline";
-import MDXRender from "@site/src/components/MDXRender";
-import { Title, Text } from "@site/src/components/Typography";
 import {
   CheckCircleTwoTone,
   ClockCircleTwoTone,
-  CloseCircleTwoTone,
+  CloseCircleTwoTone
 } from "@ant-design/icons";
-import Layout from "@theme/Layout";
 import { Checkbox } from "antd";
+
+import MDXRender from "@site/src/components/MDXRender";
+import TimelineItem from "@site/src/components/Timeline";
+import { Text, Title } from "@site/src/components/Typography";
+
+import Layout from "@theme/Layout";
 
 const title = "AI 大模型应用开发学习路线";
 const suggestion = `
@@ -20,7 +22,7 @@ const suggestion = `
 enum Status {
   COMPLETED = "completed",
   LEARNING = "learning",
-  NOT_STARTED = "not_started",
+  NOT_STARTED = "not_started"
 }
 
 interface TaskItem {
@@ -46,8 +48,8 @@ const contents: Content[] = [
         details: [
           "学习目标：熟练使用 Python 语法、列表/字典等数据结构以及面向对象编程（OOP）",
           "推荐资源：《Python 速成课程》或 Codecademy 在线 Python 课程",
-          "实践任务：编写一个简单的命令行工具（如计算器）",
-        ],
+          "实践任务：编写一个简单的命令行工具（如计算器）"
+        ]
       },
       {
         text: "理解 API 与 Web 开发入门",
@@ -55,8 +57,8 @@ const contents: Content[] = [
         details: [
           "学习目标：掌握 HTTP 请求（GET/POST）及 Flask/FastAPI 框架基础",
           "实践任务：搭建一个返回 'Hello, AI!' 的 RESTful API",
-          "推荐资源：FastAPI 官方文档或 Flask 入门教程",
-        ],
+          "推荐资源：FastAPI 官方文档或 Flask 入门教程"
+        ]
       },
       {
         text: "熟悉 Linux 基本操作",
@@ -64,10 +66,10 @@ const contents: Content[] = [
         details: [
           "学习目标：学会常用命令（cd、ls、mkdir）和简单脚本编写",
           "实践任务：编写一个自动化备份文件的 Bash 脚本",
-          "推荐资源：《鸟哥的 Linux 私房菜》",
-        ],
-      },
-    ],
+          "推荐资源：《鸟哥的 Linux 私房菜》"
+        ]
+      }
+    ]
   },
   {
     status: Status.COMPLETED,
@@ -79,8 +81,8 @@ const contents: Content[] = [
         details: [
           "学习目标：熟练使用 Dify 构建 AI 应用",
           "实践任务：使用 Dify 构建一个简单的问答机器人",
-          "推荐资源：Dify 官方文档",
-        ],
+          "推荐资源：Dify 官方文档"
+        ]
       },
       {
         text: "了解 MCP Google A2A 协议",
@@ -88,8 +90,8 @@ const contents: Content[] = [
         details: [
           "学习目标：理解 A2A 协议的工作原理和应用场景",
           "实践任务：实现一个简单的 A2A 协议通信示例",
-          "推荐资源：Google A2A 协议文档",
-        ],
+          "推荐资源：Google A2A 协议文档"
+        ]
       },
       {
         text: "学习 Prompt Engineering",
@@ -97,10 +99,10 @@ const contents: Content[] = [
         details: [
           "学习目标：掌握高效 Prompt 设计技巧",
           "实践任务：优化一个 Prompt，让模型准确回答特定问题",
-          "推荐资源：Learn Prompting 在线免费教程",
-        ],
-      },
-    ],
+          "推荐资源：Learn Prompting 在线免费教程"
+        ]
+      }
+    ]
   },
   {
     status: Status.LEARNING,
@@ -112,8 +114,8 @@ const contents: Content[] = [
         details: [
           "学习目标：掌握深度学习基础理论和实践",
           "实践任务：完成书中的代码练习和项目",
-          "推荐资源：《动手学深度学习》教材",
-        ],
+          "推荐资源：《动手学深度学习》教材"
+        ]
       },
       {
         text: "理解 Transformer 架构",
@@ -121,8 +123,8 @@ const contents: Content[] = [
         details: [
           "学习目标：深入理解 Transformer 的核心思想和实现细节",
           "实践任务：实现一个简单的 Transformer 模型",
-          "推荐资源：Attention is All You Need 论文",
-        ],
+          "推荐资源：Attention is All You Need 论文"
+        ]
       },
       {
         text: "掌握 PyTorch 框架",
@@ -130,10 +132,10 @@ const contents: Content[] = [
         details: [
           "学习目标：熟练使用 PyTorch 进行模型开发和训练",
           "实践任务：使用 PyTorch 实现一个简单的神经网络",
-          "推荐资源：PyTorch 官方文档",
-        ],
-      },
-    ],
+          "推荐资源：PyTorch 官方文档"
+        ]
+      }
+    ]
   },
   {
     status: Status.NOT_STARTED,
@@ -145,8 +147,8 @@ const contents: Content[] = [
         details: [
           "学习目标：掌握 LangChain 的核心概念和使用方法",
           "实践任务：使用 LangChain 构建一个智能助手",
-          "推荐资源：LangChain 官方文档",
-        ],
+          "推荐资源：LangChain 官方文档"
+        ]
       },
       {
         text: "实现 RAG 系统",
@@ -154,8 +156,8 @@ const contents: Content[] = [
         details: [
           "学习目标：掌握检索增强生成技术",
           "实践任务：构建一个基于本地文档的问答系统",
-          "推荐资源：LangChain RAG 教程",
-        ],
+          "推荐资源：LangChain RAG 教程"
+        ]
       },
       {
         text: "学习模型微调技术",
@@ -163,10 +165,10 @@ const contents: Content[] = [
         details: [
           "学习目标：掌握大模型微调的基本方法",
           "实践任务：使用 LoRA 对开源大模型进行微调",
-          "推荐资源：Hugging Face 微调教程",
-        ],
-      },
-    ],
+          "推荐资源：Hugging Face 微调教程"
+        ]
+      }
+    ]
   },
   {
     status: Status.NOT_STARTED,
@@ -178,8 +180,8 @@ const contents: Content[] = [
         details: [
           "学习目标：整合所学知识，解决实际问题",
           "实践任务：开发一个完整的 AI 应用，如智能客服系统",
-          "推荐资源：GitHub 开源项目",
-        ],
+          "推荐资源：GitHub 开源项目"
+        ]
       },
       {
         text: "学习模型部署与优化",
@@ -187,8 +189,8 @@ const contents: Content[] = [
         details: [
           "学习目标：掌握模型部署和性能优化技术",
           "实践任务：将模型部署到生产环境并优化性能",
-          "推荐资源：Docker 和 Kubernetes 文档",
-        ],
+          "推荐资源：Docker 和 Kubernetes 文档"
+        ]
       },
       {
         text: "参与开源社区",
@@ -196,11 +198,11 @@ const contents: Content[] = [
         details: [
           "学习目标：与社区交流，提升实战能力",
           "实践任务：参与开源项目或分享自己的项目",
-          "推荐资源：GitHub 和 Hugging Face 社区",
-        ],
-      },
-    ],
-  },
+          "推荐资源：GitHub 和 Hugging Face 社区"
+        ]
+      }
+    ]
+  }
 ];
 
 const App = () => {
@@ -236,7 +238,7 @@ const App = () => {
                           <div
                             style={{
                               display: "flex",
-                              alignItems: "flex-start",
+                              alignItems: "flex-start"
                             }}
                           >
                             <Checkbox
@@ -254,7 +256,7 @@ const App = () => {
                                   type="secondary"
                                   style={{
                                     display: "block",
-                                    fontSize: "0.9em",
+                                    fontSize: "0.9em"
                                   }}
                                 >
                                   • {detail}
@@ -267,7 +269,7 @@ const App = () => {
                     </div>
                   )}
                 </div>
-              ),
+              )
             };
           })}
         />

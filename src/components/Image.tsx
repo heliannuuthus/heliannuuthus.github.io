@@ -1,10 +1,10 @@
+import { Image as AntdImage, Flex, ImageProps } from "antd";
 import React from "react";
-import { Image as AntdImage, ImageProps, Flex } from "antd";
 
 const Image: React.FC<ImageProps> = ({ src, ...props }) => (
   <AntdImage
     preview={{
-      mask: false,
+      mask: false
     }}
     src={src}
     {...props}

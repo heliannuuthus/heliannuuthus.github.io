@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { Canvg } from "canvg";
-import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import anime from "animejs/lib/anime.es.js";
+import { Canvg } from "canvg";
+import { useEffect, useRef, useState } from "react";
+
+import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 
 interface IrregularBlock {
   left: number;
@@ -30,12 +31,12 @@ export default function Annuus() {
         if (ctx) {
           const v = await Canvg.from(
             ctx,
-            withBaseUrl("/img/heliannuuthus-256.svg"),
+            withBaseUrl("/img/heliannuuthus-256.svg")
           );
           await v.render({
             ignoreAnimation: true,
             ignoreMouse: true,
-            enableRedraw: false,
+            enableRedraw: false
           });
           const url = canvasRef.current.toDataURL();
           setDataUrl(url);
@@ -101,7 +102,7 @@ export default function Annuus() {
         anime
           .timeline({
             delay: duration,
-            loop: true,
+            loop: true
           })
           .add({
             targets: block,
@@ -110,7 +111,7 @@ export default function Annuus() {
             opacity: 0,
             scale: 0.5,
             duration: duration,
-            easing: "easeOutExpo",
+            easing: "easeOutExpo"
           })
           .add(
             {
@@ -120,9 +121,9 @@ export default function Annuus() {
               opacity: 1,
               scale: 1,
               duration: duration,
-              easing: "easeInOutExpo",
+              easing: "easeInOutExpo"
             },
-            "+=300",
+            "+=300"
           ); // 第二阶段延时 300ms 后开始
       });
     }
@@ -134,7 +135,7 @@ export default function Annuus() {
         position: "relative",
         width: canvasWidth,
         height: canvasHeight,
-        borderRadius: "50%",
+        borderRadius: "50%"
       }}
     >
       {/* 隐藏的 Canvas 用于生成 SVG 图像数据 */}
@@ -160,7 +161,7 @@ export default function Annuus() {
               backgroundImage: `url(${dataUrl})`,
               // 裁剪出对应的块区域：背景位置为负的块起始坐标
               backgroundPosition: `-${block.left}px -${block.top}px`,
-              backgroundSize: `${canvasWidth}px ${canvasHeight}px`,
+              backgroundSize: `${canvasWidth}px ${canvasHeight}px`
             }}
           ></div>
         ))}

@@ -1,12 +1,12 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import {
-  Result as AntdResult,
   Button as AntdButton,
-  ResultProps,
+  Result as AntdResult,
   Skeleton as AntdSkeleton,
-  SkeletonProps,
   Spin as AntdSpin,
-  SpinProps,
+  ResultProps,
+  SkeletonProps,
+  SpinProps
 } from "antd";
 
 const PageFetching = ({ ...props }: SkeletonProps) => {
@@ -21,7 +21,7 @@ const PageLoading = ({ ...props }: SpinProps) => {
         minHeight: "72px",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
       }}
       {...props}
       indicator={<LoadingOutlined spin />}
@@ -33,7 +33,7 @@ const PageFetchError = ({ url, ...props }: { url: string } & ResultProps) => {
   return (
     <AntdResult
       style={{
-        backgroundColor: "inherit",
+        backgroundColor: "inherit"
       }}
       {...props}
       status="error"

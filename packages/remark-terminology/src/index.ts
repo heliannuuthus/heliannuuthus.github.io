@@ -1,8 +1,8 @@
-import { Plugin } from "unified";
 import { Nodes } from "mdast";
-import { visit } from "unist-util-visit";
 import { TextDirective } from "mdast-util-directive";
 import { MdxJsxTextElement } from "mdast-util-mdx-jsx";
+import { Plugin } from "unified";
+import { visit } from "unist-util-visit";
 
 export interface TermAdmonition {
   type: string;
@@ -22,8 +22,8 @@ interface Directive extends TextDirective {
 const remarkTerminology: Plugin<[TermAdmonitionOptions?], Nodes> =
   (
     options: TermAdmonitionOptions = {
-      preview: "TermPreview",
-    },
+      preview: "TermPreview"
+    }
   ) =>
   (tree: Nodes) => {
     visit(tree, (node) => {
@@ -46,24 +46,24 @@ const remarkTerminology: Plugin<[TermAdmonitionOptions?], Nodes> =
                 return {
                   type: "mdxJsxAttribute",
                   name: "anchor",
-                  value: `#${value}`,
+                  value: `#${value}`
                 };
               case "class":
               case "path":
                 return {
                   type: "mdxJsxAttribute",
                   name: "path",
-                  value: value,
+                  value: value
                 };
               default:
                 return {
                   type: "mdxJsxAttribute",
                   name: name,
-                  value: value,
+                  value: value
                 };
             }
           }),
-          children: directiveNode.children,
+          children: directiveNode.children
         };
         Object.assign(node, jsxNode);
       }

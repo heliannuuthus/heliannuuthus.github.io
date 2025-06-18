@@ -1,0 +1,16 @@
+{
+  "printWidth": 80,
+  "tabWidth": 2,
+  "trailingComma": "none",
+  "singleQuote": false,
+  "semi": true,
+  "importOrder": [
+    "^@docusaurus/(.*)$",
+    "^@site/(.*)$",
+    "^@theme/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+}

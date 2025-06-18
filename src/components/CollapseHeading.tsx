@@ -1,7 +1,8 @@
-import { createStyles } from "antd-style";
 import Icon, { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
-import React from "react";
 import { Collapse as AntdCollapse } from "antd";
+import { createStyles } from "antd-style";
+import React from "react";
+
 import Heading, { HeadingType } from "@theme/Heading";
 
 // 图标动画样式
@@ -11,7 +12,7 @@ const useIconStyles = createStyles(({ css }) => ({
     display: inline-flex;
     align-items: center;
     justify-content: center;
-  `,
+  `
 }));
 
 // 可复用的展开/收起图标组件
@@ -57,7 +58,7 @@ const useStyles = createStyles(({ css }) => ({
         }
       }
     }
-  `,
+  `
 }));
 
 interface CollapseHeadingProps {
@@ -71,7 +72,7 @@ const CollapseHeading: React.FC<CollapseHeadingProps> = ({
   title,
   level,
   children,
-  collapsed = false,
+  collapsed = false
 }: CollapseHeadingProps) => {
   const { styles } = useStyles();
   console.log(title, level, children, collapsed);
@@ -98,7 +99,7 @@ const CollapseHeading: React.FC<CollapseHeadingProps> = ({
           children: children,
           forceRender: true,
           classNames: {
-            header: styles.header,
+            header: styles.header
           },
           showArrow: true,
           styles: {
@@ -106,10 +107,10 @@ const CollapseHeading: React.FC<CollapseHeadingProps> = ({
               padding: 0,
               margin: `var(--ifm-heading-margin-top) 0 var(--ifm-heading-margin-bottom) 0`,
               display: "flex",
-              alignItems: "center",
-            },
-          },
-        },
+              alignItems: "center"
+            }
+          }
+        }
       ]}
     />
   );

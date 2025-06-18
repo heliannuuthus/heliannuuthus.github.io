@@ -9,11 +9,12 @@ tags: [Web Backend]
 
 <!--truncate-->
 
-import Steps from "@site/src/components/Steps";
-import { Center } from "@site/src/components/Image";
-import Mermaid from "@theme/Mermaid";
-import { Text } from "@site/src/components/Typography";
 import { Collapse } from "@site/src/components/Collapse";
+import { Center } from "@site/src/components/Image";
+import Steps from "@site/src/components/Steps";
+import { Text } from "@site/src/components/Typography";
+
+import Mermaid from "@theme/Mermaid";
 
 ## 概览
 
@@ -56,7 +57,7 @@ bar [10, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       `}
           />
         </>
-      ),
+      )
     },
     {
       title: "第 6 秒统计，过去 6 秒请求总数为 65, 拒绝 5 个请求",
@@ -78,7 +79,7 @@ bar [0, 2, 0, 2, 0, 1, 0, 0, 0, 0]
             第 2，4，6 桶位存在被拒绝请求，用其他颜色替代
           </Text>
         </>
-      ),
+      )
     },
     {
       title: "第 10 秒统计，过去的 10 秒请求总数为 109, 拒绝 9 个请求",
@@ -100,7 +101,7 @@ bar [0, 2, 0, 2, 0, 1, 3, 1, 0, 0]
             第 2，4，6，7，8 桶位存在被拒绝请求，用其他颜色替代
           </Text>
         </>
-      ),
+      )
     },
     {
       title: "第 12 秒统计，过去的 12 秒请求总数为 110, 拒绝 10 个请求",
@@ -121,8 +122,8 @@ bar [14, 9, 0, 0, 0, 0, 0, 0, 0, 0]
           />
           <Text type="danger">第1，2桶位被覆盖，用其他的颜色表示</Text>
         </>
-      ),
-    },
+      )
+    }
   ]}
 />
 

@@ -1,34 +1,36 @@
 // MDXRenderer.jsx
-import React, { useEffect, useState, Suspense } from "react";
-import { MDXProvider } from "@mdx-js/react";
-import * as runtime from "react/jsx-runtime";
 import { evaluate } from "@mdx-js/mdx";
-import remarkParse from "remark-parse";
-import remarkCommentTooltip from "heliannuuthus-remark-comment-tooltip";
-import remarkDirective from "remark-directive";
-import remarkExternalLink from "heliannuuthus-remark-external-link";
+import { MDXProvider } from "@mdx-js/react";
 import remarkAdmonition from "heliannuuthus-remark-admomition";
-import remarkMermaid from "heliannuuthus-remark-mermaid";
-import remarkTerminology from "heliannuuthus-remark-terminology";
 import remarkBreaks from "heliannuuthus-remark-breaks";
 import {
   plugin as remarkCollapseHeading,
-  preprocessorPlugin as remarkCollapseHeadingPreprocessor,
+  preprocessorPlugin as remarkCollapseHeadingPreprocessor
 } from "heliannuuthus-remark-collapse-heading";
-import MDXComponents from "@theme/MDXComponents";
-import TermPreview from "@site/src/components/terms/TermPreview";
-import { Comment } from "@site/src/components/Typography";
+import remarkCommentTooltip from "heliannuuthus-remark-comment-tooltip";
+import remarkExternalLink from "heliannuuthus-remark-external-link";
+import remarkMermaid from "heliannuuthus-remark-mermaid";
+import remarkTerminology from "heliannuuthus-remark-terminology";
+import React, { Suspense, useEffect, useState } from "react";
+import * as runtime from "react/jsx-runtime";
+import rehypeKatex from "rehype-katex";
+import remarkDirective from "remark-directive";
+import remarkMath from "remark-math";
+import remarkParse from "remark-parse";
+
+import CollapseHeading from "@site/src/components/CollapseHeading";
 import Tooltip from "@site/src/components/Tooltip";
 import { NowrapTooltip } from "@site/src/components/Tooltip";
+import { Comment } from "@site/src/components/Typography";
+import TermPreview from "@site/src/components/terms/TermPreview";
+
 import TermAdmonition from "@theme/Admonition";
+import MDXComponents from "@theme/MDXComponents";
 import Mermaid from "@theme/Mermaid";
-import CollapseHeading from "@site/src/components/CollapseHeading";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
 
 const MDXRender = ({
   content,
-  components,
+  components
 }: {
   content: string;
   components?: Record<string, React.ComponentType<any>>;
@@ -47,8 +49,8 @@ const MDXRender = ({
           remarkCommentTooltip,
           {
             tooltip: "NowrapTooltip",
-            comment: "Comment",
-          },
+            comment: "Comment"
+          }
         ],
         remarkTerminology,
         remarkBreaks,
@@ -56,8 +58,8 @@ const MDXRender = ({
         [
           remarkAdmonition,
           {
-            admonition: "TermAdmonition",
-          },
+            admonition: "TermAdmonition"
+          }
         ],
         [
           remarkExternalLink,
@@ -65,18 +67,18 @@ const MDXRender = ({
             href: "/external-link",
             target: "_blank",
             rel: ["noopener", "noreferrer"],
-            test: (node: any) => node.url.startsWith("http"),
-          },
+            test: (node: any) => node.url.startsWith("http")
+          }
         ],
-        remarkCollapseHeading,
+        remarkCollapseHeading
       ],
       rehypePlugins: [
         [
           rehypeKatex,
           {
-            output: "mathml",
-          },
-        ],
+            output: "mathml"
+          }
+        ]
       ],
       useMDXComponents: () => {
         return {
@@ -89,9 +91,9 @@ const MDXRender = ({
           TermAdmonition,
           Term: TermPreview,
           Mermaid: Mermaid,
-          Collapse: CollapseHeading,
+          Collapse: CollapseHeading
         };
-      },
+      }
     }).then((exports) => {
       setComponent(() => exports.default);
     });
