@@ -2,19 +2,22 @@ import React, { type ReactNode } from "react";
 import Admonition from "@theme-original/Admonition";
 import type AdmonitionType from "@theme/Admonition";
 import type { WrapperProps } from "@docusaurus/types";
-import NoteIcon from "@site/static/img/admonition/note.svg";
-import TipIcon from "@site/static/img/admonition/tip.svg";
-import InfoIcon from "@site/static/img/admonition/info.svg";
-import WarningIcon from "@site/static/img/admonition/warning.svg";
-import DangerIcon from "@site/static/img/admonition/danger.svg";
-import ThinkingIcon from "@site/static/img/admonition/thinking.svg";
-import NerdIcon from "@site/static/img/admonition/nerd.svg";
+import {
+  NoteIcon,
+  TipIcon,
+  InfoIcon,
+  WarningIcon,
+  DangerIcon,
+  ThinkingIcon,
+  NerdIcon,
+} from "@site/src/theme/Admonition/Icon";
+
 import AntdIcon from "@ant-design/icons";
 import { IconComponentProps } from "@ant-design/icons/lib/components/Icon";
 
 type Props = WrapperProps<typeof AdmonitionType>;
 
-const Icon = ({ style, ...props }: IconComponentProps) => {
+export const AdmonitionIcon = ({ style, ...props }: IconComponentProps) => {
   return (
     <AntdIcon
       {...props}
@@ -31,19 +34,42 @@ const Icon = ({ style, ...props }: IconComponentProps) => {
 export default function AdmonitionWrapper(props: Props): ReactNode {
   switch (props.type) {
     case "note":
-      return <Admonition {...props} icon={<Icon component={NoteIcon} />} />;
+      return (
+        <Admonition {...props} icon={<AdmonitionIcon component={NoteIcon} />} />
+      );
     case "tip":
-      return <Admonition {...props} icon={<Icon component={TipIcon} />} />;
+      return (
+        <Admonition {...props} icon={<AdmonitionIcon component={TipIcon} />} />
+      );
     case "info":
-      return <Admonition {...props} icon={<Icon component={InfoIcon} />} />;
+      return (
+        <Admonition {...props} icon={<AdmonitionIcon component={InfoIcon} />} />
+      );
     case "warning":
-      return <Admonition {...props} icon={<Icon component={WarningIcon} />} />;
+      return (
+        <Admonition
+          {...props}
+          icon={<AdmonitionIcon component={WarningIcon} />}
+        />
+      );
     case "danger":
-      return <Admonition {...props} icon={<Icon component={DangerIcon} />} />;
+      return (
+        <Admonition
+          {...props}
+          icon={<AdmonitionIcon component={DangerIcon} />}
+        />
+      );
     case "thinking":
-      return <Admonition {...props} icon={<Icon component={ThinkingIcon} />} />;
+      return (
+        <Admonition
+          {...props}
+          icon={<AdmonitionIcon component={ThinkingIcon} />}
+        />
+      );
     case "nerd":
-      return <Admonition {...props} icon={<Icon component={NerdIcon} />} />;
+      return (
+        <Admonition {...props} icon={<AdmonitionIcon component={NerdIcon} />} />
+      );
     default:
       return <Admonition {...props} />;
   }

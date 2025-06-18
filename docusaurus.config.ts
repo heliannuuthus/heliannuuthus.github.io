@@ -111,12 +111,14 @@ const config: Config = {
     mermaid: true,
     parseFrontMatter: async (params) => {
       // Reuse the default parser
-      if (params.filePath.includes("/terms/")) {
+      if (params.filePath.includes("/terminologies/")) {
         return {
           frontMatter: {
             slug: path.relative(
-              "blog",
-              params.filePath.replace(/^blog/, "").replace(/\.mdx?$/, ""),
+              "terminologies",
+              params.filePath
+                .replace(/^terminologies/, "")
+                .replace(/\.mdx?$/, ""),
             ),
             title: `${path.basename(
               params.filePath,
@@ -178,12 +180,10 @@ const config: Config = {
     [
       "@docusaurus/plugin-content-pages",
       {
-        id: "terminology",
-        path: "terminology",
-        routeBasePath: "terms",
-        beforeDefaultRemarkPlugins,
-        remarkPlugins,
-        rehypePlugins,
+        id: "terminologies",
+        path: "terminologies",
+        routeBasePath: "/terms",
+        include: ["**/*.mdx"],
       } satisfies PagePluginOptions,
     ],
     [
@@ -214,10 +214,10 @@ const config: Config = {
     [
       require.resolve("heliannuuthus-docusaurus-terminology"),
       {
-        path: "terminology",
+        path: "terminologies",
         routeBasePath: "terms",
         glossaries: "./static/terminologies.yml",
-        glossaryComponentPath: "@site/src/components/terms/Terminology.tsx",
+        glossaryComponentPath: "@site/src/components/terms/Terminology",
       },
     ],
     [

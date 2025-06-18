@@ -13,6 +13,7 @@ import Tooltip from "@site/src/components/Tooltip";
 const { Text, Link, Title } = Typography;
 import { Author } from "heliannuuthus-docusaurus-authors";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { Terminology } from "heliannuuthus-docusaurus-terminology";
 
 declare global {
   interface Window {
@@ -33,12 +34,14 @@ const TooltipsPreview = ({
   path,
   anchor,
   editPath,
+  glossary,
   children,
   content,
 }: {
   path: string;
   anchor: string;
   editPath: string;
+  glossary: Terminology;
   children: React.ReactNode;
   content: TermContent;
 }) => {
@@ -70,9 +73,11 @@ const TooltipsPreview = ({
           variant="outlined"
           actions={[
             <Tooltip
-              title={`更多内容请前往 ${
-                path.split("/").filter(Boolean)[2]
-              } 词典`}
+              title={
+                <Text>
+                  更多内容请前往 <Text strong>{glossary.name}</Text> 词典
+                </Text>
+              }
             >
               <Button
                 type="link"
@@ -118,27 +123,19 @@ const DrawerPreview = ({
   path,
   anchor,
   editPath,
+  glossary,
   children,
   content,
 }: {
   path: string;
   editPath: string;
   anchor: string;
+  glossary: Terminology;
   children: React.ReactNode;
   content: TermContent;
 }) => {
   const [open, setOpen] = useState(false);
-  const { siteConfig } = useDocusaurusContext();
 
-  const pluginOptions = siteConfig.plugins.filter((plugin) => {
-    if (plugin[0] === "@docusaurus/plugin-content-pages") {
-      return plugin[1] && plugin[1].id === "terminology";
-    }
-    return false;
-  })[0][1];
-
-  const directory = pluginOptions.routeBasePath;
-  const replacedPath = pluginOptions.path;
   return (
     <>
       <Link
@@ -170,13 +167,11 @@ const DrawerPreview = ({
               type="link"
               icon={<BookFilled />}
               target="_blank"
-              children={`词典`}
+              children={`${glossary.name} 词典`}
             />
             <Button
               type="link"
-              href={`https://github.com/heliannuuthus/heliannuuthus.github.io/edit/master/${path
-                .replace(/\/$/, "")
-                .replace(directory, replacedPath)}.mdx`}
+              href={editPath}
               target="_blank"
               icon={<EditOutlined key="edit" />}
               children={`编辑`}
@@ -214,6 +209,9 @@ const TermPreview = ({
   const { authors } = usePluginData("authors-docusaurus-plugin") as {
     authors: Record<string, AuthorAttributes>;
   };
+  const { terminologies } = usePluginData("terminology-docusaurus-plugin") as {
+    terminologies: Record<string, Terminology>;
+  };
 
   const { siteConfig } = useDocusaurusContext();
 
@@ -221,14 +219,16 @@ const TermPreview = ({
 
   const options = siteConfig.plugins.filter((plugin) => {
     if (plugin[0] === "@docusaurus/plugin-content-pages") {
-      return plugin[1] && plugin[1].id === "terminology";
+      return plugin[1] && plugin[1].id === "terminologies";
     }
     return false;
   })[0][1];
 
-  const editPath = `${editPathPrefix}${path
+  const editPath = `${editPathPrefix}/${path
     .replace(/\/$/, "")
     .replace(options.routeBasePath, options.path)}.mdx`;
+
+  const glossary = terminologies[path.split("/").filter(Boolean)[1]];
 
   const fetchContent = async (
     url: string,
@@ -283,9 +283,7 @@ const TermPreview = ({
   return (
     <BrowserOnly
       fallback={
-        <Tooltip title={<div>网络好像出现了一些问题...</div>}>
-          {children}
-        </Tooltip>
+        <Tooltip title={<div>词条加载失败...</div>}>{children}</Tooltip>
       }
     >
       {() =>
@@ -295,6 +293,7 @@ const TermPreview = ({
               path={path}
               editPath={editPath}
               anchor={anchor}
+              glossary={glossary}
               content={content}
               children={children}
             />
@@ -303,6 +302,7 @@ const TermPreview = ({
               path={path}
               editPath={editPath}
               anchor={anchor}
+              glossary={glossary}
               content={content}
               children={children}
             />

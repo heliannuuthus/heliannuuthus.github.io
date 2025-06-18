@@ -10,12 +10,12 @@ import clsx from "clsx";
 import Translate from "@docusaurus/Translate";
 import type { Props } from "@theme/Admonition";
 import AdmonitionLayout from "@theme/Admonition/Layout";
-import IconInfo from "@theme/Admonition/Icon/Info";
+import NerdIcon from "@site/src/theme/Admonition/Icon/Nerd";
 
 const infimaClassName = "alert alert--nerd";
 
 const defaultProps = {
-  icon: <IconInfo />,
+  icon: <NerdIcon />,
   title: (
     <Translate
       id="theme.admonition.nerd"
