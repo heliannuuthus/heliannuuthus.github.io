@@ -1,6 +1,6 @@
-import { Typography, List } from "antd";
-import React from "react";
+import { List, Typography } from "antd";
 import { createStyles } from "antd-style";
+import React from "react";
 
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -26,7 +26,7 @@ const useStyles = createStyles(({ css, isDarkMode }) => {
             0 8px 16px 8px rgba(0, 0, 0, 0.09)
           `};
       }
-    `,
+    `
   };
 });
 

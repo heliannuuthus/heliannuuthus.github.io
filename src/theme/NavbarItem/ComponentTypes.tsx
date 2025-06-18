@@ -1,21 +1,23 @@
-import DefaultNavbarItem from "@theme/NavbarItem/DefaultNavbarItem";
-import { DesktopOrMobileNavBarItemProps } from "@theme/NavbarItem/DropdownNavbarItem";
-import LocaleDropdownNavbarItem from "@theme/NavbarItem/LocaleDropdownNavbarItem";
-import SearchNavbarItem from "@theme/NavbarItem/SearchNavbarItem";
-import HtmlNavbarItem from "@theme/NavbarItem/HtmlNavbarItem";
-import DocNavbarItem from "@theme/NavbarItem/DocNavbarItem";
-import DropdownNavbarItemMobile, {
-  Props,
-} from "@theme/NavbarItem/DropdownNavbarItem";
-import DocSidebarNavbarItem from "@theme/NavbarItem/DocSidebarNavbarItem";
-import DocsVersionNavbarItem from "@theme/NavbarItem/DocsVersionNavbarItem";
-import DocsVersionDropdownNavbarItem from "@theme/NavbarItem/DocsVersionDropdownNavbarItem";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, MenuProps, Space } from "antd";
+
+import Tooltip from "@site/src/components/Tooltip";
 import { Link, Text } from "@site/src/components/Typography";
+
 import type { LinkLikeNavbarItemProps } from "@theme/NavbarItem";
 import type { ComponentTypesObject } from "@theme/NavbarItem/ComponentTypes";
-import Tooltip from "@site/src/components/Tooltip";
+import DefaultNavbarItem from "@theme/NavbarItem/DefaultNavbarItem";
+import DocNavbarItem from "@theme/NavbarItem/DocNavbarItem";
+import DocSidebarNavbarItem from "@theme/NavbarItem/DocSidebarNavbarItem";
+import DocsVersionDropdownNavbarItem from "@theme/NavbarItem/DocsVersionDropdownNavbarItem";
+import DocsVersionNavbarItem from "@theme/NavbarItem/DocsVersionNavbarItem";
+import { DesktopOrMobileNavBarItemProps } from "@theme/NavbarItem/DropdownNavbarItem";
+import DropdownNavbarItemMobile, {
+  Props
+} from "@theme/NavbarItem/DropdownNavbarItem";
+import HtmlNavbarItem from "@theme/NavbarItem/HtmlNavbarItem";
+import LocaleDropdownNavbarItem from "@theme/NavbarItem/LocaleDropdownNavbarItem";
+import SearchNavbarItem from "@theme/NavbarItem/SearchNavbarItem";
 
 const DropdownNavbarItem = ({ mobile, ...props }: Props) => {
   return mobile ? (
@@ -35,7 +37,7 @@ const DropdownNavbarItem = ({ mobile, ...props }: Props) => {
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "space-between",
+                        justifyContent: "space-between"
                       }}
                     >
                       <span>{item.label}</span>
@@ -43,16 +45,16 @@ const DropdownNavbarItem = ({ mobile, ...props }: Props) => {
                   }
                 </Tooltip>
               ),
-              key: item.href,
+              key: item.href
             };
-          },
-        ),
+          }
+        )
       }}
       children={
         <a
           className="navbar__item navbar__link"
           style={{
-            cursor: "pointer",
+            cursor: "pointer"
           }}
         >
           <Space>
@@ -74,7 +76,7 @@ const ComponentTypes: ComponentTypesObject = {
   doc: DocNavbarItem,
   docSidebar: DocSidebarNavbarItem,
   docsVersion: DocsVersionNavbarItem,
-  docsVersionDropdown: DocsVersionDropdownNavbarItem,
+  docsVersionDropdown: DocsVersionDropdownNavbarItem
 };
 
 export default ComponentTypes;

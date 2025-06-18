@@ -1,7 +1,8 @@
 import { compile } from "@mdx-js/mdx";
-import remarkExternalLink, { ExternalLinkOptions } from "./index";
-import { describe, it, expect } from "vitest";
 import { Link } from "mdast";
+import { describe, expect, it } from "vitest";
+
+import remarkExternalLink, { ExternalLinkOptions } from "./index";
 
 describe("remarkExternalLink 插件 (MDX 编译测试)", () => {
   const process = async (content: string) => {
@@ -17,12 +18,12 @@ describe("remarkExternalLink 插件 (MDX 编译测试)", () => {
               rel: ["nofollow", "noopener", "noreferrer"],
               test: (node: Link) => {
                 return node.url.startsWith("http");
-              },
-            },
-          ],
+              }
+            }
+          ]
         ],
         rehypePlugins: [],
-        jsx: true,
+        jsx: true
       })
     ).toString();
   };

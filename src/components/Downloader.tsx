@@ -1,13 +1,16 @@
-import { Button, notification, Tooltip, Space, Card, Drawer } from "antd";
 import { DownloadOutlined, EyeOutlined } from "@ant-design/icons";
-import { useState, useEffect } from "react";
+import { Button, Card, Drawer, Space, Tooltip, notification } from "antd";
+import { createStyles } from "antd-style";
 import { saveAs } from "file-saver";
 import jsZip from "jszip";
+import { useEffect, useState } from "react";
+import { isIPad13, isMobile, isTablet } from "react-device-detect";
+
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
-import { isMobile, isIPad13, isTablet } from "react-device-detect";
-import CodeBlock from "@theme/CodeBlock";
-import { createStyles } from "antd-style";
+
 import { Paragraph, Text } from "@site/src/components/Typography";
+
+import CodeBlock from "@theme/CodeBlock";
 
 const useMobile = isMobile || isIPad13 || isTablet;
 
@@ -17,7 +20,7 @@ const useStyles = createStyles(({ css }) => ({
       white-space: pre-wrap;
       overflow-wrap: anywhere;
     }
-  `,
+  `
 }));
 
 interface BlobChunk {
@@ -50,8 +53,8 @@ const TooltipPreview = ({ chunks }: { chunks: BlobChunk[] }) => {
           {
             title: chunk.title,
             language: chunk.language,
-            content: content,
-          },
+            content: content
+          }
         ]);
       } catch (error) {
         console.error(error);
@@ -64,23 +67,23 @@ const TooltipPreview = ({ chunks }: { chunks: BlobChunk[] }) => {
       trigger="click"
       styles={{
         root: {
-          maxWidth: "520px",
+          maxWidth: "520px"
         },
         body: {
-          padding: 0,
-        },
+          padding: 0
+        }
       }}
       title={
         <Card
           style={{
-            padding: 0,
+            padding: 0
           }}
           styles={{
             header: {},
             body: {
               maxHeight: "32vh",
-              overflow: "auto",
-            },
+              overflow: "auto"
+            }
           }}
           variant="outlined"
         >
@@ -113,7 +116,7 @@ const DrawPreview = ({ chunks }: { chunks: BlobChunk[] }) => {
       const content = await chunk.blob.text();
       setContents((prev: StringChunk[]) => [
         ...prev,
-        { title: chunk.title, language: chunk.language, content },
+        { title: chunk.title, language: chunk.language, content }
       ]);
     });
   }, [chunks]);
@@ -134,8 +137,8 @@ const DrawPreview = ({ chunks }: { chunks: BlobChunk[] }) => {
         onClose={() => setOpen(false)}
         styles={{
           body: {
-            padding: 0,
-          },
+            padding: 0
+          }
         }}
       >
         {contents.map((content) => (
@@ -173,9 +176,9 @@ const Downloader = ({ files }: { files: DownloaderProps[] }) => {
           {
             blob: blob,
             title: title,
-            language: language,
-          },
-        ]),
+            language: language
+          }
+        ])
       );
     });
   }, [files]);
@@ -186,12 +189,12 @@ const Downloader = ({ files }: { files: DownloaderProps[] }) => {
       saveAs(chunks[0].blob, chunks[0].title);
       notify.success({
         message: `${chunks[0].title.split("/").pop()} 下载成功`,
-        description: "文件已下载到本地",
+        description: "文件已下载到本地"
       });
     } catch (error) {
       notify.error({
         message: `${chunks[0].title.split("/").pop()} 下载失败`,
-        description: error.message,
+        description: error.message
       });
     }
     setLoading(false);
@@ -208,7 +211,7 @@ const Downloader = ({ files }: { files: DownloaderProps[] }) => {
       } catch (error) {
         notify.error({
           message: `压缩 ${chunk.title} 失败`,
-          description: error.message,
+          description: error.message
         });
       }
     });
@@ -225,7 +228,7 @@ const Downloader = ({ files }: { files: DownloaderProps[] }) => {
       ),
       placement: "bottomRight",
       duration: 3,
-      showProgress: true,
+      showProgress: true
     });
     setLoading(false);
   };

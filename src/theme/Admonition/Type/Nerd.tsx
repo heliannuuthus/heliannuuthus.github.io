@@ -4,13 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-import React, { type ReactNode } from "react";
 import clsx from "clsx";
+import React, { type ReactNode } from "react";
+
 import Translate from "@docusaurus/Translate";
+
+import NerdIcon from "@site/src/theme/Admonition/Icon/Nerd";
+
 import type { Props } from "@theme/Admonition";
 import AdmonitionLayout from "@theme/Admonition/Layout";
-import NerdIcon from "@site/src/theme/Admonition/Icon/Nerd";
 
 const infimaClassName = "alert alert--nerd";
 
@@ -23,7 +25,7 @@ const defaultProps = {
     >
       nerd
     </Translate>
-  ),
+  )
 };
 
 export default function AdmonitionTypeNerd(props: Props): ReactNode {

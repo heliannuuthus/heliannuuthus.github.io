@@ -1,5 +1,6 @@
-import React, { ReactNode } from "react";
 import clsx from "clsx";
+import React, { ReactNode } from "react";
+
 import { ThemeClassNames } from "@docusaurus/theme-common";
 
 import type { Props } from "@theme/Admonition/Layout";
@@ -9,7 +10,7 @@ import styles from "./styles.module.css";
 function AdmonitionContainer({
   type,
   className,
-  children,
+  children
 }: Pick<Props, "type" | "className"> & { children: ReactNode }) {
   return (
     <div
@@ -17,7 +18,7 @@ function AdmonitionContainer({
         ThemeClassNames.common.admonition,
         ThemeClassNames.common.admonitionType(type),
         styles.admonition,
-        className,
+        className
       )}
     >
       {children}

@@ -1,7 +1,7 @@
-import { Plugin } from "unified";
-import { Nodes, Paragraph, Text, Code } from "mdast";
-import { visit } from "unist-util-visit";
+import { Code, Nodes, Paragraph, Text } from "mdast";
 import { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import { Plugin } from "unified";
+import { visit } from "unist-util-visit";
 
 export interface Mermaid {
   mermaid: string;
@@ -26,10 +26,10 @@ const remarkMermaid: Plugin<[MermaidOptions?], Nodes> =
             {
               type: "mdxJsxAttribute",
               name: "value",
-              value,
-            },
+              value
+            }
           ],
-          children: [],
+          children: []
         };
         Object.assign(node, jsxNode);
       }

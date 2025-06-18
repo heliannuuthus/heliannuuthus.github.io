@@ -1,5 +1,5 @@
 import Steps from "@site/src/components/Steps";
-import { Text, Link } from "@site/src/components/Typography";
+import { Link, Text } from "@site/src/components/Typography";
 import TermPreview from "@site/src/components/terms/TermPreview";
 
 1. 进程是操作系统**资源分配**的最小单位，**程序运行**的最小单元。线程是操作系统**调度任务**的最小单元。协程是协作式任务的最小单元，由应用程序定义，**类似一个代码块**。
@@ -23,7 +23,7 @@ import TermPreview from "@site/src/components/terms/TermPreview";
                  children={"程序计数器"}
                />
              </Text>
-           ),
+           )
          },
          {
            key: "2",
@@ -36,7 +36,7 @@ import TermPreview from "@site/src/components/terms/TermPreview";
                  children={"通用寄存器"}
                />
              </Text>
-           ),
+           )
          },
          {
            key: "3",
@@ -56,11 +56,11 @@ import TermPreview from "@site/src/components/terms/TermPreview";
                />
                ，准备切换到内核态
              </Text>
-           ),
+           )
          },
          {
            key: "4",
-           title: <Text>找到内核函数入口转换为内核态执行</Text>,
+           title: <Text>找到内核函数入口转换为内核态执行</Text>
          },
          {
            title: (
@@ -86,8 +86,8 @@ import TermPreview from "@site/src/components/terms/TermPreview";
                等，恢复执行
              </Text>
            ),
-           key: "5",
-         },
+           key: "5"
+         }
        ]}
      />
 

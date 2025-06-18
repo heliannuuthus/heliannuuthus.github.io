@@ -1,8 +1,9 @@
-import { Plugin } from "unified";
 import { Nodes, Paragraph, Text } from "mdast";
-import { visit } from "unist-util-visit";
 import { ContainerDirective } from "mdast-util-directive";
-import { MdxJsxFlowElement, MdxJsxAttribute } from "mdast-util-mdx-jsx";
+import { MdxJsxAttribute, MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import { Plugin } from "unified";
+import { visit } from "unist-util-visit";
+
 export const origins = ["tip", "note", "warning", "danger", "info"];
 
 export interface Admonition {
@@ -25,8 +26,8 @@ const remarkAdmonition: Plugin<[AdmonitionOptions?], Nodes> =
   (
     options: AdmonitionOptions = {
       admonition: "Admonition",
-      extension: {},
-    },
+      extension: {}
+    }
   ) =>
   (tree: Nodes) => {
     visit(tree, (node) => {
@@ -43,7 +44,7 @@ const remarkAdmonition: Plugin<[AdmonitionOptions?], Nodes> =
           .map(([name, value]) => ({
             type: "mdxJsxAttribute",
             name,
-            value,
+            value
           })) as MdxJsxAttribute[];
         const jsxNode: MdxJsxFlowElement = {
           type: "mdxJsxFlowElement",
@@ -53,10 +54,10 @@ const remarkAdmonition: Plugin<[AdmonitionOptions?], Nodes> =
             {
               type: "mdxJsxAttribute",
               name: "type",
-              value: directiveNode.name,
-            },
+              value: directiveNode.name
+            }
           ],
-          children: directiveNode.children,
+          children: directiveNode.children
         };
         Object.assign(node, jsxNode);
       }
@@ -87,20 +88,20 @@ const remarkAdmonition: Plugin<[AdmonitionOptions?], Nodes> =
             {
               type: "mdxJsxAttribute",
               name: "icon",
-              value: attributes.icon || extend.icon,
+              value: attributes.icon || extend.icon
             },
             {
               type: "mdxJsxAttribute",
               name: "title",
-              value: title,
+              value: title
             },
             {
               type: "mdxJsxAttribute",
               name: "type",
-              value: attributes.type || extend.type,
-            },
+              value: attributes.type || extend.type
+            }
           ],
-          children: directiveNode.children,
+          children: directiveNode.children
         };
         Object.assign(node, jsxNode);
       }

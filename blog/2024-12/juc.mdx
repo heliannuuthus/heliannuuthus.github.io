@@ -11,58 +11,59 @@ unlisted: true
 <!-- truncate -->
 
 import { Collapses } from "@site/src/components/Collapse";
-import ProcessAndThread from "./_partials/juc/process-and-thread.mdx";
-import JavaThread from "./_partials/juc/java-thread.mdx";
-import JavaThreadState from "./_partials/juc/java-thread-state.mdx";
+
+import AQS from "./_partials/juc/AQS.mdx";
 import Deadlock from "./_partials/juc/deadlock.mdx";
-import Volatile from "./_partials/juc/volatile.mdx";
+import JavaThreadState from "./_partials/juc/java-thread-state.mdx";
+import JavaThread from "./_partials/juc/java-thread.mdx";
 import Lock from "./_partials/juc/lock.mdx";
+import ProcessAndThread from "./_partials/juc/process-and-thread.mdx";
 import Synchronized from "./_partials/juc/synchronized.mdx";
 import ThreadLocal from "./_partials/juc/threadlocal.mdx";
 import ThreadPool from "./_partials/juc/threadpool.mdx";
-import AQS from "./_partials/juc/AQS.mdx";
+import Volatile from "./_partials/juc/volatile.mdx";
 
 <Collapses
   items={[
     {
       label: "进程、线程和协程",
-      children: <ProcessAndThread />,
+      children: <ProcessAndThread />
     },
     {
       label: "Java 线程的特点",
-      children: <JavaThread />,
+      children: <JavaThread />
     },
     {
       label: "Java 线程的状态",
-      children: <JavaThreadState />,
+      children: <JavaThreadState />
     },
     {
       label: "死锁问题",
-      children: <Deadlock />,
+      children: <Deadlock />
     },
     {
       label: "volatile 关键字",
-      children: <Volatile />,
+      children: <Volatile />
     },
     {
       label: "乐观锁和悲观锁",
-      children: <Lock />,
+      children: <Lock />
     },
     {
       label: "synchronized 关键字",
-      children: <Synchronized />,
+      children: <Synchronized />
     },
     {
       label: "ThreadLocal",
-      children: <ThreadLocal />,
+      children: <ThreadLocal />
     },
     {
       label: "线程池",
-      children: <ThreadPool />,
+      children: <ThreadPool />
     },
     {
       label: "AQS",
-      children: <AQS />,
-    },
+      children: <AQS />
+    }
   ]}
 />

@@ -1,8 +1,10 @@
 import fs from "fs";
-import path from "path";
-import type { Plugin } from "@docusaurus/types";
-import type { RuleSetRule, RuleSetUseItem } from "webpack";
 import yaml from "js-yaml";
+import path from "path";
+import type { RuleSetRule, RuleSetUseItem } from "webpack";
+
+import type { Plugin } from "@docusaurus/types";
+
 export interface DocusaurusContext {
   baseUrl: string;
   siteDir: string;
@@ -40,7 +42,7 @@ export interface Terminology {
 
 export default async function DocusaurusTerminologyPlugin(
   context: DocusaurusContext,
-  options: TerminologyOptions,
+  options: TerminologyOptions
 ): Promise<Plugin<{ terminologies: Record<string, Terminology> }>> {
   try {
     fs.stat("node_modules/.cache", (err, stats) => {
@@ -71,7 +73,7 @@ export default async function DocusaurusTerminologyPlugin(
           rule.include &&
           Array.isArray(rule.include) &&
           rule.include.some((include) =>
-            include.toString().includes(targetPath),
+            include.toString().includes(targetPath)
           ) &&
           rule.use &&
           Array.isArray(rule.use) &&
@@ -79,7 +81,7 @@ export default async function DocusaurusTerminologyPlugin(
             (kider: RuleSetUseItem) =>
               typeof kider === "object" &&
               typeof kider.loader === "string" &&
-              kider.loader.includes("mdx-loader"),
+              kider.loader.includes("mdx-loader")
           )
         );
       });
@@ -95,49 +97,49 @@ export default async function DocusaurusTerminologyPlugin(
               (kider: RuleSetUseItem) =>
                 typeof kider === "object" &&
                 typeof kider.loader === "string" &&
-                kider.loader.includes("heliannuuthus-webpack-terms-loader"),
+                kider.loader.includes("heliannuuthus-webpack-terms-loader")
             )
           );
         })
       ) {
         rule.use.push({
           loader: require.resolve("heliannuuthus-webpack-terms-loader"),
-          options,
+          options
         });
       }
       return {
         mergeStrategy: { module: "replace" },
-        module: config.module,
+        module: config.module
       };
     },
     async loadContent() {
       const terminologiesPath = path.resolve(
         context.siteDir,
-        options.glossaries,
+        options.glossaries
       );
       const terminologies = yaml.load(
-        fs.readFileSync(terminologiesPath, "utf8"),
+        fs.readFileSync(terminologiesPath, "utf8")
       ) as Record<string, Terminology>;
       Object.entries(terminologies).forEach(([key, terminology]) => {
         terminology.path = path.join(
           options.path || "terminologies",
-          key.toLowerCase().replace(/ /g, "-"),
+          key.toLowerCase().replace(/ /g, "-")
         );
         terminology.slug = path.join(
           options.routeBasePath || "terms",
-          key.toLowerCase().replace(/ /g, "-"),
+          key.toLowerCase().replace(/ /g, "-")
         );
       });
       return {
-        terminologies,
+        terminologies
       };
     },
     async contentLoaded({ content, actions }) {
       actions.setGlobalData({
         terminologies: (
           content as { terminologies: Record<string, Terminology> }
-        ).terminologies,
+        ).terminologies
       });
-    },
+    }
   };
 }

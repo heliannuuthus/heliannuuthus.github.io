@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
 import { List } from "antd";
-import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
-import { useLocation } from "@docusaurus/router";
-import { usePluginData } from "@docusaurus/useGlobalData";
 import { Author } from "heliannuuthus-docusaurus-authors";
 import { TermData } from "heliannuuthus-terminology-store";
+import React, { useEffect, useState } from "react";
+
+import { useLocation } from "@docusaurus/router";
+import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
+import { usePluginData } from "@docusaurus/useGlobalData";
+
 import TermItem from "@site/src/components/terms/TermItem";
 
 const Terminology = () => {

@@ -1,5 +1,7 @@
-import { Row, Col, Grid, Card } from "antd";
-import { Title, Text, Paragraph, Link } from "@site/src/components/Typography";
+import { Card, Col, Grid, Row } from "antd";
+
+import { Link, Paragraph, Text, Title } from "@site/src/components/Typography";
+
 const { useBreakpoint } = Grid;
 
 const data = [
@@ -13,7 +15,7 @@ const data = [
         </Text>
         .
       </Paragraph>
-    ),
+    )
   },
   {
     title: "What can i do?",
@@ -22,7 +24,7 @@ const data = [
         This is my personal website. I can write some technical articles, and
         share some of my thoughts.
       </Paragraph>
-    ),
+    )
   },
   {
     title: "About Me",
@@ -32,8 +34,8 @@ const data = [
         <Text code>Golang</Text>,<Text code>Python</Text>,{" "}
         <Text code>React</Text> All of them are my favorite.
       </Paragraph>
-    ),
-  },
+    )
+  }
 ];
 
 const Declaration = () => {

@@ -1,5 +1,6 @@
-import { Text, Link } from "@site/src/components/Typography";
 import Timeline from "@site/src/components/Timeline";
+import { Link, Text } from "@site/src/components/Typography";
+
 import Step1 from "../../_contents/juc/synchronized/step1.mdx";
 import Step2 from "../../_contents/juc/synchronized/step2.mdx";
 import Step3 from "../../_contents/juc/synchronized/step3.mdx";
@@ -56,17 +57,17 @@ import Step3 from "../../_contents/juc/synchronized/step3.mdx";
     {
       key: "1",
       label: <Text type="danger">无锁转换为偏向锁</Text>,
-      children: <Step1 />,
+      children: <Step1 />
     },
     {
       key: "2",
       label: <Text type="danger">偏向锁转换为轻量级锁</Text>,
-      children: <Step2 />,
+      children: <Step2 />
     },
     {
       key: "3",
       label: <Text type="danger">轻量级锁转换为重量级锁</Text>,
-      children: <Step3 />,
-    },
+      children: <Step3 />
+    }
   ]}
 />

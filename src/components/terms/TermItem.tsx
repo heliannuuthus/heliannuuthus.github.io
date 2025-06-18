@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { List, Button } from "antd";
-import { UpOutlined, DownOutlined } from "@ant-design/icons";
-import { TermData } from "heliannuuthus-terminology-store";
-import MDXRenderer from "@site/src/components/MDXRender";
+import { DownOutlined, UpOutlined } from "@ant-design/icons";
+import { Button, List } from "antd";
 import { createStyles } from "antd-style";
-import { isMobile, isIPad13, isTablet } from "react-device-detect";
-import { PopoverAvatars, DrawerAvatars } from "@site/src/components/Avatar";
 import { Author } from "heliannuuthus-docusaurus-authors";
+import { TermData } from "heliannuuthus-terminology-store";
+import React, { useEffect, useState } from "react";
+import { isIPad13, isMobile, isTablet } from "react-device-detect";
+
+import { DrawerAvatars, PopoverAvatars } from "@site/src/components/Avatar";
+import MDXRenderer from "@site/src/components/MDXRender";
 import { Title } from "@site/src/components/Typography";
 
 const useMobile = isMobile || isIPad13 || isTablet;
@@ -55,12 +56,12 @@ const useStyles = createStyles(({ css, cx, token, appearance }) => ({
     display: flex;
     justify-content: center;
     margin-top: 8px;
-  `,
+  `
 }));
 
 const TermItemContent = ({
   slug,
-  content,
+  content
 }: {
   slug: string;
   content: string;
@@ -81,7 +82,7 @@ const TermItemContent = ({
         <div
           className={styles.contentWrapper}
           style={{
-            maxHeight: expanded ? "none" : "100px",
+            maxHeight: expanded ? "none" : "100px"
           }}
         >
           <MDXRenderer content={content} />
@@ -130,7 +131,7 @@ const TermItem = ({ slug, term, authors }: TermItemProps) => {
           <div>
             <Title
               style={{
-                color: "var(--ifm-color-term-title)",
+                color: "var(--ifm-color-term-title)"
               }}
               level={5}
             >

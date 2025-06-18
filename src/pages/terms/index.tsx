@@ -1,17 +1,21 @@
 import { MenuOutlined, SettingOutlined } from "@ant-design/icons";
 import { EditOutlined } from "@ant-design/icons";
-import { usePluginData } from "@docusaurus/useGlobalData";
-import { Terminology } from "@site/plugins/docusaurus-terminology/src";
-import { Col, Row, Card, Flex, Button } from "antd";
-import { useEffect } from "react";
-import { isMobile, isIPad13, isTablet } from "react-device-detect";
-import { PopoverAvatars, DrawerAvatars } from "@site/src/components/Avatar";
-import { Author } from "heliannuuthus-docusaurus-authors";
+import { Button, Card, Col, Flex, Row } from "antd";
 import { createStyles } from "antd-style";
-import { Paragraph } from "@site/src/components/Typography";
-import Layout from "@theme/Layout";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { Author } from "heliannuuthus-docusaurus-authors";
+import { useEffect } from "react";
+import { isIPad13, isMobile, isTablet } from "react-device-detect";
+
 import { useHistory } from "@docusaurus/router";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { usePluginData } from "@docusaurus/useGlobalData";
+
+import { Terminology } from "@site/plugins/docusaurus-terminology/src";
+import { DrawerAvatars, PopoverAvatars } from "@site/src/components/Avatar";
+import { Paragraph } from "@site/src/components/Typography";
+
+import Layout from "@theme/Layout";
+
 const useMobile = isMobile || isIPad13 || isTablet;
 
 const useStyles = createStyles(({ css }) => ({
@@ -20,7 +24,7 @@ const useStyles = createStyles(({ css }) => ({
   `,
   terminology: css`
     cursor: pointer;
-  `,
+  `
 }));
 
 export default () => {
@@ -28,7 +32,7 @@ export default () => {
     terminologies: Record<string, Terminology>;
   };
   const { authors: globalAuthors } = usePluginData(
-    "authors-docusaurus-plugin",
+    "authors-docusaurus-plugin"
   ) as {
     authors: Record<string, Author>;
   };
@@ -36,7 +40,7 @@ export default () => {
   useEffect(() => {}, []);
 
   const {
-    siteConfig: { customFields },
+    siteConfig: { customFields }
   } = useDocusaurusContext();
   const history = useHistory();
 
@@ -46,7 +50,7 @@ export default () => {
         <Row
           gutter={[
             { xs: 8, sm: 16, md: 24, lg: 32 },
-            { xs: 8, sm: 16, md: 24, lg: 32 },
+            { xs: 8, sm: 16, md: 24, lg: 32 }
           ]}
         >
           {Object.entries(terminologies).map(([key, terminology]) => {
@@ -55,7 +59,7 @@ export default () => {
                 acc[author] = globalAuthors[author];
                 return acc;
               },
-              {} as Record<string, Author>,
+              {} as Record<string, Author>
             );
 
             return (
@@ -84,12 +88,12 @@ export default () => {
                         e.stopPropagation();
                         window.open(
                           `${customFields.editUrl}/${terminology.path}.mdx`,
-                          "_blank",
+                          "_blank"
                         );
                       }}
                       icon={<EditOutlined key="edit" />}
                       children={` 编辑`}
-                    />,
+                    />
                   ]}
                 >
                   <Card.Meta

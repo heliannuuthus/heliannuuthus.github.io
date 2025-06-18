@@ -10,13 +10,13 @@ const NowrapTooltip = (props: TooltipProps) => {
       {...props}
       styles={{
         root: {
-          maxWidth: "100%",
+          maxWidth: "100%"
         },
         body: {
           whiteSpace: "nowrap",
           textOverflow: "ellipsis",
-          overflow: "hidden",
-        },
+          overflow: "hidden"
+        }
       }}
     />
   );

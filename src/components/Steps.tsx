@@ -1,6 +1,5 @@
 import { Steps as AntdSteps, StepsProps } from "antd";
 import { createStyles } from "antd-style";
-
 import { useState } from "react";
 
 const useStyles = createStyles(({ token, css }) => ({
@@ -19,7 +18,7 @@ const useStyles = createStyles(({ token, css }) => ({
           .replace(")", ", 0.45)")};
       }
     }
-  `,
+  `
 }));
 
 const Steps = ({ items, ...props }: StepsProps) => {
@@ -34,8 +33,8 @@ const Steps = ({ items, ...props }: StepsProps) => {
   const stepsWithDescription: StepsProps["items"] = items?.map(
     (item, index) => ({
       ...item,
-      description: index === current ? item.description : undefined,
-    }),
+      description: index === current ? item.description : undefined
+    })
   );
 
   return (
