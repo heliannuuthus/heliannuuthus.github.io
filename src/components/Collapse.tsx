@@ -27,4 +27,24 @@ const Collapses: React.FC<{ items: CollapseProps["items"] }> = ({ items }) => (
   />
 );
 
-export { Collapse, Collapses };
+const CollapseTitle: React.FC<{
+  title: string;
+  level: 1 | 2 | 3 | 4 | 5;
+  children: React.ReactNode;
+}> = ({ title, level, children }) => {
+  return (
+    <AntdCollapse
+      bordered={false}
+      defaultActiveKey={[""]}
+      items={[
+        {
+          key: "1",
+          label: <Title level={level}>{title}</Title>,
+          children: children
+        }
+      ]}
+    />
+  );
+};
+
+export { Collapse, Collapses, CollapseTitle };

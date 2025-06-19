@@ -91,7 +91,7 @@ const MDXRender = ({
           TermAdmonition,
           Term: TermPreview,
           Mermaid: Mermaid,
-          Collapse: CollapseHeading
+          CollapseHeading
         };
       }
     }).then((exports) => {

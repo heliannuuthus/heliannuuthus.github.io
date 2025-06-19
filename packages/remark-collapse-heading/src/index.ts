@@ -42,9 +42,9 @@ const preprocessorPlugin: Plugin<[], Root> = () => {
 
 // 转换插件：将标题转换为折叠组件
 const plugin: Plugin<[CollapseHeadingOptions], Root> = (
-  options: CollapseHeadingOptions = { component: "Collapse" }
+  options: CollapseHeadingOptions = { component: "CollapseHeading" }
 ) => {
-  const { component = "Collapse" } = options;
+  const { component = "CollapseHeading" } = options;
 
   const toCollapse = (
     heading: Heading,

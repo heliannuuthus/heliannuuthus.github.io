@@ -1,5 +1,4 @@
-import remarkAdmonition from "heliannuuthus-remark-admomition";
-import { origins } from "heliannuuthus-remark-admomition";
+import remarkAdmonition, { origins } from "heliannuuthus-remark-admomition";
 import remarkBreaks from "heliannuuthus-remark-breaks";
 import {
   plugin as remarkCollapseHeading,
