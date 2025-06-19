@@ -31,7 +31,7 @@ Content under h4
     const result = String(output);
 
     // 检查标题是否被转换为 Collapse 组件
-      expect(result).toContain('<CollapseHeading title="Title 1" level="1"');
+    expect(result).toContain('<CollapseHeading title="Title 1" level="1"');
     expect(result).toContain('<CollapseHeading title="Title 2" level="2"');
     expect(result).toContain('<CollapseHeading title="Title 3" level="3"');
     expect(result).toContain('<CollapseHeading title="Title 4" level="4"');

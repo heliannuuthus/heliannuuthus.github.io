@@ -49,11 +49,7 @@
     "heliannuuthus-parse-md": "file:./plugins/parse-md",
     "heliannuuthus-remark-admomition": "file:./packages/remark-admomition",
     "heliannuuthus-remark-breaks": "file:./packages/remark-breaks",
-<<<<<<< HEAD
     "heliannuuthus-remark-collapse-heading": "file:./packages/remark-collapse-heading",
-=======
-    "heliannuuthus-remark-collapse-title": "file:./packages/remark-collapse-title",
->>>>>>> 6fc92b5 (some change)
     "heliannuuthus-remark-comment-tooltip": "file:./packages/remark-comment-tooltip",
     "heliannuuthus-remark-external-link": "file:./packages/remark-external-link",
     "heliannuuthus-remark-mermaid": "file:./packages/remark-mermaid",

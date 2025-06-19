@@ -40,8 +40,8 @@ const CollapseTitle: React.FC<{
         {
           key: "1",
           label: <Title level={level}>{title}</Title>,
-          children: children,
-        },
+          children: children
+        }
       ]}
     />
   );

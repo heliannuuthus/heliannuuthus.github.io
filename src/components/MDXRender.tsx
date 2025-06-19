@@ -27,9 +27,6 @@ import TermPreview from "@site/src/components/terms/TermPreview";
 import TermAdmonition from "@theme/Admonition";
 import MDXComponents from "@theme/MDXComponents";
 import Mermaid from "@theme/Mermaid";
-import { Collapse } from "@site/src/components/Collapse";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
 
 const MDXRender = ({
   content,
