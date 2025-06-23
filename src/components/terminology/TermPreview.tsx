@@ -16,7 +16,7 @@ import { DrawerAvatars, PopoverAvatars } from "@site/src/components/Avatar";
 import MDXRender from "@site/src/components/MDXRender";
 import Tooltip from "@site/src/components/Tooltip";
 
-const { Text, Link, Title } = Typography;
+const { Text, Link, Title, Paragraph } = Typography;
 
 declare global {
   interface Window {
@@ -65,7 +65,7 @@ const TooltipsPreview = ({
           style={{
             padding: 0
           }}
-          title={content.title}
+          title={null}
           styles={{
             header: {},
             body: {

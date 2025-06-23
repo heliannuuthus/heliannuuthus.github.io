@@ -14,11 +14,11 @@ interface Directive extends TextDirective {
 
 const remarkCtip: Plugin<[TooltipOptions?]> = (
   options: TooltipOptions = {
-    tooltip: "Tooltip",
+    tooltip: "CommentTooltip",
     comment: "Comment"
   }
 ) => {
-  const { tooltip = "Tooltip", comment = "Comment" } = options;
+  const { tooltip = "CommentTooltip", comment = "Comment" } = options;
 
   return (tree) => {
     visit(tree, (node) => {

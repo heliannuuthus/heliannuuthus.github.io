@@ -33,13 +33,7 @@ const remarkPlugins = [
       test: (node: any) => node.url.startsWith("http")
     }
   ],
-  [
-    remarkCommentTooltip,
-    {
-      tooltip: "NowrapTooltip",
-      comment: "Comment"
-    }
-  ],
+  remarkCommentTooltip,
   [remarkAdmonition, { admonition: "TermAdmonition" }],
   remarkCodeImport,
   remarkBreaks,
@@ -217,7 +211,7 @@ const config: Config = {
         path: "terminologies",
         routeBasePath: "terms",
         glossaries: "./static/terminologies.yml",
-        glossaryComponentPath: "@site/src/components/terms/Terminology"
+        glossaryComponentPath: "@site/src/components/terminology/Terminology"
       }
     ],
     [

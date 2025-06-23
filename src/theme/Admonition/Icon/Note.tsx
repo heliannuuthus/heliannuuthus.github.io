@@ -8,11 +8,8 @@ export default function NoteIcon() {
   const color = colorMode === "dark" ? "#E0E0E0" : "#474747";
   return (
     <svg
-      t="1746696049273"
-      class="icon"
+      className="icon"
       viewBox="0 0 1024 1024"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
       width="32"
       height="32"
       transform="rotate(-135)"

@@ -19,7 +19,7 @@ describe("remark-comment-tooltip", () => {
   test("应该正确转换简单的 tooltip 语法", async () => {
     const input = "这是一个:ctip[ tooltip 内容]{title=' 提示'}";
     const output = await process(input);
-    expect(output).toContain('<Tooltip title=" 提示">');
+    expect(output).toContain('<CommentTooltip title=" 提示">');
     expect(output).toContain('<Comment>{" tooltip 内容"}</Comment>');
   });
 
@@ -29,7 +29,7 @@ describe("remark-comment-tooltip", () => {
 标题"}`;
     const output = await process(input);
     console.log(output);
-    expect(output).toContain(`<Tooltip title="多行\n标题">`);
+    expect(output).toContain(`<CommentTooltip title="多行\n标题">`);
     expect(output).toContain(`<Comment>{"多行\\n内容"}</Comment>`);
   });
 
@@ -46,9 +46,9 @@ describe("remark-comment-tooltip", () => {
     const input =
       "第一个:ctip[内容1]{title='提示1'} 第二个:ctip[内容2]{title='提示2'}";
     const output = await process(input);
-    expect(output).toContain('<Tooltip title="提示1">');
+    expect(output).toContain('<CommentTooltip title="提示1">');
     expect(output).toContain('<Comment>{"内容1"}</Comment>');
-    expect(output).toContain('<Tooltip title="提示2">');
+    expect(output).toContain('<CommentTooltip title="提示2">');
     expect(output).toContain('<Comment>{"内容2"}</Comment>');
   });
 
@@ -56,7 +56,7 @@ describe("remark-comment-tooltip", () => {
     const input = `:ctip[包含 \\\\| * ! @ # $ 的内容]{title="特殊*|字符!"}`;
     const output = await process(input);
     console.log(output);
-    expect(output).toContain('<Tooltip title="特殊*|字符!">');
+    expect(output).toContain('<CommentTooltip title="特殊*|字符!">');
     expect(output).toContain(
       '<Comment>{"包含 \\\\| * ! @ # $ 的内容"}</Comment>'
     );
@@ -66,7 +66,7 @@ describe("remark-comment-tooltip", () => {
     const input = `:ctip[包含 \`markdown\` 的内容]{title="特殊*|字符!"}`;
     const output = await process(input);
     console.log(output);
-    expect(output).toContain('<Tooltip title="特殊*|字符!">');
+    expect(output).toContain('<CommentTooltip title="特殊*|字符!">');
     expect(output).toContain(
       '<Comment>{"包含 "}<_components.code>{"markdown"}</_components.code>{" 的内容"}</Comment>'
     );
@@ -75,7 +75,7 @@ describe("remark-comment-tooltip", () => {
   test("应该处理 id 属性", async () => {
     const input = `:ctip[内容]{#提示}`;
     const output = await process(input);
-    expect(output).toContain('<Tooltip title="提示">');
+    expect(output).toContain('<CommentTooltip title="提示">');
     expect(output).toContain('<Comment>{"内容"}</Comment>');
   });
 });
