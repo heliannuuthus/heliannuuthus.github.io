@@ -1,3 +1,5 @@
+import { Collapse } from "@site/src/components/collapse";
+
 #### 导数和微分
 
 > 通常定义导数为在函数的点的切线的斜率，微分描述在函数上的点附近的变化率
@@ -9,13 +11,13 @@
 则 f 在 x 处的导数 $f'(x)$ 被定义为：
 
 $$
-f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}
+f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h} \tag{1.1.1}
 $$
 
 微分被定义为：
 
 $$
-df = f'(x) \cdot dx
+df = f'(x) \cdot dx \tag{1.1.2}
 $$
 
 ##### 通用函数的微分方法
@@ -48,40 +50,182 @@ $$
 
 #### 偏导数
 
-针对单个变量 $x$ 的函数 $f(x)$ 的导数被定义为 $f'(x)$，而对于向量（多变量组合）的函数，则需要使用偏导数来计算。
-
-偏导数被定义为：
+针对单个变量 $\mathbf{x}$ 的函数 $f(x)$ 的导数被定义为:
 
 $$
-\frac{\partial f}{\partial x_i} = \lim_{h \to 0} \frac{f(x_1, x_2, \cdots, x_i + h, \cdots, x_n) - f(x_1, x_2, \cdots, x_i, \cdots, x_n)}{h}
+f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h} \tag{1.2.1}
 $$
 
-将偏导数推广到向量，则有：
+而对于多元变量组合 $x=(x, y, z)$ 的函数，则需要使用偏导数来计算，定义为：
 
 $$
-\nabla f = (\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \cdots, \frac{\partial f}{\partial x_n})
+\frac{\partial f}{\partial x} = \lim_{h \to 0}
+\frac{f(x + h, y, z) - f(x, y, z)}{h}
 $$
 
-**即向量 $\nabla f$ 的每个分量都是对向量 $x$ 的每个变量求偏导数。**
+$$
+\frac{\partial f}{\partial y} = \lim_{h \to 0}
+\frac{f(x, y + h, z) - f(x, y, z)}{h}
+$$
+
+$$
+\frac{\partial f}{\partial z} = \lim_{h \to 0}
+\frac{f(x, y, z + h) - f(x, y, z)}{h}
+$$
+
+将多元变量组合推广到向量 \
+:ctip[$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$]{id="数学和深度学习中通常使用列向量，向量的自然表达是行向量，故而使用*转置*"}，\
+则可根据 $1.2.2$ 推出梯度公式：
+
+$$
+\nabla_x f(x) = [\frac{\partial f}{\partial x_1},
+\frac{\partial f}{\partial x_2}, \cdots, \frac{\partial f}{\partial x_n}]^T \tag{1.2.2}
+$$
+
+**即向量 :ctip[$\nabla_x f(x)$]{id="当 $\nabla_x f(x)$ 没有歧义时，可被简写为 $\nabla f$"} 的第 $i$ 个分量即是对向量 $\mathbf{x}$ 的第 $i$ 个分量 $x_i$ 求偏导数。**
 
 #### 梯度
 
 > 梯度和导数相关，但梯度是向量，导数是实数，梯度是导数在多变量情况下的推广。
 
-**对于输入为单个变量，输出为实数的函数 $f(x)$**，_其梯度为其导数_，公式为：
+:ctip[**$\mathbf{f}: R \to R$**]{id="输入和输出都是**实数**的函数 $f$"}，梯度即为导数：
 
 $$
-\nabla f = \frac{d}{dx} f(x)
+\nabla \mathbf{f} = \nabla_{\mathbf{x}} \mathbf{f}(\mathbf{x}) = \mathbf{f}'(\mathbf{x}) = \frac{d}{d\mathbf{x}} \mathbf{f}(\mathbf{x})
 $$
 
-**对于输入为向量，输出为实数的函数 $f(x_1, x_2, \cdots, x_n)$**，_其梯度为偏导数组成的向量_，公式为：
+:ctip[**$f: R^n \to R$**]{id="输入为 n 维向量，输出为标量的函数"}，其中 $\mathbf = [x_1, x_2, \cdots, x_n]^T$，梯度为偏导数组成的向量：
 
 $$
-\nabla f = (\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \cdots, \frac{\partial f}{\partial x_n})
+\nabla f = [\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \cdots, \frac{\partial f}{\partial x_n}]^T
 $$
+
+梯度在矩阵微积分中通常存在以下常用公式：
+
+- **线性变换**：
+
+  - 对于所有的 :ctip[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
+     和 :ctip[$A \in R^{m \times n}$]{id="$\mathbf{A} = \begin{bmatrix} \
+A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{m1} & \cdots & A_{mn} \
+\end{bmatrix}$"}：
+
+    <Collapse label="$$
+  \nabla_x (A x) = A^T
+  $$">
+
+      $$
+      \begin{split}
+      &\ \nabla_x (A x) = \nabla_x (A_1 x_1 + A_2 x_2 + \cdots + A_n x_n) \\
+      =&\ \nabla_x ([A_{11} \cdots A_{1m}] x_1 + [A_{21} \cdots A_{2m}] x_2 + \cdots + [A_{n1} \cdots A_{nm}] x_n) \\
+      =&\ \nabla_x (A_1 x_1 + A_2 x_2 + \cdots + A_n x_n) \\
+      =&\ \nabla_x (A_1 x_1) + \nabla_x (A_2 x_2) + \cdots + \nabla_x (A_n x_n) \\
+      =&\ \begin{bmatrix}
+      \frac{\partial}{\partial x_1} (A_1 x_1) , \frac{\partial}{\partial x_2} (A_2 x_2) , \cdots , \frac{\partial}{\partial x_n} (A_n x_n)
+      \end{bmatrix} \\
+      =&\ \begin{bmatrix}
+      A_1 , A_2 , \cdots , A_n
+      \end{bmatrix} = A^T
+      \end{split}
+      $$
+
+    </Collapse>
+
+  - 对于所有的 :ctip[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
+     和 :ctip[$A \in R^{n \times m}$]{id="$\mathbf{A} = \begin{bmatrix} \
+A_{11} & \cdots & A_{1m} \\ \vdots & \ddots & \vdots \\ A_{n1} & \cdots & A_{nm} \
+\end{bmatrix}$"}：
+
+    <Collapse label="$$
+    \nabla_x (x^T A) = A
+    $$">
+
+    $$
+    \begin{split}
+    &\ \nabla_x (x^T A) = \nabla_x (x_1 A_1 + x_2 A_2 + \cdots + x_n A_n) \\
+    =&\ \nabla_x (x_1 [A_{11} \cdots A_{1m}] + x_2 [A_{21} \cdots A_{2m}] + \cdots + x_n [A_{n1} \cdots A_{nm}]) \\
+    =&\ \nabla_x (x_1 A_1 + x_2 A_2 + \cdots + x_n A_n) \\
+    =&\ \nabla_x (x_1 A_1) + \nabla_x (x_2 A_2) + \cdots + \nabla_x (x_n A_n) \\
+    =&\ \begin{bmatrix} \
+    \frac{\partial}{\partial x_1} (x_1 A_1) , \frac{\partial}{\partial x_2} (x_2 A_2) , \cdots , \frac{\partial}{\partial x_n} (x_n A_n)
+    \end{bmatrix} \\
+    =&\ \begin{bmatrix}
+    A_1 , A_2 , \cdots , A_n
+    \end{bmatrix} = A
+    \end{split}
+    $$
+
+    </Collapse>
+
+- **二次型**（二次型是二次函数在向量空间中的推广）：
+
+  - 对于所有的 :ctip[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
+     和 :ctip[$A \in R^{n \times n}$]{id="$\mathbf{A} = \begin{bmatrix} \
+A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{n1} & \cdots & A_{nn} \
+\end{bmatrix}$"}：
+
+    <Collapse label="$$
+    \nabla_x x^T A x = (A + A^T) x
+    $$">
+
+    $$
+    \begin{split}
+    &\ \nabla_x x^T A x = \nabla_x \sum_{i=1}^n \sum_{j=1}^n x_i A_{ij} x_j \\
+    =&\ \frac{\partial}{\partial x_k} \sum_{i=1}^n \sum_{j=1}^n x_i A_{ij} x_j + \frac{\partial}{\partial x_k} \sum_{i=1}^n \sum_{j=1}^n x_j A_{ji} x_i \\
+    =&\ \sum_{i=1}^n \sum_{j=1}^n A_{ij} x_j + \sum_{i=1}^n \sum_{j=1}^n A_{ji} x_i \\
+    =&\ \sum_{j=1}^n A_{kj} x_j + \sum_{i=1}^n A_{ik} x_i \text{（$i, j = k$ 时，$A_{kj} x_j, A_{ik} x_i$ 分别存在一项 $A_{kk} x_k$）} \\
+    =&\ \sum_{i=1}^n (\sum_{j=1}^n A_{ij} x_j) \cdot e_i + \sum_{j=1}^n (\sum_{i=1}^n A_{ji} x_i) \cdot e_j \\
+    =&\ \sum_{i=1}^n (\mathbf{A} \mathbf{x})_i \cdot e_i + \sum_{j=1}^n (\mathbf{A^T} \mathbf{x})_j \cdot e_j \\ \
+    =&\ (A + A^T) x
+    \end{split}
+    $$
+
+    </Collapse>
+
+- **范数**：
+
+  | 范数       | 定义                                            | 梯度                                     |
+  | ---------- | ----------------------------------------------- | ---------------------------------------- |
+  | $L^1$      | $\|x\|_1 = \sum_{i=1}^n x_i$                    | $\nabla_x \|x\|_1 = \text{sign}(x)$      |
+  | $L^2$      | $\|x\|_2 = \sqrt{\sum_{i=1}^n x_i^2}$           | $\nabla_x \|x\|_2 = \frac{x}{\|x\|_2}$   |
+  | $L^\infty$ | $\|x\|_\infty = \max_{i=1}^n x_i$               | $\nabla_x \|x\|_\infty = \text{sign}(x)$ |
+  | $L^0$      | $\|x\|_0 = \sum_{i=1}^n \mathbb{I}(x_i \neq 0)$ | $\nabla_x \|x\|_0 = \text{sign}(x)$      |
+
+  - 对于所有的 :ctip[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
+     和 :ctip[$A \in R^{n \times n}$]{id="$\mathbf{A} = \begin{bmatrix} \
+A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{n1} & \cdots & A_{nn} \
+\end{bmatrix}$"}：
+
+    <Collapse label="$$
+    \nabla_x \|x\|_2^2 = \nabla_x (x^T x) = 2x
+    $$">
+
+    $$
+    \begin{split}
+    &\ \nabla_x \|x\|_2 = \nabla_x (\sqrt{x^T x}) ^ 2 \\
+    =&\ \nabla_x (x^T x) = \nabla_x (x_1^2 + x_2^2 + \cdots + x_n^2) \\
+    =&\ 2x
+    \end{split}
+    $$
+    
+    </Collapse>
 
 :::nerd
-在深度学习中每层神经网络之间由 **_权重矩阵_（通常还会添加同维度的偏置向量）桥接不同纬度矩阵的计算**。随后再通过激活函数将计算结果映射到非线性空间。
+在深度学习中每层神经网络之间由 **_权重矩阵_（通常还会添加同维度的偏置向量）桥接不同纬度矩阵的计算**。随后再通过:term[激活函数]{./terms/dl#activation-function}将计算结果映射到非线性空间，是:term[神经元]{./terms/dl#neuron}的计算核心。
 :::
 
 #### 链式法则
+
+> 本质是利用复合函数求导的思想，逐层求导（当计算到内层函数时转换为求梯度）并计算内积。
+
+1. 对于复合函数来说，变量有且仅有囊括在复合函数中的变量，即 $g(x)$。
+2. 对于两层的复合函数来说，若变量 $\mathbf{x} \in R^n$ 应该用梯度进行表示，则有：
+
+$$
+f'(x) = f'(g(x)) \cdot \nabla_{x} g(x)
+$$
+
+对于复合函数 $f$ 存在 $y_1, y_2, \cdots, y_n$（$\mathbf{y} \in R^n$）等变量，对于函数 $y$ 有 $y_1 = g_1(x), y_2 = g_2(x), \cdots, y_n = g_n(x)$ 的复合函数，则有：
+
+$$
+\nabla_{x} f(y) = \frac{\partial f}{\partial y_1} \cdot \nabla_{x} y_1 + \frac{\partial f}{\partial y_2} \cdot \nabla_{x} y_2 + \cdots + \frac{\partial f}{\partial y_n} \cdot \nabla_{x} y_n
+$$

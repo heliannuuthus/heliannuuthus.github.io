@@ -1,6 +1,7 @@
 // MDXRenderer.jsx
 import { evaluate } from "@mdx-js/mdx";
 import { MDXProvider } from "@mdx-js/react";
+import { createStyles } from "antd-style";
 import remarkAdmonition from "heliannuuthus-remark-admomition";
 import remarkBreaks from "heliannuuthus-remark-breaks";
 import {
@@ -18,11 +19,11 @@ import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 
-import CollapseHeading from "@site/src/components/CollapseHeading";
 import Tooltip from "@site/src/components/Tooltip";
-import { NowrapTooltip } from "@site/src/components/Tooltip";
 import { Comment } from "@site/src/components/Typography";
-import TermPreview from "@site/src/components/terms/TermPreview";
+import { CollapseHeading } from "@site/src/components/collapse";
+import CommentTooltip from "@site/src/components/comment/Tooltip";
+import TermPreview from "@site/src/components/terminology/TermPreview";
 
 import TermAdmonition from "@theme/Admonition";
 import MDXComponents from "@theme/MDXComponents";
@@ -45,13 +46,7 @@ const MDXRender = ({
         remarkCollapseHeadingPreprocessor,
         remarkMath,
         remarkDirective,
-        [
-          remarkCommentTooltip,
-          {
-            tooltip: "NowrapTooltip",
-            comment: "Comment"
-          }
-        ],
+        remarkCommentTooltip,
         remarkTerminology,
         remarkBreaks,
         remarkMermaid,
@@ -86,7 +81,7 @@ const MDXRender = ({
           ...components,
           Comment,
           Tooltip,
-          NowrapTooltip,
+          CommentTooltip,
           TermPreview,
           TermAdmonition,
           Term: TermPreview,
@@ -117,6 +112,23 @@ const MDXRender = ({
         <Component />
       </MDXProvider>
     </Suspense>
+  );
+};
+
+const useStyles = createStyles(({ css }) => ({
+  container: css`
+    p {
+      margin: 0;
+    }
+  `
+}));
+
+export const InlineMDXRender = ({ content }: { content: string }) => {
+  const { styles } = useStyles();
+  return (
+    <div className={styles.container}>
+      <MDXRender content={content} />
+    </div>
   );
 };
 

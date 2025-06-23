@@ -1,30 +1,10 @@
-import Icon, { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { Collapse as AntdCollapse } from "antd";
 import { createStyles } from "antd-style";
 import React from "react";
 
+import { ExpandIcon } from "@site/src/components/collapse";
+
 import Heading, { HeadingType } from "@theme/Heading";
-
-// 图标动画样式
-const useIconStyles = createStyles(({ css }) => ({
-  expandIcon: css`
-    transition: transform 0.2s ease-in-out;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  `
-}));
-
-// 可复用的展开/收起图标组件
-const ExpandIcon: React.FC<{ isActive?: boolean }> = ({ isActive }) => {
-  const { styles } = useIconStyles();
-
-  return (
-    <span className={styles.expandIcon}>
-      <Icon component={isActive ? EyeOutlined : EyeInvisibleOutlined} />
-    </span>
-  );
-};
 
 const useStyles = createStyles(({ css }) => ({
   header: css`
@@ -75,7 +55,6 @@ const CollapseHeading: React.FC<CollapseHeadingProps> = ({
   collapsed = false
 }: CollapseHeadingProps) => {
   const { styles } = useStyles();
-  console.log(title, level, children, collapsed);
   return (
     <AntdCollapse
       bordered={false}

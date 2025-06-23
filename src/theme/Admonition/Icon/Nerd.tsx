@@ -3,12 +3,8 @@ import React from "react";
 export default function NerdIcon() {
   return (
     <svg
-      t="1746773484896"
-      class="icon"
+      className="icon"
       viewBox="0 0 1024 1024"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
-      p-id="28488"
       width="32"
       height="32"
     >
