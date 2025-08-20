@@ -7,8 +7,8 @@ import React, { useEffect, useState } from "react";
 import { isIPad13, isMobile, isTablet } from "react-device-detect";
 
 import { DrawerAvatars, PopoverAvatars } from "@site/src/components/Avatar";
-import MDXRenderer from "@site/src/components/MDXRender";
 import { Title } from "@site/src/components/Typography";
+import MDXRenderer from "@site/src/components/markdown/MDXRender";
 
 const useMobile = isMobile || isIPad13 || isTablet;
 

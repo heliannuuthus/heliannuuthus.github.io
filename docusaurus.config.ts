@@ -6,6 +6,7 @@ import {
 } from "heliannuuthus-remark-collapse-heading";
 import remarkCommentTooltip from "heliannuuthus-remark-comment-tooltip";
 import remarkExternalLink from "heliannuuthus-remark-external-link";
+import remarkMarkmap from "heliannuuthus-remark-markmap";
 import remarkTerminology from "heliannuuthus-remark-terminology";
 import path from "path";
 import { themes as prismThemes } from "prism-react-renderer";
@@ -38,7 +39,8 @@ const remarkPlugins = [
   remarkCodeImport,
   remarkBreaks,
   remarkMath,
-  remarkCollapseHeading
+  remarkCollapseHeading,
+  remarkMarkmap
 ];
 
 const rehypePlugins = [rehypeKatex];
@@ -89,7 +91,18 @@ const config: Config = {
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
-
+  stylesheets: [
+    {
+      href: "https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css",
+      type: "text/css",
+      crossOrigin: "anonymous"
+    },
+    {
+      href: "https://cdn.jsdelivr.net/npm/@callmebill/lxgw-wenkai-web@latest/style.css",
+      type: "text/css",
+      crossorigin: "anonymous"
+    }
+  ],
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
@@ -232,7 +245,7 @@ const config: Config = {
         layout: "elk",
         look: "handDrawn",
         themeVariables: {
-          fontFamily: "Noto Sans SC"
+          fontFamily: "Monaspace Randon Var"
         },
         xyChart: {
           titleFontSize: "14px",

@@ -60,15 +60,18 @@ export default function ThemeProvider({
           colorBgContainer: dark ? "rgb(30, 30, 30)" : "rgb(255, 255, 255)",
           colorBgElevated: dark ? "rgb(35, 35, 35)" : "rgb(248, 248, 248)",
           colorBgSpotlight: dark ? "rgb(35, 35, 35)" : "rgb(248, 248, 248)",
-          fontSize: 14,
+          fontSize: 15,
           fontSizeHeading1: 38,
           fontSizeHeading2: 30,
           fontSizeHeading3: 24,
           fontSizeHeading4: 20,
           fontSizeHeading5: 16,
-          fontFamily: "Noto Sans SC, sans-serif, Arial, Helvetica"
+          fontFamily: "var(--ifm-font-family-base)"
         },
         components: {
+          Message: {
+            contentBg: dark ? "rgb(30, 30, 30)" : "rgb(240, 240, 240)"
+          },
           Steps: {},
           Table: {},
           Layout: {

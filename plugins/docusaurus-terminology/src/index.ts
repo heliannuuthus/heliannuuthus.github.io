@@ -123,11 +123,11 @@ export default async function DocusaurusTerminologyPlugin(
       Object.entries(terminologies).forEach(([key, terminology]) => {
         terminology.path = path.join(
           options.path || "terminologies",
-          key.toLowerCase().replace(/ /g, "-")
+          key?.toLowerCase().replace(/ /g, "-")
         );
         terminology.slug = path.join(
           options.routeBasePath || "terms",
-          key.toLowerCase().replace(/ /g, "-")
+          key?.toLowerCase().replace(/ /g, "-")
         );
       });
       return {

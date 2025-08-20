@@ -2,12 +2,7 @@ import React from "react";
 
 export default function NerdIcon() {
   return (
-    <svg
-      className="icon"
-      viewBox="0 0 1024 1024"
-      width="32"
-      height="32"
-    >
+    <svg className="icon" viewBox="0 0 1024 1024" width="32" height="32">
       <path
         d="M512 1024c282.77 0 512-229.23 512-512S794.77 0 512 0 0 229.23 0 512s229.23 512 512 512z"
         fill="#FFCC4D"

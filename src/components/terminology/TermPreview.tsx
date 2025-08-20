@@ -7,14 +7,13 @@ import { useEffect, useState } from "react";
 import { isIPad13, isMobile, isTablet } from "react-device-detect";
 
 import BrowserOnly from "@docusaurus/BrowserOnly";
-import { AuthorAttributes } from "@docusaurus/plugin-content-blog";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { usePluginData } from "@docusaurus/useGlobalData";
 
 import { DrawerAvatars, PopoverAvatars } from "@site/src/components/Avatar";
-import MDXRender from "@site/src/components/MDXRender";
 import Tooltip from "@site/src/components/Tooltip";
+import MDXRender from "@site/src/components/markdown/MDXRender";
 
 const { Text, Link, Title, Paragraph } = Typography;
 
@@ -210,7 +209,7 @@ const TermPreview = ({
   const [content, setContent] = useState<TermContent | null>(null);
   const { withBaseUrl } = useBaseUrlUtils();
   const { authors } = usePluginData("authors-docusaurus-plugin") as {
-    authors: Record<string, AuthorAttributes>;
+    authors: Record<string, Author>;
   };
   const { terminologies } = usePluginData("terminology-docusaurus-plugin") as {
     terminologies: Record<string, Terminology>;
@@ -233,10 +232,7 @@ const TermPreview = ({
 
   const glossary = terminologies[path.split("/").filter(Boolean)[1]];
 
-  const fetchContent = async (
-    url: string,
-    authors: Record<string, AuthorAttributes>
-  ) => {
+  const fetchContent = async (url: string, authors: Record<string, Author>) => {
     try {
       // 如果缓存存在且有数据，直接使用缓存
       if (
@@ -262,11 +258,11 @@ const TermPreview = ({
         title: term.metadata.title,
         description: term.metadata.description,
         authors: term.metadata.authors.reduce(
-          (acc: Record<string, AuthorAttributes>, author: string) => {
-            acc[author] = authors[author];
+          (acc: Record<string, Author>, author: string) => {
+            acc[author] = authors[author] as Author;
             return acc;
           },
-          {} as Record<string, AuthorAttributes>
+          {} as Record<string, Author>
         ),
         content: term.content
       });

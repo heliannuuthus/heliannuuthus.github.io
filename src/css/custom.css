@@ -5,104 +5,6 @@
  */
 
 /* You can override the default Infima variables here. */
-
-@import url("https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css");
-
-@font-face {
-  font-family: "Source Code Pro";
-  font-weight: 400;
-  font-style: normal;
-  src: url("../../static/fonts/SourceCodePro/SourceCodePro-Regular.ttf")
-    format("ttf");
-}
-
-@font-face {
-  font-family: "Source Code Pro";
-  font-weight: 700;
-  font-style: normal;
-  src: url("../../static/fonts/SourceCodePro/SourceCodePro-Bold.ttf")
-    format("ttf");
-}
-
-@font-face {
-  font-family: "Source Code Pro";
-  font-weight: 400;
-  font-style: italic;
-  src: url("../../static/fonts/SourceCodePro/SourceCodePro-Italic.ttf")
-    format("ttf");
-}
-
-@font-face {
-  font-family: "Source Code Pro";
-  font-weight: 700;
-  font-style: italic;
-  src: url("../../static/fonts/SourceCodePro/SourceCodePro-BoldItalic.ttf")
-    format("ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans SC";
-  font-weight: 300;
-  font-style: normal;
-  src: url("../../static/fonts/NotoSansSc/NotoSans_SemiCondensed-Light.ttf")
-    format("ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans SC";
-  font-weight: 300;
-  font-style: italic;
-  src: url("../../static/fonts/NotoSansSc/NotoSans_SemiCondensed-LightItalic.ttf")
-    format("ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans SC";
-  font-weight: 400;
-  font-style: normal;
-  src: url("../../static/fonts/NotoSansSc/NotoSans_SemiCondensed-Regular.ttf")
-    format("ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans SC";
-  font-weight: 400;
-  font-style: italic;
-  src: url("../../static/fonts/NotoSansSc/NotoSans_SemiCondensed-Italic.ttf")
-    format("ttf");
-}
-@font-face {
-  font-family: "Noto Sans SC";
-  font-weight: 500;
-  font-style: normal;
-  src: url("../../static/fonts/NotoSansSc/NotoSans_SemiCondensed-SemiBold.ttf")
-    format("ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans SC";
-  font-weight: 500;
-  font-style: italic;
-  src: url("../../static/fonts/NotoSansSc/NotoSans_SemiCondensed-SemiBoldItalic.ttf")
-    format("ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans SC";
-  font-weight: 700;
-  font-style: normal;
-  src: url("../../static/fonts/NotoSansSc/NotoSans_SemiCondensed-Bold.ttf")
-    format("ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans SC";
-  font-weight: 700;
-  font-style: italic;
-  src: url("../../static/fonts/NotoSansSc/NotoSans_SemiCondensed-BoldItalic.ttf")
-    format("ttf");
-}
-
 :root {
   --ifm-color-primary: #2e8555;
   --ifm-color-primary-dark: #29784c;
@@ -113,7 +15,7 @@
   --ifm-color-primary-lightest: #3cad6e;
   --ifm-color-term-title: #1971c2;
   --ifm-code-font-size: 95%;
-  --ifm-font-size-base: var(--ant-font-size-base, 14px);
+  --ifm-font-size-base: var(--ant-font-size-base, 15px);
 
   /* 标题字体大小 */
   --ifm-h1-font-size: var(--ant-font-size-heading-1, 38px);
@@ -122,12 +24,21 @@
   --ifm-h4-font-size: var(--ant-font-size-heading-4, 20px);
   --ifm-h5-font-size: var(--ant-font-size-heading-5, 16px);
   --ifm-h6-font-size: var(--ant-font-size-heading-6, 14px);
-  --ifm-font-family-base: "Noto Sans SC";
-  --ifm-heading-font-family: "Noto Sans SC";
-  --ifm-font-family-monospace: "Source Code Pro";
+  --ifm-font-family-base:
+    "Monaspace Xenon Var", "LXGW WenKai", --apple-system, sans-serif,
+    Noto Sans SC, monospace;
+  --ifm-heading-font-family:
+    "Monaspace Xenon Var", "LXGW WenKai", --apple-system, sans-serif,
+    Noto Sans SC, monospace;
+  --ifm-font-family-monospace:
+    "Monaspace Xenon Var", "LXGW WenKai", --apple-system, sans-serif,
+    Noto Sans SC, monospace;
   --ifm-color-italic: var(--ifm-color-emphasis-600);
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --ifm-blockquote-border-color: var(--ifm-color-primary);
+
+  /* 一些背景色 */
+  --ifm-color-bg-quaternary: #f9f9fa;
 }
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme="dark"] {
@@ -139,6 +50,8 @@
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --ifm-color-term-title: #48abfa;
+  --ifm-color-border-secondary: #252525;
+  --ifm-color-bg-quaternary: #252525;
   --ifm-color-italic: var(--ifm-color-emphasis-400);
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
@@ -238,4 +151,54 @@ table thead tr {
 
 table tr:nth-child(2n) {
   background-color: var(--ifm-table-background);
+}
+
+/* Monaspace fonts via CDN (fallback to local if installed) */
+@font-face {
+  font-family: "Monaspace Xenon Var";
+  src:
+    local("Monaspace Xenon Var"),
+    url("https://cdn.jsdelivr.net/gh/githubnext/monaspace@main/fonts/Web Fonts/Variable Web Fonts/Monaspace Xenon/Monaspace Xenon Var.woff2")
+      format("opentype");
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monaspace Radon Var";
+  src:
+    local("Monaspace Radon Var"),
+    url("https://cdn.jsdelivr.net/gh/githubnext/monaspace@main/fonts/Web Fonts/Variable Web Fonts/Monaspace Radon/Monaspace Radon Var.woff2")
+      format("opentype");
+  font-weight: 100 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Shell-like code blocks use Monaspace Radon Var */
+pre code.language-bash,
+pre code.language-sh,
+pre code.language-shell,
+pre code.language-zsh,
+pre code.language-powershell {
+  font-family: "Monaspace Radon Var", "LXGW WenKai", monospace !important;
+}
+
+html {
+  font-feature-settings:
+    "ss01" 1,
+    "ss02" 1,
+    "ss03" 1,
+    "ss04" 1,
+    "ss05" 1,
+    "ss06" 1,
+    "ss07" 1,
+    "ss08" 1,
+    "ss09" 1,
+    "cv10" 1,
+    "cv11" 1,
+    "cv30" 1,
+    "cv31" 1,
+    "cv32" 1;
 }
