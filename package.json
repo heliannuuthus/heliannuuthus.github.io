@@ -1,6 +1,6 @@
 {
-  "name": "blog",
-  "version": "0.0.0",
+  "name": "heliannuuthus-site",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -25,6 +25,7 @@
     "@ant-design/icons": "^5.5.2",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@docusaurus/core": "3.8.1",
+    "@docusaurus/faster": "^3.8.1",
     "@docusaurus/plugin-content-blog": "^3.8.1",
     "@docusaurus/plugin-content-docs": "^3.8.1",
     "@docusaurus/plugin-content-pages": "^3.8.1",
@@ -43,6 +44,7 @@
     "canvas": "^3.1.0",
     "canvg": "^4.0.2",
     "clsx": "^2.0.0",
+    "d3": "^7.9.0",
     "echarts": "^5.5.1",
     "file-saver": "^2.0.5",
     "heliannuuthus-docusaurus-authors": "file:./plugins/docusaurus-authors",
@@ -89,11 +91,11 @@
     "@docusaurus/types": "3.8.1",
     "@trivago/prettier-plugin-sort-imports": "^5.2.0",
     "@types/file-saver": "^2.0.7",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
     "prettier": "^3.5.3",
+    "prettier-plugin-organize-imports": "^4.2.0",
     "remark-code-import": "^1.2.0",
-    "typescript": "~5.7.3"
+    "typescript": "~5.7.3",
+    "@types/d3": "^7.4.3"
   },
   "browserslist": {
     "production": [
@@ -108,6 +110,6 @@
     ]
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=22.0"
   }
 }

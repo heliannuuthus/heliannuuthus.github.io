@@ -107,12 +107,21 @@ const config: Config = {
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"]
+    defaultLocale: "zh-Hans",
+    locales: ["zh-Hans"]
   },
   customFields: {
     editUrl:
       "https://github.com/heliannuuthus/heliannuuthus.github.io/edit/master"
+  },
+  future: {
+    v4: {
+      useCssCascadeLayers: true
+    },
+    experimental_faster: {
+      rspackBundler: true,
+      rspackPersistentCache: true
+    }
   },
   markdown: {
     mermaid: true,
