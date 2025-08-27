@@ -11,8 +11,8 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { usePluginData } from "@docusaurus/useGlobalData";
 
 import { Terminology } from "@site/plugins/docusaurus-terminology/src";
-import { DrawerAvatars, PopoverAvatars } from "@site/src/components/Avatar";
-import { Paragraph } from "@site/src/components/Typography";
+import { DrawerAvatars, PopoverAvatars } from "@components/Avatar";
+import { Paragraph } from "@components/Typography";
 
 import Layout from "@theme/Layout";
 

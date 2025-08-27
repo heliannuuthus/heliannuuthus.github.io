@@ -1,8 +1,8 @@
 import Icon, { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { createStyles } from "antd-style";
 
-import { Collapse, Collapses } from "@site/src/components/collapse/Collapse";
-import CollapseHeading from "@site/src/components/collapse/CollapseHeading";
+import { Collapse, Collapses } from "@components/collapse/Collapse";
+import CollapseHeading from "@components/collapse/CollapseHeading";
 
 // 图标动画样式
 const useIconStyles = createStyles(({ css }) => ({

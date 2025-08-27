@@ -3,6 +3,11 @@
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
-    "types": ["@docusaurus/module-type-aliases", "@docusaurus/theme-classic"]
+    "types": ["@docusaurus/module-type-aliases", "@docusaurus/theme-classic"],
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@site/*": ["./src/*"]
+    }
   }
 }

@@ -233,12 +233,41 @@ const config: Config = {
         path: "terminologies",
         routeBasePath: "terms",
         glossaries: "./static/terminologies.yml",
-        glossaryComponentPath: "@site/src/components/terminology/Terminology"
+        glossaryComponentPath: "@components/terminology/Terminology"
       }
     ],
     [
       require.resolve("heliannuuthus-docusaurus-authors"),
       { path: "./static/authors.yml" }
+    ],
+    [
+      require.resolve("heliannuuthus-docusaurus-alias"),
+      {
+        aliases: [
+          {
+            alias: "@src",
+            path: "src",
+            sub: [
+              {
+                alias: "@components",
+                path: "components"
+              },
+              {
+                alias: "@utils",
+                path: "utils"
+              }
+            ]
+          },
+          {
+            alias: "@blog",
+            path: "blog"
+          },
+          {
+            alias: "@essay",
+            path: "essay"
+          }
+        ]
+      }
     ]
   ],
   themeConfig: {

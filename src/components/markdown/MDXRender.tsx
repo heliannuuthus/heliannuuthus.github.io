@@ -19,12 +19,12 @@ import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 
-import Tooltip from "@site/src/components/Tooltip";
-import { Comment } from "@site/src/components/Typography";
-import { CollapseHeading } from "@site/src/components/collapse";
-import CommentTooltip from "@site/src/components/comment/Tooltip";
-import Markmap from "@site/src/components/markdown/markmap";
-import TermPreview from "@site/src/components/terminology/TermPreview";
+import Tooltip from "@components/Tooltip";
+import { Comment } from "@components/Typography";
+import { CollapseHeading } from "@components/collapse";
+import CommentTooltip from "@components/comment/Tooltip";
+import Markmap from "@components/markdown/markmap";
+import TermPreview from "@components/terminology/TermPreview";
 
 import TermAdmonition from "@theme/Admonition";
 import MDXComponents from "@theme/MDXComponents";

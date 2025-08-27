@@ -7,7 +7,7 @@ import { useLocation } from "@docusaurus/router";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import { usePluginData } from "@docusaurus/useGlobalData";
 
-import TermItem from "@site/src/components/terminology/TermItem";
+import TermItem from "@components/terminology/TermItem";
 
 const Terminology = () => {
   const { withBaseUrl } = useBaseUrlUtils();

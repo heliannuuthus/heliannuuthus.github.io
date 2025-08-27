@@ -1,8 +1,8 @@
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, MenuProps, Space } from "antd";
 
-import Tooltip from "@site/src/components/Tooltip";
-import { Link, Text } from "@site/src/components/Typography";
+import Tooltip from "@components/Tooltip";
+import { Link, Text } from "@components/Typography";
 
 import type { LinkLikeNavbarItemProps } from "@theme/NavbarItem";
 import type { ComponentTypesObject } from "@theme/NavbarItem/ComponentTypes";

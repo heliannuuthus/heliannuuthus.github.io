@@ -8,7 +8,7 @@ import { isIPad13, isMobile, isTablet } from "react-device-detect";
 
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 
-import { Paragraph, Text } from "@site/src/components/Typography";
+import { Paragraph, Text } from "@components/Typography";
 
 import CodeBlock from "@theme/CodeBlock";
 

@@ -1,7 +1,7 @@
 import { Collapse as AntdCollapse, CollapseProps } from "antd";
 
-import { ExpandIcon } from "@site/src/components/collapse";
-import { InlineMDXRender } from "@site/src/components/markdown/MDXRender";
+import { ExpandIcon } from "@components/collapse";
+import { InlineMDXRender } from "@components/markdown/MDXRender";
 
 const Collapse: React.FC<{
   label: React.ReactNode;

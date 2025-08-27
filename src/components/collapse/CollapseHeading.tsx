@@ -2,7 +2,7 @@ import { Collapse as AntdCollapse } from "antd";
 import { createStyles } from "antd-style";
 import React from "react";
 
-import { ExpandIcon } from "@site/src/components/collapse";
+import { ExpandIcon } from "@components/collapse";
 
 import Heading, { HeadingType } from "@theme/Heading";
 

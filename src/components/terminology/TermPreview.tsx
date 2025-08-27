@@ -11,9 +11,9 @@ import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { usePluginData } from "@docusaurus/useGlobalData";
 
-import { DrawerAvatars, PopoverAvatars } from "@site/src/components/Avatar";
-import Tooltip from "@site/src/components/Tooltip";
-import MDXRender from "@site/src/components/markdown/MDXRender";
+import { DrawerAvatars, PopoverAvatars } from "@components/Avatar";
+import Tooltip from "@components/Tooltip";
+import MDXRender from "@components/markdown/MDXRender";
 
 const { Text, Link, Title, Paragraph } = Typography;
 

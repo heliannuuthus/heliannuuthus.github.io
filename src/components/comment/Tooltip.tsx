@@ -1,8 +1,8 @@
 import { Tooltip as AntdTooltip, TooltipProps } from "antd";
 import { createStyles } from "antd-style";
 
-import { useHtmlTheme } from "@site/src/components/ThemeProvider";
-import MDXRender from "@site/src/components/markdown/MDXRender";
+import { useHtmlTheme } from "@components/ThemeProvider";
+import MDXRender from "@components/markdown/MDXRender";
 
 import MDXComponents from "@theme/MDXComponents";
 

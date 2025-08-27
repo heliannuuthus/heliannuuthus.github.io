@@ -6,9 +6,9 @@ import { TermData } from "heliannuuthus-terminology-store";
 import React, { useEffect, useState } from "react";
 import { isIPad13, isMobile, isTablet } from "react-device-detect";
 
-import { DrawerAvatars, PopoverAvatars } from "@site/src/components/Avatar";
-import { Title } from "@site/src/components/Typography";
-import MDXRenderer from "@site/src/components/markdown/MDXRender";
+import { DrawerAvatars, PopoverAvatars } from "@components/Avatar";
+import { Title } from "@components/Typography";
+import MDXRenderer from "@components/markdown/MDXRender";
 
 const useMobile = isMobile || isIPad13 || isTablet;
 
