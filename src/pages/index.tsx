@@ -1,4 +1,5 @@
 import { Title } from "@components/Typography";
+
 import Annuus from "@site/src/pages/_annuus";
 import Declaration from "@site/src/pages/_declaration";
 

@@ -3,11 +3,10 @@ import {
   ClockCircleTwoTone,
   CloseCircleTwoTone
 } from "@ant-design/icons";
-import { Checkbox } from "antd";
-
 import TimelineItem from "@components/Timeline";
 import { Text, Title } from "@components/Typography";
 import MDXRender from "@components/markdown/MDXRender";
+import { Checkbox } from "antd";
 
 import Layout from "@theme/Layout";
 

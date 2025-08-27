@@ -1,4 +1,7 @@
 import { BookFilled, EditOutlined } from "@ant-design/icons";
+import { DrawerAvatars, PopoverAvatars } from "@components/Avatar";
+import Tooltip from "@components/Tooltip";
+import MDXRender from "@components/markdown/MDXRender";
 import { Button, Card, Divider, Drawer, Space, Typography } from "antd";
 import { Author } from "heliannuuthus-docusaurus-authors";
 import { Terminology } from "heliannuuthus-docusaurus-terminology";
@@ -10,10 +13,6 @@ import BrowserOnly from "@docusaurus/BrowserOnly";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { usePluginData } from "@docusaurus/useGlobalData";
-
-import { DrawerAvatars, PopoverAvatars } from "@components/Avatar";
-import Tooltip from "@components/Tooltip";
-import MDXRender from "@components/markdown/MDXRender";
 
 const { Text, Link, Title, Paragraph } = Typography;
 

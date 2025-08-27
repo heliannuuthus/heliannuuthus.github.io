@@ -1,5 +1,7 @@
 import { MenuOutlined, SettingOutlined } from "@ant-design/icons";
 import { EditOutlined } from "@ant-design/icons";
+import { DrawerAvatars, PopoverAvatars } from "@components/Avatar";
+import { Paragraph } from "@components/Typography";
 import { Button, Card, Col, Flex, Row } from "antd";
 import { createStyles } from "antd-style";
 import { Author } from "heliannuuthus-docusaurus-authors";
@@ -11,8 +13,6 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { usePluginData } from "@docusaurus/useGlobalData";
 
 import { Terminology } from "@site/plugins/docusaurus-terminology/src";
-import { DrawerAvatars, PopoverAvatars } from "@components/Avatar";
-import { Paragraph } from "@components/Typography";
 
 import Layout from "@theme/Layout";
 
