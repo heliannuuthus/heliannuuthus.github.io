@@ -1,9 +1,3 @@
-import "animate.css";
-import { Card, Tabs, TabsProps } from "antd";
-import { createStyles } from "antd-style";
-import * as d3 from "d3";
-import { useContext, useEffect, useRef, useState } from "react";
-
 import { Paragraph } from "@components/Typography";
 import {
   Markmap,
@@ -12,6 +6,11 @@ import {
   createMarkmap,
   reinitializePathObserver
 } from "@components/markdown/markmap";
+import "animate.css";
+import { Card, Tabs, TabsProps } from "antd";
+import { createStyles } from "antd-style";
+import * as d3 from "d3";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { FullscreenViewerHeader, ViewerHeader } from "./Header";
 

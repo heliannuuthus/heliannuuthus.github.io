@@ -1,4 +1,10 @@
 // MDXRenderer.jsx
+import Tooltip from "@components/Tooltip";
+import { Comment } from "@components/Typography";
+import { CollapseHeading } from "@components/collapse";
+import CommentTooltip from "@components/comment/Tooltip";
+import Markmap from "@components/markdown/markmap";
+import TermPreview from "@components/terminology/TermPreview";
 import { evaluate } from "@mdx-js/mdx";
 import { MDXProvider } from "@mdx-js/react";
 import { createStyles } from "antd-style";
@@ -18,13 +24,6 @@ import rehypeKatex from "rehype-katex";
 import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
-
-import Tooltip from "@components/Tooltip";
-import { Comment } from "@components/Typography";
-import { CollapseHeading } from "@components/collapse";
-import CommentTooltip from "@components/comment/Tooltip";
-import Markmap from "@components/markdown/markmap";
-import TermPreview from "@components/terminology/TermPreview";
 
 import TermAdmonition from "@theme/Admonition";
 import MDXComponents from "@theme/MDXComponents";
