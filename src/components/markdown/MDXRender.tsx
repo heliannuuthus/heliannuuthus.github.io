@@ -23,6 +23,7 @@ import Tooltip from "@site/src/components/Tooltip";
 import { Comment } from "@site/src/components/Typography";
 import { CollapseHeading } from "@site/src/components/collapse";
 import CommentTooltip from "@site/src/components/comment/Tooltip";
+import Markmap from "@site/src/components/markdown/markmap";
 import TermPreview from "@site/src/components/terminology/TermPreview";
 
 import TermAdmonition from "@theme/Admonition";
@@ -86,7 +87,8 @@ const MDXRender = ({
           TermAdmonition,
           Term: TermPreview,
           Mermaid: Mermaid,
-          CollapseHeading
+          CollapseHeading,
+          Markmap
         };
       }
     }).then((exports) => {

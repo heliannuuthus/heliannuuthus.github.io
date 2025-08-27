@@ -69,7 +69,7 @@ const CollapseHeading: React.FC<CollapseHeadingProps> = ({
           key: "1",
           label: (
             <Heading
-              id={title.toLowerCase().replace(/\s+/g, "-")}
+              id={title?.toLowerCase().replace(/\s+/g, "-")}
               as={`h${level}` as HeadingType}
             >
               <span>{title}</span>

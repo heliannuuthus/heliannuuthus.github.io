@@ -5,9 +5,9 @@ import {
 } from "@ant-design/icons";
 import { Checkbox } from "antd";
 
-import MDXRender from "@site/src/components/MDXRender";
 import TimelineItem from "@site/src/components/Timeline";
 import { Text, Title } from "@site/src/components/Typography";
+import MDXRender from "@site/src/components/markdown/MDXRender";
 
 import Layout from "@theme/Layout";
 

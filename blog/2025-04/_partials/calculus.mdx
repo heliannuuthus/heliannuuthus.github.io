@@ -110,8 +110,8 @@ A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{m1} & \cdots & A_{mn}
 \end{bmatrix}$"}：
 
     <Collapse label="$$
-  \nabla_x (A x) = A^T
-  $$">
+    \nabla_x (A x) = A^T
+    $$">
 
       $$
       \begin{split}
@@ -139,20 +139,20 @@ A_{11} & \cdots & A_{1m} \\ \vdots & \ddots & \vdots \\ A_{n1} & \cdots & A_{nm}
     \nabla_x (x^T A) = A
     $$">
 
-    $$
-    \begin{split}
-    &\ \nabla_x (x^T A) = \nabla_x (x_1 A_1 + x_2 A_2 + \cdots + x_n A_n) \\
-    =&\ \nabla_x (x_1 [A_{11} \cdots A_{1m}] + x_2 [A_{21} \cdots A_{2m}] + \cdots + x_n [A_{n1} \cdots A_{nm}]) \\
-    =&\ \nabla_x (x_1 A_1 + x_2 A_2 + \cdots + x_n A_n) \\
-    =&\ \nabla_x (x_1 A_1) + \nabla_x (x_2 A_2) + \cdots + \nabla_x (x_n A_n) \\
-    =&\ \begin{bmatrix} \
-    \frac{\partial}{\partial x_1} (x_1 A_1) , \frac{\partial}{\partial x_2} (x_2 A_2) , \cdots , \frac{\partial}{\partial x_n} (x_n A_n)
-    \end{bmatrix} \\
-    =&\ \begin{bmatrix}
-    A_1 , A_2 , \cdots , A_n
-    \end{bmatrix} = A
-    \end{split}
-    $$
+      $$
+      \begin{split}
+      &\ \nabla_x (x^T A) = \nabla_x (x_1 A_1 + x_2 A_2 + \cdots + x_n A_n) \\
+      =&\ \nabla_x (x_1 [A_{11} \cdots A_{1m}] + x_2 [A_{21} \cdots A_{2m}] + \cdots + x_n [A_{n1} \cdots A_{nm}]) \\
+      =&\ \nabla_x (x_1 A_1 + x_2 A_2 + \cdots + x_n A_n) \\
+      =&\ \nabla_x (x_1 A_1) + \nabla_x (x_2 A_2) + \cdots + \nabla_x (x_n A_n) \\
+      =&\ \begin{bmatrix} \
+      \frac{\partial}{\partial x_1} (x_1 A_1) , \frac{\partial}{\partial x_2} (x_2 A_2) , \cdots , \frac{\partial}{\partial x_n} (x_n A_n)
+      \end{bmatrix} \\
+      =&\ \begin{bmatrix}
+      A_1 , A_2 , \cdots , A_n
+      \end{bmatrix} = A
+      \end{split}
+      $$
 
     </Collapse>
 
@@ -167,17 +167,17 @@ A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{n1} & \cdots & A_{nn}
     \nabla_x x^T A x = (A + A^T) x
     $$">
 
-    $$
-    \begin{split}
-    &\ \nabla_x x^T A x = \nabla_x \sum_{i=1}^n \sum_{j=1}^n x_i A_{ij} x_j \\
-    =&\ \frac{\partial}{\partial x_k} \sum_{i=1}^n \sum_{j=1}^n x_i A_{ij} x_j + \frac{\partial}{\partial x_k} \sum_{i=1}^n \sum_{j=1}^n x_j A_{ji} x_i \\
-    =&\ \sum_{i=1}^n \sum_{j=1}^n A_{ij} x_j + \sum_{i=1}^n \sum_{j=1}^n A_{ji} x_i \\
-    =&\ \sum_{j=1}^n A_{kj} x_j + \sum_{i=1}^n A_{ik} x_i \text{（$i, j = k$ 时，$A_{kj} x_j, A_{ik} x_i$ 分别存在一项 $A_{kk} x_k$）} \\
-    =&\ \sum_{i=1}^n (\sum_{j=1}^n A_{ij} x_j) \cdot e_i + \sum_{j=1}^n (\sum_{i=1}^n A_{ji} x_i) \cdot e_j \\
-    =&\ \sum_{i=1}^n (\mathbf{A} \mathbf{x})_i \cdot e_i + \sum_{j=1}^n (\mathbf{A^T} \mathbf{x})_j \cdot e_j \\ \
-    =&\ (A + A^T) x
-    \end{split}
-    $$
+      $$
+      \begin{split}
+      &\ \nabla_x x^T A x = \nabla_x \sum_{i=1}^n \sum_{j=1}^n x_i A_{ij} x_j \\
+      =&\ \frac{\partial}{\partial x_k} \sum_{i=1}^n \sum_{j=1}^n x_i A_{ij} x_j + \frac{\partial}{\partial x_k} \sum_{i=1}^n \sum_{j=1}^n x_j A_{ji} x_i \\
+      =&\ \sum_{i=1}^n \sum_{j=1}^n A_{ij} x_j + \sum_{i=1}^n \sum_{j=1}^n A_{ji} x_i \\
+      =&\ \sum_{j=1}^n A_{kj} x_j + \sum_{i=1}^n A_{ik} x_i \text{（$i, j = k$ 时，$A_{kj} x_j, A_{ik} x_i$ 分别存在一项 $A_{kk} x_k$）} \\
+      =&\ \sum_{i=1}^n (\sum_{j=1}^n A_{ij} x_j) \cdot e_i + \sum_{j=1}^n (\sum_{i=1}^n A_{ji} x_i) \cdot e_j \\
+      =&\ \sum_{i=1}^n (\mathbf{A} \mathbf{x})_i \cdot e_i + \sum_{j=1}^n (\mathbf{A^T} \mathbf{x})_j \cdot e_j \\ \
+      =&\ (A + A^T) x
+      \end{split}
+      $$
 
     </Collapse>
 
@@ -199,14 +199,14 @@ A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{n1} & \cdots & A_{nn}
     \nabla_x \|x\|_2^2 = \nabla_x (x^T x) = 2x
     $$">
 
-    $$
-    \begin{split}
-    &\ \nabla_x \|x\|_2 = \nabla_x (\sqrt{x^T x}) ^ 2 \\
-    =&\ \nabla_x (x^T x) = \nabla_x (x_1^2 + x_2^2 + \cdots + x_n^2) \\
-    =&\ 2x
-    \end{split}
-    $$
-    
+      $$
+      \begin{split}
+      &\ \nabla_x \|x\|_2 = \nabla_x (\sqrt{x^T x}) ^ 2 \\
+      =&\ \nabla_x (x^T x) = \nabla_x (x_1^2 + x_2^2 + \cdots + x_n^2) \\
+      =&\ 2x
+      \end{split}
+      $$
+
     </Collapse>
 
 :::nerd

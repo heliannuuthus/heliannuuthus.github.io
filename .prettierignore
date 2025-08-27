@@ -7,3 +7,5 @@ node_modules
 .DS_Store
 .prettierignore
 pnpm-lock.yaml
+*.mdx
+*.md
