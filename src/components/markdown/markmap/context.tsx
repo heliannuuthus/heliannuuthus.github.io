@@ -3,7 +3,9 @@ import { INode } from "markmap-common";
 import { ITransformResult } from "markmap-lib";
 import { IMarkmapOptions, Markmap as MarkmapClass } from "markmap-view";
 import * as markmap from "markmap-view";
-import { RefObject, createContext, useContext } from "react";
+import { createContext } from "react";
+
+import { getPathData } from "@site/src/utils";
 
 export class Markmap extends MarkmapClass {
   constructor(svg: SVGSVGElement, options: Partial<IMarkmapOptions>) {
@@ -16,12 +18,12 @@ export class Markmap extends MarkmapClass {
 
   async toggleNode(data: INode, recursive?: boolean): Promise<void> {
     await super.toggleNode(data, recursive).then(() => {
-      buildStyle(this.svg.node());
+      customizeStyle(this.svg);
     });
   }
   async fit(maxScale?: number): Promise<void> {
     await super.fit(maxScale).then(() => {
-      buildStyle(this.svg.node());
+      customizeStyle(this.svg);
     });
   }
 }
@@ -34,15 +36,9 @@ export const MarkmapContext = createContext<MarkmapContextType>({
   transformed: null
 });
 
-export const useMarkmap = () => {
-  const transformed = useContext(MarkmapContext);
-  if (!transformed) {
-    throw new Error("Markmap not found");
-  }
-  return transformed;
-};
-
-export const buildStyle = (svg: SVGElement) => {
+const customizeStyle = (
+  svg: d3.Selection<SVGElement, INode, HTMLElement, INode>
+) => {
   let styleContent = `
     .markmap-node line {
       display: none;
@@ -57,11 +53,12 @@ export const buildStyle = (svg: SVGElement) => {
       r: 4;
     }
   `;
-  svg.querySelectorAll(".markmap-node").forEach((g: SVGGElement) => {
+  svg.selectAll(".markmap-node").each(function () {
+    const g = this as SVGGElement;
     const dataPath = g.getAttribute("data-path");
-    const circle = g.querySelector("circle");
-    if (circle && dataPath) {
-      const cy = Number(circle.getAttribute("cy")) / 2;
+    const foreignObject = g.querySelector("foreignObject");
+    if (foreignObject && dataPath) {
+      const cy = Number(foreignObject.getAttribute("height")) / 2;
       styleContent += `
     .markmap-node[data-path="${dataPath}"] circle {
       cy: ${cy};
@@ -70,23 +67,26 @@ export const buildStyle = (svg: SVGElement) => {
     }
   });
 
-  let style = svg.querySelector("style.heliannuuthus-markmap-style");
-  if (!style) {
-    style = document.createElement("style");
-    style.setAttribute("class", "heliannuuthus-markmap-style");
-    style.textContent = styleContent;
-    svg.appendChild(style);
+  let style = svg.select("style.heliannuuthus-markmap-style");
+  if (!style || style.empty()) {
+    const svgNode = svg.node();
+    if (svgNode) {
+      const style = document.createElement("style");
+      style.setAttribute("class", "heliannuuthus-markmap-style");
+      style.textContent = styleContent;
+      svgNode.insertBefore(style, svgNode.firstChild);
+    }
   } else {
-    style.textContent = styleContent;
+    style.text(styleContent);
   }
 };
 
-export const updateStyledD = (path: SVGPathElement) => {
+const updateStyledD = (path: SVGPathElement) => {
   const dataPath = path.getAttribute("data-path");
   if (!dataPath) return;
   const parentPath = dataPath.split(".").slice(0, -1).join(".");
   const parent = d3.select(`[data-path="${parentPath}"] circle`);
-  const current = d3.select(`[data-path="${dataPath}"] circle`);
+  const current = d3.select(`[data-path="${dataPath}"] foreignObject`);
   let parentCy = 0;
   let currentCy = 0;
   if (parent.empty()) {
@@ -97,9 +97,9 @@ export const updateStyledD = (path: SVGPathElement) => {
   if (current.empty()) {
     currentCy = parentCy;
   } else {
-    currentCy = Number(current.attr("cy")) / 2;
+    currentCy = Number(current.attr("height")) / 2;
   }
-  const parsed = path.getPathData();
+  const parsed = getPathData(path);
 
   if (
     parsed &&
@@ -107,18 +107,18 @@ export const updateStyledD = (path: SVGPathElement) => {
     parsed[0].type === "M" &&
     parsed[1].type === "C"
   ) {
-    parsed[0].values[1] -= parentCy;
-    parsed[1].values[5] -= currentCy;
+    parsed[0].params[1] -= parentCy;
+    parsed[1].params[5] -= currentCy;
 
     const offset = currentCy - parentCy;
     const c1 = 1 / 3;
     const c2 = 2 / 3;
 
-    parsed[1].values[1] -= parentCy + offset * c1;
-    parsed[1].values[3] -= parentCy + offset * c2;
+    parsed[1].params[1] -= parentCy + offset * c1;
+    parsed[1].params[3] -= parentCy + offset * c2;
 
     const result = parsed
-      .map((seg) => seg.type + seg.values.join(","))
+      .map((seg) => seg.type + seg.params.join(","))
       .join("");
     path.setAttribute("style", `d: path("${result}")`);
   }

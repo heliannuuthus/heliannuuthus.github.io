@@ -1,7 +1,6 @@
 import { Modal } from "antd";
 import { Transformer } from "markmap-lib";
 import * as markmap from "markmap-view";
-import "path-data-polyfill";
 import React, { useEffect, useMemo, useState } from "react";
 
 import { MarkmapContext } from "./context";
@@ -25,7 +24,7 @@ export type MarkmapProps = {
   markdown: string;
 };
 
-const View: React.FC<MarkmapProps> = ({ markdown }) => {
+const View = ({ markdown }: MarkmapProps) => {
   const [isFullscreen, setFullscreen] = useState<boolean>(false);
 
   const transformed = useMemo(
