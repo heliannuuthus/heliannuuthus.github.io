@@ -1,0 +1,20 @@
+{
+  "name": "heliannuuthus-docusaurus-alias",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "private": false,
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/webpack": "^5.0.0",
+    "@types/node": "^22.13.1",
+    "@docusaurus/types": "^3.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -4,14 +4,14 @@ import { createStyles } from "antd-style";
 import * as d3 from "d3";
 import { useContext, useEffect, useRef, useState } from "react";
 
-import { Paragraph } from "@site/src/components/Typography";
+import { Paragraph } from "@components/Typography";
 import {
   Markmap,
   MarkmapContext,
   createGObserver,
   createMarkmap,
   reinitializePathObserver
-} from "@site/src/components/markdown/markmap";
+} from "@components/markdown/markmap";
 
 import { FullscreenViewerHeader, ViewerHeader } from "./Header";
 

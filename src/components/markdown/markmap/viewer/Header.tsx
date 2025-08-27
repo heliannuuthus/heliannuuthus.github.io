@@ -17,7 +17,7 @@ import { toBlob } from "html-to-image";
 import type { Options } from "html-to-image/lib/types";
 import { useCallback, useContext } from "react";
 
-import { MarkmapContext } from "@site/src/components/markdown/markmap";
+import { MarkmapContext } from "@components/markdown/markmap";
 
 const globalOptions: Options = { skipFonts: true };
 

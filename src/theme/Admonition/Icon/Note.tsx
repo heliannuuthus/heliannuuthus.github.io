@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useHtmlTheme } from "@site/src/components/ThemeProvider";
+import { useHtmlTheme } from "@components/ThemeProvider";
 
 export default function NoteIcon() {
   const colorMode = useHtmlTheme();

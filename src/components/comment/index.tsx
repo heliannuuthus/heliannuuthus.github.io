@@ -1,4 +1,4 @@
-import { Comment } from "@site/src/components/Typography";
-import CommentTooltip from "@site/src/components/comment/Tooltip";
+import { Comment } from "@components/Typography";
+import CommentTooltip from "@components/comment/Tooltip";
 
 export { Comment, CommentTooltip };

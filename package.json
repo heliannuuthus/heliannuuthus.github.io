@@ -48,6 +48,7 @@
     "echarts": "^5.5.1",
     "file-saver": "^2.0.5",
     "heliannuuthus-docusaurus-authors": "file:./plugins/docusaurus-authors",
+    "heliannuuthus-docusaurus-alias": "file:./plugins/docusaurus-alias",
     "heliannuuthus-docusaurus-terminology": "file:./plugins/docusaurus-terminology",
     "heliannuuthus-parse-md": "file:./plugins/parse-md",
     "heliannuuthus-remark-admomition": "file:./packages/remark-admomition",

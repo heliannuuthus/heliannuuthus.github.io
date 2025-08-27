@@ -83,6 +83,9 @@ importers:
       file-saver:
         specifier: ^2.0.5
         version: 2.0.5
+      heliannuuthus-docusaurus-alias:
+        specifier: file:./plugins/docusaurus-alias
+        version: file:plugins/docusaurus-alias
       heliannuuthus-docusaurus-authors:
         specifier: file:./plugins/docusaurus-authors
         version: file:plugins/docusaurus-authors
@@ -3666,6 +3669,9 @@ packages:
   he@1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
+
+  heliannuuthus-docusaurus-alias@file:plugins/docusaurus-alias:
+    resolution: {directory: plugins/docusaurus-alias, type: directory}
 
   heliannuuthus-docusaurus-authors@file:plugins/docusaurus-authors:
     resolution: {directory: plugins/docusaurus-authors, type: directory}
@@ -11189,6 +11195,8 @@ snapshots:
       space-separated-tokens: 2.0.2
 
   he@1.2.0: {}
+
+  heliannuuthus-docusaurus-alias@file:plugins/docusaurus-alias: {}
 
   heliannuuthus-docusaurus-authors@file:plugins/docusaurus-authors: {}
 
