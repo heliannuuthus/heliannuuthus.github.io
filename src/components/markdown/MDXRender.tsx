@@ -53,7 +53,15 @@ const MDXRender = ({
         [
           remarkAdmonition,
           {
-            admonition: "TermAdmonition"
+            admonition: "TermAdmonition",
+            extension: {
+              nerd: {
+                type: "nerd"
+              },
+              thinking: {
+                type: "thinking"
+              }
+            }
           }
         ],
         [
