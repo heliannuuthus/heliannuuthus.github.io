@@ -1,3 +1,4 @@
+import TermItem from "@components/terminology/TermItem";
 import { List } from "antd";
 import { Author } from "heliannuuthus-docusaurus-authors";
 import { TermData } from "heliannuuthus-terminology-store";
@@ -6,8 +7,6 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "@docusaurus/router";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 import { usePluginData } from "@docusaurus/useGlobalData";
-
-import TermItem from "@components/terminology/TermItem";
 
 const Terminology = () => {
   const { withBaseUrl } = useBaseUrlUtils();

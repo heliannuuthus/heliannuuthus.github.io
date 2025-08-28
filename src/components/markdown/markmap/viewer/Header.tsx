@@ -9,6 +9,7 @@ import {
   ZoomInOutlined,
   ZoomOutOutlined
 } from "@ant-design/icons";
+import { MarkmapContext } from "@components/markdown/markmap";
 import { Button, Divider, Dropdown, Flex, Segmented, Space } from "antd";
 import { createStyles } from "antd-style";
 import useMessage from "antd/es/message/useMessage";
@@ -16,8 +17,6 @@ import { saveAs } from "file-saver";
 import { toBlob } from "html-to-image";
 import type { Options } from "html-to-image/lib/types";
 import { useCallback, useContext } from "react";
-
-import { MarkmapContext } from "@components/markdown/markmap";
 
 const globalOptions: Options = { skipFonts: true };
 

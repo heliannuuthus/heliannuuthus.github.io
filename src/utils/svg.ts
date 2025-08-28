@@ -2,16 +2,21 @@ export interface PathCommand {
   type: string;
   params: number[];
 }
-export const getPathData = (pathData: string | SVGPathElement): PathCommand[] => {
-  if (!pathData || typeof pathData !== 'string') {
+export const getPathData = (
+  pathData: string | SVGPathElement
+): PathCommand[] => {
+  if (!pathData || typeof pathData !== "string") {
     pathData = (pathData as SVGPathElement).getAttribute("d") || "";
   }
   const commands: PathCommand[] = [];
 
   // 清理并标准化输入
-  const normalizedData = pathData.trim().replace(/,/g, ' ').replace(/\s+/g, ' ');
+  const normalizedData = pathData
+    .trim()
+    .replace(/,/g, " ")
+    .replace(/\s+/g, " ");
   const segments: string[] = [];
-  let currentNumber = '';
+  let currentNumber = "";
   let currentCommand: string | null = null;
 
   // 分割路径数据
@@ -20,15 +25,15 @@ export const getPathData = (pathData: string | SVGPathElement): PathCommand[] =>
     if (/^[MmLlHhVvCcSsQqTtAaZz]$/.test(char)) {
       if (currentNumber) {
         segments.push(currentNumber);
-        currentNumber = '';
+        currentNumber = "";
       }
       segments.push(char);
     } else if (/\d|-|\./.test(char)) {
       currentNumber += char;
-    } else if (char === ' ') {
+    } else if (char === " ") {
       if (currentNumber) {
         segments.push(currentNumber);
-        currentNumber = '';
+        currentNumber = "";
       }
     }
   }
@@ -49,4 +54,4 @@ export const getPathData = (pathData: string | SVGPathElement): PathCommand[] =>
     }
   }
   return commands;
-}
+};

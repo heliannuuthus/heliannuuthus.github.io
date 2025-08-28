@@ -119,8 +119,12 @@ const config: Config = {
       useCssCascadeLayers: true
     },
     experimental_faster: {
+      swcJsLoader: false,
+      swcJsMinimizer: false,
+      swcHtmlMinimizer: false,
+      lightningCssMinimizer: false,
       rspackBundler: true,
-      rspackPersistentCache: true
+      mdxCrossCompilerCache: false
     }
   },
   markdown: {

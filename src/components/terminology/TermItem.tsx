@@ -1,14 +1,13 @@
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
+import { DrawerAvatars, PopoverAvatars } from "@components/Avatar";
+import { Title } from "@components/Typography";
+import MDXRenderer from "@components/markdown/MDXRender";
 import { Button, List } from "antd";
 import { createStyles } from "antd-style";
 import { Author } from "heliannuuthus-docusaurus-authors";
 import { TermData } from "heliannuuthus-terminology-store";
 import React, { useEffect, useState } from "react";
 import { isIPad13, isMobile, isTablet } from "react-device-detect";
-
-import { DrawerAvatars, PopoverAvatars } from "@components/Avatar";
-import { Title } from "@components/Typography";
-import MDXRenderer from "@components/markdown/MDXRender";
 
 const useMobile = isMobile || isIPad13 || isTablet;
 
