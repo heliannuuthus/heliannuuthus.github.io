@@ -1,6 +1,5 @@
-import { Card, Col, Grid, Row } from "antd";
-
 import { Link, Paragraph, Text, Title } from "@components/Typography";
+import { Card, Col, Grid, Row } from "antd";
 
 const { useBreakpoint } = Grid;
 

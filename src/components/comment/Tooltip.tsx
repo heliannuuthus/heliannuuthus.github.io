@@ -1,8 +1,7 @@
-import { Tooltip as AntdTooltip, TooltipProps } from "antd";
-import { createStyles } from "antd-style";
-
 import { useHtmlTheme } from "@components/ThemeProvider";
 import MDXRender from "@components/markdown/MDXRender";
+import { Tooltip as AntdTooltip, TooltipProps } from "antd";
+import { createStyles } from "antd-style";
 
 import MDXComponents from "@theme/MDXComponents";
 
@@ -22,6 +21,9 @@ const CommentTooltip = ({ title, ...props }: TooltipProps) => {
   return (
     <AntdTooltip
       {...props}
+      placement="top"
+      arrow={{ pointAtCenter: true }}
+      forceRender
       title={
         typeof title === "string" ? (
           <div className={styles.titleContainer}>

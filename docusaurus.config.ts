@@ -116,11 +116,17 @@ const config: Config = {
   },
   future: {
     v4: {
-      useCssCascadeLayers: true
+      useCssCascadeLayers: true,
+      removeLegacyPostBuildHeadAttribute: true
     },
     experimental_faster: {
+      swcJsLoader: true,
+      swcJsMinimizer: true,
+      swcHtmlMinimizer: true,
+      lightningCssMinimizer: true,
       rspackBundler: true,
-      rspackPersistentCache: true
+      mdxCrossCompilerCache: true,
+      ssgWorkerThreads: true
     }
   },
   markdown: {

@@ -1,4 +1,5 @@
 import { DownloadOutlined, EyeOutlined } from "@ant-design/icons";
+import { Paragraph, Text } from "@components/Typography";
 import { Button, Card, Drawer, Space, Tooltip, notification } from "antd";
 import { createStyles } from "antd-style";
 import { saveAs } from "file-saver";
@@ -7,8 +8,6 @@ import { useEffect, useState } from "react";
 import { isIPad13, isMobile, isTablet } from "react-device-detect";
 
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
-
-import { Paragraph, Text } from "@components/Typography";
 
 import CodeBlock from "@theme/CodeBlock";
 

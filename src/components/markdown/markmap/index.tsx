@@ -4,7 +4,7 @@ import {
   MarkmapContext,
   createGObserver,
   createMarkmap,
-  reinitializePathObserver,
+  reinitializePathObserver
 } from "./context";
 
 export type { MarkmapProps as MarkmapViewProps } from "./View";
