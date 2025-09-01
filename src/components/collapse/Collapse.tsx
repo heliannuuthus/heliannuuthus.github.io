@@ -5,7 +5,9 @@ import { Collapse as AntdCollapse, CollapseProps } from "antd";
 const Collapse: React.FC<{
   label: React.ReactNode;
   children: React.ReactNode;
-}> = ({ label, children }) => (
+  styles?: CollapseProps["items"][number]["styles"];
+  classNames?: CollapseProps["items"][number]["classNames"];
+}> = ({ label, children, styles, classNames }) => (
   <AntdCollapse
     bordered={false}
     expandIconPosition="end"
@@ -20,7 +22,14 @@ const Collapse: React.FC<{
           ) : (
             label
           ),
-        children: children
+        children:
+          typeof children === "string" ? (
+            <InlineMDXRender content={children} />
+          ) : (
+            children
+          ),
+        styles: styles,
+        classNames: classNames
       }
     ]}
   />

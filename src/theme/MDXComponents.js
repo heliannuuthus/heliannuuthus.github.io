@@ -6,6 +6,7 @@ import TermPreview from "@components/terminology/TermPreview";
 import MDXComponents from "@theme-original/MDXComponents";
 
 import TermAdmonition from "@theme/Admonition";
+import Details from "@theme/Details";
 
 export default {
   ...MDXComponents,
@@ -17,5 +18,6 @@ export default {
   TermPreview,
   CollapseHeading,
   MDXRender,
-  Markmap
+  Markmap,
+  collapse: Details
 };
