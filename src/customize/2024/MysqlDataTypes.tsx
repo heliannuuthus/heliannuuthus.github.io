@@ -1,8 +1,8 @@
 import type { TabsProps } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
-import Table from "../../components/Table";
-import Tabs from "../../components/Tabs";
+import Table from "../../components/table/Table";
+import Tabs from "../../components/tabs/Tabs";
 
 interface DataType {
   key: string;

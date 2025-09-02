@@ -108,7 +108,7 @@ authors: [heliannuuthus]
 3. **元数据访问**：
    - 通过 Downward API 注入 [Pod](/blog/terms/k8s#pod) 的运行时信息（如 Pod 名称或 IP），便于动态调整应用行为。
 
-<Collapse label="以下是一个使用投影卷的 Pod 配置示例，展示如何注入各种数据源">
+:::collapse{label="以下是一个使用投影卷的 Pod 配置示例，展示如何注入各种数据源"}
 
 ```yaml
 apiVersion: v1
@@ -150,4 +150,4 @@ spec:
                     fieldPath: metadata.name
 ```
 
-</Collapse>
+:::

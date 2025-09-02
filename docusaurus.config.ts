@@ -1,5 +1,6 @@
 import remarkAdmonition, { origins } from "heliannuuthus-remark-admomition";
 import remarkBreaks from "heliannuuthus-remark-breaks";
+import remarkCollapse from "heliannuuthus-remark-collapse";
 import {
   plugin as remarkCollapseHeading,
   preprocessorPlugin as remarkCollapseHeadingPreprocessor
@@ -7,6 +8,8 @@ import {
 import remarkCommentTooltip from "heliannuuthus-remark-comment-tooltip";
 import remarkExternalLink from "heliannuuthus-remark-external-link";
 import remarkMarkmap from "heliannuuthus-remark-markmap";
+import remarkTables from "heliannuuthus-remark-tables";
+import remarkTabs from "heliannuuthus-remark-tabs";
 import remarkTerminology from "heliannuuthus-remark-terminology";
 import path from "path";
 import { themes as prismThemes } from "prism-react-renderer";
@@ -40,7 +43,10 @@ const remarkPlugins = [
   remarkBreaks,
   remarkMath,
   remarkCollapseHeading,
-  remarkMarkmap
+  remarkMarkmap,
+  remarkTabs,
+  remarkTables,
+  remarkCollapse
 ];
 
 const rehypePlugins = [rehypeKatex];

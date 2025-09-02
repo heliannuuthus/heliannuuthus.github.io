@@ -96,7 +96,7 @@ SPIRE Agent 的组件：
 2. server 向 K8S Server API 获取公钥，以验证 token 的合法性，验证成功后返回 spiffe_id
 3. agent 生成临时密钥对 spiffe_id 进行签名生成证书签名请求，server 验证后颁发 SVID
 
-<Collapse label="psat 的自证以及签发 SVID 的数据包">
+:::collapse{label="psat 的自证以及签发 SVID 的数据包"}
 
 ###### 1. Agent 自证
 
@@ -160,7 +160,7 @@ Content-Type: application/json
 }
 ```
 
-</Collapse>
+:::
 
 #### x509pop
 
@@ -168,7 +168,7 @@ Content-Type: application/json
 2. agent 使用预埋证书的对应的私钥签名 challenge code 后，发送给 server 进行验证，完成 challenge，返回 spiffe_id
 3. agent 生成临时密钥对 spiffe_id 进行签名生成证书签名请求，server 验证后颁发 SVID
 
-<Collapse label="x509pop 的 Challenge 以及签发 SVID 的数据包">
+:::collapse{label="x509pop 的 Challenge 以及签发 SVID 的数据包"}
 
 ###### 1. Agent 发起 Challenge
 
@@ -270,13 +270,13 @@ Content-Type: application/json
 }
 ```
 
-</Collapse>
+:::
 
 #### aws_iid
 
 > 通常需要云基础设施做数据支撑，允许 SPIRE Server 通过 API 的形式对数据进行验证
 
-<Collapse label="aws_iid 自证时序图">
+:::collapse{label="aws_iid 自证时序图"}
 ```mermaid
 sequenceDiagram
     participant SS as SPIRE 服务器
@@ -322,5 +322,4 @@ sequenceDiagram
     end
 
 ```
-</Collapse>
-```
+:::
