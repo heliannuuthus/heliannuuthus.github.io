@@ -6,7 +6,6 @@ import DocusaurusLink from "@docusaurus/Link";
 import Flex from "@components/Flex";
 import Image, { Center } from "@components/Image";
 import Steps from "@components/Steps";
-import Tabs from "@components/Tabs";
 import { Link, Text } from "@components/Typography";
 import { Collapse } from "@components/collapse";
 
@@ -55,144 +54,89 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
   1. 迭代通常用于树的遍历，通过迭代可以快速遍历所有节点
   2. 迭代通常使用栈或队列实现
 
-<Collapse label="代码块以及图例">
-  <Tabs
-    items={[
-      {
-        label: "前序遍历",
-        key: "preOrder",
-        forceRender: true,
-        children: [
-          <Center
-            key="preOrderImage"
-            src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的前序遍历-2024-11-20-20-41-25.png"
-            alt="二叉树的前序遍历"
-          />,
-          <Tabs
-            key="preOrderTabs"
-            items={[
-              {
-                label: "递归遍历",
-                key: "preOrderRecursive",
-                children: <PreOrderRecursiveContent />,
-                forceRender: true
-              },
-              {
-                label: "迭代遍历",
-                key: "preOrderLoop",
-                children: <PreOrderLoopContent />,
-                forceRender: true
-              }
-            ]}
-          />
-        ].map((item) => ({
-          ...item,
-          forceRender: true
-        }))
-      },
-      {
-        label: "中序遍历",
-        key: "inOrder",
-        forceRender: true,
-        children: [
-          <Center
-            key="inOrderImage"
-            src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的中序遍历-2024-11-20-20-44-04.png"
-            alt="二叉树中序遍历"
-          />,
-          <Tabs
-            key="inOrderTabs"
-            items={[
-              {
-                label: "递归遍历",
-                key: "inOrderRecursive",
-                children: (
-                  <>
-                    <InOrderRecursiveContent />
-                  </>
-                ),
-                forceRender: true
-              },
-              {
-                label: "迭代遍历",
-                key: "inOrderLoop",
-                children: <InOrderLoopContent />,
-                forceRender: true
-              }
-            ]}
-          />
-        ].map((item) => ({
-          ...item,
-          forceRender: true
-        }))
-      },
-      {
-        label: "后序遍历",
-        key: "postOrder",
-        forceRender: true,
-        children: [
-          <Center
-            key="postOrderImage"
-            src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的后序遍历-2024-11-20-20-44-31.png"
-            alt="二叉树后序遍历"
-          />,
-          <Tabs
-            key="postOrderTabs"
-            items={[
-              {
-                label: "递归遍历",
-                key: "postOrderRecursive",
-                children: <PostOrderRecursiveContent />,
-                forceRender: true
-              },
-              {
-                label: "迭代遍历",
-                key: "postOrderLoop",
-                children: <PostOrderLoopContent />,
-                forceRender: true
-              }
-            ]}
-          />
-        ].map((item) => ({
-          ...item,
-          forceRender: true
-        }))
-      },
-      {
-        label: "层序遍历",
-        key: "levelOrder",
-        forceRender: true,
-        children: [
-          <Center
-            key="levelOrderImage"
-            src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的层序遍历-2024-11-20-20-44-50.png"
-            alt="二叉树层序遍历"
-          />,
-          <Tabs
-            key="levelOrderTabs"
-            items={[
-              {
-                label: "递归遍历",
-                key: "levelOrderRecursive",
-                children: <LevelOrderRecursiveContent />,
-                forceRender: true
-              },
-              {
-                label: "迭代遍历",
-                key: "levelOrderLoop",
-                children: <LevelOrderLoopContent />,
-                forceRender: true
-              }
-            ]}
-          />
-        ].map((item) => ({
-          ...item,
-          forceRender: true
-        }))
-      }
-    ]}
-  />
-</Collapse>
+<details>
+  <title>代码块以及图例</title>
+  ::::::tabs
+
+    :::::tab{title="前序遍历" key="preOrder"}
+      <Center
+          key="preOrderImage"
+          src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的前序遍历-2024-11-20-20-41-25.png"
+          alt="二叉树的前序遍历"
+        />
+      ::::tabs
+
+        :::tab{title="递归遍历" key="preOrderRecursive"}
+          <PreOrderRecursiveContent />
+        :::
+
+        :::tab{title="迭代遍历" key="preOrderLoop"}
+          <PreOrderLoopContent />
+        :::
+      ::::
+      
+    :::::
+
+    :::::tab{title="中序遍历" key="inOrder"}
+
+      <Center
+          key="inOrderImage"
+          src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的中序遍历-2024-11-20-20-44-04.png"
+          alt="二叉树的中序遍历"
+        />
+
+      ::::tabs
+
+        :::tab{title="递归遍历" key="inOrderRecursive"}
+          <InOrderRecursiveContent />
+        :::
+        :::tab{title="迭代遍历" key="inOrderLoop"}
+          <InOrderLoopContent />
+        :::
+
+      ::::
+
+    :::::
+
+    :::::tab{title="后序遍历" key="postOrder"}
+      <Center
+          key="postOrderImage"
+          src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的后序遍历-2024-11-20-20-44-31.png"
+          alt="二叉树的后序遍历"
+        />
+        
+      ::::tabs
+
+        :::tab{title="递归遍历" key="postOrderRecursive"}
+        <PostOrderRecursiveContent />
+        :::
+        :::tab{title="迭代遍历" key="postOrderLoop"}
+        <PostOrderLoopContent />
+        :::
+
+      ::::
+
+    :::::
+
+    :::::tab{title="层序遍历" key="levelOrder"}
+      <Center
+          key="levelOrderImage"
+          src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的层序遍历-2024-11-20-20-44-50.png"
+          alt="二叉树的层序遍历"
+        />
+      ::::tabs
+
+        :::tab{title="递归遍历" key="levelOrderRecursive"}
+          <LevelOrderRecursiveContent />,
+        :::
+        :::tab{title="迭代遍历" key="levelOrderLoop"}
+          <LevelOrderLoopContent />,
+        :::
+    ::::
+  :::::
+::::::
+
+</details>
 
 #### 二叉树的性质
 
@@ -285,24 +229,20 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
   ]}
 />
 
-<Collapse label="代码块以及正在画的图例">
-  <Tabs
-    items={[
-      {
-        label: "前序和中序",
-        key: "preAndInOrder",
-        children: <PreAndInOrderBuildTreeContent />,
-        forceRender: true
-      },
-      {
-        label: "后序和中序",
-        key: "postAndInOrder",
-        children: <PostAndInOrderBuildTreeContent />,
-        forceRender: true
-      }
-    ]}
-  />
-</Collapse>
+<details>
+  <title>代码块以及正在画的图例</title>
+
+  ::::tabs
+
+    :::tab{title="前序和中序" key="preAndInOrder"}
+      <PreAndInOrderBuildTreeContent />
+    :::
+
+    :::tab{title="后序和中序" key="postAndInOrder"}
+      <PostAndInOrderBuildTreeContent />
+    :::
+  :::::
+</details>
 
 - [构造最大二叉树](https://leetcode.cn/problems/maximum-binary-tree/description)
 
@@ -456,27 +396,21 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
 - 利用[_线索二叉树_](https://en.wikipedia.org/wiki/Threaded_binary_tree)的性质，在遍历过程中减少空间复杂度
 - 时间复杂度为 _O(n)_，空间复杂度为 _O(1)_（不包括递归栈）
 
-<Collapse label="代码块">
-  <Tabs
-    items={[
-      {
-        label: "Morris 前序遍历",
-        key: "morrisPreOrder",
-        children: <MorrisTraversalPreOrderContent />,
-        forceRender: true
-      },
-      {
-        label: "Morris 中序遍历",
-        key: "morrisInOrder",
-        children: <MorrisTraversalInOrderContent />,
-        forceRender: true
-      },
-      {
-        label: "Morris 后序遍历",
-        key: "morrisPostOrder",
-        children: <MorrisTraversalPostOrderContent />,
-        forceRender: true
-      }
-    ]}
-  />
-</Collapse>
+<details>
+  <title>代码块</title>
+  
+  ::::tabs
+
+    :::tab{title="Morris 前序遍历" key="morrisPreOrder"}
+      <MorrisTraversalPreOrderContent />
+    :::
+    
+    :::tab{title="Morris 中序遍历" key="morrisInOrder"}
+      <MorrisTraversalInOrderContent />
+    :::
+
+    :::tab{title="Morris 后序遍历" key="morrisPostOrder"}
+      <MorrisTraversalPostOrderContent />
+    :::
+  :::::
+</details>

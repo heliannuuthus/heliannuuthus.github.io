@@ -2,11 +2,11 @@ import Tooltip from "@components/Tooltip";
 import { CollapseHeading } from "@components/collapse";
 import { Comment, CommentTooltip } from "@components/comment";
 import { MDXRender, Markmap } from "@components/markdown";
+import { MarkdownTabs } from "@components/tabs";
 import TermPreview from "@components/terminology/TermPreview";
 import MDXComponents from "@theme-original/MDXComponents";
 
 import TermAdmonition from "@theme/Admonition";
-import Details from "@theme/Details";
 
 export default {
   ...MDXComponents,
@@ -19,5 +19,5 @@ export default {
   CollapseHeading,
   MDXRender,
   Markmap,
-  collapse: Details
+  Tabs: MarkdownTabs
 };

@@ -28,7 +28,6 @@ describe("remark-comment-tooltip", () => {
 内容]{title="多行
 标题"}`;
     const output = await process(input);
-    console.log(output);
     expect(output).toContain(`<CommentTooltip title="多行\n标题">`);
     expect(output).toContain(`<Comment>{"多行\\n内容"}</Comment>`);
   });
@@ -55,7 +54,6 @@ describe("remark-comment-tooltip", () => {
   test("应该处理包含特殊字符的内容", async () => {
     const input = `:ctip[包含 \\\\| * ! @ # $ 的内容]{title="特殊*|字符!"}`;
     const output = await process(input);
-    console.log(output);
     expect(output).toContain('<CommentTooltip title="特殊*|字符!">');
     expect(output).toContain(
       '<Comment>{"包含 \\\\| * ! @ # $ 的内容"}</Comment>'
@@ -65,7 +63,6 @@ describe("remark-comment-tooltip", () => {
   test("应该处理嵌套的 markdown", async () => {
     const input = `:ctip[包含 \`markdown\` 的内容]{title="特殊*|字符!"}`;
     const output = await process(input);
-    console.log(output);
     expect(output).toContain('<CommentTooltip title="特殊*|字符!">');
     expect(output).toContain(
       '<Comment>{"包含 "}<_components.code>{"markdown"}</_components.code>{" 的内容"}</Comment>'
