@@ -1,8 +1,9 @@
 import Tooltip from "@components/Tooltip";
-import { CollapseHeading } from "@components/collapse";
+import { Collapse, CollapseHeading } from "@components/collapse";
 import { Comment, CommentTooltip } from "@components/comment";
 import { MDXRender, Markmap } from "@components/markdown";
-import { MarkdownTabs } from "@components/tabs";
+import { Table } from "@components/table";
+import { MarkdownTabs as Tabs } from "@components/tabs";
 import TermPreview from "@components/terminology/TermPreview";
 import MDXComponents from "@theme-original/MDXComponents";
 
@@ -19,5 +20,7 @@ export default {
   CollapseHeading,
   MDXRender,
   Markmap,
-  Tabs: MarkdownTabs
+  Tabs,
+  Collapse,
+  Table
 };

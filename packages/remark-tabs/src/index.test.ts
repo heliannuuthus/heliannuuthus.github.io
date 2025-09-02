@@ -45,7 +45,6 @@ describe("remarkTabs 插件 (MDX 编译测试)", () => {
 
     :::::`;
     const output = await process(md);
-    console.log(output);
     expect(output).toContain("<Tabs");
     expect(output).toContain(`<_components.tab title="Tab 1">`);
     expect(output).toContain(

@@ -12,7 +12,6 @@ tags: [Web Backend]
 import { Center } from "@components/Image";
 import Steps from "@components/Steps";
 import { Text } from "@components/Typography";
-import { Collapse } from "@components/collapse";
 
 import Mermaid from "@theme/Mermaid";
 
@@ -129,7 +128,7 @@ bar [14, 9, 0, 0, 0, 0, 0, 0, 0, 0]
 
 ### 交互图
 
-<Collapse label="Redis 计算逻辑">
+:::collapse{label="Redis 计算逻辑"}
 
 ```mermaid
 sequenceDiagram
@@ -175,19 +174,19 @@ sequenceDiagram
     deactivate S
 ```
 
-</Collapse>
+:::
 
 ### 代码实现
 
 > 基于 Reactive Redisson
 
-<Collapse label="SlidingWindowRateLimiter.java">
+:::collapse{label="SlidingWindowRateLimiter.java"}
 
 ```java file=_codes/SlidingWindowRateLimiter.java title="/src/com/github/heliannuuthus/clfs/SlidingWindowRateLimiter.java" showLineNumbers
 
 ```
 
-</Collapse>
+:::
 
 #### 拓展性思考
 

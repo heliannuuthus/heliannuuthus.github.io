@@ -153,6 +153,11 @@ table tr:nth-child(2n) {
   background-color: var(--ifm-table-background);
 }
 
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 /* Monaspace fonts via CDN (fallback to local if installed) */
 @font-face {
   font-family: "Monaspace Xenon Var";

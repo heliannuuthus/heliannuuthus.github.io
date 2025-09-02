@@ -101,6 +101,9 @@ importers:
       heliannuuthus-remark-breaks:
         specifier: file:packages/remark-breaks
         version: heliannuuthus-remark-external-link@file:packages/remark-breaks
+      heliannuuthus-remark-collapse:
+        specifier: file:packages/remark-collapse
+        version: file:packages/remark-collapse
       heliannuuthus-remark-collapse-heading:
         specifier: file:packages/remark-collapse-heading
         version: file:packages/remark-collapse-heading
@@ -116,9 +119,12 @@ importers:
       heliannuuthus-remark-mermaid:
         specifier: file:packages/remark-mermaid
         version: file:packages/remark-mermaid
+      heliannuuthus-remark-tables:
+        specifier: file:packages/remark-tables
+        version: file:packages/remark-tables
       heliannuuthus-remark-tabs:
         specifier: file:packages/remark-tabs
-        version: heliannuuthus-remark-external-link@file:packages/remark-tabs
+        version: file:packages/remark-tabs
       heliannuuthus-remark-terminology:
         specifier: file:packages/remark-terminology
         version: file:packages/remark-terminology
@@ -228,6 +234,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.1.9
         version: 19.1.9(@types/react@19.1.12)
+      acorn:
+        specifier: ^8.15.0
+        version: 8.15.0
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -1638,21 +1647,25 @@ packages:
     resolution: {integrity: sha512-rNxRfgC5khlrhyEP6y93+45uQ4TI7CdtWqh5PKsaR6lPepG1rH4L8VE+etejSdhzXH6wQ76Rw4wzb96Hx+5vuQ==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@rspack/binding-linux-arm64-musl@1.5.2':
     resolution: {integrity: sha512-kTFX+KsGgArWC5q+jJWz0K/8rfVqZOn1ojv1xpCCcz/ogWRC/qhDGSOva6Wandh157BiR93Vfoe1gMvgjpLe5g==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@rspack/binding-linux-x64-gnu@1.5.2':
     resolution: {integrity: sha512-Lh/6WZGq30lDV6RteQQu7Phw0RH2Z1f4kGR+MsplJ6X4JpnziDow+9oxKdu6FvFHWxHByncpveVeInusQPmL7Q==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@rspack/binding-linux-x64-musl@1.5.2':
     resolution: {integrity: sha512-CsLC/SIOIFs6CBmusSAF0FECB62+J36alMdwl7j6TgN6nX3UQQapnL1aVWuQaxU6un/1Vpim0V/EZbUYIdJQ4g==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@rspack/binding-wasm32-wasi@1.5.2':
     resolution: {integrity: sha512-cuVbGr1b4q0Z6AtEraI3becZraPMMgZtZPRaIsVLeDXCmxup/maSAR3T6UaGf4Q2SNcFfjw4neGz5UJxPK8uvA==}
@@ -1824,24 +1837,28 @@ packages:
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@swc/core-linux-arm64-musl@1.13.5':
     resolution: {integrity: sha512-9+ZxFN5GJag4CnYnq6apKTnnezpfJhCumyz0504/JbHLo+Ue+ZtJnf3RhyA9W9TINtLE0bC4hKpWi8ZKoETyOQ==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@swc/core-linux-x64-gnu@1.13.5':
     resolution: {integrity: sha512-WD530qvHrki8Ywt/PloKUjaRKgstQqNGvmZl54g06kA+hqtSE2FTG9gngXr3UJxYu/cNAjJYiBifm7+w4nbHbA==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@swc/core-linux-x64-musl@1.13.5':
     resolution: {integrity: sha512-Luj8y4OFYx4DHNQTWjdIuKTq2f5k6uSXICqx+FSabnXptaOBAbJHNbHT/06JZh6NRUouaf0mYXN0mcsqvkhd7Q==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@swc/core-win32-arm64-msvc@1.13.5':
     resolution: {integrity: sha512-cZ6UpumhF9SDJvv4DA2fo9WIzlNFuKSkZpZmPG1c+4PFSEMy5DFOjBSllCvnqihCabzXzpn6ykCwBmHpy31vQw==}
@@ -1896,24 +1913,28 @@ packages:
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@swc/html-linux-arm64-musl@1.13.5':
     resolution: {integrity: sha512-q8RTISYZuI5qOR8wEhox2oC+ZBo5IBaT6N43b5W+JRSIMKIsY7hVgC3gSI/tG4/6K14hv2QrqtAUFzVpLwtkyA==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@swc/html-linux-x64-gnu@1.13.5':
     resolution: {integrity: sha512-YFU0/xVWzjAtg5V6QREW510O5/SNILrm18Vo2qF1bTktCB2eCjNSjCHOdicvPXTImEUlTp0ey6wO+QvEuvRFAg==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@swc/html-linux-x64-musl@1.13.5':
     resolution: {integrity: sha512-/ilgZm7umDQTea97FlE0pIcoHTAlICE+aSoVvLi+ONL3wr4g1ebwlgQ5Cxpgp5cxnKeghDYpqP/mFLh+Ztl8DQ==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@swc/html-win32-arm64-msvc@1.13.5':
     resolution: {integrity: sha512-aLZvyEhzM6e7E53jelEp9ob/CrZ4K0atmsq+ctsaki8PNOu8shM03CEK1yQNCdZLR1kKkUgytyUVMEbhqz+IQQ==}
@@ -3709,6 +3730,9 @@ packages:
   heliannuuthus-remark-collapse-heading@file:packages/remark-collapse-heading:
     resolution: {directory: packages/remark-collapse-heading, type: directory}
 
+  heliannuuthus-remark-collapse@file:packages/remark-collapse:
+    resolution: {directory: packages/remark-collapse, type: directory}
+
   heliannuuthus-remark-comment-tooltip@file:packages/remark-comment-tooltip:
     resolution: {directory: packages/remark-comment-tooltip, type: directory}
 
@@ -3718,14 +3742,17 @@ packages:
   heliannuuthus-remark-external-link@file:packages/remark-external-link:
     resolution: {directory: packages/remark-external-link, type: directory}
 
-  heliannuuthus-remark-external-link@file:packages/remark-tabs:
-    resolution: {directory: packages/remark-tabs, type: directory}
-
   heliannuuthus-remark-markmap@file:packages/remark-markmap:
     resolution: {directory: packages/remark-markmap, type: directory}
 
   heliannuuthus-remark-mermaid@file:packages/remark-mermaid:
     resolution: {directory: packages/remark-mermaid, type: directory}
+
+  heliannuuthus-remark-tables@file:packages/remark-tables:
+    resolution: {directory: packages/remark-tables, type: directory}
+
+  heliannuuthus-remark-tabs@file:packages/remark-tabs:
+    resolution: {directory: packages/remark-tabs, type: directory}
 
   heliannuuthus-remark-terminology@file:packages/remark-terminology:
     resolution: {directory: packages/remark-terminology, type: directory}
@@ -4184,24 +4211,28 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-arm64-musl@1.30.1:
     resolution: {integrity: sha512-jmUQVx4331m6LIX+0wUhBbmMX7TCfjF5FoOH6SD1CttzuYlGNVpA7QnrmLxrsub43ClTINfGSYyHe2HWeLl5CQ==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-linux-x64-gnu@1.30.1:
     resolution: {integrity: sha512-piWx3z4wN8J8z3+O5kO74+yr6ze/dKmPnI7vLqfSqI8bccaTGY5xiSGVIJBDd5K5BHlvVLpUB3S2YCfelyJ1bw==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-x64-musl@1.30.1:
     resolution: {integrity: sha512-rRomAK7eIkL+tHY0YPxbc5Dra2gXlI63HL+v1Pdi1a3sC+tJTcFrHX+E86sulgAXeI7rSzDYhPSeHHjqFhqfeQ==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-win32-arm64-msvc@1.30.1:
     resolution: {integrity: sha512-mSL4rqPi4iXq5YVqzSsJgMVFENoa4nGTT/GjO2c0Yl9OuQfPsIfncvLrEW6RbbB24WtZ3xP/2CCmI3tNkNV4oA==}
@@ -11236,17 +11267,21 @@ snapshots:
 
   heliannuuthus-remark-collapse-heading@file:packages/remark-collapse-heading: {}
 
+  heliannuuthus-remark-collapse@file:packages/remark-collapse: {}
+
   heliannuuthus-remark-comment-tooltip@file:packages/remark-comment-tooltip: {}
 
   heliannuuthus-remark-external-link@file:packages/remark-breaks: {}
 
   heliannuuthus-remark-external-link@file:packages/remark-external-link: {}
 
-  heliannuuthus-remark-external-link@file:packages/remark-tabs: {}
-
   heliannuuthus-remark-markmap@file:packages/remark-markmap: {}
 
   heliannuuthus-remark-mermaid@file:packages/remark-mermaid: {}
+
+  heliannuuthus-remark-tables@file:packages/remark-tables: {}
+
+  heliannuuthus-remark-tabs@file:packages/remark-tabs: {}
 
   heliannuuthus-remark-terminology@file:packages/remark-terminology: {}
 

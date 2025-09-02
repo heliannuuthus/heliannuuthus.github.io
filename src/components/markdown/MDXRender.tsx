@@ -2,21 +2,28 @@
 import Tooltip from "@components/Tooltip";
 import { Comment } from "@components/Typography";
 import { CollapseHeading } from "@components/collapse";
+import { Collapse } from "@components/collapse";
 import CommentTooltip from "@components/comment/Tooltip";
-import Markmap from "@components/markdown/markmap";
+import { Markmap } from "@components/markdown";
+import { Table } from "@components/table";
+import { MarkdownTabs as Tabs } from "@components/tabs";
 import TermPreview from "@components/terminology/TermPreview";
 import { evaluate } from "@mdx-js/mdx";
 import { MDXProvider } from "@mdx-js/react";
 import { createStyles } from "antd-style";
 import remarkAdmonition from "heliannuuthus-remark-admomition";
 import remarkBreaks from "heliannuuthus-remark-breaks";
+import remarkCollapse from "heliannuuthus-remark-collapse";
 import {
   plugin as remarkCollapseHeading,
   preprocessorPlugin as remarkCollapseHeadingPreprocessor
 } from "heliannuuthus-remark-collapse-heading";
 import remarkCommentTooltip from "heliannuuthus-remark-comment-tooltip";
 import remarkExternalLink from "heliannuuthus-remark-external-link";
+import remarkMarkmap from "heliannuuthus-remark-markmap";
 import remarkMermaid from "heliannuuthus-remark-mermaid";
+import remarkTables from "heliannuuthus-remark-tables";
+import remarkTabs from "heliannuuthus-remark-tabs";
 import remarkTerminology from "heliannuuthus-remark-terminology";
 import React, { Suspense, useEffect, useState } from "react";
 import * as runtime from "react/jsx-runtime";
@@ -24,7 +31,6 @@ import rehypeKatex from "rehype-katex";
 import remarkDirective from "remark-directive";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import remarkParse from "remark-parse";
 
 import TermAdmonition from "@theme/Admonition";
 import MDXComponents from "@theme/MDXComponents";
@@ -74,7 +80,11 @@ const MDXRender = ({
             test: (node: any) => node.url.startsWith("http")
           }
         ],
-        remarkCollapseHeading
+        remarkCollapseHeading,
+        remarkCollapse,
+        remarkTables,
+        remarkMarkmap,
+        remarkTabs
       ],
       rehypePlugins: [
         [
@@ -96,7 +106,10 @@ const MDXRender = ({
           Term: TermPreview,
           Mermaid: Mermaid,
           CollapseHeading,
-          Markmap
+          Markmap,
+          Tabs,
+          Collapse,
+          Table
         };
       }
     }).then((exports) => {
