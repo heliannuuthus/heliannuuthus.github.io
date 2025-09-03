@@ -227,9 +227,47 @@ AI 从早几年前就已经开始发酵，到 OpenAI 问世算是彻底爆发，
 
 
 ### ReAct 框架
-> ReAct（Reasoning Action）以交错的方式生成推理轨迹（Reasoning Trajectory）和任务特定动作（Task-Specific Actions）。\
+> ReAct（*Reasoning Action*）以交错的方式生成**推理轨迹**（*Reasoning Trajectory*）和**任务特定动作**（*Task-Specific Actions*）。\
 推理轨迹帮助 LLMs 生成、追踪和调整行动方案并处理异常，行动则让 LLMs 与外部工具交互获取信息以解决问题
 
 - 利用 Few Shots（1-6 个）输入人类标注的“动作-推理-观察”轨迹示例，随后让 LLMs 自己生成轨迹
   - 推理密集型任务（如数学）：严格按照“动作-推理-观察”步骤执行
   - 非推理密集型任务（如摘要）：可由 LLMs 自行插入推理轨迹
+
+
+:::collapse{label="ReAct 框架示例"}
+  ```python
+  ```
+:::
+
+
+### 自我反思
+
+> 自我反思（Reflexion）解决传统单一 CoT 生成的结果可能会存在幻觉和准确性不足的问题。\
+通过 Actor, Evaluator 和 Self-Reflection 三个模块，让 LLMs 针对思考轨迹进行评估和自我反思，最后生成更准确的结果。
+
+- 自我反思是对 Reforcement Learning 的改进，利用大模型自身的评估能力解决传统 RL 中难以量化评估的问题，并且也规避了 RL 昂贵的训练成本
+- 自我反思对**短期记忆**要求较高，本身**受限于 LLMs 的上下文窗口**，可结合*RAG*或者向量存储构造*长期记忆*来弱化这一限制
+- 针对一些复杂且多样的任务，类似电商搜索任务效果不佳，自我反思本身难以覆盖多样化的搜索需求
+- **Actor**：通过 *CoT* 构造 LLMs 思考轨迹，单次记录一条行为一条结果，包括思考内容和行动方案
+- **Evaluator**：通过指令输入 LLMs 对思考轨迹进行评估，包括评估结果和评估内容
+- **Self-Reflection**：通过指令输入 LLMs 对评估结果进行自我反思，包括反思内容和反思结果
+- 最后通过 Actor 生成最终结果
+
+```mermaid
+graph TD
+    A[Actor]
+    E[Evaluator]
+    SR[Self-Reflection]
+    ER{Effective Result}
+    Done[完成]
+
+    A -- 检查记忆存储（*短期记忆* / *长期记忆*） --> A
+    A -- 利用 *CoT* 构造思维轨迹 --> E
+    E -- 传递评估结果和思维轨迹 --> SR
+    SR -- 评估结果是否满足预期 --> ER
+    ER -- 评估结果满意 --> Done
+    ER -- 评估结果不满意 --> SR
+    SR -- 识别思维轨迹并进行自我反思 --> SR
+    SR -- 生成错误经验添加到*短期记忆* --> A
+```
