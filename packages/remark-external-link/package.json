@@ -10,7 +10,12 @@
     "build": "tsup",
     "clean": "rm -rf dist"
   },
+  "dependencies": {
+    "unified": "^11.0.5",
+    "unist-util-select": "^5.1.0"
+  },
   "devDependencies": {
+    "@types/mdast": "^4.0.4",
     "@types/node": "^22.13.0",
     "@types/unist": "^3.0.3",
     "tsup": "^8.0.0",

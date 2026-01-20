@@ -25,6 +25,7 @@ import remarkMermaid from "heliannuuthus-remark-mermaid";
 import remarkTables from "heliannuuthus-remark-tables";
 import remarkTabs from "heliannuuthus-remark-tabs";
 import remarkTerminology from "heliannuuthus-remark-terminology";
+import { Link } from "mdast";
 import React, { Suspense, useEffect, useState } from "react";
 import * as runtime from "react/jsx-runtime";
 import rehypeKatex from "rehype-katex";
@@ -77,7 +78,7 @@ const MDXRender = ({
             href: "/external-link",
             target: "_blank",
             rel: ["noopener", "noreferrer"],
-            test: (node: any) => node.url.startsWith("http")
+            test: (node: Link) => node.url.startsWith("http")
           }
         ],
         remarkCollapseHeading,
