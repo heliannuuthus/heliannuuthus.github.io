@@ -5,5 +5,9 @@ export default defineConfig({
   format: ["esm"],
   dts: true,
   clean: true,
-  sourcemap: true
+  sourcemap: true,
+  external: [
+    // Mark all dependencies as external
+    /^[^./]|^\.[^./]|^\.\.[^/]/
+  ]
 });

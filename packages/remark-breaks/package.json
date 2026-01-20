@@ -1,5 +1,5 @@
 {
-  "name": "heliannuuthus-remark-external-link",
+  "name": "heliannuuthus-remark-breaks",
   "version": "1.0.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -10,7 +10,13 @@
     "build": "tsup",
     "clean": "rm -rf dist"
   },
+  "dependencies": {
+    "mdast-util-find-and-replace": "^3.0.2",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.0.0"
+  },
   "devDependencies": {
+    "@types/mdast": "^4.0.4",
     "@types/node": "^22.13.0",
     "@types/unist": "^3.0.3",
     "tsup": "^8.0.0",

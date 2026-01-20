@@ -11,6 +11,7 @@ import remarkMarkmap from "heliannuuthus-remark-markmap";
 import remarkTables from "heliannuuthus-remark-tables";
 import remarkTabs from "heliannuuthus-remark-tabs";
 import remarkTerminology from "heliannuuthus-remark-terminology";
+import { Link } from "mdast";
 import path from "path";
 import { themes as prismThemes } from "prism-react-renderer";
 import rehypeKatex from "rehype-katex";
@@ -34,7 +35,7 @@ const remarkPlugins = [
       href: "/external-link",
       target: "_blank",
       rel: ["noopener", "noreferrer"],
-      test: (node: any) => node.url.startsWith("http")
+      test: (node: Link) => node.url.startsWith("http")
     }
   ],
   remarkCommentTooltip,

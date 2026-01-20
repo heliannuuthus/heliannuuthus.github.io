@@ -2,7 +2,7 @@
   "name": "heliannuuthus-docusaurus-plugins",
   "private": true,
   "scripts": {
-    "build": "pnpm install && pnpm --filter heliannuuthus-parse-md --filter heliannuuthus-terminology-store build && pnpm install && pnpm --filter \"!heliannuuthus-parse-md\" --filter \"!heliannuuthus-terminology-store\" -r build",
+    "build": "pnpm --filter heliannuuthus-parse-md --filter heliannuuthus-terminology-store build && pnpm --filter \"!heliannuuthus-parse-md\" --filter \"!heliannuuthus-terminology-store\" --filter './plugins/*' build",
     "clean": "pnpm -r clean",
     "typecheck": "tsc --noEmit"
   },
