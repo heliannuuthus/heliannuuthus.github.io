@@ -28,7 +28,7 @@
   --font-mono: "Monaspace Xenon Var", "Monaspace Radon Var", "LXGW WenKai Mono", monospace;
 }
 
-html {
+html[data-scroll-behavior="smooth"] {
   scroll-behavior: smooth;
 }
 
@@ -132,3 +132,213 @@ body {
   overflow-x: auto;
   overflow-y: hidden;
 }
+
+/* ─── Collapse card: flatten nested containers ─── */
+
+[data-collapse-content] pre {
+  background: rgba(0, 0, 0, 0.025);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  border-radius: 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.dark [data-collapse-content] pre {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+[data-collapse-content] > :first-child pre:first-child,
+[data-collapse-content] > :first-child > pre:first-child {
+  margin-top: 0;
+}
+
+[data-collapse-content] > :last-child pre:last-child,
+[data-collapse-content] > :last-child > pre:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── Article entrance animation ─── */
+
+@keyframes article-enter {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.article-enter {
+  animation: article-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+/* ─── Term dictionary content typography ─── */
+
+.term-content > blockquote {
+  margin: 0.5rem 0;
+  padding: 0.25rem 0 0.25rem 0.75rem;
+  border-left: 2px solid rgba(16, 185, 129, 0.4);
+  color: #525252;
+  font-style: italic;
+}
+.dark .term-content > blockquote {
+  color: #a3a3a3;
+  border-left-color: rgba(16, 185, 129, 0.3);
+}
+
+.term-content h2 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0.75rem 0 0.25rem;
+  padding-bottom: 0.15rem;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  color: #18181b;
+}
+.dark .term-content h2 {
+  color: #fafafa;
+  border-bottom-color: rgba(255,255,255,0.06);
+}
+
+.term-content h3 {
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0.5rem 0 0.2rem;
+  color: #3f3f46;
+}
+.dark .term-content h3 {
+  color: #d4d4d8;
+}
+
+.term-content ul, .term-content ol {
+  padding-left: 1.25rem;
+  margin: 0.25rem 0;
+}
+.term-content ul { list-style-type: disc; }
+.term-content ol { list-style-type: decimal; }
+.term-content li { margin: 0.125rem 0; }
+.term-content li > ul, .term-content li > ol { margin: 0; }
+
+.term-content p { margin: 0.35rem 0; }
+
+.term-content a {
+  color: #059669;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+.dark .term-content a { color: #34d399; }
+.term-content a:hover { text-decoration-thickness: 2px; }
+
+.term-content code {
+  font-size: 0.85em;
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem;
+  background: rgba(0,0,0,0.05);
+  color: #be123c;
+}
+.dark .term-content code {
+  background: rgba(255,255,255,0.08);
+  color: #fb7185;
+}
+
+.term-content pre {
+  font-size: 11px;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+  background: rgba(0,0,0,0.03);
+}
+.dark .term-content pre {
+  background: rgba(255,255,255,0.04);
+}
+.term-content pre code {
+  padding: 0;
+  background: none;
+  color: inherit;
+}
+
+.term-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin: 0.5rem 0;
+}
+.term-content th, .term-content td {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid rgba(0,0,0,0.08);
+  text-align: left;
+}
+.dark .term-content th, .dark .term-content td {
+  border-color: rgba(255,255,255,0.08);
+}
+.term-content th {
+  font-weight: 600;
+  background: rgba(0,0,0,0.02);
+}
+.dark .term-content th {
+  background: rgba(255,255,255,0.03);
+}
+
+.term-content .term-hint {
+  border-bottom: 1px dotted rgba(16, 185, 129, 0.5);
+  cursor: help;
+}
+
+.term-content .term-link {
+  color: #059669;
+  border-bottom: 1px dotted currentColor;
+  text-decoration: none;
+}
+.dark .term-content .term-link { color: #34d399; }
+.term-content .term-link:hover {
+  text-decoration: underline;
+}
+
+.term-content .admonition {
+  margin: 0.5rem 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 11px;
+}
+.term-content .admonition-tip { background: rgba(16, 185, 129, 0.06); border-left: 3px solid #10b981; }
+.term-content .admonition-note { background: rgba(59, 130, 246, 0.06); border-left: 3px solid #3b82f6; }
+.term-content .admonition-warning { background: rgba(245, 158, 11, 0.06); border-left: 3px solid #f59e0b; }
+.term-content .admonition-danger { background: rgba(239, 68, 68, 0.06); border-left: 3px solid #ef4444; }
+.term-content .admonition-info { background: rgba(59, 130, 246, 0.06); border-left: 3px solid #3b82f6; }
+.term-content .admonition-nerd { background: rgba(139, 92, 246, 0.06); border-left: 3px solid #8b5cf6; }
+
+.term-content .term-collapse {
+  margin: 0.5rem 0;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.dark .term-content .term-collapse {
+  border-color: rgba(255,255,255,0.06);
+}
+.term-content .term-collapse summary {
+  padding: 0.4rem 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(0,0,0,0.02);
+}
+.dark .term-content .term-collapse summary {
+  background: rgba(255,255,255,0.02);
+}
+.term-content .term-collapse > :not(summary) {
+  padding: 0.4rem 0.75rem;
+}
+
+.term-content .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 0.5rem 0;
+}
+.term-content .katex { font-size: 0.9em; }

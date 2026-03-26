@@ -1,7 +1,6 @@
 import { visit } from "unist-util-visit";
-import { toString } from "mdast-util-to-string";
 import { selectAll } from "unist-util-select";
-import { findAndReplace } from "mdast-util-find-and-replace";
+import { getTermBySlug } from "@/lib/terms";
 
 type MdxAttr = { type: "mdxJsxAttribute"; name: string; value: any };
 type MdxExpr = { type: "mdxJsxExpression"; value: string };
@@ -82,45 +81,43 @@ export function remarkCollapse() {
 }
 
 /**
- * :ctip[text]{#tooltip} or :ctip[text]{id="tooltip"} or :ctip[text]{title="tooltip"}
- * → <CommentTooltip title="..."><Comment>text</Comment></CommentTooltip>
+ * :hint[text]{#annotation}  or  :hint[text]{title="annotation"}
+ * → <Hint title="annotation">text</Hint>
  */
-export function remarkCommentTooltip() {
+export function remarkHint() {
   return (tree: any) => {
     visit(tree, (node: any) => {
-      if (node.type !== "textDirective" || node.name !== "ctip") return;
+      if (node.type !== "textDirective" || node.name !== "hint") return;
       const attrs = node.attributes || {};
       const tipText = attrs.id || attrs.title || attrs["#"] || "";
 
       Object.assign(
         node,
-        toJsx("mdxJsxTextElement", "CommentTooltip", [attr("title", tipText)], [
-          toJsx("mdxJsxTextElement", "Comment", [], node.children)
-        ])
+        toJsx("mdxJsxTextElement", "Hint", [attr("title", tipText)], node.children)
       );
     });
   };
 }
 
 /**
- * :term[text]{./terms/auth#oauth}
- * → <TermPreview path="./terms/auth" anchor="#oauth">text</TermPreview>
+ * :term[display text]{#slug}  or  :term[display text]{slug=xxx}
+ * → <TermPreview slug="..." title="..." definition="...">display text</TermPreview>
+ *
+ * title / definition are resolved at compile time from terminologies/*.yml
  */
 export function remarkTerminology() {
   return (tree: any) => {
     visit(tree, (node: any) => {
       if (node.type !== "textDirective" || node.name !== "term") return;
       const attrs = node.attributes || {};
+      const slug = attrs.slug || attrs.id || attrs.class || "";
 
-      const jsxAttrs: MdxAttr[] = Object.entries(attrs).map(([name, value]) => {
-        if (name === "id" || name === "anchor") {
-          return attr("anchor", `#${value}`);
-        }
-        if (name === "class" || name === "path") {
-          return attr("path", value);
-        }
-        return attr(name, value);
-      });
+      const term = getTermBySlug(slug);
+      const jsxAttrs: MdxAttr[] = [
+        attr("slug", slug),
+        attr("title", term?.title || ""),
+        attr("definition", term?.definition || "")
+      ];
 
       Object.assign(
         node,

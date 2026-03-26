@@ -3,36 +3,31 @@ import { MdxJsxTextElement } from "mdast-util-mdx-jsx";
 import { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 
-export interface TooltipOptions {
-  tooltip?: string;
-  comment?: string;
+export interface HintOptions {
+  component?: string;
 }
 
 interface Directive extends TextDirective {
   name: string;
 }
 
-const remarkCtip: Plugin<[TooltipOptions?]> = (
-  options: TooltipOptions = {
-    tooltip: "CommentTooltip",
-    comment: "Comment"
-  }
+const remarkHint: Plugin<[HintOptions?]> = (
+  options: HintOptions = { component: "Hint" }
 ) => {
-  const { tooltip = "CommentTooltip", comment = "Comment" } = options;
+  const { component = "Hint" } = options;
 
   return (tree) => {
     visit(tree, (node) => {
       if (
         node.type === "textDirective" &&
-        (node as Directive).name === "ctip"
+        (node as Directive).name === "hint"
       ) {
         const directiveNode = node as Directive;
         const attributes = directiveNode.attributes || {};
-        directiveNode.data = directiveNode.data || {};
 
         const jsxNode: MdxJsxTextElement = {
           type: "mdxJsxTextElement",
-          name: tooltip,
+          name: component,
           attributes: Object.entries(attributes).map(([name, value]) => {
             if (name === "id" || name === "title") {
               return {
@@ -47,21 +42,13 @@ const remarkCtip: Plugin<[TooltipOptions?]> = (
               value
             };
           }),
-          children: [
-            {
-              type: "mdxJsxTextElement",
-              name: comment,
-              attributes: [],
-              children: directiveNode.children
-            }
-          ]
+          children: directiveNode.children
         };
 
-        // 将转换后的 JSX 节点赋值回原节点
         Object.assign(node, jsxNode);
       }
     });
   };
 };
 
-export default remarkCtip;
+export default remarkHint;

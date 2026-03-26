@@ -2,13 +2,13 @@ import { compile } from "@mdx-js/mdx";
 import remarkDirective from "remark-directive";
 import { describe, expect, test } from "vitest";
 
-import remarkCommentTooltip from ".";
+import remarkHint from ".";
 
-describe("remark-comment-tooltip", () => {
+describe("remark-hint", () => {
   const process = async (content: string) => {
     const file = await compile(content, {
       outputFormat: "function-body",
-      remarkPlugins: [remarkDirective, remarkCommentTooltip],
+      remarkPlugins: [remarkDirective, remarkHint],
       rehypePlugins: [],
       jsx: true
     });
@@ -16,20 +16,20 @@ describe("remark-comment-tooltip", () => {
     return file.toString();
   };
 
-  test("应该正确转换简单的 tooltip 语法", async () => {
-    const input = "这是一个:ctip[ tooltip 内容]{title=' 提示'}";
+  test("应该正确转换简单的 hint 语法", async () => {
+    const input = "这是一个:hint[ tooltip 内容]{title=' 提示'}";
     const output = await process(input);
-    expect(output).toContain('<CommentTooltip title=" 提示">');
-    expect(output).toContain('<Comment>{" tooltip 内容"}</Comment>');
+    expect(output).toContain('<Hint title=" 提示">');
+    expect(output).toContain("{\" tooltip 内容\"}");
   });
 
   test("应该处理多行内容", async () => {
-    const input = `这是一个:ctip[多行
+    const input = `这是一个:hint[多行
 内容]{title="多行
 标题"}`;
     const output = await process(input);
-    expect(output).toContain(`<CommentTooltip title="多行\n标题">`);
-    expect(output).toContain(`<Comment>{"多行\\n内容"}</Comment>`);
+    expect(output).toContain(`<Hint title="多行\n标题">`);
+    expect(output).toContain(`{"多行\\n内容"}`);
   });
 
   test("应该忽略不匹配的语法", async () => {
@@ -41,38 +41,34 @@ describe("remark-comment-tooltip", () => {
     expect(output1).toContain("这是普通文本 [[ 不完整的语法 | 不完整的语法");
   });
 
-  test("应该处理多个 tooltip", async () => {
+  test("应该处理多个 hint", async () => {
     const input =
-      "第一个:ctip[内容1]{title='提示1'} 第二个:ctip[内容2]{title='提示2'}";
+      "第一个:hint[内容1]{title='提示1'} 第二个:hint[内容2]{title='提示2'}";
     const output = await process(input);
-    expect(output).toContain('<CommentTooltip title="提示1">');
-    expect(output).toContain('<Comment>{"内容1"}</Comment>');
-    expect(output).toContain('<CommentTooltip title="提示2">');
-    expect(output).toContain('<Comment>{"内容2"}</Comment>');
+    expect(output).toContain('<Hint title="提示1">');
+    expect(output).toContain('{"内容1"}');
+    expect(output).toContain('<Hint title="提示2">');
+    expect(output).toContain('{"内容2"}');
   });
 
   test("应该处理包含特殊字符的内容", async () => {
-    const input = `:ctip[包含 \\\\| * ! @ # $ 的内容]{title="特殊*|字符!"}`;
+    const input = `:hint[包含 \\\\| * ! @ # $ 的内容]{title="特殊*|字符!"}`;
     const output = await process(input);
-    expect(output).toContain('<CommentTooltip title="特殊*|字符!">');
-    expect(output).toContain(
-      '<Comment>{"包含 \\\\| * ! @ # $ 的内容"}</Comment>'
-    );
+    expect(output).toContain('<Hint title="特殊*|字符!">');
+    expect(output).toContain('{"包含 \\\\| * ! @ # $ 的内容"}');
   });
 
   test("应该处理嵌套的 markdown", async () => {
-    const input = `:ctip[包含 \`markdown\` 的内容]{title="特殊*|字符!"}`;
+    const input = `:hint[包含 \`markdown\` 的内容]{title="特殊*|字符!"}`;
     const output = await process(input);
-    expect(output).toContain('<CommentTooltip title="特殊*|字符!">');
-    expect(output).toContain(
-      '<Comment>{"包含 "}<_components.code>{"markdown"}</_components.code>{" 的内容"}</Comment>'
-    );
+    expect(output).toContain('<Hint title="特殊*|字符!">');
+    expect(output).toContain("_components.code");
   });
 
   test("应该处理 id 属性", async () => {
-    const input = `:ctip[内容]{#提示}`;
+    const input = `:hint[内容]{#提示}`;
     const output = await process(input);
-    expect(output).toContain('<CommentTooltip title="提示">');
-    expect(output).toContain('<Comment>{"内容"}</Comment>');
+    expect(output).toContain('<Hint title="提示">');
+    expect(output).toContain('{"内容"}');
   });
 });

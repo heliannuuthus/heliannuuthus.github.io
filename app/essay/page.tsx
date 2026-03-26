@@ -1,5 +1,6 @@
+import { Suspense } from "react";
 import { getEssayPosts } from "@/lib/content";
-import PostList from "@/components/post-list";
+import EssayList from "@/components/EssayList";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,11 +11,13 @@ export default function EssayPage() {
   const posts = getEssayPosts();
 
   return (
-    <PostList
-      posts={posts}
-      basePath="/essay"
-      title="Essay"
-      description="Thoughts and reflections beyond pure tech."
-    />
+    <Suspense>
+      <EssayList
+        posts={posts}
+        basePath="/essay"
+        title="Essay"
+        description="Thoughts and reflections beyond pure tech."
+      />
+    </Suspense>
   );
 }

@@ -1,16 +1,12 @@
 import type { MDXComponents } from "mdx/types";
-import Admonition from "./blocks/admonition";
-import Collapse from "./blocks/collapse";
-import { CommentTooltip, Comment } from "./blocks/tooltip";
+import Admonition from "./blocks/Admonition";
+import Collapse from "./blocks/Collapse";
+import Hint from "./blocks/hint";
 import TermPreview from "./blocks/term-preview";
-import { Tabs, Tab } from "./blocks/tabs";
-import Mermaid from "./blocks/mermaid";
-import Markmap from "./blocks/markmap";
-import Table from "./blocks/table";
-
-function Passthrough({ children }: { children?: React.ReactNode }) {
-  return <>{children}</>;
-}
+import { Tabs, Tab } from "./blocks/Tabs";
+import Mermaid from "./blocks/Mermaid";
+import Markmap from "./blocks/Markmap";
+import Table from "./blocks/Table";
 
 export const mdxComponents: MDXComponents = {
   h1: (props) => (
@@ -124,75 +120,11 @@ export const mdxComponents: MDXComponents = {
 
   Admonition,
   Collapse,
-  Collapses: Passthrough,
-  CommentTooltip,
-  Comment,
+  Hint,
   TermPreview,
   Tabs,
   Tab,
   Mermaid,
   Markmap,
   Table,
-
-  Steps: Passthrough,
-  Timeline: Passthrough,
-  Flex: Passthrough,
-  Center: Passthrough,
-  Text: Passthrough,
-  Image: (props: any) => (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      className="rounded-2xl my-4 max-w-full"
-      loading="lazy"
-      alt={props.alt || ""}
-      {...props}
-    />
-  ),
-  Downloader: ({ children }: any) => (
-    <div className="glass rounded-2xl p-4 my-4">{children}</div>
-  ),
-  Link: ({ children, ...props }: any) => <a {...props}>{children}</a>,
-  DocusaurusLink: ({ children, ...props }: any) => <a {...props}>{children}</a>,
-  MySQLDataTypes: ({ children }: any) => (
-    <div className="glass rounded-2xl p-4 my-4">{children}</div>
-  ),
-  CollapseHeading: ({ children, title }: any) => (
-    <Collapse title={title}>{children}</Collapse>
-  ),
-
-  Part1: Passthrough,
-  Part2: Passthrough,
-  Part3: Passthrough,
-  Machine: Passthrough,
-  Manuscript: Passthrough,
-  Calculus: Passthrough,
-  LinearAlgebra: Passthrough,
-  AQS: Passthrough,
-  Deadlock: Passthrough,
-  JavaThreadState: Passthrough,
-  JavaThread: Passthrough,
-  Lock: Passthrough,
-  ProcessAndThread: Passthrough,
-  Synchronized: Passthrough,
-  ThreadLocal: Passthrough,
-  ThreadPool: Passthrough,
-  Volatile: Passthrough,
-  Step1: Passthrough,
-  Step2: Passthrough,
-  Step3: Passthrough,
-  Thread: Passthrough,
-  ThreadLocalMap: Passthrough,
-  MorrisTraversalInOrderContent: Passthrough,
-  MorrisTraversalPostOrderContent: Passthrough,
-  MorrisTraversalPreOrderContent: Passthrough,
-  InOrderLoopContent: Passthrough,
-  LevelOrderLoopContent: Passthrough,
-  PostOrderLoopContent: Passthrough,
-  PreOrderLoopContent: Passthrough,
-  InOrderRecursiveContent: Passthrough,
-  LevelOrderRecursiveContent: Passthrough,
-  PostAndInOrderBuildTreeContent: Passthrough,
-  PostOrderRecursiveContent: Passthrough,
-  PreAndInOrderBuildTreeContent: Passthrough,
-  PreOrderRecursiveContent: Passthrough
 };

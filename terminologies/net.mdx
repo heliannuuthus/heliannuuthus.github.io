@@ -9,7 +9,7 @@ description: TCP 是一种面向连接的、可靠的、基于字节流的传输
 ## 特点
 
 - **面向连接**：在开始数据传输前，通信双方需要建立连接
-- **可靠性**：基于通信双方的 :ctip[**ACK**]{title="Acknowledge character"} 机制实现数据包重传
+- **可靠性**：基于通信双方的 :hint[**ACK**]{title="Acknowledge character"} 机制实现数据包重传
 - **有序性**：发送方发送数据包发送会携带序列号，接收方可根据序列号排序，即使中间数据包丢失再重传后仍可恢复顺序
 - **流量控制**：基于:term[滑动窗口协议]{./terms/net#sliding-window-protocol}，控制数据传输的流量，避免拥塞发生
 

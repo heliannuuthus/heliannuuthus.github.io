@@ -17,7 +17,7 @@ export function extractToc(markdown: string): TocItem[] {
     const depth = match[1].length;
     const raw = match[2]
       .replace(/\[([^\]]*?)]\([^)]*\)/g, "$1")
-      .replace(/:(?:term|ctip)\[([^\]]*?)]\{[^}]*\}/g, "$1")
+      .replace(/:(?:term|hint)\[([^\]]*?)]\{[^}]*\}/g, "$1")
       .replace(/`([^`]*)`/g, "$1")
       .replace(/[*_~]/g, "")
       .trim();

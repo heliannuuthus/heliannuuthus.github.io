@@ -74,7 +74,7 @@ $$
 $$
 
 将多元变量组合推广到向量 \
-:ctip[$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$]{id="数学和深度学习中通常使用列向量，向量的自然表达是行向量，故而使用*转置*"}，\
+:hint[$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$]{id="数学和深度学习中通常使用列向量，向量的自然表达是行向量，故而使用*转置*"}，\
 则可根据 $1.2.2$ 推出梯度公式：
 
 $$
@@ -82,19 +82,19 @@ $$
 \frac{\partial f}{\partial x_2}, \cdots, \frac{\partial f}{\partial x_n}]^T \tag{1.2.2}
 $$
 
-**即向量 :ctip[$\nabla_x f(x)$]{id="当 $\nabla_x f(x)$ 没有歧义时，可被简写为 $\nabla f$"} 的第 $i$ 个分量即是对向量 $\mathbf{x}$ 的第 $i$ 个分量 $x_i$ 求偏导数。**
+**即向量 :hint[$\nabla_x f(x)$]{id="当 $\nabla_x f(x)$ 没有歧义时，可被简写为 $\nabla f$"} 的第 $i$ 个分量即是对向量 $\mathbf{x}$ 的第 $i$ 个分量 $x_i$ 求偏导数。**
 
 #### 梯度
 
 > 梯度和导数相关，但梯度是向量，导数是实数，梯度是导数在多变量情况下的推广。
 
-:ctip[**$\mathbf{f}: R \to R$**]{id="输入和输出都是**实数**的函数 $f$"}，梯度即为导数：
+:hint[**$\mathbf{f}: R \to R$**]{id="输入和输出都是**实数**的函数 $f$"}，梯度即为导数：
 
 $$
 \nabla \mathbf{f} = \nabla_{\mathbf{x}} \mathbf{f}(\mathbf{x}) = \mathbf{f}'(\mathbf{x}) = \frac{d}{d\mathbf{x}} \mathbf{f}(\mathbf{x})
 $$
 
-:ctip[**$f: R^n \to R$**]{id="输入为 n 维向量，输出为标量的函数"}，其中 $\mathbf = [x_1, x_2, \cdots, x_n]^T$，梯度为偏导数组成的向量：
+:hint[**$f: R^n \to R$**]{id="输入为 n 维向量，输出为标量的函数"}，其中 $\mathbf = [x_1, x_2, \cdots, x_n]^T$，梯度为偏导数组成的向量：
 
 $$
 \nabla f = [\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \cdots, \frac{\partial f}{\partial x_n}]^T
@@ -104,12 +104,12 @@ $$
 
 - **线性变换**：
 
-  - 对于所有的 :ctip[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
-     和 :ctip[$A \in R^{m \times n}$]{id="$\mathbf{A} = \begin{bmatrix} \
+  - 对于所有的 :hint[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
+     和 :hint[$A \in R^{m \times n}$]{id="$\mathbf{A} = \begin{bmatrix} \
 A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{m1} & \cdots & A_{mn} \
 \end{bmatrix}$"}：
 
-  :::collapse{label="$$\nabla_x (A x) = A^T$$"}
+  :::collapse{title="$$\nabla_x (A x) = A^T$$"}
 
     $$
     \begin{split}
@@ -128,12 +128,12 @@ A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{m1} & \cdots & A_{mn}
 
   :::
 
-  - 对于所有的 :ctip[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
-     和 :ctip[$A \in R^{n \times m}$]{id="$\mathbf{A} = \begin{bmatrix} \
+  - 对于所有的 :hint[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
+     和 :hint[$A \in R^{n \times m}$]{id="$\mathbf{A} = \begin{bmatrix} \
 A_{11} & \cdots & A_{1m} \\ \vdots & \ddots & \vdots \\ A_{n1} & \cdots & A_{nm} \
 \end{bmatrix}$"}：
 
-  :::collapse{label="$$\nabla_x (x^T A) = A$$"}
+  :::collapse{title="$$\nabla_x (x^T A) = A$$"}
 
     $$
     \begin{split}
@@ -154,12 +154,12 @@ A_{11} & \cdots & A_{1m} \\ \vdots & \ddots & \vdots \\ A_{n1} & \cdots & A_{nm}
 
 - **二次型**（二次型是二次函数在向量空间中的推广）：
 
-  - 对于所有的 :ctip[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
-     和 :ctip[$A \in R^{n \times n}$]{id="$\mathbf{A} = \begin{bmatrix} \
+  - 对于所有的 :hint[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
+     和 :hint[$A \in R^{n \times n}$]{id="$\mathbf{A} = \begin{bmatrix} \
 A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{n1} & \cdots & A_{nn} \
 \end{bmatrix}$"}：
 
-  :::collapse{label="$$\nabla_x x^T A x = (A + A^T) x$$"}
+  :::collapse{title="$$\nabla_x x^T A x = (A + A^T) x$$"}
 
     $$
     \begin{split}
@@ -184,12 +184,12 @@ A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{n1} & \cdots & A_{nn}
   | $L^\infty$ | $\|x\|_\infty = \max_{i=1}^n x_i$               | $\nabla_x \|x\|_\infty = \text{sign}(x)$ |
   | $L^0$      | $\|x\|_0 = \sum_{i=1}^n \mathbb{I}(x_i \neq 0)$ | $\nabla_x \|x\|_0 = \text{sign}(x)$      |
 
-  - 对于所有的 :ctip[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
-     和 :ctip[$A \in R^{n \times n}$]{id="$\mathbf{A} = \begin{bmatrix} \
+  - 对于所有的 :hint[$\mathbf{x} \in R^n$]{id="$\mathbf{x} = [x_1, x_2, \cdots, x_n]^T$"} \
+     和 :hint[$A \in R^{n \times n}$]{id="$\mathbf{A} = \begin{bmatrix} \
 A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{n1} & \cdots & A_{nn} \
 \end{bmatrix}$"}：
 
-  :::collapse{label="$$\nabla_x \|x\|_2^2 = \nabla_x (x^T x) = 2x$$"}
+  :::collapse{title="$$\nabla_x \|x\|_2^2 = \nabla_x (x^T x) = 2x$$"}
 
     $$
     \begin{split}

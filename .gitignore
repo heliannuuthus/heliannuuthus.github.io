@@ -13,6 +13,9 @@
 next-env.d.ts
 
 # Misc
+# Generated covers
+public/covers
+
 .DS_Store
 .env.local
 .env.development.local
