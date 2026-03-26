@@ -54,7 +54,7 @@ function extractExcerpt(content: string, maxLen = 160): string | undefined {
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/!\[[^\]]*]\([^)]*\)/g, "")
     .replace(/\[([^\]]*?)]\([^)]*\)/g, "$1")
-    .replace(/:(?:term|ctip)\[([^\]]*?)]\{[^}]*\}/g, "$1")
+    .replace(/:(?:term|hint)\[([^\]]*?)]\{[^}]*\}/g, "$1")
     .replace(/[*_~`#>|]/g, "")
     .replace(/\n+/g, " ")
     .trim();
@@ -205,7 +205,7 @@ export function getPostBySlug(
         ? data.authors
         : [data.authors || "heliannuuthus"],
       tags: Array.isArray(data.tags) ? data.tags : [],
-      description: data.description
+      description: data.description || extractExcerpt(content, 2000)
     },
     content: cleanContent
   };

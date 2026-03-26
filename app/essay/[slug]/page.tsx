@@ -2,7 +2,7 @@ import { getAllSlugs, getPostBySlug, getAuthors } from "@/lib/content";
 import { extractToc } from "@/lib/toc";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx/mdx-components";
-import TableOfContents from "@/components/toc";
+import TableOfContents from "@/components/Toc";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import remarkGfm from "remark-gfm";
@@ -11,7 +11,7 @@ import remarkDirective from "remark-directive";
 import {
   remarkAdmonition,
   remarkCollapse,
-  remarkCommentTooltip,
+  remarkHint,
   remarkTerminology,
   remarkTabs,
   remarkMermaid,
@@ -38,7 +38,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {};
   return {
     title: post.meta.title,
-    description: post.meta.description
+    description: post.meta.description,
+    openGraph: {
+      title: post.meta.title,
+      description: post.meta.description,
+      images: [`/covers/${slug}.png`]
+    }
   };
 }
 
@@ -109,7 +114,7 @@ export default async function EssayPostPage({ params }: Props) {
                   remarkDirective,
                   remarkAdmonition,
                   remarkCollapse,
-                  remarkCommentTooltip,
+                  remarkHint,
                   remarkTerminology,
                   remarkTabs,
                   remarkMermaid,

@@ -1,5 +1,5 @@
-import GlassFooter from "@/components/layout/glass-footer";
-import GlassNavbar from "@/components/layout/glass-navbar";
+import GlassFooter from "@/components/layout/GlassFooter";
+import GlassNavbar from "@/components/layout/GlassNavbar";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Providers } from "./providers";
@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-Hans" suppressHydrationWarning>
+    <html lang="zh-Hans" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <link
           rel="stylesheet"

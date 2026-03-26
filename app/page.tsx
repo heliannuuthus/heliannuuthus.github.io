@@ -1,6 +1,6 @@
-import { getBlogPosts, type PostMeta } from "@/lib/content";
+import { getAuthors, getBlogPosts, type Author, type PostMeta } from "@/lib/content";
 import { Card } from "@heroui/react/card";
-import PostCard from "@/components/post-card";
+import PostCard from "@/components/PostCard";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -97,7 +97,7 @@ function AboutCards() {
   );
 }
 
-function RecentPosts({ posts }: { posts: PostMeta[] }) {
+function RecentPosts({ posts, authors }: { posts: PostMeta[]; authors: Record<string, Author> }) {
   if (posts.length === 0) return null;
 
   return (
@@ -115,7 +115,7 @@ function RecentPosts({ posts }: { posts: PostMeta[] }) {
       </div>
       <div className="flex flex-col gap-3.5">
         {posts.map((post) => (
-          <PostCard key={post.slug} post={post} basePath="/blog" />
+          <PostCard key={post.slug} post={post} authors={authors} basePath="/blog" />
         ))}
       </div>
     </section>
@@ -124,12 +124,13 @@ function RecentPosts({ posts }: { posts: PostMeta[] }) {
 
 export default function Home() {
   const posts = getBlogPosts().slice(0, 5);
+  const authors = getAuthors();
 
   return (
     <div className="flex flex-col gap-24 py-10">
       <Hero />
       <AboutCards />
-      <RecentPosts posts={posts} />
+      <RecentPosts posts={posts} authors={authors} />
     </div>
   );
 }

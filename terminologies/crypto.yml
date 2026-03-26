@@ -1,0 +1,17 @@
+- slug: aes
+  title: AES
+  definition: Advanced Encryption Standard，对称加密算法，密钥长度 128/192/256 位，广泛用于数据加密。
+  aliases: [AES-128, AES-256]
+
+- slug: rsa
+  title: RSA
+  definition: 基于大整数质因数分解难题的非对称加密算法，常用于密钥交换与数字签名。
+
+- slug: tls
+  title: TLS
+  definition: Transport Layer Security，传输层安全协议，为网络通信提供端到端加密、身份验证和数据完整性保护。
+  aliases: [SSL, TLS/SSL]
+
+- slug: hmac
+  title: HMAC
+  definition: Hash-based Message Authentication Code，使用哈希函数和密钥生成消息认证码，验证数据完整性和来源真实性。

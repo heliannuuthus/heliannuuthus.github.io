@@ -1,0 +1,15 @@
+- slug: pod
+  title: Pod
+  definition: Kubernetes 最小调度单元，包含一个或多个共享网络和存储的容器，作为应用部署的原子单位。
+
+- slug: service
+  title: Service
+  definition: Kubernetes 中为一组 Pod 提供稳定网络端点的抽象层，实现服务发现和负载均衡。
+
+- slug: ingress
+  title: Ingress
+  definition: Kubernetes 集群的 HTTP/HTTPS 入口资源，管理外部流量到集群内 Service 的路由规则。
+
+- slug: helm
+  title: Helm
+  definition: Kubernetes 包管理器，通过 Chart 模板化管理复杂应用的部署、升级和回滚。

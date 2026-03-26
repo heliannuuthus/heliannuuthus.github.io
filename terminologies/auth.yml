@@ -1,0 +1,23 @@
+- slug: oauth2
+  title: OAuth 2.0
+  definition: 开放授权框架，允许第三方应用在用户授权下获取对资源服务器的有限访问权限，而无需暴露用户凭证。
+  aliases: [OAuth, OAuth2]
+
+- slug: oidc
+  title: OpenID Connect
+  definition: 基于 OAuth 2.0 之上的身份认证层，提供标准化的用户身份验证和基本个人信息获取。
+  aliases: [OIDC]
+
+- slug: jwt
+  title: JSON Web Token
+  definition: 一种紧凑的、URL 安全的令牌格式，通过数字签名在双方之间安全传输 JSON 声明信息。
+  aliases: [JWT]
+
+- slug: rbac
+  title: Role-Based Access Control
+  definition: 基于角色的访问控制模型，通过将权限分配给角色、再将角色分配给用户来管理系统访问。
+  aliases: [RBAC]
+
+- slug: saml
+  title: SAML
+  definition: Security Assertion Markup Language，基于 XML 的开放标准，用于在身份提供者和服务提供者之间交换认证与授权数据。
