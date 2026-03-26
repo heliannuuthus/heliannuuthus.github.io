@@ -1,0 +1,134 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+@font-face {
+  font-family: "Monaspace Xenon Var";
+  src:
+    local("Monaspace Xenon Var"),
+    url("https://cdn.jsdelivr.net/gh/githubnext/monaspace@main/fonts/Web Fonts/Variable Web Fonts/Monaspace Xenon/Monaspace Xenon Var.woff2")
+      format("opentype");
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monaspace Radon Var";
+  src:
+    local("Monaspace Radon Var"),
+    url("https://cdn.jsdelivr.net/gh/githubnext/monaspace@main/fonts/Web Fonts/Variable Web Fonts/Monaspace Radon/Monaspace Radon Var.woff2")
+      format("opentype");
+  font-weight: 100 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "LXGW WenKai", -apple-system, "PingFang SC", "Noto Sans SC", sans-serif;
+  --font-mono: "Monaspace Xenon Var", "Monaspace Radon Var", "LXGW WenKai Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+code, pre, kbd, samp, .font-mono {
+  font-feature-settings:
+    "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1,
+    "ss06" 1, "ss07" 1, "ss08" 1, "ss09" 1,
+    "cv10" 1, "cv11" 1, "cv30" 1, "cv31" 1, "cv32" 1;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Apple-style surface system ─── */
+
+.surface {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.04),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.03);
+}
+
+.dark .surface {
+  background: rgba(38, 38, 38, 0.72);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.surface-raised {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.04),
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    0 12px 40px rgba(0, 0, 0, 0.04);
+}
+
+.dark .surface-raised {
+  background: rgba(44, 44, 44, 0.85);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+.surface-overlay {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: saturate(200%) blur(40px);
+  -webkit-backdrop-filter: saturate(200%) blur(40px);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.05),
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 24px 60px rgba(0, 0, 0, 0.06);
+}
+
+.dark .surface-overlay {
+  background: rgba(36, 36, 36, 0.95);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 24px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* backward compat aliases */
+.glass { @extend .surface; }
+.glass-subtle { @extend .surface; }
+.glass-heavy { @extend .surface-overlay; }
+
+::selection {
+  background: rgba(46, 133, 85, 0.2);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
