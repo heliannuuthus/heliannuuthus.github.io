@@ -85,20 +85,14 @@ const updateStyledD = (path: SVGPathElement) => {
   const dataPath = path.getAttribute("data-path");
   if (!dataPath) return;
   const parentPath = dataPath.split(".").slice(0, -1).join(".");
-  const parent = d3.select(`[data-path="${parentPath}"] circle`);
-  const current = d3.select(`[data-path="${dataPath}"] foreignObject`);
-  let parentCy = 0;
-  let currentCy = 0;
-  if (parent.empty()) {
-    parentCy = 0;
-  } else {
-    parentCy = Number(parent.attr("cy")) / 2;
-  }
-  if (current.empty()) {
-    currentCy = parentCy;
-  } else {
-    currentCy = Number(current.attr("height")) / 2;
-  }
+  const parentFO = d3.select(`[data-path="${parentPath}"] foreignObject`);
+  const currentFO = d3.select(`[data-path="${dataPath}"] foreignObject`);
+  const parentCy = parentFO.empty()
+    ? 0
+    : Number(parentFO.attr("height")) / 2;
+  const currentCy = currentFO.empty()
+    ? parentCy
+    : Number(currentFO.attr("height")) / 2;
   const parsed = getPathData(path);
 
   if (

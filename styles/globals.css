@@ -32,6 +32,35 @@ html[data-scroll-behavior="smooth"] {
   scroll-behavior: smooth;
 }
 
+html {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+.dark html,
+html.dark {
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 code, pre, kbd, samp, .font-mono {
   font-feature-settings:
     "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1,
@@ -178,7 +207,7 @@ body {
   animation-delay: var(--enter-delay, 0ms);
 }
 
-/* ─── Term dictionary content typography ─── */
+/* ─── Term content typography ─── */
 
 .term-content > blockquote {
   margin: 0.5rem 0;
