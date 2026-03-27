@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Avatar } from "@heroui/react/avatar";
 import Link from "next/link";
 import ExpandableExcerpt from "@/components/ExpandableExcerpt";
 import TagStamps from "@/components/TagStamps";
@@ -44,13 +44,10 @@ export default function ArticleHeader({
           {/* From: author */}
           <div className="flex items-center gap-3">
             {firstAuthor?.image_url && (
-              <Image
-                src={firstAuthor.image_url}
-                alt={firstAuthor.name}
-                width={36}
-                height={36}
-                className="rounded-full ring-2 ring-white dark:ring-zinc-800 shadow-sm"
-              />
+              <Avatar size="sm" className="ring-2 ring-white dark:ring-zinc-800 shadow-sm">
+                <Avatar.Image src={firstAuthor.image_url} alt={firstAuthor.name} />
+                <Avatar.Fallback>{firstAuthor.name.charAt(0)}</Avatar.Fallback>
+              </Avatar>
             )}
             <div className="flex flex-col">
               <span className="text-[11px] uppercase tracking-[0.14em] text-zinc-400 dark:text-zinc-500 leading-none mb-1">

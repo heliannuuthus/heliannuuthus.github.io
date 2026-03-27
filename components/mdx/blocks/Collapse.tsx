@@ -64,7 +64,7 @@ export default function Collapse({
         className={[
           "mx-auto overflow-hidden cursor-pointer select-none",
           "border border-default-200 dark:border-default-100/10",
-          "transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          "transition-[width,border-radius,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
           open
             ? "shadow-lg bg-default-50/80 dark:bg-default-50/5 backdrop-blur-xl"
             : "shadow-sm bg-default-100 dark:bg-default-100/10",
@@ -86,7 +86,7 @@ export default function Collapse({
             viewBox="0 0 20 20"
             fill="currentColor"
             className={[
-              "shrink-0 overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+              "shrink-0 overflow-hidden transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
               open
                 ? "w-4 h-4 ml-2 opacity-100 rotate-180"
                 : "w-0 h-4 ml-0 opacity-0 rotate-0",

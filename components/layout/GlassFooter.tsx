@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@heroui/react/button";
 import { Link as HeroLink } from "@heroui/react/link";
 import Image from "next/image";
 import Link from "next/link";
@@ -157,9 +158,11 @@ export default function GlassFooter() {
               </HeroLink>
             </p>
 
-            <button
-              onClick={scrollToTop}
-              className={`group flex items-center gap-1.5 text-xs text-default-400 hover:text-emerald-500 transition-all duration-500 cursor-pointer ${
+            <Button
+              variant="ghost"
+              size="sm"
+              onPress={scrollToTop}
+              className={`text-xs text-default-400 hover:text-emerald-500 transition-all duration-500 ${
                 showTopBtn
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-2 pointer-events-none"
@@ -167,7 +170,7 @@ export default function GlassFooter() {
               aria-label="回到顶部"
             >
               <svg
-                className="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-1"
+                className="w-3.5 h-3.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={2}
@@ -180,7 +183,7 @@ export default function GlassFooter() {
                 />
               </svg>
               回到顶部
-            </button>
+            </Button>
           </div>
         </div>
       </div>

@@ -1,6 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Button } from "@heroui/react/button";
+import { Separator } from "@heroui/react/separator";
+import { Tooltip } from "@heroui/react/tooltip";
 import {
   Maximize2,
   Minimize2,
@@ -168,28 +171,36 @@ function observeMarkmap(
 }
 
 function ToolbarButton({
-  onClick,
+  onPress,
   title,
   children,
   active,
 }: {
-  onClick: () => void;
+  onPress: () => void;
   title: string;
   children: React.ReactNode;
   active?: boolean;
 }) {
   return (
-    <button
-      onClick={onClick}
-      title={title}
-      className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-        active
-          ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400"
-          : "text-default-500 hover:text-default-700 dark:hover:text-default-300 hover:bg-default-100 dark:hover:bg-default-100/10"
-      }`}
-    >
-      {children}
-    </button>
+    <Tooltip>
+      <Tooltip.Trigger>
+        <Button
+          isIconOnly
+          size="sm"
+          variant={active ? "secondary" : "ghost"}
+          onPress={onPress}
+          className={
+            active
+              ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400"
+              : "text-default-500"
+          }
+          aria-label={title}
+        >
+          {children}
+        </Button>
+      </Tooltip.Trigger>
+      <Tooltip.Content>{title}</Tooltip.Content>
+    </Tooltip>
   );
 }
 
@@ -218,14 +229,14 @@ function Toolbar({
     <div className="flex items-center justify-between px-3 py-1.5 border-b border-default-200 dark:border-default-100/10 bg-default-50/50 dark:bg-default-100/5 rounded-t-2xl">
       <div className="flex items-center gap-0.5">
         <ToolbarButton
-          onClick={() => onTabChange("map")}
+          onPress={() => onTabChange("map")}
           title="思维导图"
           active={tab === "map"}
         >
           <Eye size={15} />
         </ToolbarButton>
         <ToolbarButton
-          onClick={() => onTabChange("code")}
+          onPress={() => onTabChange("code")}
           title="源码"
           active={tab === "code"}
         >
@@ -236,26 +247,26 @@ function Toolbar({
       <div className="flex items-center gap-0.5">
         {tab === "map" && (
           <>
-            <ToolbarButton onClick={onZoomIn} title="放大">
+            <ToolbarButton onPress={onZoomIn} title="放大">
               <ZoomIn size={15} />
             </ToolbarButton>
-            <ToolbarButton onClick={onZoomOut} title="缩小">
+            <ToolbarButton onPress={onZoomOut} title="缩小">
               <ZoomOut size={15} />
             </ToolbarButton>
-            <ToolbarButton onClick={onFit} title="适应">
+            <ToolbarButton onPress={onFit} title="适应">
               <LocateFixed size={15} />
             </ToolbarButton>
-            <div className="w-px h-4 bg-default-200 dark:bg-default-100/10 mx-1" />
-            <ToolbarButton onClick={onDownload} title="下载图片">
+            <Separator orientation="vertical" className="h-4 mx-1" />
+            <ToolbarButton onPress={onDownload} title="下载图片">
               <Download size={15} />
             </ToolbarButton>
           </>
         )}
-        <ToolbarButton onClick={onCopy} title={tab === "map" ? "复制图片" : "复制源码"}>
+        <ToolbarButton onPress={onCopy} title={tab === "map" ? "复制图片" : "复制源码"}>
           <Copy size={15} />
         </ToolbarButton>
-        <div className="w-px h-4 bg-default-200 dark:bg-default-100/10 mx-1" />
-        <ToolbarButton onClick={onFullscreen} title={isFullscreen ? "退出全屏" : "全屏"}>
+        <Separator orientation="vertical" className="h-4 mx-1" />
+        <ToolbarButton onPress={onFullscreen} title={isFullscreen ? "退出全屏" : "全屏"}>
           {isFullscreen ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
         </ToolbarButton>
       </div>
@@ -412,13 +423,16 @@ function FullscreenOverlay({
             {markdown}
           </pre>
         )}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full bg-default-100 dark:bg-default-100/10 text-default-600 hover:text-default-900 dark:hover:text-default-200 transition-colors cursor-pointer"
-          title="关闭"
+        <Button
+          isIconOnly
+          size="sm"
+          variant="ghost"
+          className="absolute top-4 right-4"
+          onPress={onClose}
+          aria-label="关闭"
         >
           <X size={18} />
-        </button>
+        </Button>
       </div>
     </div>
   );

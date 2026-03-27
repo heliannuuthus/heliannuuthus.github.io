@@ -1,12 +1,16 @@
 import type { MDXComponents } from "mdx/types";
+import { Separator } from "@heroui/react/separator";
 import Admonition from "./blocks/Admonition";
+import CodeBlock from "./blocks/CodeBlock";
 import Collapse from "./blocks/Collapse";
 import Hint from "./blocks/hint";
 import TermPreview from "./blocks/term-preview";
 import { Tabs, Tab } from "./blocks/Tabs";
 import Mermaid from "./blocks/Mermaid";
 import Markmap from "./blocks/Markmap";
+import Steps from "./blocks/Steps";
 import Table from "./blocks/Table";
+import Timeline from "./blocks/Timeline";
 
 export const mdxComponents: MDXComponents = {
   h1: (props) => (
@@ -69,7 +73,7 @@ export const mdxComponents: MDXComponents = {
       {...props}
     />
   ),
-  hr: () => <hr className="my-8 border-default-200" />,
+  hr: () => <Separator className="my-8" />,
   table: (props) => (
     <div className="overflow-x-auto my-6">
       <table className="w-full text-sm border-collapse" {...props} />
@@ -84,12 +88,7 @@ export const mdxComponents: MDXComponents = {
   td: (props) => (
     <td className="border border-default-200 px-4 py-2" {...props} />
   ),
-  pre: (props) => (
-    <pre
-      className="glass rounded-2xl p-4 overflow-x-auto my-4 text-sm leading-6"
-      {...props}
-    />
-  ),
+  pre: (props) => <CodeBlock {...props} />,
   code: ({ className, children, ...props }) => {
     const isInline = !className;
     if (isInline) {
@@ -126,5 +125,7 @@ export const mdxComponents: MDXComponents = {
   Tab,
   Mermaid,
   Markmap,
+  Steps,
   Table,
+  Timeline,
 };

@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
+import { clsx } from "clsx";
 import type { Term } from "@/lib/terms";
 
 const categoryLabels: Record<string, string> = {
@@ -16,68 +17,183 @@ const categoryLabels: Record<string, string> = {
   web:    "Web 开发",
 };
 
+const categoryDots: Record<string, string> = {
+  auth:   "bg-rose-500",
+  crypto: "bg-amber-500",
+  dl:     "bg-violet-500",
+  java:   "bg-orange-500",
+  k8s:    "bg-sky-500",
+  math:   "bg-teal-500",
+  net:    "bg-cyan-500",
+  os:     "bg-emerald-500",
+  web:    "bg-indigo-500",
+};
+
 function stripTags(html: string): string {
   return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
 }
 
-function TermEntry({
+/* ── Single card with 3D tilt ── */
+
+function TermCard({
   term,
-  expanded,
-  onToggle,
+  index,
+  ghosted,
+  onFocus,
 }: {
   term: Term;
-  expanded: boolean;
-  onToggle: () => void;
+  index: number;
+  ghosted: boolean;
+  onFocus: () => void;
 }) {
-  const canExpand = !!(term.contentHtml || term.definition);
+  const tiltRef = useRef<HTMLDivElement>(null);
   const preview = term.definition ? stripTags(term.definition) : "";
+  const dot = categoryDots[term.category] || "bg-zinc-400";
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (ghosted || !tiltRef.current) return;
+      const rect = tiltRef.current.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      tiltRef.current.style.transform = `perspective(600px) rotateX(${-y * 10}deg) rotateY(${x * 10}deg) translateZ(8px)`;
+    },
+    [ghosted],
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    if (!tiltRef.current) return;
+    tiltRef.current.style.transform = "";
+  }, []);
 
   return (
     <div
-      id={term.slug}
-      className="scroll-mt-28 border-b border-zinc-100 dark:border-zinc-800/50 last:border-b-0"
+      className="term-card-enter"
+      style={{ "--enter-delay": `${index * 40}ms` } as React.CSSProperties}
     >
-      <button onClick={onToggle} className="w-full text-left py-4 group/btn">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <h3 className="text-[15px] font-semibold text-zinc-900 dark:text-zinc-50 group-hover/btn:text-emerald-600 dark:group-hover/btn:text-emerald-400 transition-colors">
-              {term.title}
+      <div
+        ref={tiltRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="will-change-transform"
+        style={{ transition: "transform 0.15s ease-out" }}
+      >
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={onFocus}
+          onKeyDown={(e) => { if (e.key === "Enter") onFocus(); }}
+          className={clsx(
+            "surface rounded-2xl p-5 cursor-pointer select-none",
+            "hover:surface-raised hover:-translate-y-0.5",
+            "transition-[opacity,filter,box-shadow,transform] duration-300 ease-[cubic-bezier(.23,1,.32,1)]",
+            ghosted && "!opacity-[0.12] blur-[2px] pointer-events-none",
+          )}
+        >
+          <div className="flex flex-col min-h-[110px]">
+            <div className="flex-1 min-w-0">
+              <h3 className="text-[15px] font-semibold text-zinc-900 dark:text-zinc-50 leading-snug tracking-tight">
+                {term.title}
+              </h3>
               {term.aliases && term.aliases.length > 0 && (
-                <span className="ml-2 text-[11px] font-normal italic text-zinc-400 dark:text-zinc-500">
+                <p className="text-[10px] italic text-zinc-400 dark:text-zinc-500 mt-0.5 truncate">
                   {term.aliases.join(", ")}
-                </span>
+                </p>
               )}
-            </h3>
-            {!expanded && preview && (
-              <p className="text-[13px] text-zinc-400 dark:text-zinc-500 mt-1 line-clamp-1">
-                {preview}
+              {preview && (
+                <p className="text-[12px] leading-relaxed text-zinc-500 dark:text-zinc-400 mt-2 line-clamp-2">
+                  {preview}
+                </p>
+              )}
+            </div>
+
+            <div className="flex items-center gap-1.5 mt-auto pt-3">
+              <span className={clsx("w-1.5 h-1.5 rounded-full shrink-0", dot)} />
+              <span className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 truncate">
+                {categoryLabels[term.category] || term.category}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Focus overlay ── */
+
+function FocusOverlay({
+  term,
+  onClose,
+}: {
+  term: Term;
+  onClose: () => void;
+}) {
+  const dot = categoryDots[term.category] || "bg-zinc-400";
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-50 focus-overlay-enter">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        onClick={onClose}
+        role="button"
+        tabIndex={-1}
+        aria-label="关闭"
+        onKeyDown={(e) => { if (e.key === "Enter") onClose(); }}
+      />
+
+      {/* Centered content */}
+      <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-8 pointer-events-none">
+        <div
+          className="relative pointer-events-auto surface-overlay rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto focus-card-enter"
+          id={term.slug}
+        >
+          {/* Header */}
+          <div className="sticky top-0 z-10 flex items-center justify-between px-7 pt-5 pb-3 backdrop-blur-xl bg-white/80 dark:bg-zinc-900/80 rounded-t-2xl">
+            <div className="flex items-center gap-2">
+              <span className={clsx("w-2 h-2 rounded-full", dot)} />
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+                {categoryLabels[term.category] || term.category}
+              </span>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-7 h-7 rounded-full flex items-center justify-center text-zinc-400 dark:text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              aria-label="关闭"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div className="px-7 pb-7">
+            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 leading-snug tracking-tight">
+              {term.title}
+            </h2>
+            {term.aliases && term.aliases.length > 0 && (
+              <p className="text-[12px] italic text-zinc-400 dark:text-zinc-500 mt-1">
+                {term.aliases.join(", ")}
               </p>
             )}
-          </div>
-          {canExpand && (
-            <svg
-              className={`w-4 h-4 mt-0.5 shrink-0 text-zinc-300 dark:text-zinc-600 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.5}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-          )}
-        </div>
-      </button>
 
-      {canExpand && (
-        <div
-          className="overflow-hidden transition-all duration-300 ease-out"
-          style={{ maxHeight: expanded ? "3000px" : "0", opacity: expanded ? 1 : 0 }}
-        >
-          <div className="pb-5">
             {term.definition && (
-              <div className="mb-3 pl-3 border-l-2 border-emerald-500/30 dark:border-emerald-400/20">
+              <div className="mt-5 pl-3 border-l-2 border-emerald-500/30 dark:border-emerald-400/20">
                 <div
-                  className="text-[13px] leading-[1.8] text-zinc-600 dark:text-zinc-300 term-content"
+                  className="text-[13.5px] leading-[1.8] text-zinc-600 dark:text-zinc-300 term-content"
                   dangerouslySetInnerHTML={{ __html: term.definition }}
                 />
               </div>
@@ -85,19 +201,19 @@ function TermEntry({
 
             {term.contentHtml && (
               <div
-                className="term-content text-[13px] leading-[1.8] text-zinc-700 dark:text-zinc-300"
+                className="mt-4 term-content text-[13.5px] leading-[1.8] text-zinc-700 dark:text-zinc-300"
                 dangerouslySetInnerHTML={{ __html: term.contentHtml }}
               />
             )}
 
-            <div className="flex items-center gap-3 mt-4 pt-3 border-t border-dashed border-zinc-200/60 dark:border-zinc-700/40">
+            <div className="flex items-center gap-3 mt-6 pt-4 border-t border-zinc-200/60 dark:border-zinc-700/40">
               <Link
                 href="https://github.com/heliannuuthus/heliannuuthus.github.io/edit/main/terminologies"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-[11px] font-medium text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+                className="inline-flex items-center gap-1.5 text-[12px] font-medium text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
               >
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -109,94 +225,77 @@ function TermEntry({
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
 
+/* ── Main layout ── */
+
 export default function TermsContent({ terms }: { terms: Term[] }) {
   const [query, setQuery] = useState("");
-  const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [focusedTerm, setFocusedTerm] = useState<Term | null>(null);
+  const [generation, setGeneration] = useState(0);
 
-  const filtered = useMemo(() => {
-    if (!query) return terms;
+  const allCategories = useMemo(
+    () => [...new Set(terms.map((t) => t.category))].sort(),
+    [terms],
+  );
+
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const t of terms) counts[t.category] = (counts[t.category] || 0) + 1;
+    return counts;
+  }, [terms]);
+
+  const visibleTerms = useMemo(() => {
+    const base = selectedCategory
+      ? terms.filter((t) => t.category === selectedCategory)
+      : terms;
+    return [...base].sort((a, b) => a.title.localeCompare(b.title));
+  }, [terms, selectedCategory]);
+
+  const matchingSlugs = useMemo(() => {
+    if (!query) return null;
     const q = query.toLowerCase();
-    return terms.filter(
-      (t) =>
-        t.title.toLowerCase().includes(q) ||
-        t.definition.toLowerCase().includes(q) ||
-        t.slug.toLowerCase().includes(q) ||
-        (t.aliases?.some((a) => a.toLowerCase().includes(q)) ?? false),
+    return new Set(
+      terms
+        .filter(
+          (t) =>
+            t.title.toLowerCase().includes(q) ||
+            t.definition.toLowerCase().includes(q) ||
+            t.slug.toLowerCase().includes(q) ||
+            (t.aliases?.some((a) => a.toLowerCase().includes(q)) ?? false),
+        )
+        .map((t) => t.slug),
     );
   }, [terms, query]);
 
-  const grouped = useMemo(() => {
-    const map: Record<string, Term[]> = {};
-    for (const t of filtered) (map[t.category] ||= []).push(t);
-    return map;
-  }, [filtered]);
-
-  const categories = useMemo(
-    () => Object.keys(grouped).sort((a, b) => a.localeCompare(b)),
-    [grouped],
-  );
-
-  useEffect(() => {
-    if (categories.length > 0 && !categories.includes(activeCategory || "")) {
-      setActiveCategory(categories[0]);
-    }
-  }, [categories, activeCategory]);
-
-  useEffect(() => {
-    if (categories.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const cat = entry.target.getAttribute("data-category");
-            if (cat) setActiveCategory(cat);
-          }
-        }
-      },
-      { rootMargin: "-15% 0px -65% 0px" },
-    );
-
-    for (const cat of categories) {
-      const el = sectionRefs.current[cat];
-      if (el) observer.observe(el);
-    }
-
-    return () => observer.disconnect();
-  }, [categories]);
-
-  const scrollToCategory = useCallback((cat: string) => {
-    sectionRefs.current[cat]?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const changeCategory = useCallback((cat: string | null) => {
+    setSelectedCategory(cat);
+    setGeneration((g) => g + 1);
   }, []);
 
-  const toggleExpand = useCallback((slug: string) => {
-    setExpandedSlug((prev) => (prev === slug ? null : slug));
-  }, []);
+  const closeFocus = useCallback(() => setFocusedTerm(null), []);
 
   useEffect(() => {
     const hash = window.location.hash.slice(1);
     if (hash) {
       const target = terms.find((t) => t.slug === hash);
-      if (target) {
-        setExpandedSlug(hash);
-        requestAnimationFrame(() => {
-          document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "center" });
-        });
-      }
+      if (target) setFocusedTerm(target);
     }
   }, [terms]);
 
+  const matchedCount =
+    matchingSlugs !== null
+      ? visibleTerms.filter((t) => matchingSlugs.has(t.slug)).length
+      : null;
+
   return (
-    <div className="max-w-2xl mx-auto py-6 px-4 sm:px-0">
+    <div className="max-w-5xl mx-auto py-6 px-4 sm:px-6">
       {/* Search */}
-      <div className="relative">
+      <div className="relative max-w-md mx-auto">
         <svg
           className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 dark:text-zinc-500 pointer-events-none"
           fill="none"
@@ -215,74 +314,69 @@ export default function TermsContent({ terms }: { terms: Term[] }) {
         />
       </div>
 
-      {/* Category nav */}
-      {categories.length > 1 && (
-        <div className="flex flex-wrap gap-1 mt-4">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => scrollToCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200 ${
-                activeCategory === cat
-                  ? "bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900"
-                  : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-700 dark:hover:text-zinc-300"
-              }`}
-            >
-              {categoryLabels[cat] || cat}
-              <span
-                className={`ml-1 tabular-nums ${
-                  activeCategory === cat
-                    ? "text-zinc-400 dark:text-zinc-500"
-                    : "text-zinc-300 dark:text-zinc-600"
-                }`}
-              >
-                {grouped[cat].length}
-              </span>
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Category tabs */}
+      <div className="flex flex-wrap justify-center gap-1.5 mt-5">
+        <button
+          onClick={() => changeCategory(null)}
+          className={clsx(
+            "px-3.5 py-1.5 rounded-xl text-[12px] font-medium transition-all duration-200",
+            selectedCategory === null
+              ? "bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900"
+              : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-700 dark:hover:text-zinc-300",
+          )}
+        >
+          全部
+          <span className="ml-1 opacity-40 tabular-nums">{terms.length}</span>
+        </button>
+        {allCategories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => changeCategory(cat)}
+            className={clsx(
+              "px-3.5 py-1.5 rounded-xl text-[12px] font-medium transition-all duration-200",
+              selectedCategory === cat
+                ? "bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900"
+                : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-700 dark:hover:text-zinc-300",
+            )}
+          >
+            {categoryLabels[cat] || cat}
+            <span className="ml-1 opacity-40 tabular-nums">{categoryCounts[cat] || 0}</span>
+          </button>
+        ))}
+      </div>
 
-      {/* Content */}
-      {filtered.length === 0 ? (
+      {/* Card grid */}
+      {visibleTerms.length === 0 ? (
         <div className="py-20 text-center text-zinc-400 dark:text-zinc-500 text-sm">
-          {query ? `未找到与「${query}」相关的术语` : "暂无术语条目"}
+          暂无术语条目
         </div>
       ) : (
-        <div className="mt-6">
-          {categories.map((cat) => (
-            <section
-              key={cat}
-              ref={(el) => { sectionRefs.current[cat] = el; }}
-              data-category={cat}
-              className="scroll-mt-24"
-            >
-              <div className="flex items-center gap-3 pt-8 pb-3 first:pt-0">
-                <h2 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-500 whitespace-nowrap">
-                  {categoryLabels[cat] || cat}
-                </h2>
-                <div className="flex-1 h-px bg-zinc-200/70 dark:bg-zinc-700/50" />
-                <span className="text-[10px] tabular-nums text-zinc-300 dark:text-zinc-600">
-                  {grouped[cat].length}
-                </span>
-              </div>
-
-              {grouped[cat].map((t) => (
-                <TermEntry
-                  key={t.slug}
-                  term={t}
-                  expanded={expandedSlug === t.slug}
-                  onToggle={() => toggleExpand(t.slug)}
-                />
-              ))}
-            </section>
+        <div
+          key={generation}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8"
+        >
+          {visibleTerms.map((term, i) => (
+            <TermCard
+              key={term.slug}
+              term={term}
+              index={i}
+              ghosted={matchingSlugs !== null && !matchingSlugs.has(term.slug)}
+              onFocus={() => setFocusedTerm(term)}
+            />
           ))}
-
-          <p className="pt-10 pb-4 text-center text-[11px] text-zinc-300 dark:text-zinc-600">
-            共 {filtered.length} 条术语
-          </p>
         </div>
       )}
+
+      {/* Footer */}
+      {visibleTerms.length > 0 && (
+        <p className="text-center text-[11px] text-zinc-300 dark:text-zinc-600 mt-8">
+          {matchedCount !== null ? `${matchedCount} / ` : ""}
+          {visibleTerms.length} 条术语
+        </p>
+      )}
+
+      {/* Focus overlay */}
+      {focusedTerm && <FocusOverlay term={focusedTerm} onClose={closeFocus} />}
     </div>
   );
 }

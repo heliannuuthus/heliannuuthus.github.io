@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import type { PostMeta } from "@/lib/content";
+import { Card } from "@heroui/react/card";
 import Image from "next/image";
+import type { PostMeta } from "@/lib/content";
 
 interface EssayCardProps {
   post: PostMeta;
@@ -22,7 +23,7 @@ export default function EssayCard({ post, basePath }: EssayCardProps) {
         if (e.key === "Enter") router.push(`${basePath}/${post.slug}`);
       }}
     >
-      <div className="surface rounded-2xl overflow-hidden transition-all duration-500 ease-[cubic-bezier(.23,1,.32,1)] group-hover:surface-raised group-hover:-translate-y-1">
+      <Card className="overflow-hidden transition-all duration-500 ease-[cubic-bezier(.23,1,.32,1)] group-hover:-translate-y-1">
         <div className="relative w-full overflow-hidden aspect-[1200/630]">
           <Image
             src={`/covers/${post.slug}.png`}
@@ -34,7 +35,7 @@ export default function EssayCard({ post, basePath }: EssayCardProps) {
             sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
-      </div>
+      </Card>
     </div>
   );
 }
