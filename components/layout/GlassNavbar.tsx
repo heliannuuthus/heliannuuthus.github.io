@@ -6,7 +6,13 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from "react";
 
 const navItems = [
   { label: "Blog", href: "/blog" },
@@ -14,11 +20,54 @@ const navItems = [
   { label: "Terms", href: "/terms" }
 ];
 
+function useScrolled(threshold = 8) {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > threshold);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [threshold]);
+  return scrolled;
+}
+
 export default function GlassNavbar() {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const scrolled = useScrolled();
+
+  const tabsRef = useRef<HTMLUListElement>(null);
+  const tabRefs = useRef<Map<string, HTMLLIElement>>(new Map());
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+  const [indicatorReady, setIndicatorReady] = useState(false);
+
+  const activeHref = navItems.find((item) =>
+    pathname.startsWith(item.href)
+  )?.href;
+
+  const measureIndicator = useCallback(() => {
+    if (!activeHref || !tabsRef.current) return;
+    const el = tabRefs.current.get(activeHref);
+    if (!el) return;
+    const containerRect = tabsRef.current.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+    setIndicator({
+      left: elRect.left - containerRect.left,
+      width: elRect.width
+    });
+    setIndicatorReady(true);
+  }, [activeHref]);
+
+  useLayoutEffect(() => {
+    measureIndicator();
+  }, [measureIndicator]);
+
+  useEffect(() => {
+    window.addEventListener("resize", measureIndicator);
+    return () => window.removeEventListener("resize", measureIndicator);
+  }, [measureIndicator]);
 
   useEffect(() => setMounted(true), []);
 
@@ -29,119 +78,72 @@ export default function GlassNavbar() {
     };
   }, [isMenuOpen]);
 
+  const setTabRef = useCallback(
+    (href: string) => (el: HTMLLIElement | null) => {
+      if (el) tabRefs.current.set(href, el);
+      else tabRefs.current.delete(href);
+    },
+    []
+  );
+
   return (
-    <nav className="sticky top-0 z-40 w-full bg-white/72 dark:bg-zinc-900/72 backdrop-saturate-[1.8] backdrop-blur-xl shadow-[0_0.5px_0_rgba(0,0,0,0.06)] dark:shadow-[0_0.5px_0_rgba(255,255,255,0.06)]">
-      <header className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-3">
-          <Image
-            src="/img/logo.svg"
-            alt="heliannuuthus"
-            width={32}
-            height={32}
-            className="rounded-lg"
-          />
-          <span className="font-semibold text-lg tracking-tight">
-            heliannuuthus
-          </span>
-        </Link>
+    <div
+      className={`sticky z-40 w-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+        scrolled ? "top-0 pt-0" : "top-0 pt-3"
+      }`}
+    >
+      <nav
+        className={`mx-auto bg-white/72 dark:bg-zinc-900/72 backdrop-saturate-[1.8] backdrop-blur-xl transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+          scrolled
+            ? "w-full max-w-none rounded-none shadow-[0_0.5px_0_rgba(0,0,0,0.06)] dark:shadow-[0_0.5px_0_rgba(255,255,255,0.06)]"
+            : "max-w-3xl rounded-full shadow-[0_2px_12px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3),0_0_0_0.5px_rgba(255,255,255,0.06)]"
+        }`}
+      >
+        <header className="flex h-14 items-center justify-between px-5 sm:px-6">
+          <Link href="/" className="flex items-center gap-2.5">
+            <Image
+              src="/img/logo.svg"
+              alt="heliannuuthus"
+              width={28}
+              height={28}
+              className="rounded-lg"
+            />
+            <span className="font-semibold text-base tracking-tight hidden sm:inline">
+              heliannuuthus
+            </span>
+          </Link>
 
-        <ul className="hidden sm:flex items-center gap-1">
-          {navItems.map((item) => {
-            const isActive = pathname.startsWith(item.href);
-            return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`px-3.5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 ${
-                    isActive
-                      ? "bg-zinc-900/8 dark:bg-white/10 text-zinc-900 dark:text-zinc-100"
-                      : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
-                  }`}
-                  aria-current={isActive ? "page" : undefined}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-
-        <div className="flex items-center gap-2">
-          {mounted && (
-            <Button
-              isIconOnly
-              variant="ghost"
-              size="sm"
-              className="rounded-full w-9 h-9"
-              onPress={() => setTheme(theme === "dark" ? "light" : "dark")}
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <SunIcon className="w-5 h-5" />
-              ) : (
-                <MoonIcon className="w-5 h-5" />
-              )}
-            </Button>
-          )}
-          <HeroLink
-            href="https://github.com/heliannuuthus"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="flex items-center justify-center w-9 h-9 rounded-full hover:bg-default-100 transition-colors"
+          <ul
+            ref={tabsRef}
+            className="hidden sm:flex relative items-center rounded-full bg-zinc-100/60 dark:bg-white/[0.06] p-1 gap-0.5"
           >
-            <GitHubIcon className="w-5 h-5 text-default-600 hover:text-default-900 dark:hover:text-default-300 transition-colors" />
-          </HeroLink>
-          <Button
-            isIconOnly
-            variant="ghost"
-            size="sm"
-            className="sm:hidden ml-1 rounded-full w-9 h-9"
-            onPress={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-            aria-expanded={isMenuOpen}
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              {isMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </Button>
-        </div>
-      </header>
-
-      {isMenuOpen && (
-        <div className="border-t border-default-200/50 sm:hidden bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl backdrop-saturate-[1.8]">
-          <ul className="flex flex-col gap-2 p-4">
+            {indicatorReady && (
+              <li
+                aria-hidden
+                className="absolute top-1 h-[calc(100%-8px)] rounded-full bg-white dark:bg-white/15 shadow-[0_1px_3px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.2)]"
+                style={{
+                  left: indicator.left,
+                  width: indicator.width,
+                  transition:
+                    "left 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                }}
+              />
+            )}
             {navItems.map((item) => {
               const isActive = pathname.startsWith(item.href);
               return (
-                <li key={item.href}>
+                <li
+                  key={item.href}
+                  ref={setTabRef(item.href)}
+                >
                   <Link
                     href={item.href}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={`block py-2 text-lg transition-colors ${
+                    className={`relative z-10 block px-4 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-colors duration-300 ${
                       isActive
-                        ? "font-medium text-emerald-600 dark:text-emerald-400"
-                        : "text-foreground"
+                        ? "text-zinc-900 dark:text-zinc-100"
+                        : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
                     }`}
+                    aria-current={isActive ? "page" : undefined}
                   >
                     {item.label}
                   </Link>
@@ -149,9 +151,94 @@ export default function GlassNavbar() {
               );
             })}
           </ul>
-        </div>
-      )}
-    </nav>
+
+          <div className="flex items-center gap-1.5">
+            {mounted && (
+              <Button
+                isIconOnly
+                variant="ghost"
+                size="sm"
+                className="rounded-full w-8 h-8"
+                onPress={() => setTheme(theme === "dark" ? "light" : "dark")}
+                aria-label="Toggle theme"
+              >
+                {theme === "dark" ? (
+                  <SunIcon className="w-[18px] h-[18px]" />
+                ) : (
+                  <MoonIcon className="w-[18px] h-[18px]" />
+                )}
+              </Button>
+            )}
+            <HeroLink
+              href="https://github.com/heliannuuthus"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-default-100 transition-colors"
+            >
+              <GitHubIcon className="w-[18px] h-[18px] text-default-600 hover:text-default-900 dark:hover:text-default-300 transition-colors" />
+            </HeroLink>
+            <Button
+              isIconOnly
+              variant="ghost"
+              size="sm"
+              className="sm:hidden ml-0.5 rounded-full w-8 h-8"
+              onPress={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={isMenuOpen}
+            >
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {isMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </Button>
+          </div>
+        </header>
+
+        {isMenuOpen && (
+          <div className="border-t border-default-200/50 sm:hidden bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl backdrop-saturate-[1.8] rounded-b-3xl">
+            <ul className="flex flex-col gap-2 p-4">
+              {navItems.map((item) => {
+                const isActive = pathname.startsWith(item.href);
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`block py-2 text-lg transition-colors ${
+                        isActive
+                          ? "font-medium text-emerald-600 dark:text-emerald-400"
+                          : "text-foreground"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+      </nav>
+    </div>
   );
 }
 

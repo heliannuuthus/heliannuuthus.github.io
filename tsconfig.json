@@ -45,10 +45,6 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "packages",
-    "plugins",
-    "src",
-    "static"
+    "node_modules"
   ]
 }

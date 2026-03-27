@@ -16,10 +16,13 @@
     "@tailwindcss/postcss": "^4.2.2",
     "@types/mdx": "^2.0.13",
     "clsx": "^2.1.1",
+    "d3-scale-chromatic": "^3.1.0",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.1",
     "lucide-react": "^1.7.0",
+    "markmap-lib": "^0.18.12",
+    "markmap-view": "^0.18.12",
     "mdast-util-directive": "^3.1.0",
     "mdast-util-find-and-replace": "^3.0.2",
     "mdast-util-mdx-jsx": "^3.2.0",
@@ -44,10 +47,12 @@
     "tailwindcss": "^4.2.2",
     "unified": "^11.0.5",
     "unist-util-select": "^5.1.0",
-    "unist-util-visit": "^5.1.0"
+    "unist-util-visit": "^5.1.0",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
+    "@types/d3-scale-chromatic": "^3.1.0",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",

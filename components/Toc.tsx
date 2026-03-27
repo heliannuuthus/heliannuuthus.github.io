@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { Button } from "@heroui/react/button";
 import { ChevronRight } from "lucide-react";
 import type { TocItem } from "@/lib/toc";
 
@@ -92,16 +93,19 @@ function TocNode({
         style={{ paddingLeft: `${indent}px` }}
       >
         {hasChildren && (
-          <button
-            onClick={() => toggle(item.id)}
-            className="shrink-0 w-4 h-4 flex items-center justify-center mr-0.5 text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+          <Button
+            isIconOnly
+            size="sm"
+            variant="ghost"
+            className="shrink-0 w-4 h-4 min-w-4 mr-0.5 text-zinc-400 dark:text-zinc-500"
+            onPress={() => toggle(item.id)}
             aria-label={isCollapsed ? "Expand" : "Collapse"}
           >
             <ChevronRight
               size={11}
               className={`transition-transform duration-200 ${isCollapsed ? "" : "rotate-90"}`}
             />
-          </button>
+          </Button>
         )}
         <a
           href={`#${item.id}`}

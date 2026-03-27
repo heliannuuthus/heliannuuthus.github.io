@@ -32,11 +32,47 @@ html[data-scroll-behavior="smooth"] {
   scroll-behavior: smooth;
 }
 
+html {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+.dark html,
+html.dark {
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 code, pre, kbd, samp, .font-mono {
   font-feature-settings:
     "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1,
     "ss06" 1, "ss07" 1, "ss08" 1, "ss09" 1,
     "cv10" 1, "cv11" 1, "cv30" 1, "cv31" 1, "cv32" 1;
+}
+
+[data-rehype-pretty-code-figure] code [data-line] span {
+  color: var(--shiki-light);
+}
+.dark [data-rehype-pretty-code-figure] code [data-line] span {
+  color: var(--shiki-dark);
 }
 
 body {
@@ -99,6 +135,19 @@ body {
     0 0 0 0.5px rgba(255, 255, 255, 0.1),
     0 8px 32px rgba(0, 0, 0, 0.5),
     0 24px 60px rgba(0, 0, 0, 0.3);
+}
+
+.code-block {
+  background: rgba(0, 0, 0, 0.03);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.04),
+    0 1px 3px rgba(0, 0, 0, 0.02);
+}
+.dark .code-block {
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 /* backward compat aliases */
@@ -178,7 +227,54 @@ body {
   animation-delay: var(--enter-delay, 0ms);
 }
 
-/* ─── Term dictionary content typography ─── */
+/* ─── Term card entrance ─── */
+
+@keyframes term-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.term-card-enter {
+  animation: term-card-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+/* ─── Focus overlay ─── */
+
+@keyframes focus-overlay-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes focus-card-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.focus-overlay-enter {
+  animation: focus-overlay-enter 0.2s ease-out both;
+}
+
+.focus-card-enter {
+  animation: focus-card-enter 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.05s;
+}
+
+/* ─── Term content typography ─── */
 
 .term-content > blockquote {
   margin: 0.5rem 0;

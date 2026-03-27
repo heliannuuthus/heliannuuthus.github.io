@@ -3,6 +3,7 @@ import { extractToc } from "@/lib/toc";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx/mdx-components";
 import TableOfContents from "@/components/Toc";
+import { Chip } from "@heroui/react/chip";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import remarkGfm from "remark-gfm";
@@ -91,12 +92,9 @@ export default async function EssayPostPage({ params }: Props) {
           {post.meta.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
               {post.meta.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="inline-flex items-center h-[22px] px-2.5 text-[11px] font-medium tracking-wide rounded-full bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400"
-                >
+                <Chip key={tag} size="sm" variant="soft">
                   {tag}
-                </span>
+                </Chip>
               ))}
             </div>
           )}
@@ -125,7 +123,7 @@ export default async function EssayPostPage({ params }: Props) {
                 rehypePlugins: [
                   rehypeSlug,
                   rehypeKatex,
-                  [rehypePrettyCode, { theme: "github-dark-default", keepBackground: true }]
+                  [rehypePrettyCode, { theme: { dark: "github-dark-default", light: "github-light-default" }, keepBackground: false }]
                 ]
               }
             }}

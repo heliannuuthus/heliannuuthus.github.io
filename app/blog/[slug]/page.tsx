@@ -90,7 +90,7 @@ export default async function BlogPostPage({ params }: Props) {
                 rehypePlugins: [
                   rehypeSlug,
                   rehypeKatex,
-                  [rehypePrettyCode, { theme: "github-dark-default", keepBackground: true }]
+                  [rehypePrettyCode, { theme: { dark: "github-dark-default", light: "github-light-default" }, keepBackground: false }]
                 ]
               }
             }}
