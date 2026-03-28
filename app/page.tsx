@@ -14,8 +14,9 @@ function Hero() {
           </span>
         </h1>
         <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-md">
-          Backend Engineer. Writing about distributed systems, authentication,
-          cloud-native, and everything in between.
+          AI Infra Engineer & Vibe Coder. Building the infrastructure behind
+          large models — from inference serving to agent orchestration — and
+          shipping code by vibing with AI.
         </p>
         <div className="flex gap-3 mt-3">
           <Link
@@ -57,6 +58,12 @@ const aboutItems = [
     gradient: "from-violet-500/10 to-blue-500/10 dark:from-violet-500/5 dark:to-blue-500/5"
   },
   {
+    title: "Frontend",
+    description:
+      "React, Next.js, TypeScript, and modern UI/UX with component-driven architecture.",
+    gradient: "from-cyan-500/10 to-sky-500/10 dark:from-cyan-500/5 dark:to-sky-500/5"
+  },
+  {
     title: "Security",
     description:
       "OAuth 2.1, FIDO2/WebAuthn, identity management, and zero-trust architecture.",
@@ -67,6 +74,18 @@ const aboutItems = [
     description:
       "Kubernetes, container orchestration, service mesh, and infrastructure as code.",
     gradient: "from-orange-500/10 to-rose-500/10 dark:from-orange-500/5 dark:to-rose-500/5"
+  },
+  {
+    title: "Vibe Coding",
+    description:
+      "Intent-driven development with AI copilots — describing what to build, letting AI write, human reviews.",
+    gradient: "from-amber-500/10 to-yellow-500/10 dark:from-amber-500/5 dark:to-yellow-500/5"
+  },
+  {
+    title: "AI Infra",
+    description:
+      "LLM serving, GPU scheduling, model orchestration, agent framework, and LLMOps.",
+    gradient: "from-fuchsia-500/10 to-pink-500/10 dark:from-fuchsia-500/5 dark:to-pink-500/5"
   }
 ];
 
@@ -76,7 +95,7 @@ function AboutCards() {
       <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
         What I Do
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {aboutItems.map((card) => (
           <Card
             key={card.title}
