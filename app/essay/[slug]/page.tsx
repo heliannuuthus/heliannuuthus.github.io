@@ -3,6 +3,7 @@ import { extractToc } from "@/lib/toc";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx/mdx-components";
 import TableOfContents from "@/components/Toc";
+import ProseWrapper from "@/components/ProseWrapper";
 import { Chip } from "@heroui/react/chip";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -62,7 +63,7 @@ export default async function EssayPostPage({ params }: Props) {
   });
 
   return (
-    <div className="flex gap-8 max-w-5xl mx-auto">
+    <div className="flex gap-8">
       <article className="flex flex-col gap-8 min-w-0 flex-1">
         <header className="flex flex-col gap-4">
           <Link
@@ -100,7 +101,7 @@ export default async function EssayPostPage({ params }: Props) {
           )}
         </header>
 
-        <div className="prose-custom">
+        <ProseWrapper>
           <MDXRemote
             source={post.content}
             components={mdxComponents}
@@ -122,13 +123,13 @@ export default async function EssayPostPage({ params }: Props) {
                 ],
                 rehypePlugins: [
                   rehypeSlug,
-                  rehypeKatex,
+                  [rehypeKatex, { strict: "ignore" }],
                   [rehypePrettyCode, { theme: { dark: "github-dark-default", light: "github-light-default" }, keepBackground: false }]
                 ]
               }
             }}
           />
-        </div>
+        </ProseWrapper>
       </article>
 
       <TableOfContents items={toc} />

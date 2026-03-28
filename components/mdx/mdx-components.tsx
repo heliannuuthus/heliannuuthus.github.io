@@ -9,7 +9,13 @@ import { Tabs, Tab } from "./blocks/Tabs";
 import Mermaid from "./blocks/Mermaid";
 import Markmap from "./blocks/Markmap";
 import Steps from "./blocks/Steps";
-import Table from "./blocks/Table";
+import Table, {
+  TableHeader,
+  TableBody,
+  TableColumn,
+  TableRow,
+  TableCell
+} from "./blocks/Table";
 import Timeline from "./blocks/Timeline";
 
 export const mdxComponents: MDXComponents = {
@@ -32,7 +38,7 @@ export const mdxComponents: MDXComponents = {
     <h4 className="text-lg font-semibold mt-4 mb-2" {...props} />
   ),
   p: (props) => (
-    <p
+    <div
       className="leading-7 my-4 text-default-700 dark:text-default-300"
       {...props}
     />
@@ -74,20 +80,7 @@ export const mdxComponents: MDXComponents = {
     />
   ),
   hr: () => <Separator className="my-8" />,
-  table: (props) => (
-    <div className="overflow-x-auto my-6">
-      <table className="w-full text-sm border-collapse" {...props} />
-    </div>
-  ),
-  th: (props) => (
-    <th
-      className="border border-default-200 px-4 py-2 text-left font-semibold bg-default-50 dark:bg-default-100/5"
-      {...props}
-    />
-  ),
-  td: (props) => (
-    <td className="border border-default-200 px-4 py-2" {...props} />
-  ),
+  
   pre: (props) => <CodeBlock {...props} />,
   code: ({ className, children, ...props }) => {
     const isInline = !className;
@@ -127,5 +120,10 @@ export const mdxComponents: MDXComponents = {
   Markmap,
   Steps,
   Table,
+  TableHeader,
+  TableBody,
+  TableColumn,
+  TableRow,
+  TableCell,
   Timeline,
 };

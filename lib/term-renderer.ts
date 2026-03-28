@@ -112,7 +112,7 @@ const processor = unified()
   .use(remarkDirective)
   .use(remarkDirectivesToHtml)
   .use(remarkRehype, { allowDangerousHtml: true })
-  .use(rehypeKatex)
+  .use(rehypeKatex, { strict: "ignore" })
   .use(rehypeStringify, { allowDangerousHtml: true });
 
 export async function renderTermContent(markdown: string): Promise<string> {

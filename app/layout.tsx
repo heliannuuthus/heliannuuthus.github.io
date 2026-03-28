@@ -1,19 +1,21 @@
 import GlassFooter from "@/components/layout/GlassFooter";
 import GlassNavbar from "@/components/layout/GlassNavbar";
+import SettingsWidget from "@/components/SettingsWidget";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://athena.heliannuuthus.com"),
   title: {
     default: "heliannuuthus",
     template: "%s | heliannuuthus"
   },
-  description: "heliannuuthus's personal blog",
+  description: "AI Infra Engineer & Vibe Coder — heliannuuthus's personal blog",
   icons: { icon: "/img/favicon.ico" },
   openGraph: {
     title: "heliannuuthus",
-    description: "heliannuuthus's personal blog",
+    description: "AI Infra Engineer & Vibe Coder — heliannuuthus's personal blog",
     url: "https://athena.heliannuuthus.com",
     siteName: "heliannuuthus",
     type: "website"
@@ -26,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-Hans" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="zh-Hans" suppressHydrationWarning>
       <head>
         <link
           rel="stylesheet"
@@ -47,6 +49,7 @@ export default function RootLayout({
               {children}
             </main>
             <GlassFooter />
+            <SettingsWidget />
           </div>
         </Providers>
       </body>

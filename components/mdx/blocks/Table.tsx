@@ -1,14 +1,20 @@
-interface TableProps {
-  children?: React.ReactNode;
-  align?: string;
-}
+"use client";
 
-export default function Table({ children }: TableProps) {
+import { Table as HeroTable } from "@heroui/react/table";
+import type { ReactNode } from "react";
+
+export default function Table({ children }: { children?: ReactNode }) {
   return (
-    <div className="overflow-x-auto my-6 glass rounded-2xl">
-      <table className="w-full text-sm border-collapse [&_th]:px-4 [&_th]:py-2.5 [&_th]:text-left [&_th]:font-semibold [&_th]:bg-default-50 [&_th]:dark:bg-default-100/5 [&_td]:px-4 [&_td]:py-2 [&_th]:border-b [&_th]:border-default-200 [&_td]:border-b [&_td]:border-default-100">
-        {children}
-      </table>
-    </div>
+    <HeroTable className="my-6">
+      <HeroTable.ScrollContainer>
+        <HeroTable.Content aria-label="table">{children}</HeroTable.Content>
+      </HeroTable.ScrollContainer>
+    </HeroTable>
   );
 }
+
+export const TableHeader = HeroTable.Header;
+export const TableBody = HeroTable.Body;
+export const TableColumn = HeroTable.Column;
+export const TableRow = HeroTable.Row;
+export const TableCell = HeroTable.Cell;

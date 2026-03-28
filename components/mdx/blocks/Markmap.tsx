@@ -411,18 +411,19 @@ function FullscreenOverlay({
         isFullscreen
       />
       <div className="flex-1 relative bg-white dark:bg-neutral-900">
-        {tab === "map" ? (
-          <MarkmapSvg
-            markdown={markdown}
-            svgRef={svgRef}
-            markmapRef={markmapRef}
-            className="w-full h-full"
-          />
-        ) : (
-          <pre className="p-6 text-sm overflow-auto h-full whitespace-pre-wrap text-default-700 dark:text-default-300 font-mono">
-            {markdown}
-          </pre>
-        )}
+        <MarkmapSvg
+          markdown={markdown}
+          svgRef={svgRef}
+          markmapRef={markmapRef}
+          className="w-full h-full"
+          style={{ display: tab === "map" ? "block" : "none" }}
+        />
+        <pre
+          className="p-6 text-sm overflow-auto h-full whitespace-pre-wrap text-default-700 dark:text-default-300 font-mono"
+          style={{ display: tab === "code" ? "block" : "none" }}
+        >
+          {markdown}
+        </pre>
         <Button
           isIconOnly
           size="sm"
@@ -495,18 +496,18 @@ export default function Markmap({ markdown }: MarkmapProps) {
           isFullscreen={false}
         />
         <div className="relative">
-          {tab === "map" ? (
-            <MarkmapSvg
-              markdown={markdown}
-              svgRef={svgRef}
-              markmapRef={markmapRef}
-              style={{ minHeight: 340, maxHeight: 340, width: "100%" }}
-            />
-          ) : (
-            <pre className="p-4 text-sm overflow-auto whitespace-pre-wrap leading-relaxed text-default-600 dark:text-default-300 font-mono" style={{ minHeight: 340, maxHeight: 340 }}>
-              {markdown}
-            </pre>
-          )}
+          <MarkmapSvg
+            markdown={markdown}
+            svgRef={svgRef}
+            markmapRef={markmapRef}
+            style={{ minHeight: 340, maxHeight: 340, width: "100%", display: tab === "map" ? "block" : "none" }}
+          />
+          <pre
+            className="p-4 text-sm overflow-auto whitespace-pre-wrap leading-relaxed text-default-600 dark:text-default-300 font-mono"
+            style={{ minHeight: 340, maxHeight: 340, display: tab === "code" ? "block" : "none" }}
+          >
+            {markdown}
+          </pre>
         </div>
       </div>
 

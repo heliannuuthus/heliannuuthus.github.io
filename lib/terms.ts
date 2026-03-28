@@ -2,7 +2,7 @@ import fs from "fs";
 import yaml from "js-yaml";
 import path from "path";
 
-const ROOT = process.cwd();
+const ROOT = path.join(/* turbopackIgnore: true */ process.cwd());
 
 export interface Term {
   slug: string;

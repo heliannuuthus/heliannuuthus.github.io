@@ -4,12 +4,14 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { Button } from "@heroui/react/button";
 import { ChevronRight } from "lucide-react";
 import type { TocItem } from "@/lib/toc";
+import { usePreferences } from "@/lib/preferences";
 
 interface TableOfContentsProps {
   items: TocItem[];
 }
 
 export default function TableOfContents({ items }: TableOfContentsProps) {
+  const tocVisible = usePreferences((s) => s.tocVisible);
   const [activeId, setActiveId] = useState<string>("");
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -43,14 +45,14 @@ export default function TableOfContents({ items }: TableOfContentsProps) {
     setCollapsed((prev) => ({ ...prev, [id]: !prev[id] }));
   }, []);
 
-  if (items.length === 0) return null;
+  if (items.length === 0 || !tocVisible) return null;
 
   return (
     <nav
       aria-label="Table of contents"
       className="hidden xl:block w-56 shrink-0"
     >
-      <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain">
+      <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain toc-scroll">
         <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">
           On this page
         </p>

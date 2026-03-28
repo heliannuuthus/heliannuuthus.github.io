@@ -100,7 +100,7 @@ export default function GlassFooter() {
                   heliannuuthus
                 </span>
                 <span className="text-xs text-default-400 font-mono tracking-wider">
-                  Backend Engineer
+                  AI Infra Engineer
                 </span>
               </div>
             </Link>

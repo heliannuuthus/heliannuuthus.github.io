@@ -4,6 +4,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx/mdx-components";
 import TableOfContents from "@/components/Toc";
 import ArticleHeader from "@/components/ArticleHeader";
+import ProseWrapper from "@/components/ProseWrapper";
 import { notFound } from "next/navigation";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -58,7 +59,7 @@ export default async function BlogPostPage({ params }: Props) {
   const readingTime = Math.max(1, Math.ceil(plainText.length / 400));
 
   return (
-    <div className="flex gap-8 max-w-5xl mx-auto">
+    <div className="flex gap-8">
       <article className="flex flex-col gap-8 min-w-0 flex-1">
         <ArticleHeader
           meta={post.meta}
@@ -67,7 +68,7 @@ export default async function BlogPostPage({ params }: Props) {
           readingTime={readingTime}
         />
 
-        <div className="prose-custom">
+        <ProseWrapper>
           <MDXRemote
             source={post.content}
             components={mdxComponents}
@@ -89,13 +90,13 @@ export default async function BlogPostPage({ params }: Props) {
                 ],
                 rehypePlugins: [
                   rehypeSlug,
-                  rehypeKatex,
+                  [rehypeKatex, { strict: "ignore" }],
                   [rehypePrettyCode, { theme: { dark: "github-dark-default", light: "github-light-default" }, keepBackground: false }]
                 ]
               }
             }}
           />
-        </div>
+        </ProseWrapper>
       </article>
 
       <TableOfContents items={toc} />

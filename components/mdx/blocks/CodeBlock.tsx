@@ -17,7 +17,8 @@ export default function CodeBlock({
   const preRef = useRef<HTMLPreElement>(null);
   const [copied, setCopied] = useState(false);
   const wrapped = usePreferences((s) => s.codeWrap);
-  const toggleWrap = usePreferences((s) => s.toggleCodeWrap);
+  const codeFontSize = usePreferences((s) => s.codeFontSize);
+  const lineNumbers = usePreferences((s) => s.lineNumbers);
 
   const language = props["data-language"];
 
@@ -39,39 +40,6 @@ export default function CodeBlock({
       )}
 
       <div className="absolute top-2 right-2 flex items-center gap-0.5 opacity-0 group-hover/code:opacity-100 transition-opacity z-10">
-        <Tooltip>
-          <Tooltip.Trigger>
-            <Button
-              isIconOnly
-              size="sm"
-              variant="ghost"
-              className="min-w-7 h-7 backdrop-blur-md bg-white/60 dark:bg-white/10"
-              onPress={toggleWrap}
-              aria-label={wrapped ? "不换行" : "自动换行"}
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={wrapped ? "text-emerald-500" : "text-default-500"}
-              >
-                <path d="M3 6h18" />
-                <path d="M3 12h15a3 3 0 1 1 0 6h-4" />
-                <polyline points="13 16 11 18 13 20" />
-                <path d="M3 18h4" />
-              </svg>
-            </Button>
-          </Tooltip.Trigger>
-          <Tooltip.Content>
-            {wrapped ? "不换行" : "自动换行"}
-          </Tooltip.Content>
-        </Tooltip>
-
         <Tooltip>
           <Tooltip.Trigger>
             <Button
@@ -123,12 +91,14 @@ export default function CodeBlock({
       <pre
         ref={preRef}
         className={[
-          "p-4 pt-9 text-sm leading-6",
+          "p-4 pt-9 leading-6",
           wrapped ? "whitespace-pre-wrap break-words" : "overflow-x-auto",
+          lineNumbers ? "show-line-numbers" : "",
           className,
         ]
           .filter(Boolean)
           .join(" ")}
+        style={{ fontSize: `${codeFontSize}px` }}
         {...props}
       >
         {children}
