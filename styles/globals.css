@@ -28,38 +28,16 @@
   --font-mono: "Monaspace Xenon Var", "Monaspace Radon Var", "LXGW WenKai Mono", monospace;
 }
 
-html[data-scroll-behavior="smooth"] {
+html {
+  overflow-y: auto;
+  scrollbar-width: none;
   scroll-behavior: smooth;
 }
 
-html {
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+html::-webkit-scrollbar {
+  display: none;
 }
 
-.dark html,
-html.dark {
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 3px;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
 
 code, pre, kbd, samp, .font-mono {
   font-feature-settings:
@@ -159,21 +137,48 @@ body {
   background: rgba(46, 133, 85, 0.2);
 }
 
-::-webkit-scrollbar {
+body *::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
-::-webkit-scrollbar-track {
+body *::-webkit-scrollbar-track {
   background: transparent;
 }
 
-::-webkit-scrollbar-thumb {
+body *::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.12);
   border-radius: 3px;
 }
 
-.dark ::-webkit-scrollbar-thumb {
+.dark body *::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ─── TOC sidebar scrollbar: auto-hide ─── */
+
+.toc-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.toc-scroll:hover {
+  scrollbar-color: rgba(0, 0, 0, 0.12) transparent;
+}
+.dark .toc-scroll:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+.toc-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+.toc-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 1.5px;
+  transition: background 0.2s;
+}
+.toc-scroll:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+}
+.dark .toc-scroll:hover::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.12);
 }
 
@@ -227,25 +232,39 @@ body {
   animation-delay: var(--enter-delay, 0ms);
 }
 
-/* ─── Term card entrance ─── */
+/* ─── Galaxy page overrides ─── */
 
-@keyframes term-card-enter {
-  from {
-    opacity: 0;
-    transform: translateY(16px) scale(0.95);
-    filter: blur(4px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-    filter: none;
+main.galaxy-main {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+/* ─── Galaxy visualization ─── */
+
+.galaxy-container {
+  position: relative;
+  width: 100%;
+  height: min(85vh, 780px);
+}
+
+@media (max-width: 640px) {
+  .galaxy-container {
+    height: min(65vh, 500px);
   }
 }
 
-.term-card-enter {
-  animation: term-card-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: var(--enter-delay, 0ms);
+.galaxy-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  touch-action: none;
 }
+
+.galaxy-canvas:active {
+  cursor: grabbing;
+}
+
 
 /* ─── Focus overlay ─── */
 
@@ -438,3 +457,79 @@ body {
   margin: 0.5rem 0;
 }
 .term-content .katex { font-size: 0.9em; }
+
+/* ─── Prose custom: article font-size via CSS variable ─── */
+
+.prose-custom {
+  font-size: var(--article-font-size, 1rem);
+  line-height: 1.75;
+  transition: font-size 0.2s ease;
+}
+
+/* ─── Code block line numbers (CSS counter) ─── */
+
+.show-line-numbers code {
+  counter-reset: line;
+}
+
+.show-line-numbers code > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2.5ch;
+  margin-right: 1.25ch;
+  text-align: right;
+  color: rgba(115, 115, 115, 0.4);
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+.dark .show-line-numbers code > [data-line]::before {
+  color: rgba(163, 163, 163, 0.3);
+}
+
+/* ─── Settings panel entrance ─── */
+
+@keyframes settings-panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* ─── Settings FAB glow ─── */
+
+.settings-fab::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(186, 230, 253, 0.4),
+    rgba(147, 197, 253, 0.2),
+    rgba(196, 181, 253, 0.3),
+    rgba(253, 230, 138, 0.3),
+    rgba(186, 230, 253, 0.4)
+  );
+  animation: fab-glow-spin 8s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.settings-fab:hover::before {
+  opacity: 1;
+}
+
+@keyframes fab-glow-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

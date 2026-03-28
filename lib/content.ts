@@ -3,7 +3,7 @@ import matter from "gray-matter";
 import yaml from "js-yaml";
 import path from "path";
 
-const ROOT = process.cwd();
+const ROOT = path.join(/* turbopackIgnore: true */ process.cwd());
 
 export interface PostMeta {
   slug: string;
@@ -78,7 +78,7 @@ function cleanMdxContent(content: string): string {
     }
 
     if (!inCodeBlock && /^\s*import\s+/.test(line)) {
-      if (/from\s+["']/.test(line) || /from\s+["']/.test(line)) {
+      if (/from\s+["']/.test(line)) {
         continue;
       }
     }

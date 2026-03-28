@@ -2,7 +2,6 @@
 
 import { Button } from "@heroui/react/button";
 import { Link as HeroLink } from "@heroui/react/link";
-import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -20,45 +19,67 @@ const navItems = [
   { label: "Terms", href: "/terms" }
 ];
 
-function useScrolled(threshold = 8) {
+function useScrolled(downAt = 8, upAt = 2) {
   const [scrolled, setScrolled] = useState(false);
+  const ref = useRef(false);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > threshold);
+    const onScroll = () => {
+      const y = window.scrollY;
+      const next = ref.current ? y > upAt : y > downAt;
+      if (next !== ref.current) {
+        ref.current = next;
+        setScrolled(next);
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [threshold]);
+  }, [downAt, upAt]);
   return scrolled;
 }
 
 export default function GlassNavbar() {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const scrolled = useScrolled();
 
-  const tabsRef = useRef<HTMLUListElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
   const tabRefs = useRef<Map<string, HTMLLIElement>>(new Map());
-  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+  const [indicator, setIndicator] = useState({ left: 0, width: 0, top: 0, height: 0 });
   const [indicatorReady, setIndicatorReady] = useState(false);
 
+  const isHome = pathname === "/";
   const activeHref = navItems.find((item) =>
     pathname.startsWith(item.href)
   )?.href;
 
   const measureIndicator = useCallback(() => {
-    if (!activeHref || !tabsRef.current) return;
-    const el = tabRefs.current.get(activeHref);
-    if (!el) return;
-    const containerRect = tabsRef.current.getBoundingClientRect();
-    const elRect = el.getBoundingClientRect();
+    if (!headerRef.current) return;
+
+    let targetEl: HTMLElement | null = null;
+    if (isHome) {
+      targetEl = logoRef.current;
+    } else if (activeHref) {
+      targetEl = tabRefs.current.get(activeHref) ?? null;
+    }
+
+    if (!targetEl) {
+      setIndicatorReady(false);
+      return;
+    }
+
+    const headerRect = headerRef.current.getBoundingClientRect();
+    const targetRect = targetEl.getBoundingClientRect();
     setIndicator({
-      left: elRect.left - containerRect.left,
-      width: elRect.width
+      left: targetRect.left - headerRect.left,
+      width: targetRect.width,
+      top: targetRect.top - headerRect.top,
+      height: targetRect.height
     });
     setIndicatorReady(true);
-  }, [activeHref]);
+  }, [isHome, activeHref, scrolled]);
 
   useLayoutEffect(() => {
     measureIndicator();
@@ -69,7 +90,15 @@ export default function GlassNavbar() {
     return () => window.removeEventListener("resize", measureIndicator);
   }, [measureIndicator]);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const onTransitionEnd = (e: TransitionEvent) => {
+      if (e.target === nav) measureIndicator();
+    };
+    nav.addEventListener("transitionend", onTransitionEnd);
+    return () => nav.removeEventListener("transitionend", onTransitionEnd);
+  }, [measureIndicator]);
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
@@ -93,14 +122,34 @@ export default function GlassNavbar() {
       }`}
     >
       <nav
+        ref={navRef}
         className={`mx-auto bg-white/72 dark:bg-zinc-900/72 backdrop-saturate-[1.8] backdrop-blur-xl transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
           scrolled
             ? "w-full max-w-none rounded-none shadow-[0_0.5px_0_rgba(0,0,0,0.06)] dark:shadow-[0_0.5px_0_rgba(255,255,255,0.06)]"
             : "max-w-3xl rounded-full shadow-[0_2px_12px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3),0_0_0_0.5px_rgba(255,255,255,0.06)]"
         }`}
       >
-        <header className="flex h-14 items-center justify-between px-5 sm:px-6">
-          <Link href="/" className="flex items-center gap-2.5">
+        <header ref={headerRef} className="relative flex h-14 items-center justify-between px-5 sm:px-6">
+          {indicatorReady && (
+            <div
+              aria-hidden
+              className="absolute z-[1] rounded-full bg-white/90 dark:bg-white/[0.1] shadow-[0_1px_3px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.2)]"
+              style={{
+                left: indicator.left,
+                top: indicator.top,
+                width: indicator.width,
+                height: indicator.height,
+                transition:
+                  "left 0.45s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1), top 0.35s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+              }}
+            />
+          )}
+
+          <Link
+            ref={logoRef}
+            href="/"
+            className="relative z-10 flex items-center gap-2.5 rounded-full px-2.5 py-1.5 -ml-2.5 transition-colors duration-300"
+          >
             <Image
               src="/img/logo.svg"
               alt="heliannuuthus"
@@ -108,27 +157,18 @@ export default function GlassNavbar() {
               height={28}
               className="rounded-lg"
             />
-            <span className="font-semibold text-base tracking-tight hidden sm:inline">
+            <span
+              className={`font-semibold text-base tracking-tight hidden sm:inline transition-colors duration-300 ${
+                isHome
+                  ? "text-zinc-900 dark:text-zinc-100"
+                  : "text-zinc-500 dark:text-zinc-400"
+              }`}
+            >
               heliannuuthus
             </span>
           </Link>
 
-          <ul
-            ref={tabsRef}
-            className="hidden sm:flex relative items-center rounded-full bg-zinc-100/60 dark:bg-white/[0.06] p-1 gap-0.5"
-          >
-            {indicatorReady && (
-              <li
-                aria-hidden
-                className="absolute top-1 h-[calc(100%-8px)] rounded-full bg-white dark:bg-white/15 shadow-[0_1px_3px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.2)]"
-                style={{
-                  left: indicator.left,
-                  width: indicator.width,
-                  transition:
-                    "left 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-                }}
-              />
-            )}
+          <ul className="hidden sm:flex relative items-center rounded-full bg-zinc-100/60 dark:bg-white/[0.06] p-1 gap-0.5">
             {navItems.map((item) => {
               const isActive = pathname.startsWith(item.href);
               return (
@@ -153,22 +193,15 @@ export default function GlassNavbar() {
           </ul>
 
           <div className="flex items-center gap-1.5">
-            {mounted && (
-              <Button
-                isIconOnly
-                variant="ghost"
-                size="sm"
-                className="rounded-full w-8 h-8"
-                onPress={() => setTheme(theme === "dark" ? "light" : "dark")}
-                aria-label="Toggle theme"
-              >
-                {theme === "dark" ? (
-                  <SunIcon className="w-[18px] h-[18px]" />
-                ) : (
-                  <MoonIcon className="w-[18px] h-[18px]" />
-                )}
-              </Button>
-            )}
+            <Button
+              isIconOnly
+              variant="ghost"
+              size="sm"
+              className="rounded-full w-8 h-8"
+              aria-label="搜索"
+            >
+              <SearchIcon className="w-[18px] h-[18px]" />
+            </Button>
             <HeroLink
               href="https://github.com/heliannuuthus"
               target="_blank"
@@ -242,7 +275,7 @@ export default function GlassNavbar() {
   );
 }
 
-function SunIcon({ className }: { className?: string }) {
+function SearchIcon({ className }: { className?: string }) {
   return (
     <svg
       className={className}
@@ -254,25 +287,7 @@ function SunIcon({ className }: { className?: string }) {
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-      />
-    </svg>
-  );
-}
-
-function MoonIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
       />
     </svg>
   );
