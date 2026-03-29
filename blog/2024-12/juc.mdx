@@ -11,60 +11,53 @@ draft: true
 
 <!-- truncate -->
 
-import { Collapses } from "@components/collapse";
-
-import AQS from "./_partials/juc/AQS.mdx";
-import Deadlock from "./_partials/juc/deadlock.mdx";
-import JavaThreadState from "./_partials/juc/java-thread-state.mdx";
-import JavaThread from "./_partials/juc/java-thread.mdx";
-import Lock from "./_partials/juc/lock.mdx";
 import ProcessAndThread from "./_partials/juc/process-and-thread.mdx";
+import JavaThread from "./_partials/juc/java-thread.mdx";
+import JavaThreadState from "./_partials/juc/java-thread-state.mdx";
+import Deadlock from "./_partials/juc/deadlock.mdx";
+import Volatile from "./_partials/juc/volatile.mdx";
+import Lock from "./_partials/juc/lock.mdx";
 import Synchronized from "./_partials/juc/synchronized.mdx";
 import ThreadLocal from "./_partials/juc/threadlocal.mdx";
 import ThreadPool from "./_partials/juc/threadpool.mdx";
-import Volatile from "./_partials/juc/volatile.mdx";
+import AQS from "./_partials/juc/AQS.mdx";
 
-<Collapses
-  items={[
-    {
-      label: "进程、线程和协程",
-      children: <ProcessAndThread />
-    },
-    {
-      label: "Java 线程的特点",
-      children: <JavaThread />
-    },
-    {
-      label: "Java 线程的状态",
-      children: <JavaThreadState />
-    },
-    {
-      label: "死锁问题",
-      children: <Deadlock />
-    },
-    {
-      label: "volatile 关键字",
-      children: <Volatile />
-    },
-    {
-      label: "乐观锁和悲观锁",
-      children: <Lock />
-    },
-    {
-      label: "synchronized 关键字",
-      children: <Synchronized />
-    },
-    {
-      label: "ThreadLocal",
-      children: <ThreadLocal />
-    },
-    {
-      label: "线程池",
-      children: <ThreadPool />
-    },
-    {
-      label: "AQS",
-      children: <AQS />
-    }
-  ]}
-/>
+:::collapse{title="进程、线程和协程"}
+<ProcessAndThread />
+:::
+
+:::collapse{title="Java 线程的特点"}
+<JavaThread />
+:::
+
+:::collapse{title="Java 线程的状态"}
+<JavaThreadState />
+:::
+
+:::collapse{title="死锁问题"}
+<Deadlock />
+:::
+
+:::collapse{title="volatile 关键字"}
+<Volatile />
+:::
+
+:::collapse{title="乐观锁和悲观锁"}
+<Lock />
+:::
+
+:::collapse{title="synchronized 关键字"}
+<Synchronized />
+:::
+
+:::collapse{title="ThreadLocal"}
+<ThreadLocal />
+:::
+
+:::collapse{title="线程池"}
+<ThreadPool />
+:::
+
+:::collapse{title="AQS"}
+<AQS />
+:::

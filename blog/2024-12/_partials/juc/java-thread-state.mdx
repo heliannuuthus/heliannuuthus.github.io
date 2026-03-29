@@ -1,5 +1,3 @@
-import Image, { Center } from "@components/Image";
-
 > Java 线程的状态是在应用层面定义线程状态，不受**操作系统控制**。意在**描述线程的运行状态**。
 
 - Java 线程的状态：**New**、**Runnable**、**Blocked**、**Waiting**、**Timed Waiting**、**Terminated**。
@@ -12,10 +10,7 @@ import Image, { Center } from "@components/Image";
 
 - 线程状态的转换
 
-  <Center
-    key="threadStateTransitionImage"
-    src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-05/线程状态的转换-2024-12-05-21-54-47.png"
-  />
+  ![线程状态的转换](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-12-05/线程状态的转换-2024-12-05-21-54-47.png)
 
   - **New**: 创建线程后，线程处于 **New** 状态。
   - **Runnable** --> **Blocked** 状态：`synchronized`、`Lock`、`wait`、`sleep` 等
