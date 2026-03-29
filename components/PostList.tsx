@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Author, PostMeta } from "@/lib/content";
+import dayjs from "@/lib/dayjs";
 import { Chip } from "@heroui/react/chip";
 import { Separator } from "@heroui/react/separator";
 import { X } from "lucide-react";
@@ -22,7 +23,7 @@ interface PostListProps {
 function groupByYear(posts: PostMeta[]): [string, PostMeta[]][] {
   const map = new Map<string, PostMeta[]>();
   for (const post of posts) {
-    const year = new Date(post.date).getFullYear().toString();
+    const year = dayjs(post.date).year().toString();
     const list = map.get(year) ?? [];
     list.push(post);
     map.set(year, list);
@@ -39,14 +40,23 @@ export default function PostList({
 }: PostListProps) {
   const searchParams = useSearchParams();
   const activeTag = searchParams.get("tag");
+  const activeAuthor = searchParams.get("author");
 
-  const filtered = useMemo(
-    () =>
-      activeTag
-        ? posts.filter((p) => p.tags.includes(activeTag))
-        : posts,
-    [posts, activeTag]
-  );
+  const filtered = useMemo(() => {
+    let result = posts;
+
+    if (activeAuthor) {
+      result = result.filter((p) => p.authors.includes(activeAuthor));
+    } else {
+      result = result.filter((p) => !p.unlisted);
+    }
+
+    if (activeTag) {
+      result = result.filter((p) => p.tags.includes(activeTag));
+    }
+
+    return result;
+  }, [posts, activeTag, activeAuthor]);
 
   const yearGroups = useMemo(() => groupByYear(filtered), [filtered]);
 
@@ -60,7 +70,7 @@ export default function PostList({
 
   useEffect(() => {
     setVisible(PAGE_SIZE);
-  }, [activeTag]);
+  }, [activeTag, activeAuthor]);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -87,14 +97,21 @@ export default function PostList({
         )}
       </div>
 
-      {activeTag && (
-        <div className="flex items-center gap-2">
+      {(activeTag || activeAuthor) && (
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="text-[13px] text-zinc-400 dark:text-zinc-500">
             Filtered by
           </span>
-          <Chip size="sm" variant="soft">
-            <Chip.Label>{activeTag}</Chip.Label>
-          </Chip>
+          {activeAuthor && (
+            <Chip size="sm" variant="soft" color="accent">
+              <Chip.Label>{activeAuthor}</Chip.Label>
+            </Chip>
+          )}
+          {activeTag && (
+            <Chip size="sm" variant="soft">
+              <Chip.Label>{activeTag}</Chip.Label>
+            </Chip>
+          )}
           <Link
             href={basePath}
             className="inline-flex items-center justify-center w-5 h-5 rounded-full text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"

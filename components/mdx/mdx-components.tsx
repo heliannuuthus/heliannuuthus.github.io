@@ -9,7 +9,14 @@ import { Tabs, Tab } from "./blocks/Tabs";
 import Mermaid from "./blocks/Mermaid";
 import Markmap from "./blocks/Markmap";
 import Steps from "./blocks/Steps";
-import Table, {
+import {
+  MdxTable,
+  MdxThead,
+  MdxTbody,
+  MdxTr,
+  MdxTh,
+  MdxTd,
+  Table,
   TableHeader,
   TableBody,
   TableColumn,
@@ -17,6 +24,15 @@ import Table, {
   TableCell
 } from "./blocks/Table";
 import Timeline from "./blocks/Timeline";
+import {
+  Center,
+  LegacyImage,
+  Flex,
+  Text,
+  DocusaurusLink,
+  LegacyLink,
+  Collapses
+} from "./blocks/legacy-compat";
 
 export const mdxComponents: MDXComponents = {
   h1: (props) => (
@@ -119,6 +135,12 @@ export const mdxComponents: MDXComponents = {
   Mermaid,
   Markmap,
   Steps,
+  table: MdxTable,
+  thead: MdxThead,
+  tbody: MdxTbody,
+  tr: MdxTr,
+  th: MdxTh,
+  td: MdxTd,
   Table,
   TableHeader,
   TableBody,
@@ -126,4 +148,11 @@ export const mdxComponents: MDXComponents = {
   TableRow,
   TableCell,
   Timeline,
+  Center,
+  Image: LegacyImage,
+  Flex,
+  Text,
+  DocusaurusLink,
+  Link: LegacyLink,
+  Collapses,
 };

@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
-import { clsx } from "clsx";
+import { cn } from "@/lib/cn";
 import dynamic from "next/dynamic";
 import type { Term } from "@/lib/terms";
 
@@ -54,11 +54,11 @@ function FocusOverlay({
       />
       <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-8 pointer-events-none">
         <div className="relative pointer-events-auto surface-overlay rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden focus-card-enter" id={term.slug}>
-          <div className={clsx("h-1 bg-gradient-to-r", c.gradient)} />
+          <div className={cn("h-1 bg-gradient-to-r", c.gradient)} />
           <div className="overflow-y-auto max-h-[calc(85vh-4px)]">
             <div className="sticky top-0 z-10 flex items-center justify-between px-7 pt-5 pb-3 backdrop-blur-xl bg-white/80 dark:bg-zinc-900/80">
               <div className="flex items-center gap-2">
-                <span className={clsx("w-2 h-2 rounded-full", c.dot)} />
+                <span className={cn("w-2 h-2 rounded-full", c.dot)} />
                 <span className="text-[11px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">{c.label}</span>
               </div>
               <button onClick={onClose} className="w-7 h-7 rounded-full flex items-center justify-center text-zinc-400 dark:text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" aria-label="关闭">

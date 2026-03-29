@@ -3,6 +3,7 @@ import Link from "next/link";
 import ExpandableExcerpt from "@/components/ExpandableExcerpt";
 import TagStamps from "@/components/TagStamps";
 import type { Author, PostMeta } from "@/lib/content";
+import dayjs from "@/lib/dayjs";
 
 interface ArticleHeaderProps {
   meta: PostMeta;
@@ -17,14 +18,10 @@ export default function ArticleHeader({
   backHref,
   readingTime
 }: ArticleHeaderProps) {
-  const d = new Date(meta.date);
-  const dateStr = d.toLocaleDateString("zh-CN", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
-  const monthLabel = d.toLocaleDateString("zh-CN", { month: "short" });
-  const dayNum = d.getDate();
+  const d = dayjs(meta.date);
+  const dateStr = d.format("YYYY年M月D日");
+  const monthLabel = d.format("MMM");
+  const dayNum = d.date();
 
   const authorNames = meta.authors
     .map((k) => authors[k]?.name ?? k)
@@ -38,6 +35,18 @@ export default function ArticleHeader({
 
         {/* Airmail stripe — top */}
         <div className="absolute inset-x-0 top-0 h-[3px] rounded-t-2xl bg-[repeating-linear-gradient(-45deg,transparent,transparent_5px,#ef444480_5px,#ef444480_10px,transparent_10px,transparent_15px,#3b82f680_15px,#3b82f680_20px)] opacity-40 dark:opacity-20" />
+
+        {meta.draft && (
+          <div className="absolute bottom-8 right-6 sm:bottom-10 sm:right-10 rotate-[14deg] select-none pointer-events-none">
+            <div className="flex items-center justify-center w-[72px] h-[72px] sm:w-[88px] sm:h-[88px] rounded-full border-[3px] border-double border-amber-500/40 dark:border-amber-400/30">
+              <div className="flex items-center justify-center w-[58px] h-[58px] sm:w-[72px] sm:h-[72px] rounded-full border-[1.5px] border-amber-500/30 dark:border-amber-400/20">
+                <span className="text-[13px] sm:text-[16px] font-black tracking-[0.15em] text-amber-600/40 dark:text-amber-400/30 uppercase">
+                  DRAFT
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Top row: From + Stamp */}
         <div className="flex items-start justify-between mb-10 sm:mb-12">

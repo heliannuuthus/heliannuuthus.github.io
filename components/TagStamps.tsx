@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { cn } from "@/lib/cn";
 import Link from "next/link";
 
 interface TagStampsProps {
@@ -17,7 +18,7 @@ export default function TagStamps({ tags, backHref }: TagStampsProps) {
 
   return (
     <div
-      className={`relative shrink-0 ml-4 ${fanned ? "z-50" : ""}`}
+      className={cn("relative shrink-0 ml-4", fanned && "z-50")}
       onMouseEnter={() => setFanned(true)}
       onMouseLeave={() => setFanned(false)}
     >

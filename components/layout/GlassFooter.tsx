@@ -2,6 +2,8 @@
 
 import { Button } from "@heroui/react/button";
 import { Link as HeroLink } from "@heroui/react/link";
+import { cn } from "@/lib/cn";
+import dayjs from "@/lib/dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -75,11 +77,12 @@ export default function GlassFooter() {
 
         <div className="max-w-5xl mx-auto px-6 pt-10 pb-6 relative">
           <div
-            className={`flex flex-col items-center gap-4 transition-all duration-700 ${
+            className={cn(
+              "flex flex-col items-center gap-4 transition-all duration-700",
               visible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-6"
-            }`}
+            )}
           >
             <Link
               href="/"
@@ -118,25 +121,27 @@ export default function GlassFooter() {
             </div>
 
             <div
-              className={`text-[13px] text-default-400 italic h-5 transition-all duration-400 mt-1 ${
-                isFading
-                  ? "opacity-0 translate-y-1"
-                  : "opacity-100 translate-y-0"
-              }`}
+              className={cn(
+              "text-[13px] text-default-400 italic h-5 transition-all duration-400 mt-1",
+              isFading
+                ? "opacity-0 translate-y-1"
+                : "opacity-100 translate-y-0"
+            )}
             >
               {mottos[mottoIndex]}
             </div>
           </div>
 
           <div
-            className={`mt-8 pt-5 border-t border-default-200/30 dark:border-default-100/10 flex items-center justify-between transition-all duration-700 delay-200 ${
+            className={cn(
+              "mt-8 pt-5 border-t border-default-200/30 dark:border-default-100/10 flex items-center justify-between transition-all duration-700 delay-200",
               visible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"
-            }`}
+            )}
           >
             <p className="text-xs text-default-400">
-              &copy; {new Date().getFullYear()} heliannuuthus
+              &copy; {dayjs().year()} heliannuuthus
               <span className="mx-1.5 text-default-300">&middot;</span>
               Built with{" "}
               <HeroLink
@@ -162,11 +167,12 @@ export default function GlassFooter() {
               variant="ghost"
               size="sm"
               onPress={scrollToTop}
-              className={`text-xs text-default-400 hover:text-emerald-500 transition-all duration-500 ${
+              className={cn(
+                "text-xs text-default-400 hover:text-emerald-500 transition-all duration-500",
                 showTopBtn
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-2 pointer-events-none"
-              }`}
+              )}
               aria-label="回到顶部"
             >
               <svg

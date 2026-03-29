@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 import { Button } from "@heroui/react/button";
+import { cn } from "@/lib/cn";
 import { usePreferences } from "@/lib/preferences";
 
 function IceSunflower({ className }: { className?: string }) {
@@ -101,16 +102,18 @@ function ToggleRow({
         role="switch"
         aria-checked={checked}
         onClick={onChange}
-        className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors duration-200 ${
+        className={cn(
+          "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors duration-200",
           checked
             ? "bg-emerald-500 dark:bg-emerald-600"
             : "bg-default-200 dark:bg-default-300"
-        }`}
+        )}
       >
         <span
-          className={`inline-block h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+          className={cn(
+            "inline-block h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform duration-200",
             checked ? "translate-x-4" : "translate-x-0.5"
-          }`}
+          )}
         />
       </button>
     </label>
@@ -254,11 +257,12 @@ export default function SettingsWidget() {
               <div className="flex items-center gap-1 rounded-full bg-default-100 p-0.5">
                 <button
                   onClick={() => setTheme("system")}
-                  className={`flex items-center justify-center w-7 h-7 rounded-full transition-all text-xs ${
+                  className={cn(
+                    "flex items-center justify-center w-7 h-7 rounded-full transition-all text-xs",
                     theme === "system"
                       ? "bg-white dark:bg-default-200 shadow-sm text-indigo-500 dark:text-indigo-400"
                       : "text-default-400 hover:text-default-600"
-                  }`}
+                  )}
                   aria-label="跟随系统"
                 >
                   <svg
@@ -277,11 +281,12 @@ export default function SettingsWidget() {
                 </button>
                 <button
                   onClick={() => setTheme("light")}
-                  className={`flex items-center justify-center w-7 h-7 rounded-full transition-all text-xs ${
+                  className={cn(
+                    "flex items-center justify-center w-7 h-7 rounded-full transition-all text-xs",
                     theme === "light"
                       ? "bg-white dark:bg-default-200 shadow-sm text-amber-500"
                       : "text-default-400 hover:text-default-600"
-                  }`}
+                  )}
                   aria-label="浅色主题"
                 >
                   <svg
@@ -300,11 +305,12 @@ export default function SettingsWidget() {
                 </button>
                 <button
                   onClick={() => setTheme("dark")}
-                  className={`flex items-center justify-center w-7 h-7 rounded-full transition-all text-xs ${
+                  className={cn(
+                    "flex items-center justify-center w-7 h-7 rounded-full transition-all text-xs",
                     theme === "dark"
                       ? "bg-zinc-700 shadow-sm text-blue-300"
                       : "text-default-400 hover:text-default-600"
-                  }`}
+                  )}
                   aria-label="深色主题"
                 >
                   <svg

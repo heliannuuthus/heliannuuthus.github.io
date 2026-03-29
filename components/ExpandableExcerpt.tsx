@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { cn } from "@/lib/cn";
 
 interface ExpandableExcerptProps {
   text: string;
@@ -20,7 +21,10 @@ export default function ExpandableExcerpt({ text }: ExpandableExcerptProps) {
     <div className="mt-4 relative">
       <p
         ref={ref}
-        className={`text-[14px] leading-[1.7] text-zinc-500 dark:text-zinc-400 italic border-l-2 border-zinc-200 dark:border-zinc-700 pl-4 transition-all duration-300 ${expanded ? "" : "line-clamp-3"}`}
+        className={cn(
+          "text-[14px] leading-[1.7] text-zinc-500 dark:text-zinc-400 italic border-l-2 border-zinc-200 dark:border-zinc-700 pl-4 transition-all duration-300",
+          !expanded && "line-clamp-3"
+        )}
       >
         {text}
       </p>
