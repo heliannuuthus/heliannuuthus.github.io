@@ -1,10 +1,8 @@
-import { getAllSlugs, getPostBySlug, getAuthors } from "@/lib/content";
-import { extractToc } from "@/lib/toc";
+import { getAllEssaySlugs, getEssayBySlug } from "@/lib/content";
+import dayjs from "@/lib/dayjs";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx/mdx-components";
-import TableOfContents from "@/components/Toc";
 import ProseWrapper from "@/components/ProseWrapper";
-import { Chip } from "@heroui/react/chip";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import remarkGfm from "remark-gfm";
@@ -31,108 +29,92 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return getAllSlugs("essay").map((slug) => ({ slug }));
+  return getAllEssaySlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug("essay", slug);
-  if (!post) return {};
+  const entry = getEssayBySlug(slug);
+  if (!entry) return {};
+
+  const dateStr = dayjs(entry.date).format("YYYY年M月D日");
+
   return {
-    title: post.meta.title,
-    description: post.meta.description,
-    openGraph: {
-      title: post.meta.title,
-      description: post.meta.description,
-      images: [`/covers/${slug}.png`]
-    }
+    title: dateStr,
+    description: `${dateStr} 的随笔`
   };
 }
 
-export default async function EssayPostPage({ params }: Props) {
+export default async function EssayDetailPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug("essay", slug);
-  if (!post) notFound();
+  const entry = getEssayBySlug(slug);
+  if (!entry) notFound();
 
-  const authors = getAuthors();
-  const toc = extractToc(post.content);
-  const dateStr = new Date(post.meta.date).toLocaleDateString("zh-CN", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
+  const d = dayjs(entry.date);
+  const dateStr = d.format("YYYY年M月D日");
+  const weekday = d.format("dddd");
 
   return (
-    <div className="flex gap-8">
-      <article className="flex flex-col gap-8 min-w-0 flex-1">
-        <header className="flex flex-col gap-4">
-          <Link
-            href="/essay"
-            className="text-sm text-default-400 hover:text-accent transition-colors w-fit"
-          >
-            &larr; Back to Essays
-          </Link>
+    <article className="flex flex-col gap-8 max-w-3xl mx-auto">
+      <header className="flex flex-col gap-4">
+        <Link
+          href="/essay"
+          className="text-sm text-default-400 hover:text-accent transition-colors w-fit"
+        >
+          &larr; 返回随笔
+        </Link>
 
+        <div className="flex items-baseline gap-3">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
-            {post.meta.title}
+            {entry.draft && (
+              <span className="inline-flex items-center mr-3 px-2.5 py-1 rounded-lg text-[13px] font-semibold tracking-wide bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400 align-middle">
+                Draft
+              </span>
+            )}
+            {dateStr}
           </h1>
+          <span className="text-sm text-default-400">{weekday}</span>
+        </div>
+      </header>
 
-          <div className="flex flex-wrap items-center gap-3 text-sm text-default-400">
-            <time dateTime={post.meta.date}>{dateStr}</time>
-            {post.meta.authors.map((authorId) => {
-              const author = authors[authorId];
-              return (
-                <span key={authorId} className="flex items-center gap-1.5">
-                  <span className="w-1 h-1 rounded-full bg-default-300" />
-                  {author?.name || authorId}
-                </span>
-              );
-            })}
-          </div>
-
-          {post.meta.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {post.meta.tags.map((tag) => (
-                <Chip key={tag} size="sm" variant="soft">
-                  {tag}
-                </Chip>
-              ))}
-            </div>
-          )}
-        </header>
-
-        <ProseWrapper>
-          <MDXRemote
-            source={post.content}
-            components={mdxComponents}
-            options={{
-              mdxOptions: {
-                remarkPlugins: [
-                  remarkGfm,
-                  remarkMath,
-                  remarkDirective,
-                  remarkAdmonition,
-                  remarkCollapse,
-                  remarkHint,
-                  remarkTerminology,
-                  remarkTabs,
-                  remarkMermaid,
-                  remarkMarkmap,
-                  remarkExternalLink,
-                  remarkTables
-                ],
-                rehypePlugins: [
-                  rehypeSlug,
-                  [rehypeKatex, { strict: "ignore" }],
-                  [rehypePrettyCode, { theme: { dark: "github-dark-default", light: "github-light-default" }, keepBackground: false }]
+      <ProseWrapper>
+        <MDXRemote
+          source={entry.content}
+          components={mdxComponents}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [
+                remarkGfm,
+                remarkMath,
+                remarkDirective,
+                remarkAdmonition,
+                remarkCollapse,
+                remarkHint,
+                remarkTerminology,
+                remarkTabs,
+                remarkMermaid,
+                remarkMarkmap,
+                remarkExternalLink,
+                remarkTables
+              ],
+              rehypePlugins: [
+                rehypeSlug,
+                [rehypeKatex, { strict: "ignore" }],
+                [
+                  rehypePrettyCode,
+                  {
+                    theme: {
+                      dark: "github-dark-default",
+                      light: "github-light-default"
+                    },
+                    keepBackground: false
+                  }
                 ]
-              }
-            }}
-          />
-        </ProseWrapper>
-      </article>
-
-      <TableOfContents items={toc} />
-    </div>
+              ]
+            }
+          }}
+        />
+      </ProseWrapper>
+    </article>
   );
 }

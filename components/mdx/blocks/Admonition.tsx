@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/cn";
 import {
   StickyNote,
   Lightbulb,
@@ -37,8 +38,8 @@ export default function Admonition({
   const { Icon } = style;
 
   return (
-    <div className={`rounded-2xl ${style.bg} px-5 py-4 my-5`}>
-      <div className={`flex items-center gap-2 mb-2 text-[13px] font-semibold tracking-wide ${style.accent}`}>
+    <div className={cn("rounded-2xl px-5 py-4 my-5", style.bg)}>
+      <div className={cn("flex items-center gap-2 mb-2 text-[13px] font-semibold tracking-wide", style.accent)}>
         <Icon size={15} strokeWidth={2} />
         <span>{displayTitle}</span>
       </div>

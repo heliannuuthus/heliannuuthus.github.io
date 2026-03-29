@@ -1,4 +1,5 @@
 import { getAuthors, getBlogPosts, type Author, type PostMeta } from "@/lib/content";
+import { cn } from "@/lib/cn";
 import { Card } from "@heroui/react/card";
 import PostCard from "@/components/PostCard";
 import Image from "next/image";
@@ -99,7 +100,10 @@ function AboutCards() {
         {aboutItems.map((card) => (
           <Card
             key={card.title}
-            className={`surface rounded-[20px] p-7 transition-all duration-500 ease-[cubic-bezier(.23,1,.32,1)] hover:surface-raised hover:-translate-y-1 bg-gradient-to-br ${card.gradient}`}
+            className={cn(
+              "surface rounded-[20px] p-7 transition-all duration-500 ease-[cubic-bezier(.23,1,.32,1)] hover:surface-raised hover:-translate-y-1 bg-gradient-to-br",
+              card.gradient
+            )}
           >
             <Card.Content className="flex flex-col gap-3 p-0">
               <h3 className="text-[15px] font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
@@ -142,7 +146,7 @@ function RecentPosts({ posts, authors }: { posts: PostMeta[]; authors: Record<st
 }
 
 export default function Home() {
-  const posts = getBlogPosts().slice(0, 5);
+  const posts = getBlogPosts().filter((p) => !p.draft).slice(0, 5);
   const authors = getAuthors();
 
   return (

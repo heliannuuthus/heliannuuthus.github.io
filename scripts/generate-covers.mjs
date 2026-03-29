@@ -3,6 +3,8 @@ import { Resvg } from "@resvg/resvg-js";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import dayjs from "dayjs";
+import { stripMarkdown } from "../lib/strip-markdown.mjs";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -29,29 +31,6 @@ function hashCode(str) {
   let h = 0;
   for (const ch of str) h = ((h << 5) - h + ch.charCodeAt(0)) | 0;
   return h;
-}
-
-function stripMarkdown(text) {
-  return text
-    .replace(/^\s*import\s+.*$/gm, "")
-    .replace(/<[^>]+>/g, "")
-    .replace(/<!--[\s\S]*?-->/g, "")
-    .replace(/!\[[^\]]*]\([^)]*\)/g, "")
-    .replace(/\[([^\]]*?)]\([^)]*\)/g, "$1")
-    .replace(/:(?:term|hint)\[([^\]]*?)]\{[^}]*\}/g, "$1")
-    .replace(/[*_~`#>|]/g, "")
-    .replace(/\n+/g, " ")
-    .trim();
-}
-
-function extractExcerpt(content, maxLen = 100) {
-  const truncateMatch = content.match(/<!--\s*truncate\s*-->/);
-  const raw = truncateMatch
-    ? content.slice(0, truncateMatch.index)
-    : content.split(/\n\n/)[0] ?? "";
-  const plain = stripMarkdown(raw);
-  if (!plain) return "";
-  return plain.length > maxLen ? plain.slice(0, maxLen) + "…" : plain;
 }
 
 function extractHandwritingPhrase(content, maxLen = 120) {
@@ -90,14 +69,17 @@ const el = (type, style, children) => ({
   props: { style, children },
 });
 
+function formatDateTitle(dateStr) {
+  return dayjs(dateStr).format("YYYY年M月D日 随记");
+}
+
 function coverDesign(post) {
-  const { title, tags, date, slug, handwriting, author } = post;
+  const { date, slug, handwriting } = post;
+  const title = formatDateTitle(date);
   const h = Math.abs(hashCode(slug));
   const accentHue = ACCENT_HUES[h % ACCENT_HUES.length];
-  const accentColor = `hsl(${accentHue}, 50%, 48%)`;
 
-  const d = new Date(date);
-  const dateStr = `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+  const dateStr = dayjs(date).format("YYYY年M月D日");
 
   const LINE_SPACING = 88;
   const FIRST_LINE_Y = 45;
@@ -133,7 +115,6 @@ function coverDesign(post) {
       transformOrigin: "0 0",
       filter: "drop-shadow(0 5px 14px rgba(0,0,0,0.22))",
     }, [
-      // 墨点
       el("div", {
         width: "3px",
         height: "3px",
@@ -141,7 +122,6 @@ function coverDesign(post) {
         background: "radial-gradient(circle, #1a1a4a 0%, rgba(25,25,60,0.25) 100%)",
         flexShrink: 0,
       }),
-      // Lamy 钢制笔尖 - 银色锥形
       el("div", {
         width: "30px",
         height: "5px",
@@ -149,21 +129,18 @@ function coverDesign(post) {
         borderRadius: "2px 0 0 2px",
         flexShrink: 0,
       }),
-      // 笔尖座 - 宽银色
       el("div", {
         width: "16px",
         height: "9px",
         background: "linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 30%, #999 50%, #c0c0c0 70%, #e8e8e8 100%)",
         flexShrink: 0,
       }),
-      // 进墨器
       el("div", {
         width: "14px",
         height: "11px",
         background: "linear-gradient(180deg, #2a2a2a 0%, #111 50%, #2a2a2a 100%)",
         flexShrink: 0,
       }),
-      // Lamy 标志性三角握笔区 - 磨砂半透明黑
       el("div", {
         width: "50px",
         height: "14px",
@@ -172,14 +149,12 @@ function coverDesign(post) {
         borderRadius: "1px",
         boxShadow: "inset 0 1px 2px rgba(255,255,255,0.1)",
       }),
-      // 银色环
       el("div", {
         width: "4px",
         height: "15px",
         background: "linear-gradient(180deg, #eee 0%, #bbb 30%, #999 50%, #bbb 70%, #eee 100%)",
         flexShrink: 0,
       }),
-      // Lamy Safari 笔身 - ABS 磨砂黑
       el("div", {
         width: "220px",
         height: "14px",
@@ -187,7 +162,6 @@ function coverDesign(post) {
         flexShrink: 0,
         boxShadow: "inset 0 2px 4px rgba(255,255,255,0.06), inset 0 -2px 3px rgba(0,0,0,0.3)",
       }),
-      // 尾部按钮 - Lamy 圆形尾端
       el("div", {
         width: "16px",
         height: "14px",
@@ -222,7 +196,6 @@ function coverDesign(post) {
 
       ...ruledLines,
 
-      // 标题居中
       el("div", {
         position: "absolute",
         left: `${TEXT_X}px`,
@@ -247,12 +220,11 @@ function coverDesign(post) {
           lineHeight: `${LINE_SPACING}px`,
           color: "rgba(28, 28, 48, 0.42)",
         }, [
-          el("span", {}, author || "heliannuuthus"),
+          el("span", {}, "heliannuuthus"),
           el("span", {}, dateStr),
         ]),
       ]),
 
-      // 正文摘录左对齐
       ...(handwriting
         ? [
             el("div", {
@@ -274,6 +246,26 @@ function coverDesign(post) {
   );
 }
 
+function extractEssayDate(filePath, data) {
+  if (data.date) return data.date.toString();
+
+  const rel = path.relative(ROOT, filePath);
+  const dirMatch = rel.match(/(\d{4}-\d{2})/);
+  const basename = path.basename(filePath, path.extname(filePath));
+  const dayMatch = basename.match(/^(\d{1,2})$/);
+
+  if (dirMatch && dayMatch) {
+    return `${dirMatch[1]}-${dayMatch[1].padStart(2, "0")}`;
+  }
+
+  if (dirMatch) return `${dirMatch[1]}-01`;
+
+  const fileMatch = rel.match(/(\d{4}-\d{2}-\d{2})/);
+  if (fileMatch) return fileMatch[1];
+
+  return "1970-01-01";
+}
+
 function getEssayPosts() {
   const dir = path.join(ROOT, "essay");
   if (!fs.existsSync(dir)) return [];
@@ -293,19 +285,12 @@ function getEssayPosts() {
         const { data, content } = matter(raw);
         if (data.unlisted || data.draft) continue;
 
-        const dirMatch = path.relative(ROOT, full).match(/(\d{4}-\d{2})/);
-        const authors = Array.isArray(data.authors)
-          ? data.authors
-          : [data.authors || "heliannuuthus"];
+        const dateStr = extractEssayDate(full, data);
+        const slug = data.slug || dateStr;
+
         posts.push({
-          slug: data.slug || entry.name.replace(/\.mdx?$/i, ""),
-          title: data.title || entry.name.replace(/\.mdx?$/i, ""),
-          date:
-            data.date?.toString() ||
-            (dirMatch ? `${dirMatch[1]}-01` : "1970-01-01"),
-          tags: Array.isArray(data.tags) ? data.tags : [],
-          description: data.description || extractExcerpt(content),
-          author: authors[0],
+          slug,
+          date: dateStr,
           handwriting: extractHandwritingPhrase(content),
         });
       }

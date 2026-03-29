@@ -1,3 +1,5 @@
+import { cn } from "@/lib/cn";
+
 interface TimelineItem {
   key?: string;
   label?: React.ReactNode;
@@ -23,12 +25,14 @@ export default function Timeline({
         return (
           <div
             key={item.key ?? index}
-            className={`flex gap-3 ${isAlternate ? "items-center" : ""} ${
-              isRight && isAlternate ? "flex-row-reverse text-right" : ""
-            }`}
+            className={cn(
+              "flex gap-3",
+              isAlternate && "items-center",
+              isRight && isAlternate && "flex-row-reverse text-right"
+            )}
           >
             {isAlternate && (
-              <div className={`flex-1 ${isRight ? "text-left" : "text-right"}`}>
+              <div className={cn("flex-1", isRight ? "text-left" : "text-right")}>
                 {isRight ? (
                   <div className="text-[13px] leading-relaxed text-zinc-600 dark:text-zinc-300 py-2">
                     {item.children}
@@ -52,7 +56,7 @@ export default function Timeline({
             </div>
 
             {isAlternate ? (
-              <div className={`flex-1 ${isRight ? "text-right" : "text-left"}`}>
+              <div className={cn("flex-1", isRight ? "text-right" : "text-left")}>
                 {isRight ? (
                   item.label ? (
                     <div className="text-[13px] font-medium text-zinc-500 dark:text-zinc-400 py-2">

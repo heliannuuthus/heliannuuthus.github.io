@@ -2,8 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { Card } from "@heroui/react/card";
-import { clsx } from "clsx";
+import { cn } from "@/lib/cn";
 import type { Author, PostMeta } from "@/lib/content";
+import dayjs from "@/lib/dayjs";
 import { tagColor } from "@/lib/tag-colors";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,11 +18,7 @@ interface PostCardProps {
 export default function PostCard({ post, authors, basePath }: PostCardProps) {
   const router = useRouter();
 
-  const d = new Date(post.date);
-  const monthDay = d.toLocaleDateString("zh-CN", {
-    month: "long",
-    day: "numeric"
-  });
+  const monthDay = dayjs(post.date).format("M月D日");
 
   return (
     <div
@@ -33,9 +30,17 @@ export default function PostCard({ post, authors, basePath }: PostCardProps) {
         if (e.key === "Enter") router.push(`${basePath}/${post.slug}`);
       }}
     >
-      <Card className="surface rounded-2xl px-6 py-5 transition-all duration-500 ease-[cubic-bezier(.23,1,.32,1)] group-hover:surface-raised group-hover:-translate-y-0.5">
+      <Card className={cn(
+        "surface rounded-2xl px-6 py-5 transition-all duration-500 ease-[cubic-bezier(.23,1,.32,1)] group-hover:surface-raised group-hover:-translate-y-0.5",
+        post.draft && "border-l-[3px] border-dashed border-amber-400/60 dark:border-amber-500/40 opacity-75 group-hover:opacity-100"
+      )}>
         <Card.Content className="flex flex-col gap-3 p-0">
           <h3 className="text-[17px] font-semibold leading-snug tracking-tight text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
+            {post.draft && (
+              <span className="inline-flex items-center mr-2 px-2 py-0.5 rounded-md text-[11px] font-medium tracking-wide bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400 align-middle">
+                Draft
+              </span>
+            )}
             {post.title}
           </h3>
 
@@ -53,7 +58,7 @@ export default function PostCard({ post, authors, basePath }: PostCardProps) {
                     key={tag}
                     href={`${basePath}?tag=${encodeURIComponent(tag)}`}
                     onClick={(e) => e.stopPropagation()}
-                    className={clsx(
+                    className={cn(
                       "inline-flex items-center h-[22px] px-2.5 rounded-full text-[11px] font-medium tracking-wide transition-all duration-200 hover:scale-105 hover:brightness-110 hover:shadow-sm",
                       tagColor(tag)
                     )}
@@ -88,9 +93,18 @@ export default function PostCard({ post, authors, basePath }: PostCardProps) {
                       })}
                     </div>
                     <span>
-                      {post.authors
-                        .map((key) => authors[key]?.name ?? key)
-                        .join(", ")}
+                      {post.authors.map((key, i) => (
+                        <span key={key}>
+                          {i > 0 && ", "}
+                          <Link
+                            href={`${basePath}?author=${encodeURIComponent(key)}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+                          >
+                            {authors[key]?.name ?? key}
+                          </Link>
+                        </span>
+                      ))}
                     </span>
                   </div>
                 </>

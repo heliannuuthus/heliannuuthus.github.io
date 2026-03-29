@@ -1,5 +1,5 @@
 import { Card } from "@heroui/react/card";
-import { clsx } from "clsx";
+import { cn } from "@/lib/cn";
 
 interface GlassCardProps {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ export default function GlassCard({
 }: GlassCardProps) {
   return (
     <Card
-      className={clsx(
+      className={cn(
         "surface rounded-[20px]",
         hoverable &&
           "hover:surface-raised hover:-translate-y-0.5 transition-all duration-500 ease-[cubic-bezier(.23,1,.32,1)]",

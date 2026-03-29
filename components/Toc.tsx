@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Button } from "@heroui/react/button";
 import { ChevronRight } from "lucide-react";
+import { cn } from "@/lib/cn";
 import type { TocItem } from "@/lib/toc";
 import { usePreferences } from "@/lib/preferences";
 
@@ -105,7 +106,7 @@ function TocNode({
           >
             <ChevronRight
               size={11}
-              className={`transition-transform duration-200 ${isCollapsed ? "" : "rotate-90"}`}
+              className={cn("transition-transform duration-200", !isCollapsed && "rotate-90")}
             />
           </Button>
         )}
@@ -116,15 +117,13 @@ function TocNode({
             document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
             window.history.replaceState(null, "", `#${item.id}`);
           }}
-          className={`
-            block py-1 text-[12.5px] leading-snug truncate transition-colors duration-200
-            ${!hasChildren ? "pl-[18px]" : ""}
-            ${
-              isActive
-                ? "text-emerald-600 dark:text-emerald-400 font-medium"
-                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200"
-            }
-          `}
+          className={cn(
+            "block py-1 text-[12.5px] leading-snug truncate transition-colors duration-200",
+            !hasChildren && "pl-[18px]",
+            isActive
+              ? "text-emerald-600 dark:text-emerald-400 font-medium"
+              : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200"
+          )}
           title={item.text}
         >
           {item.text}

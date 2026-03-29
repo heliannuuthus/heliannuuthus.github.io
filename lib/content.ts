@@ -1,7 +1,9 @@
+import dayjs from "dayjs";
 import fs from "fs";
 import matter from "gray-matter";
 import yaml from "js-yaml";
 import path from "path";
+import { stripMarkdown } from "./strip-markdown.mjs";
 
 const ROOT = path.join(/* turbopackIgnore: true */ process.cwd());
 
@@ -13,6 +15,7 @@ export interface PostMeta {
   tags: string[];
   description?: string;
   unlisted?: boolean;
+  draft?: boolean;
 }
 
 export interface Author {
@@ -48,23 +51,41 @@ function extractExcerpt(content: string, maxLen = 160): string | undefined {
 
   if (!raw.trim()) return undefined;
 
-  const plain = raw
-    .replace(/^\s*import\s+.*$/gm, "")
-    .replace(/<[^>]+>/g, "")
-    .replace(/<!--[\s\S]*?-->/g, "")
-    .replace(/!\[[^\]]*]\([^)]*\)/g, "")
-    .replace(/\[([^\]]*?)]\([^)]*\)/g, "$1")
-    .replace(/:(?:term|hint)\[([^\]]*?)]\{[^}]*\}/g, "$1")
-    .replace(/[*_~`#>|]/g, "")
-    .replace(/\n+/g, " ")
-    .trim();
+  const plain = stripMarkdown(raw) as string;
 
   if (!plain) return undefined;
   return plain.length > maxLen ? plain.slice(0, maxLen) + "…" : plain;
 }
 
-function cleanMdxContent(content: string): string {
-  let cleaned = content;
+function resolvePartialImports(content: string, filePath: string): string {
+  const fileDir = path.dirname(filePath);
+  const importRe = /^\s*import\s+(\w+)\s+from\s+["']([^"']+\.mdx?)["'];?\s*$/gm;
+
+  const imports = new Map<string, string>();
+  let match: RegExpExecArray | null;
+  while ((match = importRe.exec(content)) !== null) {
+    const [, name, relPath] = match;
+    const absPath = path.resolve(fileDir, relPath);
+    if (fs.existsSync(absPath)) {
+      const { content: partial } = matter(fs.readFileSync(absPath, "utf-8"));
+      imports.set(name, resolvePartialImports(partial, absPath));
+    }
+  }
+
+  let resolved = content.replace(importRe, "");
+  for (const [name, body] of imports) {
+    resolved = resolved.replace(new RegExp(`<${name}\\s*/>`, "g"), body);
+  }
+  return resolved;
+}
+
+function cleanMdxContent(content: string, filePath: string): string {
+  let cleaned = resolvePartialImports(content, filePath);
+
+  const truncateIdx = cleaned.search(/<!--\s*truncate\s*-->/);
+  if (truncateIdx !== -1) {
+    cleaned = cleaned.replace(/^[\s\S]*?<!--\s*truncate\s*-->/, "");
+  }
 
   cleaned = cleaned.replace(/<!--[\s\S]*?-->/g, "");
 
@@ -107,11 +128,10 @@ function getPostsFromDir(dir: string): PostMeta[] {
         const raw = fs.readFileSync(fullPath, "utf-8");
         const { data, content } = matter(raw);
 
-        if (data.unlisted || data.draft) continue;
-
         const slug = data.slug || entry.name.replace(/\.mdx?$/, "");
-        const dateStr =
-          data.date?.toString() || extractDate(path.relative(ROOT, fullPath));
+        const dateStr = data.date
+          ? dayjs(data.date as string | Date).format("YYYY-MM-DD")
+          : extractDate(path.relative(ROOT, fullPath));
 
         posts.push({
           slug,
@@ -121,7 +141,9 @@ function getPostsFromDir(dir: string): PostMeta[] {
             ? data.authors
             : [data.authors || "heliannuuthus"],
           tags: Array.isArray(data.tags) ? data.tags : [],
-          description: data.description || extractExcerpt(content)
+          description: data.description || extractExcerpt(content),
+          unlisted: !!data.unlisted,
+          draft: !!data.draft
         });
       }
     }
@@ -129,7 +151,7 @@ function getPostsFromDir(dir: string): PostMeta[] {
 
   walk(contentDir);
   return posts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
   );
 }
 
@@ -139,6 +161,77 @@ export function getBlogPosts(): PostMeta[] {
 
 export function getEssayPosts(): PostMeta[] {
   return getPostsFromDir("essay");
+}
+
+export interface EssayEntry {
+  slug: string;
+  date: string;
+  content: string;
+  draft?: boolean;
+}
+
+function extractEssayDate(filePath: string, data: Record<string, unknown>): string {
+  if (data.date) return dayjs(data.date as string | Date).format("YYYY-MM-DD");
+
+  const rel = path.relative(ROOT, filePath);
+  const dirMatch = rel.match(/(\d{4}-\d{2})/);
+  const basename = path.basename(filePath, path.extname(filePath));
+  const dayMatch = basename.match(/^(\d{1,2})$/);
+
+  if (dirMatch && dayMatch) {
+    return `${dirMatch[1]}-${dayMatch[1].padStart(2, "0")}`;
+  }
+
+  return extractDate(rel);
+}
+
+export function getEssayEntries(): EssayEntry[] {
+  const contentDir = path.join(ROOT, "essay");
+  if (!fs.existsSync(contentDir)) return [];
+
+  const entries: EssayEntry[] = [];
+
+  function walk(currentDir: string) {
+    const dirEntries = fs.readdirSync(currentDir, { withFileTypes: true });
+    for (const entry of dirEntries) {
+      const fullPath = path.join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        if (entry.name.startsWith("_")) continue;
+        walk(fullPath);
+      } else if (/\.(mdx?|MDX?)$/.test(entry.name)) {
+        if (entry.name.startsWith("_")) continue;
+        const raw = fs.readFileSync(fullPath, "utf-8");
+        const { data, content } = matter(raw);
+
+        if (data.unlisted) continue;
+
+        const dateStr = extractEssayDate(fullPath, data);
+        const slug = data.slug || dateStr;
+        const cleaned = cleanMdxContent(content, fullPath);
+
+        entries.push({
+          slug,
+          date: dateStr,
+          content: cleaned,
+          draft: !!data.draft
+        });
+      }
+    }
+  }
+
+  walk(contentDir);
+  return entries.sort(
+    (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+  );
+}
+
+export function getEssayBySlug(slug: string): { date: string; content: string; draft?: boolean } | null {
+  const entry = getEssayEntries().find((e) => e.slug === slug);
+  return entry ? { date: entry.date, content: entry.content, draft: entry.draft } : null;
+}
+
+export function getAllEssaySlugs(): string[] {
+  return getEssayEntries().map((e) => e.slug);
 }
 
 export function getAuthors(): Record<string, Author> {
@@ -186,12 +279,11 @@ export function getPostBySlug(
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
 
-  if (data.draft) return null;
+  const dateStr = data.date
+    ? dayjs(data.date as string | Date).format("YYYY-MM-DD")
+    : extractDate(path.relative(ROOT, filePath));
 
-  const dateStr =
-    data.date?.toString() || extractDate(path.relative(ROOT, filePath));
-
-  const cleanContent = cleanMdxContent(content);
+  const cleanContent = cleanMdxContent(content, filePath);
 
   const postSlug =
     data.slug || path.basename(filePath).replace(/\.mdx?$/, "");
@@ -205,12 +297,16 @@ export function getPostBySlug(
         ? data.authors
         : [data.authors || "heliannuuthus"],
       tags: Array.isArray(data.tags) ? data.tags : [],
-      description: data.description || extractExcerpt(content, 2000)
+      description: data.description || extractExcerpt(content, 2000),
+      unlisted: !!data.unlisted,
+      draft: !!data.draft
     },
     content: cleanContent
   };
 }
 
 export function getAllSlugs(dir: string): string[] {
-  return getPostsFromDir(dir).map((p) => p.slug);
+  return getPostsFromDir(dir)
+    .filter((p) => !p.draft)
+    .map((p) => p.slug);
 }

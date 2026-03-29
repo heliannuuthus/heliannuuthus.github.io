@@ -2,6 +2,7 @@
 
 import { Button } from "@heroui/react/button";
 import { Link as HeroLink } from "@heroui/react/link";
+import { cn } from "@/lib/cn";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -117,17 +118,19 @@ export default function GlassNavbar() {
 
   return (
     <div
-      className={`sticky z-40 w-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+      className={cn(
+        "sticky z-40 w-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]",
         scrolled ? "top-0 pt-0" : "top-0 pt-3"
-      }`}
+      )}
     >
       <nav
         ref={navRef}
-        className={`mx-auto bg-white/72 dark:bg-zinc-900/72 backdrop-saturate-[1.8] backdrop-blur-xl transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+        className={cn(
+          "mx-auto bg-white/72 dark:bg-zinc-900/72 backdrop-saturate-[1.8] backdrop-blur-xl transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]",
           scrolled
             ? "w-full max-w-none rounded-none shadow-[0_0.5px_0_rgba(0,0,0,0.06)] dark:shadow-[0_0.5px_0_rgba(255,255,255,0.06)]"
             : "max-w-3xl rounded-full shadow-[0_2px_12px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3),0_0_0_0.5px_rgba(255,255,255,0.06)]"
-        }`}
+        )}
       >
         <header ref={headerRef} className="relative flex h-14 items-center justify-between px-5 sm:px-6">
           {indicatorReady && (
@@ -158,11 +161,12 @@ export default function GlassNavbar() {
               className="rounded-lg"
             />
             <span
-              className={`font-semibold text-base tracking-tight hidden sm:inline transition-colors duration-300 ${
+              className={cn(
+                "font-semibold text-base tracking-tight hidden sm:inline transition-colors duration-300",
                 isHome
                   ? "text-zinc-900 dark:text-zinc-100"
                   : "text-zinc-500 dark:text-zinc-400"
-              }`}
+              )}
             >
               heliannuuthus
             </span>
@@ -178,11 +182,12 @@ export default function GlassNavbar() {
                 >
                   <Link
                     href={item.href}
-                    className={`relative z-10 block px-4 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-colors duration-300 ${
+                    className={cn(
+                      "relative z-10 block px-4 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-colors duration-300",
                       isActive
                         ? "text-zinc-900 dark:text-zinc-100"
                         : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
-                    }`}
+                    )}
                     aria-current={isActive ? "page" : undefined}
                   >
                     {item.label}
@@ -256,11 +261,12 @@ export default function GlassNavbar() {
                     <Link
                       href={item.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`block py-2 text-lg transition-colors ${
+                      className={cn(
+                        "block py-2 text-lg transition-colors",
                         isActive
                           ? "font-medium text-emerald-600 dark:text-emerald-400"
                           : "text-foreground"
-                      }`}
+                      )}
                     >
                       {item.label}
                     </Link>
