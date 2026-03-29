@@ -306,5 +306,7 @@ export function getPostBySlug(
 }
 
 export function getAllSlugs(dir: string): string[] {
-  return getPostsFromDir(dir).map((p) => p.slug);
+  return getPostsFromDir(dir)
+    .filter((p) => !p.draft)
+    .map((p) => p.slug);
 }
