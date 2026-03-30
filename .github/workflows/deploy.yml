@@ -23,7 +23,7 @@ jobs:
 
       - uses: heliannuuthus/hephaestus/actions/setup-pnpm@main
         with:
-          node-version: "22"
+          node-version: "24"
 
       - name: Build
         run: pnpm build
