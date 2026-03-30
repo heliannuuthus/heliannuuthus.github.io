@@ -8,7 +8,7 @@
     "covers": "node scripts/generate-covers.mjs",
     "build": "pnpm covers && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@heroui/react": "^3.0.1",
@@ -60,6 +60,9 @@
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.1",
+    "eslint-config-prettier": "^10.1.8",
     "satori": "^0.26.0",
     "typescript": "~6.0.2"
   },
