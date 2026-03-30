@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ExternalLink as ExternalLinkIcon, Globe, ArrowLeft, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 import { faviconUrl } from "@/lib/external-link";
@@ -37,9 +37,9 @@ function RedirectContent() {
     } catch { /* noop */ }
   }
 
-  const redirect = useCallback(() => {
+  function redirect() {
     if (valid) window.location.href = target;
-  }, [valid, target]);
+  }
 
   useEffect(() => {
     if (!valid || paused) return;
@@ -57,7 +57,7 @@ function RedirectContent() {
 
   useEffect(() => {
     if (remaining === 0 && valid) redirect();
-  }, [remaining, valid, redirect]);
+  });
 
   const progress = valid
     ? ((COUNTDOWN_SECONDS - remaining) / COUNTDOWN_SECONDS) * CIRCLE_CIRCUMFERENCE
