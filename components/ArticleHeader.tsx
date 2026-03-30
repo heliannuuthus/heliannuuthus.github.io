@@ -1,5 +1,5 @@
 import { Avatar } from "@heroui/react/avatar";
-import Link from "next/link";
+
 import ExpandableExcerpt from "@/components/ExpandableExcerpt";
 import TagStamps from "@/components/TagStamps";
 import type { Author, PostMeta } from "@/lib/content";

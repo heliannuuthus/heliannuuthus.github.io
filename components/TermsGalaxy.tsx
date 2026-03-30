@@ -712,6 +712,7 @@ export default function TermsGalaxy({
       cv.removeEventListener("touchmove", onTouchMove);
       cv.removeEventListener("touchend", onTouchEnd);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- zoomTo is stable via ref
   }, [initLayout]);
 
   /* ── Mouse handlers (React) ── */
@@ -784,6 +785,7 @@ export default function TermsGalaxy({
       }
     }
     if (s.cam.tz > 1.2) zoomTo(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- zoomTo is stable via ref
   }, []);
 
   const onLeave = useCallback(() => {

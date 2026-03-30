@@ -22,6 +22,7 @@ import {
 import rehypeSlug from "rehype-slug";
 import rehypeKatex from "rehype-katex";
 import rehypePrettyCode from "rehype-pretty-code";
+import type { Pluggable } from "unified";
 
 export const metadata: Metadata = {
   title: "Terminology"
@@ -33,38 +34,35 @@ const inlineComponents: MDXComponents = {
 };
 
 function mdxOptions(source: string) {
-  return {
-    mdxOptions: {
-      remarkPlugins: [
-        remarkGfm,
-        remarkMath,
-        remarkDirective,
-        remarkAdmonition,
-        remarkCollapse,
-        remarkHint,
-        [remarkTerminology, { source }] as any,
-        remarkTabs,
-        remarkMermaid,
-        remarkMarkmap,
-        remarkExternalLink,
-        remarkTables
-      ],
-      rehypePlugins: [
-        rehypeSlug,
-        [rehypeKatex, { strict: "ignore" }],
-        [
-          rehypePrettyCode,
-          {
-            theme: {
-              dark: "github-dark-default",
-              light: "github-light-default"
-            },
-            keepBackground: false
-          }
-        ]
-      ]
-    }
-  } as const;
+  const remarkPlugins: Pluggable[] = [
+    remarkGfm,
+    remarkMath,
+    remarkDirective,
+    remarkAdmonition,
+    remarkCollapse,
+    remarkHint,
+    [remarkTerminology, { source }],
+    remarkTabs,
+    remarkMermaid,
+    remarkMarkmap,
+    remarkExternalLink,
+    remarkTables,
+  ];
+  const rehypePlugins: Pluggable[] = [
+    rehypeSlug,
+    [rehypeKatex, { strict: "ignore" }],
+    [
+      rehypePrettyCode,
+      {
+        theme: {
+          dark: "github-dark-default",
+          light: "github-light-default",
+        },
+        keepBackground: false,
+      },
+    ],
+  ];
+  return { mdxOptions: { remarkPlugins, rehypePlugins } };
 }
 
 async function renderBlock(markdown: string, src: string): Promise<ReactNode> {

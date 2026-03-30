@@ -38,12 +38,29 @@ function formatWeekday(dateStr: string): string {
   return dayjs(dateStr).format("dd");
 }
 
+function pageRange(current: number, total: number): (number | "ellipsis")[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages: (number | "ellipsis")[] = [1];
+  if (current > 3) pages.push("ellipsis");
+  const start = Math.max(2, current - 1);
+  const end = Math.min(total - 1, current + 1);
+  for (let i = start; i <= end; i++) pages.push(i);
+  if (current < total - 2) pages.push("ellipsis");
+  pages.push(total);
+  return pages;
+}
+
 export default function EssayJournal({
   entries,
 }: {
   entries: EssayEntry[];
 }) {
   const [page, setPage] = useState(1);
+
+  const goToPage = (p: number) => {
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const totalPages = Math.ceil(entries.length / PAGE_SIZE);
   const pagedEntries = useMemo(
@@ -134,18 +151,36 @@ export default function EssayJournal({
 
       {totalPages > 1 && (
         <div className="flex justify-center pt-4">
-          <Pagination
-            total={totalPages}
-            page={page}
-            onChange={(p) => {
-              setPage(p);
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            showControls
-            classNames={{
-              cursor: "bg-zinc-800 dark:bg-zinc-200 text-white dark:text-black",
-            }}
-          />
+          <Pagination>
+            <Pagination.Content>
+              <Pagination.Item>
+                <Pagination.Previous onPress={() => goToPage(Math.max(1, page - 1))}>
+                  <Pagination.PreviousIcon />
+                </Pagination.Previous>
+              </Pagination.Item>
+              {pageRange(page, totalPages).map((item, i) =>
+                item === "ellipsis" ? (
+                  <Pagination.Item key={`e${i}`}>
+                    <Pagination.Ellipsis />
+                  </Pagination.Item>
+                ) : (
+                  <Pagination.Item key={item}>
+                    <Pagination.Link
+                      isActive={item === page}
+                      onPress={() => goToPage(item)}
+                    >
+                      {item}
+                    </Pagination.Link>
+                  </Pagination.Item>
+                ),
+              )}
+              <Pagination.Item>
+                <Pagination.Next onPress={() => goToPage(Math.min(totalPages, page + 1))}>
+                  <Pagination.NextIcon />
+                </Pagination.Next>
+              </Pagination.Item>
+            </Pagination.Content>
+          </Pagination>
         </div>
       )}
     </div>

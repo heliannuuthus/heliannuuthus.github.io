@@ -80,7 +80,7 @@ export default function GlassNavbar() {
       height: targetRect.height
     });
     setIndicatorReady(true);
-  }, [isHome, activeHref, scrolled]);
+  }, [isHome, activeHref]);
 
   useLayoutEffect(() => {
     measureIndicator();
