@@ -7,7 +7,7 @@ export interface TocItem {
   children: TocItem[];
 }
 
-export function extractToc(markdown: string): TocItem[] {
+export const extractToc = (markdown: string): TocItem[] => {
   const slugger = new GithubSlugger();
   const headingRegex = /^(#{2,6})\s+(.+)$/gm;
   const flat: { depth: number; text: string; id: string }[] = [];
@@ -26,11 +26,11 @@ export function extractToc(markdown: string): TocItem[] {
   }
 
   return buildTree(flat);
-}
+};
 
-function buildTree(
+const buildTree = (
   items: { depth: number; text: string; id: string }[]
-): TocItem[] {
+): TocItem[] => {
   const root: TocItem[] = [];
   const stack: TocItem[] = [];
 
@@ -51,4 +51,4 @@ function buildTree(
   }
 
   return root;
-}
+};

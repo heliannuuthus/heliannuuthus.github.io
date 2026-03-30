@@ -33,7 +33,7 @@ export interface TagInfo {
   description: string;
 }
 
-function extractDate(filePath: string): string {
+const extractDate = (filePath: string): string => {
   const dirMatch = filePath.match(/(\d{4}-\d{2})/);
   if (dirMatch) return `${dirMatch[1]}-01`;
 
@@ -41,9 +41,9 @@ function extractDate(filePath: string): string {
   if (fileMatch) return fileMatch[1];
 
   return "1970-01-01";
-}
+};
 
-function extractExcerpt(content: string, maxLen = 160): string | undefined {
+const extractExcerpt = (content: string, maxLen = 160): string | undefined => {
   const truncateMatch = content.match(/<!--\s*truncate\s*-->/);
   let raw = truncateMatch
     ? content.slice(0, truncateMatch.index)
@@ -55,9 +55,9 @@ function extractExcerpt(content: string, maxLen = 160): string | undefined {
 
   if (!plain) return undefined;
   return plain.length > maxLen ? plain.slice(0, maxLen) + "…" : plain;
-}
+};
 
-function resolvePartialImports(content: string, filePath: string): string {
+const resolvePartialImports = (content: string, filePath: string): string => {
   const fileDir = path.dirname(filePath);
   const importRe = /^\s*import\s+(\w+)\s+from\s+["']([^"']+\.mdx?)["'];?\s*$/gm;
 
@@ -77,9 +77,9 @@ function resolvePartialImports(content: string, filePath: string): string {
     resolved = resolved.replace(new RegExp(`<${name}\\s*/>`, "g"), body);
   }
   return resolved;
-}
+};
 
-function cleanMdxContent(content: string, filePath: string): string {
+const cleanMdxContent = (content: string, filePath: string): string => {
   let cleaned = resolvePartialImports(content, filePath);
 
   const truncateIdx = cleaned.search(/<!--\s*truncate\s*-->/);
@@ -108,15 +108,15 @@ function cleanMdxContent(content: string, filePath: string): string {
   }
 
   return filteredLines.join("\n");
-}
+};
 
-function getPostsFromDir(dir: string): PostMeta[] {
+const getPostsFromDir = (dir: string): PostMeta[] => {
   const contentDir = path.join(ROOT, dir);
   if (!fs.existsSync(contentDir)) return [];
 
   const posts: PostMeta[] = [];
 
-  function walk(currentDir: string) {
+  const walk = (currentDir: string) => {
     const entries = fs.readdirSync(currentDir, { withFileTypes: true });
     for (const entry of entries) {
       const fullPath = path.join(currentDir, entry.name);
@@ -147,17 +147,15 @@ function getPostsFromDir(dir: string): PostMeta[] {
         });
       }
     }
-  }
+  };
 
   walk(contentDir);
   return posts.sort(
     (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
   );
-}
+};
 
-export function getBlogPosts(): PostMeta[] {
-  return getPostsFromDir("blog");
-}
+export const getBlogPosts = (): PostMeta[] => getPostsFromDir("blog");
 
 export interface EssayEntry {
   slug: string;
@@ -165,7 +163,7 @@ export interface EssayEntry {
   content: string;
 }
 
-export function getEssayEntries(): EssayEntry[] {
+export const getEssayEntries = (): EssayEntry[] => {
   const essayDir = path.join(ROOT, "essay");
   if (!fs.existsSync(essayDir)) return [];
 
@@ -201,39 +199,38 @@ export function getEssayEntries(): EssayEntry[] {
   return entries.sort(
     (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
   );
-}
+};
 
-export function getEssayBySlug(slug: string): { date: string; content: string } | null {
+export const getEssayBySlug = (slug: string): { date: string; content: string } | null => {
   const entry = getEssayEntries().find((e) => e.slug === slug);
   return entry ? { date: entry.date, content: entry.content } : null;
-}
+};
 
-export function getAllEssaySlugs(): string[] {
-  return getEssayEntries().map((e) => e.slug);
-}
+export const getAllEssaySlugs = (): string[] =>
+  getEssayEntries().map((e) => e.slug);
 
-export function getAuthors(): Record<string, Author> {
+export const getAuthors = (): Record<string, Author> => {
   const filePath = path.join(ROOT, "content/authors.yml");
   if (!fs.existsSync(filePath)) return {};
   const raw = fs.readFileSync(filePath, "utf-8");
   return (yaml.load(raw) as Record<string, Author>) || {};
-}
+};
 
-export function getTags(): Record<string, TagInfo> {
+export const getTags = (): Record<string, TagInfo> => {
   const filePath = path.join(ROOT, "content/tags.yml");
   if (!fs.existsSync(filePath)) return {};
   const raw = fs.readFileSync(filePath, "utf-8");
   return (yaml.load(raw) as Record<string, TagInfo>) || {};
-}
+};
 
-export function getPostBySlug(
+export const getPostBySlug = (
   dir: string,
   slug: string
-): { meta: PostMeta; content: string } | null {
+): { meta: PostMeta; content: string } | null => {
   const contentDir = path.join(ROOT, dir);
   if (!fs.existsSync(contentDir)) return null;
 
-  function findFile(currentDir: string): string | null {
+  const findFile = (currentDir: string): string | null => {
     const entries = fs.readdirSync(currentDir, { withFileTypes: true });
     for (const entry of entries) {
       const fullPath = path.join(currentDir, entry.name);
@@ -249,7 +246,7 @@ export function getPostBySlug(
       }
     }
     return null;
-  }
+  };
 
   const filePath = findFile(contentDir);
   if (!filePath) return null;
@@ -281,10 +278,9 @@ export function getPostBySlug(
     },
     content: cleanContent
   };
-}
+};
 
-export function getAllSlugs(dir: string): string[] {
-  return getPostsFromDir(dir)
+export const getAllSlugs = (dir: string): string[] =>
+  getPostsFromDir(dir)
     .filter((p) => !p.draft)
     .map((p) => p.slug);
-}
