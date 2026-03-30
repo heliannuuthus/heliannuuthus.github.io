@@ -47,7 +47,7 @@ const parseMdxTerms = (file: string, category: string): Term[] => {
     if (!yamlBlock) continue;
 
     try {
-      const data = yaml.load(yamlBlock) as Record<string, any>;
+      const data = yaml.load(yamlBlock) as Partial<Omit<Term, "category">> | null;
       if (!data || typeof data !== "object" || !data.slug || !data.title) continue;
 
       const bodyEnd = d + 2 < dashLines.length ? dashLines[d + 2] : lines.length;
@@ -56,7 +56,7 @@ const parseMdxTerms = (file: string, category: string): Term[] => {
       terms.push({
         slug: data.slug,
         title: data.title,
-        definition: data.description || "",
+        definition: data.definition || "",
         category,
         aliases: data.aliases,
         content: body || undefined,
