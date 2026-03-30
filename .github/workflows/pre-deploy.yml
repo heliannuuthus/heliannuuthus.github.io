@@ -1,32 +1,26 @@
-name: Pre Deploy to GitHub Pages
+name: Pre Deploy
 
 on:
   pull_request:
-    branches:
-      - master
+    branches: [master]
+
+permissions:
+  contents: read
 
 jobs:
-  pre-deploy:
-    name: pre deployment
+  validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
+      - uses: heliannuuthus/hephaestus/actions/setup-pnpm@main
         with:
-          version: 10
-          run_install: false
+          node-version: "22"
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
+      - name: Lint
+        run: pnpm lint
 
-      - name: Install dependencies
-        run: pnpm install:packages && pnpm install:plugins && pnpm i --frozen-lockfile
-
-      - name: Build website
+      - name: Build
         run: pnpm build
