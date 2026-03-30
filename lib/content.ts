@@ -45,7 +45,7 @@ const extractDate = (filePath: string): string => {
 
 const extractExcerpt = (content: string, maxLen = 160): string | undefined => {
   const truncateMatch = content.match(/<!--\s*truncate\s*-->/);
-  let raw = truncateMatch
+  const raw = truncateMatch
     ? content.slice(0, truncateMatch.index)
     : content.split(/\n\n/)[0] ?? "";
 
