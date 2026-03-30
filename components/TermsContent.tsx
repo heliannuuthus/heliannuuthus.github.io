@@ -3,9 +3,9 @@
 import { useState, useMemo, useEffect } from "react";
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { cn } from "@/lib/cn";
 import dynamic from "next/dynamic";
 import type { Term } from "@/lib/terms";
+import type { CategoryMeta } from "@/lib/category-meta";
 
 const TermsGalaxy = dynamic(() => import("./TermsGalaxy"), { ssr: false });
 
@@ -15,34 +15,39 @@ export interface RenderedTermMap {
 
 /* ── Category visuals (for overlay only) ── */
 
-const categoryMeta: Record<string, { label: string; dot: string; gradient: string }> = {
-  auth:   { label: "认证与授权", dot: "bg-rose-500",    gradient: "from-rose-500 to-pink-500" },
-  crypto: { label: "密码学",     dot: "bg-amber-500",   gradient: "from-amber-500 to-orange-500" },
-  dl:     { label: "深度学习",   dot: "bg-violet-500",  gradient: "from-violet-500 to-purple-500" },
-  java:   { label: "Java",       dot: "bg-orange-500",  gradient: "from-orange-500 to-red-500" },
-  k8s:    { label: "Kubernetes",  dot: "bg-sky-500",     gradient: "from-sky-500 to-blue-500" },
-  math:   { label: "数学",       dot: "bg-teal-500",    gradient: "from-teal-500 to-cyan-500" },
-  net:    { label: "计算机网络", dot: "bg-cyan-500",    gradient: "from-cyan-500 to-blue-500" },
-  os:     { label: "操作系统",   dot: "bg-emerald-500", gradient: "from-emerald-500 to-green-500" },
-  web:    { label: "Web 开发",   dot: "bg-indigo-500",  gradient: "from-indigo-500 to-blue-500" },
-};
+const FALLBACK_COLOR: [number, number, number] = [161, 161, 170];
 
-function cm(cat: string) {
-  return categoryMeta[cat] || { label: cat, dot: "bg-zinc-400", gradient: "from-zinc-400 to-zinc-500" };
+function rgba([r, g, b]: [number, number, number], a = 1) {
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+function brighten([r, g, b]: [number, number, number], k = 0.3): [number, number, number] {
+  return [
+    Math.min(255, Math.round(r + (255 - r) * k)),
+    Math.min(255, Math.round(g + (255 - g) * k)),
+    Math.min(255, Math.round(b + (255 - b) * k)),
+  ];
+}
+
+function cm(cat: string, meta: Record<string, CategoryMeta>) {
+  const m = meta[cat];
+  if (!m) return { label: cat, color: FALLBACK_COLOR };
+  return m;
 }
 
 /* ── Focus overlay ── */
 
 function FocusOverlay({
-  term, renderedContent, relatedTerms, onClose, onNavigate,
+  term, renderedContent, relatedTerms, onClose, onNavigate, categoryMeta,
 }: {
   term: Term;
   renderedContent?: { definition?: ReactNode; content?: ReactNode };
   relatedTerms: Term[];
   onClose: () => void;
   onNavigate: (t: Term) => void;
+  categoryMeta: Record<string, CategoryMeta>;
 }) {
-  const c = cm(term.category);
+  const c = cm(term.category, categoryMeta);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -63,11 +68,11 @@ function FocusOverlay({
       />
       <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-8 pointer-events-none">
         <div className="relative pointer-events-auto surface-overlay rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden focus-card-enter" id={term.slug}>
-          <div className={cn("h-1 bg-gradient-to-r", c.gradient)} />
+          <div className="h-1" style={{ background: `linear-gradient(to right, ${rgba(c.color)}, ${rgba(brighten(c.color))})` }} />
           <div className="overflow-y-auto max-h-[calc(85vh-4px)]">
             <div className="sticky top-0 z-10 flex items-center justify-between px-7 pt-5 pb-3 backdrop-blur-xl bg-white/80 dark:bg-zinc-900/80">
               <div className="flex items-center gap-2">
-                <span className={cn("w-2 h-2 rounded-full", c.dot)} />
+                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: rgba(c.color) }} />
                 <span className="text-[11px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">{c.label}</span>
               </div>
               <button onClick={onClose} className="w-7 h-7 rounded-full flex items-center justify-center text-zinc-400 dark:text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" aria-label="关闭">
@@ -126,9 +131,11 @@ function FocusOverlay({
 export default function TermsContent({
   terms,
   rendered,
+  categoryMeta,
 }: {
   terms: Term[];
   rendered: RenderedTermMap;
+  categoryMeta: Record<string, CategoryMeta>;
 }) {
   const [focusedTerm, setFocusedTerm] = useState<Term | null>(null);
 
@@ -159,6 +166,7 @@ export default function TermsContent({
     <>
       <TermsGalaxy
         terms={terms}
+        categoryMeta={categoryMeta}
         matchingSlugs={null}
         selectedCategory={null}
         onSelectTerm={setFocusedTerm}
@@ -170,6 +178,7 @@ export default function TermsContent({
           term={focusedTerm}
           renderedContent={rendered[focusedTerm.slug]}
           relatedTerms={relatedTerms}
+          categoryMeta={categoryMeta}
           onClose={() => setFocusedTerm(null)}
           onNavigate={setFocusedTerm}
         />

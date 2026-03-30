@@ -3,6 +3,7 @@
 import { useRef, useEffect, useCallback } from "react";
 import { useTheme } from "next-themes";
 import type { Term } from "@/lib/terms";
+import type { CategoryMeta } from "@/lib/category-meta";
 
 /* ── Types ── */
 
@@ -45,30 +46,6 @@ interface Cam {
 }
 
 /* ── Constants ── */
-
-const C: Record<string, [number, number, number]> = {
-  auth: [244, 63, 94],
-  crypto: [245, 158, 11],
-  dl: [139, 92, 246],
-  java: [249, 115, 22],
-  k8s: [14, 165, 233],
-  math: [20, 184, 166],
-  net: [6, 182, 212],
-  os: [16, 185, 129],
-  web: [99, 102, 241],
-};
-
-const L: Record<string, string> = {
-  auth: "认证与授权",
-  crypto: "密码学",
-  dl: "深度学习",
-  java: "Java",
-  k8s: "Kubernetes",
-  math: "数学",
-  net: "计算机网络",
-  os: "操作系统",
-  web: "Web 开发",
-};
 
 const FC: [number, number, number] = [161, 161, 170];
 const FONT =
@@ -124,7 +101,7 @@ function seedRand(seed: number): () => number {
   };
 }
 
-function layout(terms: Term[], w: number, h: number) {
+function layout(terms: Term[], w: number, h: number, catMeta: Record<string, CategoryMeta>) {
   const cats = [...new Set(terms.map((t) => t.category))].sort();
   const n = cats.length;
   const spread = Math.min(w, h) * 0.34;
@@ -145,8 +122,8 @@ function layout(terms: Term[], w: number, h: number) {
     }));
     return {
       category: cat,
-      label: L[cat] || cat,
-      color: C[cat] || FC,
+      label: catMeta[cat]?.label || cat,
+      color: catMeta[cat]?.color || FC,
       hx: homeX,
       hy: homeY,
       cx: homeX,
@@ -365,6 +342,7 @@ function drawTooltip(
 
 interface Props {
   terms: Term[];
+  categoryMeta: Record<string, CategoryMeta>;
   matchingSlugs: Set<string> | null;
   selectedCategory: string | null;
   onSelectTerm: (t: Term) => void;
@@ -373,6 +351,7 @@ interface Props {
 
 export default function TermsGalaxy({
   terms,
+  categoryMeta,
   onSelectTerm,
 }: Props) {
   const cvRef = useRef<HTMLCanvasElement>(null);
@@ -438,7 +417,7 @@ export default function TermsGalaxy({
     s.H = H;
     s.dpr = dpr;
 
-    const { centers, nodes } = layout(terms, W, H);
+    const { centers, nodes } = layout(terms, W, H, categoryMeta);
     s.centers = centers;
     s.nodes = nodes;
     if (s.starField.length === 0) {
@@ -454,7 +433,7 @@ export default function TermsGalaxy({
         s.cam.tz = 2.5;
       }
     }
-  }, [terms]);
+  }, [terms, categoryMeta]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
