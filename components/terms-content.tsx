@@ -1,12 +1,17 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 import dynamic from "next/dynamic";
 import type { Term } from "@/lib/terms";
 
 const TermsGalaxy = dynamic(() => import("./TermsGalaxy"), { ssr: false });
+
+export interface RenderedTermMap {
+  [slug: string]: { definition?: ReactNode; content?: ReactNode };
+}
 
 /* ── Category visuals (for overlay only) ── */
 
@@ -29,9 +34,13 @@ function cm(cat: string) {
 /* ── Focus overlay ── */
 
 function FocusOverlay({
-  term, relatedTerms, onClose, onNavigate,
+  term, renderedContent, relatedTerms, onClose, onNavigate,
 }: {
-  term: Term; relatedTerms: Term[]; onClose: () => void; onNavigate: (t: Term) => void;
+  term: Term;
+  renderedContent?: { definition?: ReactNode; content?: ReactNode };
+  relatedTerms: Term[];
+  onClose: () => void;
+  onNavigate: (t: Term) => void;
 }) {
   const c = cm(term.category);
 
@@ -72,13 +81,17 @@ function FocusOverlay({
               {term.aliases && term.aliases.length > 0 && (
                 <p className="text-[12px] italic text-zinc-400 dark:text-zinc-500 mt-1">{term.aliases.join(", ")}</p>
               )}
-              {term.definition && (
+              {renderedContent?.definition && (
                 <div className="mt-5 pl-3 border-l-2 border-emerald-500/30 dark:border-emerald-400/20">
-                  <div className="text-[13.5px] leading-[1.8] text-zinc-600 dark:text-zinc-300 term-content" dangerouslySetInnerHTML={{ __html: term.definition }} />
+                  <div className="text-[13.5px] leading-[1.8] text-zinc-600 dark:text-zinc-300 [&>div]:my-0">
+                    {renderedContent.definition}
+                  </div>
                 </div>
               )}
-              {term.contentHtml && (
-                <div className="mt-4 term-content text-[13.5px] leading-[1.8] text-zinc-700 dark:text-zinc-300" dangerouslySetInnerHTML={{ __html: term.contentHtml }} />
+              {renderedContent?.content && (
+                <div className="mt-4 text-[13.5px] leading-[1.8] text-zinc-700 dark:text-zinc-300">
+                  {renderedContent.content}
+                </div>
               )}
               {relatedTerms.length > 0 && (
                 <div className="mt-6 pt-4 border-t border-zinc-200/60 dark:border-zinc-700/40">
@@ -110,7 +123,13 @@ function FocusOverlay({
 
 /* ── Main ── */
 
-export default function TermsContent({ terms }: { terms: Term[] }) {
+export default function TermsContent({
+  terms,
+  rendered,
+}: {
+  terms: Term[];
+  rendered: RenderedTermMap;
+}) {
   const [focusedTerm, setFocusedTerm] = useState<Term | null>(null);
 
   const relatedTerms = useMemo(() => {
@@ -149,6 +168,7 @@ export default function TermsContent({ terms }: { terms: Term[] }) {
       {focusedTerm && (
         <FocusOverlay
           term={focusedTerm}
+          renderedContent={rendered[focusedTerm.slug]}
           relatedTerms={relatedTerms}
           onClose={() => setFocusedTerm(null)}
           onNavigate={setFocusedTerm}

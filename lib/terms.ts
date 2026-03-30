@@ -11,7 +11,6 @@ export interface Term {
   category: string;
   aliases?: string[];
   content?: string;
-  contentHtml?: string;
 }
 
 let cached: Term[] | null = null;

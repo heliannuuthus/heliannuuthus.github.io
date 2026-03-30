@@ -66,11 +66,6 @@ export default async function EssayDetailPage({ params }: Props) {
 
         <div className="flex items-baseline gap-3">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
-            {entry.draft && (
-              <span className="inline-flex items-center mr-3 px-2.5 py-1 rounded-lg text-[13px] font-semibold tracking-wide bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400 align-middle">
-                Draft
-              </span>
-            )}
             {dateStr}
           </h1>
           <span className="text-sm text-default-400">{weekday}</span>
@@ -90,7 +85,7 @@ export default async function EssayDetailPage({ params }: Props) {
                 remarkAdmonition,
                 remarkCollapse,
                 remarkHint,
-                remarkTerminology,
+                [remarkTerminology, { source: `essay/${slug}` }],
                 remarkTabs,
                 remarkMermaid,
                 remarkMarkmap,

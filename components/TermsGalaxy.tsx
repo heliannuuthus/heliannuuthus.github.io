@@ -94,8 +94,16 @@ function s2w(sx: number, sy: number, c: Cam, W: number, H: number) {
   return [(sx - W / 2) / c.z + c.x, (sy - H / 2) / c.z + c.y] as const;
 }
 
-function strip(html: string) {
-  return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+function strip(md: string) {
+  return md
+    .replace(/:(?:term|hint)\[([^\]]*)\](?:\{[^}]*\})?/g, "$1")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/\*([^*]+)\*/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/<[^>]*>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 /* ── Layout ── */

@@ -2,7 +2,6 @@ import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import fs from "fs";
 import path from "path";
-import matter from "gray-matter";
 import dayjs from "dayjs";
 import { stripMarkdown } from "../lib/strip-markdown.mjs";
 
@@ -246,58 +245,39 @@ function coverDesign(post) {
   );
 }
 
-function extractEssayDate(filePath, data) {
-  if (data.date) return data.date.toString();
-
-  const rel = path.relative(ROOT, filePath);
-  const dirMatch = rel.match(/(\d{4}-\d{2})/);
-  const basename = path.basename(filePath, path.extname(filePath));
-  const dayMatch = basename.match(/^(\d{1,2})$/);
-
-  if (dirMatch && dayMatch) {
-    return `${dirMatch[1]}-${dayMatch[1].padStart(2, "0")}`;
-  }
-
-  if (dirMatch) return `${dirMatch[1]}-01`;
-
-  const fileMatch = rel.match(/(\d{4}-\d{2}-\d{2})/);
-  if (fileMatch) return fileMatch[1];
-
-  return "1970-01-01";
-}
-
 function getEssayPosts() {
-  const dir = path.join(ROOT, "essay");
-  if (!fs.existsSync(dir)) return [];
+  const essayDir = path.join(ROOT, "essay");
+  if (!fs.existsSync(essayDir)) return [];
 
   const posts = [];
 
-  function walk(currentDir) {
-    for (const entry of fs.readdirSync(currentDir, { withFileTypes: true })) {
-      const full = path.join(currentDir, entry.name);
-      if (entry.isDirectory()) {
-        if (!entry.name.startsWith("_")) walk(full);
-      } else if (
-        /\.(mdx?|MDX?)$/.test(entry.name) &&
-        !entry.name.startsWith("_")
-      ) {
-        const raw = fs.readFileSync(full, "utf-8");
-        const { data, content } = matter(raw);
-        if (data.unlisted || data.draft) continue;
+  for (const dir of fs.readdirSync(essayDir, { withFileTypes: true })) {
+    if (!dir.isDirectory()) continue;
+    const ymMatch = dir.name.match(/^(\d{4}-\d{2})$/);
+    if (!ymMatch) continue;
 
-        const dateStr = extractEssayDate(full, data);
-        const slug = data.slug || dateStr;
+    const yearMonth = ymMatch[1];
+    const monthDir = path.join(essayDir, dir.name);
 
-        posts.push({
-          slug,
-          date: dateStr,
-          handwriting: extractHandwritingPhrase(content),
-        });
-      }
+    for (const file of fs.readdirSync(monthDir, { withFileTypes: true })) {
+      if (!file.isFile() || !/\.(mdx?|MDX?)$/.test(file.name)) continue;
+      const basename = path.basename(file.name, path.extname(file.name));
+      const dayMatch = basename.match(/^(\d{1,2})$/);
+      if (!dayMatch) continue;
+
+      const day = dayMatch[1].padStart(2, "0");
+      const date = `${yearMonth}-${day}`;
+      const slug = date.replace(/-/g, "");
+      const raw = fs.readFileSync(path.join(monthDir, file.name), "utf-8");
+
+      posts.push({
+        slug,
+        date,
+        handwriting: extractHandwritingPhrase(raw),
+      });
     }
   }
 
-  walk(dir);
   return posts;
 }
 

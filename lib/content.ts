@@ -159,75 +159,53 @@ export function getBlogPosts(): PostMeta[] {
   return getPostsFromDir("blog");
 }
 
-export function getEssayPosts(): PostMeta[] {
-  return getPostsFromDir("essay");
-}
-
 export interface EssayEntry {
   slug: string;
   date: string;
   content: string;
-  draft?: boolean;
-}
-
-function extractEssayDate(filePath: string, data: Record<string, unknown>): string {
-  if (data.date) return dayjs(data.date as string | Date).format("YYYY-MM-DD");
-
-  const rel = path.relative(ROOT, filePath);
-  const dirMatch = rel.match(/(\d{4}-\d{2})/);
-  const basename = path.basename(filePath, path.extname(filePath));
-  const dayMatch = basename.match(/^(\d{1,2})$/);
-
-  if (dirMatch && dayMatch) {
-    return `${dirMatch[1]}-${dayMatch[1].padStart(2, "0")}`;
-  }
-
-  return extractDate(rel);
 }
 
 export function getEssayEntries(): EssayEntry[] {
-  const contentDir = path.join(ROOT, "essay");
-  if (!fs.existsSync(contentDir)) return [];
+  const essayDir = path.join(ROOT, "essay");
+  if (!fs.existsSync(essayDir)) return [];
 
   const entries: EssayEntry[] = [];
 
-  function walk(currentDir: string) {
-    const dirEntries = fs.readdirSync(currentDir, { withFileTypes: true });
-    for (const entry of dirEntries) {
-      const fullPath = path.join(currentDir, entry.name);
-      if (entry.isDirectory()) {
-        if (entry.name.startsWith("_")) continue;
-        walk(fullPath);
-      } else if (/\.(mdx?|MDX?)$/.test(entry.name)) {
-        if (entry.name.startsWith("_")) continue;
-        const raw = fs.readFileSync(fullPath, "utf-8");
-        const { data, content } = matter(raw);
+  for (const dir of fs.readdirSync(essayDir, { withFileTypes: true })) {
+    if (!dir.isDirectory()) continue;
+    const ymMatch = dir.name.match(/^(\d{4}-\d{2})$/);
+    if (!ymMatch) continue;
 
-        if (data.unlisted) continue;
+    const yearMonth = ymMatch[1];
+    const monthDir = path.join(essayDir, dir.name);
 
-        const dateStr = extractEssayDate(fullPath, data);
-        const slug = data.slug || dateStr;
-        const cleaned = cleanMdxContent(content, fullPath);
+    for (const file of fs.readdirSync(monthDir, { withFileTypes: true })) {
+      if (!file.isFile() || !/\.(mdx?|MDX?)$/.test(file.name)) continue;
+      const basename = path.basename(file.name, path.extname(file.name));
+      const dayMatch = basename.match(/^(\d{1,2})$/);
+      if (!dayMatch) continue;
 
-        entries.push({
-          slug,
-          date: dateStr,
-          content: cleaned,
-          draft: !!data.draft
-        });
-      }
+      const day = dayMatch[1].padStart(2, "0");
+      const date = `${yearMonth}-${day}`;
+      const slug = date.replace(/-/g, "");
+      const fullPath = path.join(monthDir, file.name);
+      const content = cleanMdxContent(
+        fs.readFileSync(fullPath, "utf-8"),
+        fullPath
+      );
+
+      entries.push({ slug, date, content });
     }
   }
 
-  walk(contentDir);
   return entries.sort(
     (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
   );
 }
 
-export function getEssayBySlug(slug: string): { date: string; content: string; draft?: boolean } | null {
+export function getEssayBySlug(slug: string): { date: string; content: string } | null {
   const entry = getEssayEntries().find((e) => e.slug === slug);
-  return entry ? { date: entry.date, content: entry.content, draft: entry.draft } : null;
+  return entry ? { date: entry.date, content: entry.content } : null;
 }
 
 export function getAllEssaySlugs(): string[] {
