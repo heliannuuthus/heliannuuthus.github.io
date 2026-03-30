@@ -14,10 +14,10 @@ export const TAG_PALETTE = [
   "bg-fuchsia-500/10 text-fuchsia-600 dark:bg-fuchsia-400/15 dark:text-fuchsia-400"
 ];
 
-export function tagColor(tag: string): string {
+export const tagColor = (tag: string): string => {
   let hash = 0;
   for (let i = 0; i < tag.length; i++) {
     hash = ((hash << 5) - hash + tag.charCodeAt(i)) | 0;
   }
   return TAG_PALETTE[Math.abs(hash) % TAG_PALETTE.length];
-}
+};

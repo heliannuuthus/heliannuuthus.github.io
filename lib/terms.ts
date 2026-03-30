@@ -15,7 +15,7 @@ export interface Term {
 
 let cached: Term[] | null = null;
 
-function parseYmlTerms(file: string, category: string): Term[] {
+const parseYmlTerms = (file: string, category: string): Term[] => {
   const raw = fs.readFileSync(file, "utf-8");
   const entries = yaml.load(raw) as Array<Omit<Term, "category">> | null;
   if (!Array.isArray(entries)) return [];
@@ -28,9 +28,9 @@ function parseYmlTerms(file: string, category: string): Term[] {
       category,
       aliases: e.aliases
     }));
-}
+};
 
-function parseMdxTerms(file: string, category: string): Term[] {
+const parseMdxTerms = (file: string, category: string): Term[] => {
   const raw = fs.readFileSync(file, "utf-8");
   const lines = raw.split("\n");
   const terms: Term[] = [];
@@ -68,9 +68,9 @@ function parseMdxTerms(file: string, category: string): Term[] {
     }
   }
   return terms;
-}
+};
 
-export function getAllTerms(): Term[] {
+export const getAllTerms = (): Term[] => {
   if (cached) return cached;
 
   const dir = path.join(ROOT, "terminologies");
@@ -92,11 +92,11 @@ export function getAllTerms(): Term[] {
 
   cached = terms;
   return terms;
-}
+};
 
 let slugIndex: Map<string, Term> | null = null;
 
-export function getTermBySlug(slug: string): Term | undefined {
+export const getTermBySlug = (slug: string): Term | undefined => {
   if (!slugIndex) {
     slugIndex = new Map();
     for (const term of getAllTerms()) {
@@ -105,8 +105,7 @@ export function getTermBySlug(slug: string): Term | undefined {
     }
   }
   return slugIndex.get(slug) || slugIndex.get(slug.toLowerCase());
-}
+};
 
-export function getTermCategories(): string[] {
-  return [...new Set(getAllTerms().map((t) => t.category))];
-}
+export const getTermCategories = (): string[] =>
+  [...new Set(getAllTerms().map((t) => t.category))];
