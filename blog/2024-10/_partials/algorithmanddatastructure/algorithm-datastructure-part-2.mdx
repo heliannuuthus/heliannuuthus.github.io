@@ -59,11 +59,7 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
   ::::::tabs
 
     :::::tab{title="前序遍历" key="preOrder"}
-      <Center
-          key="preOrderImage"
-          src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的前序遍历-2024-11-20-20-41-25.png"
-          alt="二叉树的前序遍历"
-        />
+      ![二叉树的前序遍历](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的前序遍历-2024-11-20-20-41-25.png)
       ::::tabs
 
         :::tab{title="递归遍历" key="preOrderRecursive"}
@@ -79,11 +75,7 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
 
     :::::tab{title="中序遍历" key="inOrder"}
 
-      <Center
-          key="inOrderImage"
-          src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的中序遍历-2024-11-20-20-44-04.png"
-          alt="二叉树的中序遍历"
-        />
+      ![二叉树的中序遍历](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的中序遍历-2024-11-20-20-44-04.png)
 
       ::::tabs
 
@@ -99,11 +91,7 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
     :::::
 
     :::::tab{title="后序遍历" key="postOrder"}
-      <Center
-          key="postOrderImage"
-          src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的后序遍历-2024-11-20-20-44-31.png"
-          alt="二叉树的后序遍历"
-        />
+      ![二叉树的后序遍历](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的后序遍历-2024-11-20-20-44-31.png)
         
       ::::tabs
 
@@ -119,11 +107,7 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
     :::::
 
     :::::tab{title="层序遍历" key="levelOrder"}
-      <Center
-          key="levelOrderImage"
-          src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的层序遍历-2024-11-20-20-44-50.png"
-          alt="二叉树的层序遍历"
-        />
+      ![二叉树的层序遍历](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的层序遍历-2024-11-20-20-44-50.png)
       ::::tabs
 
         :::tab{title="递归遍历" key="levelOrderRecursive"}
@@ -149,11 +133,7 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
   - 二叉树的深度：从根节点到叶子节点的最长路径，可使用后续遍历
   - 二叉树的高度：从叶子节点到根节点的最长路径，可使用前序遍历
 
-<Center
-  key="binaryTreeHeightAndDepthImage"
-  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的高度和深度-2024-11-20-20-51-52.png"
-  alt="二叉树的高度和深度"
-/>
+![二叉树的高度和深度](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的高度和深度-2024-11-20-20-51-52.png)
 
 - [节点个数](https://leetcode.cn/problems/count-complete-tree-nodes/description)
 
@@ -161,12 +141,7 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
   2. 如果是完全二叉树，则节点个数为 \(2^h - 1\)（可统计最左侧路径与最右侧路径是否相同）
   3. 否则，前序遍历递归统计左右子树的节点个数（递归分别统计当前节点左右子树的深度）
 
-- <DocusaurusLink
-    id="构造二叉树"
-    to="https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description"
-  >
-    构造二叉树
-  </DocusaurusLink>
+- [构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description)
 
 :::note
 
@@ -175,58 +150,28 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
 
 :::
 
-<Center
-  key="preAndPostOrderImage"
-  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/前后序列无法构造二叉树-2024-11-20-21-10-49.png"
-  alt="前后序列无法构造二叉树"
-/>
+![前后序列无法构造二叉树](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/前后序列无法构造二叉树-2024-11-20-21-10-49.png)
 
-<Steps
-  current={0}
-  direction="vertical"
-  items={[
-    {
-      title: (
-        <Text>
-          通过前序或者后序的<Text strong>第一个节点</Text>或者
-          <Text strong>最后一个节点</Text>确定根节点
-        </Text>
-      ),
-      key: "1",
-      description: (
-        <Text>
-          1. 前序（局部）的<Text strong>第一个节点</Text>或者后序（局部）的
-          <Text strong>最后一个节点</Text>都代表的是
-          <Text strong>根（局部）节点</Text>
-        </Text>
-      )
-    },
-    {
-      title: (
-        <Text>
-          从中序查找对应的根节点并将该节点的左右子树分割开 [左子树, 根节点,
-          右子树]
-        </Text>
-      ),
-      key: "2",
-      description: (
-        <Text>
-          1. 注意划分左右子树的区间（左闭右开，其他可视情况而定）
-          <br />
-          2. 左子树以<Text strong>序列最左</Text>为起点，以
-          <Text strong>根节点</Text>为终点（此时右边界不可达）
-          <br />
-          3. 右子树以<Text strong>根节点 + 1</Text> 为起点，以
-          <Text strong>序列最右 + 1</Text> 为终点（此时右边界亦不可达）
-        </Text>
-      )
-    },
-    {
-      title: <Text>通过递归的手段可以轻松构造左右子树</Text>,
-      key: "3"
-    }
-  ]}
-/>
+::::steps
+
+:::step{title="通过前序或者后序的第一个节点或者最后一个节点确定根节点"}
+
+1. 前序（局部）的**第一个节点**或者后序（局部）的**最后一个节点**都代表的是**根（局部）节点**
+
+:::
+
+:::step{title="从中序查找对应的根节点并将该节点的左右子树分割开 [左子树, 根节点, 右子树]"}
+
+1. 注意划分左右子树的区间（左闭右开，其他可视情况而定）
+2. 左子树以**序列最左**为起点，以**根节点**为终点（此时右边界不可达）
+3. 右子树以**根节点 + 1** 为起点，以**序列最右 + 1** 为终点（此时右边界亦不可达）
+
+:::
+
+:::step{title="通过递归的手段可以轻松构造左右子树"}
+:::
+
+::::
 :::::collapse{title="代码块以及正在画的图例"}
 
   ::::tabs
@@ -253,25 +198,13 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
   - **后序递归遍历**左右子树，如果高度差大于 1 直接返回 false，否则继续递归判断左右子树是否平衡
   - 可通过旋转操作调整树的结构，使其保持平衡
 
-<Flex justify="center" key="binaryTreeLeftRotationText">
-  二叉树的左旋
-</Flex>
+:text[二叉树的左旋]{align="center"}
 
-<Center
-  key="binaryTreeLeftRotationImage"
-  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的左旋-2024-11-20-20-57-58.png"
-  alt="二叉树的左旋"
-/>
+![二叉树的左旋](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的左旋-2024-11-20-20-57-58.png)
 
-<Flex justify="center" key="binaryTreeRightRotationText">
-  二叉树的右旋
-</Flex>
+:text[二叉树的右旋]{align="center"}
 
-<Center
-  key="binaryTreeRightRotationImage"
-  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的右旋-2024-11-20-20-57-41.png"
-  alt="二叉树的右旋"
-/>
+![二叉树的右旋](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二叉树的右旋-2024-11-20-20-57-41.png)
 
 - [二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths/description)
 
@@ -326,11 +259,7 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
 
 :::
 
-<Center
-  key="binarySearchTreeImage"
-  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/完全二叉搜索树-2024-11-20-21-17-44.png"
-  alt="完全二叉搜索树"
-/>
+![完全二叉搜索树](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/完全二叉搜索树-2024-11-20-21-17-44.png)
 
 #### 算法思路
 
@@ -379,11 +308,7 @@ import PreOrderRecursiveContent from "../../_contents/tree-traversal/recursive/p
     - 可将左子树的最右节点作为新根节点，将右子树作为新根节点的右子树
     - 也可将右子树的最左节点作为新根节点，将左子树作为新根节点的左子树
 
-<Center
-  key="binarySearchTreeDeleteImage"
-  src="https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二搜索叉树的删除-2024-11-20-22-02-37.png"
-  alt="二搜索叉树的删除"
-/>
+![二搜索叉树的删除](https://cdn.jsdelivr.net/gh/heliannuuthus/heliannuuthus.github.io@assets/static/img/2024-11-20/二搜索叉树的删除-2024-11-20-22-02-37.png)
 
 #### Morris 遍历
 

@@ -8,7 +8,7 @@ import TermPreview from "./blocks/term-preview";
 import { Tabs, Tab } from "./blocks/Tabs";
 import Mermaid from "./blocks/Mermaid";
 import Markmap from "./blocks/Markmap";
-import Steps from "./blocks/Steps";
+import Steps, { Step } from "./blocks/Steps";
 import {
   MdxTable,
   MdxThead,
@@ -24,15 +24,7 @@ import {
   TableCell
 } from "./blocks/Table";
 import Timeline from "./blocks/Timeline";
-import {
-  Center,
-  LegacyImage,
-  Flex,
-  Text,
-  DocusaurusLink,
-  LegacyLink,
-  Collapses
-} from "./blocks/legacy-compat";
+import Text from "./blocks/Text";
 
 export const mdxComponents: MDXComponents = {
   h1: (props) => (
@@ -117,13 +109,15 @@ export const mdxComponents: MDXComponents = {
     );
   },
   img: (props) => (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      className="rounded-2xl my-4 max-w-full"
-      loading="lazy"
-      alt={props.alt || ""}
-      {...props}
-    />
+    <figure className="my-6 flex justify-center">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        className="rounded-2xl max-w-full"
+        loading="lazy"
+        alt={props.alt || ""}
+        {...props}
+      />
+    </figure>
   ),
 
   Admonition,
@@ -135,6 +129,7 @@ export const mdxComponents: MDXComponents = {
   Mermaid,
   Markmap,
   Steps,
+  Step,
   table: MdxTable,
   thead: MdxThead,
   tbody: MdxTbody,
@@ -148,11 +143,5 @@ export const mdxComponents: MDXComponents = {
   TableRow,
   TableCell,
   Timeline,
-  Center,
-  Image: LegacyImage,
-  Flex,
   Text,
-  DocusaurusLink,
-  Link: LegacyLink,
-  Collapses,
 };

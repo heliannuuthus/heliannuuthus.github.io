@@ -17,7 +17,9 @@ import {
   remarkMermaid,
   remarkMarkmap,
   remarkExternalLink,
-  remarkTables
+  remarkTables,
+  remarkText,
+  remarkSteps
 } from "@/lib/remark/directives";
 import rehypeSlug from "rehype-slug";
 import rehypeKatex from "rehype-katex";
@@ -90,7 +92,9 @@ export default async function EssayDetailPage({ params }: Props) {
                 remarkMermaid,
                 remarkMarkmap,
                 remarkExternalLink,
-                remarkTables
+                remarkTables,
+                remarkText,
+                remarkSteps
               ],
               rehypePlugins: [
                 rehypeSlug,

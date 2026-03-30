@@ -47,8 +47,6 @@ export default function PostList({
 
     if (activeAuthor) {
       result = result.filter((p) => p.authors.includes(activeAuthor));
-    } else {
-      result = result.filter((p) => !p.unlisted);
     }
 
     if (activeTag) {

@@ -155,7 +155,12 @@ const getPostsFromDir = (dir: string): PostMeta[] => {
   );
 };
 
-export const getBlogPosts = (): PostMeta[] => getPostsFromDir("blog");
+const isDev = process.env.NODE_ENV === "development";
+
+export const getBlogPosts = (): PostMeta[] => {
+  const posts = getPostsFromDir("blog");
+  return isDev ? posts : posts.filter((p) => !p.unlisted);
+};
 
 export interface EssayEntry {
   slug: string;
@@ -282,5 +287,5 @@ export const getPostBySlug = (
 
 export const getAllSlugs = (dir: string): string[] =>
   getPostsFromDir(dir)
-    .filter((p) => !p.draft)
+    .filter((p) => !p.draft && (isDev || !p.unlisted))
     .map((p) => p.slug);
