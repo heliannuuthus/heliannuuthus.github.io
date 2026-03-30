@@ -1,9 +1,15 @@
+"use client";
+
+import { useState, useMemo } from "react";
 import type { EssayEntry } from "@/lib/content";
 import { cn } from "@/lib/cn";
 import dayjs from "@/lib/dayjs";
 import { Card } from "@heroui/react/card";
+import { Pagination } from "@heroui/react/pagination";
 import Image from "next/image";
 import Link from "next/link";
+
+const PAGE_SIZE = 10;
 
 interface YearGroup {
   year: number;
@@ -37,11 +43,16 @@ export default function EssayJournal({
 }: {
   entries: EssayEntry[];
 }) {
-  const published = entries.filter((e) => !e.draft);
-  const groups = groupByYear(published);
-  let globalIndex = 0;
+  const [page, setPage] = useState(1);
 
-  if (published.length === 0) {
+  const totalPages = Math.ceil(entries.length / PAGE_SIZE);
+  const pagedEntries = useMemo(
+    () => entries.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    [entries, page],
+  );
+  const groups = useMemo(() => groupByYear(pagedEntries), [pagedEntries]);
+
+  if (entries.length === 0) {
     return (
       <div className="surface rounded-3xl p-12 text-center text-default-400">
         还没有随笔。
@@ -49,20 +60,19 @@ export default function EssayJournal({
     );
   }
 
+  let globalIndex = 0;
+
   return (
     <div className="flex flex-col gap-12">
       {groups.map((group) => (
         <section key={group.year} className="flex flex-col gap-0">
-          {/* Year marker */}
           <div className="relative flex justify-center mb-8">
             <span className="relative z-10 px-5 py-1.5 rounded-full surface text-2xl font-bold tracking-tighter text-zinc-400 dark:text-zinc-500 select-none">
               {group.year}
             </span>
           </div>
 
-          {/* Timeline entries */}
           <div className="relative">
-            {/* Central line: mobile left-aligned, desktop centered */}
             <div
               className="absolute top-0 bottom-0 left-[15px] md:left-1/2 w-px bg-zinc-200 dark:bg-zinc-800 md:-translate-x-px"
               aria-hidden
@@ -75,35 +85,27 @@ export default function EssayJournal({
 
                 return (
                   <div key={entry.slug} className="relative article-enter" style={{ "--enter-delay": `${idx * 100}ms` } as React.CSSProperties}>
-                    {/* Dot on timeline */}
                     <div className="absolute left-[15px] md:left-1/2 top-8 z-10 -translate-x-1/2" aria-hidden>
                       <div className="w-3 h-3 rounded-full bg-zinc-300 dark:bg-zinc-600 ring-[3px] ring-[#f5f5f7] dark:ring-[#1d1d1f]" />
                     </div>
 
-                    {/* Desktop grid: 3 columns [content | gap | content] */}
                     <div className="hidden md:grid md:grid-cols-[1fr_48px_1fr] items-start">
                       {isLeft ? (
                         <>
-                          {/* Left: card */}
                           <div>
                             <CoverCard entry={entry} />
                           </div>
-                          {/* Center gap (timeline lives here) */}
                           <div />
-                          {/* Right: date label */}
                           <div className="flex items-center min-h-[60px] pt-5">
                             <DateLabel dateStr={entry.date} />
                           </div>
                         </>
                       ) : (
                         <>
-                          {/* Left: date label */}
                           <div className="flex items-center justify-end min-h-[60px] pt-5">
                             <DateLabel dateStr={entry.date} align="right" />
                           </div>
-                          {/* Center gap */}
                           <div />
-                          {/* Right: card */}
                           <div>
                             <CoverCard entry={entry} />
                           </div>
@@ -111,7 +113,6 @@ export default function EssayJournal({
                       )}
                     </div>
 
-                    {/* Mobile: single column, card to the right of timeline */}
                     <div className="md:hidden pl-10">
                       <CoverCard entry={entry} />
                       <div className="flex items-baseline gap-2 mt-2">
@@ -130,6 +131,23 @@ export default function EssayJournal({
           </div>
         </section>
       ))}
+
+      {totalPages > 1 && (
+        <div className="flex justify-center pt-4">
+          <Pagination
+            total={totalPages}
+            page={page}
+            onChange={(p) => {
+              setPage(p);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            showControls
+            classNames={{
+              cursor: "bg-zinc-800 dark:bg-zinc-200 text-white dark:text-black",
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

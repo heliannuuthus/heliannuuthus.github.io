@@ -81,7 +81,7 @@ export default async function BlogPostPage({ params }: Props) {
                   remarkAdmonition,
                   remarkCollapse,
                   remarkHint,
-                  remarkTerminology,
+                  [remarkTerminology, { source: `blog/${slug}` }],
                   remarkTabs,
                   remarkMermaid,
                   remarkMarkmap,

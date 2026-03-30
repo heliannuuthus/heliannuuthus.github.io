@@ -1,0 +1,14 @@
+这是我了解完且上手过 MCP 之后，参加大佬的技术沙龙引发的思考。
+
+先聊一下 MCP 和 Function Calling 的区别。MCP 本质上是 LLM 和应用之间的交互协议，类似传统微服务架构中的 RPC，底层都是依赖网络传输。
+目前 MCP 支持的方式有四种：
+
+- STDIO
+- :term[HTTP]{./terms/net#http} (HTTP/1.1, HTTP/2.0)
+- SSE
+- WebSocket
+
+其中 STDIO 和 HTTP 是 MCP 最常用的两种方式。
+
+`STDIO` 本质上是运行在本地的一个进程，通过标准输入输出与 LLM 进行交互，通常开源的 MCP Server 都是通过 STDIO 方式来实现的。 \
+而对于国内的支付宝、飞书和淘宝等通用化的平台，则通过 `HTTP` 方式来实现，本身是闭源且执行在云端，对于 MCP Server 的安全性和可控性有一定的要求。
