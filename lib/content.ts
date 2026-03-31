@@ -287,5 +287,5 @@ export const getPostBySlug = (
 
 export const getAllSlugs = (dir: string): string[] =>
   getPostsFromDir(dir)
-    .filter((p) => !p.draft && (isDev || !p.unlisted))
+    .filter((p) => isDev || !p.unlisted)
     .map((p) => p.slug);

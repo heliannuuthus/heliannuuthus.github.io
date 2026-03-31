@@ -1,8 +1,10 @@
 import type { MDXComponents } from "mdx/types";
+import { Link } from "@heroui/react/link";
 import { Separator } from "@heroui/react/separator";
 import Admonition from "./blocks/Admonition";
 import CodeBlock from "./blocks/CodeBlock";
 import Collapse from "./blocks/Collapse";
+import ExternalLinkBlock from "./blocks/ExternalLink";
 import Hint from "./blocks/hint";
 import TermPreview from "./blocks/term-preview";
 import { Tabs, Tab } from "./blocks/Tabs";
@@ -25,6 +27,7 @@ import {
 } from "./blocks/Table";
 import Timeline from "./blocks/Timeline";
 import Text from "./blocks/Text";
+import { isExternalHref } from "@/lib/external-link";
 
 export const mdxComponents: MDXComponents = {
   h1: (props) => (
@@ -52,18 +55,21 @@ export const mdxComponents: MDXComponents = {
     />
   ),
   a: ({ href, children, ...props }) => {
-    const isExternal = href?.startsWith("http");
+    if (isExternalHref(href)) {
+      return (
+        <ExternalLinkBlock href={href!} {...props}>
+          {children}
+        </ExternalLinkBlock>
+      );
+    }
     return (
-      <a
+      <Link
         href={href || "#"}
-        className="text-emerald-600 dark:text-emerald-400 hover:underline underline-offset-4"
-        {...(isExternal
-          ? { target: "_blank", rel: "noopener noreferrer" }
-          : {})}
+        className="text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 hover:underline underline-offset-4 text-[1em]"
         {...props}
       >
         {children}
-      </a>
+      </Link>
     );
   },
   ul: (props) => (

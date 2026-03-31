@@ -1,7 +1,8 @@
-import { getAllTerms } from "@/lib/terms";
+import { getAllTerms, getTermCategories, getCategoryLabels } from "@/lib/terms";
+import { buildCategoryMeta } from "@/lib/category-meta";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx/mdx-components";
-import TermsContent from "@/components/terms-content";
+import TermsContent from "@/components/TermsContent";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import type { MDXComponents } from "mdx/types";
@@ -109,5 +110,7 @@ export default async function TermsPage() {
     })
   );
 
-  return <TermsContent terms={terms} rendered={rendered} />;
+  const categoryMeta = buildCategoryMeta(getTermCategories(), getCategoryLabels());
+
+  return <TermsContent terms={terms} rendered={rendered} categoryMeta={categoryMeta} />;
 }

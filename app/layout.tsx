@@ -1,6 +1,3 @@
-import GlassFooter from "@/components/layout/GlassFooter";
-import GlassNavbar from "@/components/layout/GlassNavbar";
-import SettingsWidget from "@/components/SettingsWidget";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Providers } from "./providers";
@@ -43,14 +40,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-[#f5f5f7] dark:bg-[#1d1d1f] transition-colors duration-300">
         <Providers>
-          <div className="relative flex flex-col min-h-screen">
-            <GlassNavbar />
-            <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 py-8">
-              {children}
-            </main>
-            <GlassFooter />
-            <SettingsWidget />
-          </div>
+          {children}
         </Providers>
       </body>
     </html>
