@@ -122,7 +122,7 @@ export default function GlassNavbar() {
       measureIndicator();
     };
 
-    const t = window.setTimeout(finish, 560);
+    const t = window.setTimeout(finish, 720);
     return () => {
       alive = false;
       cancelAnimationFrame(raf);
@@ -163,17 +163,17 @@ export default function GlassNavbar() {
   return (
     <div
       className={cn(
-        "sticky z-40 w-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]",
+        "sticky z-40 w-full transition-all duration-[640ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none",
         scrolled ? "top-0 pt-0" : "top-0 pt-3"
       )}
     >
       <nav
         ref={navRef}
         className={cn(
-          "mx-auto bg-white/72 dark:bg-zinc-900/72 backdrop-saturate-[1.8] backdrop-blur-xl transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]",
+          "mx-auto bg-white/72 dark:bg-zinc-900/72 backdrop-saturate-[1.8] backdrop-blur-xl transition-all duration-[640ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none",
           scrolled
-            ? "w-full max-w-none rounded-none shadow-[0_0.5px_0_rgba(0,0,0,0.06)] dark:shadow-[0_0.5px_0_rgba(255,255,255,0.06)]"
-            : "max-w-3xl rounded-full shadow-[0_2px_12px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3),0_0_0_0.5px_rgba(255,255,255,0.06)]"
+            ? "w-full max-w-full rounded-none shadow-[0_0.5px_0_rgba(0,0,0,0.06)] dark:shadow-[0_0.5px_0_rgba(255,255,255,0.06)]"
+            : "w-full max-w-3xl rounded-full shadow-[0_2px_12px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3),0_0_0_0.5px_rgba(255,255,255,0.06)]"
         )}
       >
         <header ref={headerRef} className="relative flex h-14 items-center justify-between px-5 sm:px-6">
@@ -188,7 +188,7 @@ export default function GlassNavbar() {
               opacity: indicatorReady && indicator.width > 0 ? 1 : 0,
               transition: shellMorphing
                 ? "opacity 0.15s ease-out"
-                : "left 0.32s cubic-bezier(0.25, 0.8, 0.25, 1), top 0.32s cubic-bezier(0.25, 0.8, 0.25, 1), width 0.32s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.32s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.15s ease-out"
+                : "left 0.52s cubic-bezier(0.4, 0, 0.2, 1), top 0.52s cubic-bezier(0.4, 0, 0.2, 1), width 0.52s cubic-bezier(0.4, 0, 0.2, 1), height 0.52s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease-out"
             }}
           />
 

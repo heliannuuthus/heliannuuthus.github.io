@@ -43,7 +43,7 @@ const extractDate = (filePath: string): string => {
   return "1970-01-01";
 };
 
-const extractExcerpt = (content: string, maxLen = 160): string | undefined => {
+const extractExcerpt = (content: string): string | undefined => {
   const truncateMatch = content.match(/<!--\s*truncate\s*-->/);
   const raw = truncateMatch
     ? content.slice(0, truncateMatch.index)
@@ -53,8 +53,7 @@ const extractExcerpt = (content: string, maxLen = 160): string | undefined => {
 
   const plain = stripMarkdown(raw) as string;
 
-  if (!plain) return undefined;
-  return plain.length > maxLen ? plain.slice(0, maxLen) + "…" : plain;
+  return plain || undefined;
 };
 
 const resolvePartialImports = (content: string, filePath: string): string => {
@@ -277,7 +276,7 @@ export const getPostBySlug = (
         ? data.authors
         : [data.authors || "heliannuuthus"],
       tags: Array.isArray(data.tags) ? data.tags : [],
-      description: data.description || extractExcerpt(content, 2000),
+      description: data.description || extractExcerpt(content),
       unlisted: !!data.unlisted,
       draft: !!data.draft
     },
