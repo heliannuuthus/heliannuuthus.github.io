@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Card } from "@heroui/react/card";
+import { ScrollShadow } from "@heroui/react/scroll-shadow";
 import { cn } from "@/lib/cn";
 import type { Author, PostMeta } from "@/lib/content";
 import dayjs from "@/lib/dayjs";
@@ -45,9 +46,11 @@ export default function PostCard({ post, authors, basePath }: PostCardProps) {
           </h3>
 
           {post.description && (
-            <p className="text-[13.5px] leading-relaxed text-zinc-500 dark:text-zinc-400 line-clamp-2">
-              {post.description}
-            </p>
+            <ScrollShadow className="max-h-[2.75rem]" hideScrollBar>
+              <p className="text-[13.5px] leading-relaxed text-zinc-500 dark:text-zinc-400">
+                {post.description}
+              </p>
+            </ScrollShadow>
           )}
 
           <div className="flex items-center justify-between pt-1">
