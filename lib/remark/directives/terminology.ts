@@ -1,4 +1,4 @@
-import { visit, attr, toJsx, type MdxAttr } from "./utils";
+import { visit, setHast } from "./utils";
 import { getTermBySlug } from "@/lib/terms";
 
 const extractText = (node: any): string => {
@@ -7,14 +7,6 @@ const extractText = (node: any): string => {
   return "";
 };
 
-/**
- * :term[display text]{#slug}  or  :term[display text]{slug=xxx}
- * → <TermPreview slug="..." title="..." definition="...">display text</TermPreview>
- *
- * title / definition are resolved at compile time from terminologies/*.yml
- *
- * Usage: remarkTerminology (no args) or [remarkTerminology, { source: "path/to/file.mdx" }]
- */
 export const remarkTerminology = ({ source }: { source?: string } = {}) =>
   (tree: any, file: any) => {
     visit(tree, (node: any) => {
@@ -36,15 +28,12 @@ export const remarkTerminology = ({ source }: { source?: string } = {}) =>
         );
       }
 
-      const jsxAttrs: MdxAttr[] = [
-        attr("slug", slug),
-        attr("title", term?.title || ""),
-        attr("definition", term?.definition || "")
-      ];
-
-      Object.assign(
-        node,
-        toJsx("mdxJsxTextElement", "TermPreview", jsxAttrs, node.children)
-      );
+      setHast(node, "span", {
+        className: "text-emerald-600 dark:text-emerald-400 border-b border-dotted border-emerald-400/50 hover:border-emerald-400 transition-colors cursor-pointer",
+        "data-island": "TermPreview",
+        "data-slug": slug,
+        "data-term-title": term?.title || "",
+        "data-definition": term?.definition || "",
+      });
     });
   };

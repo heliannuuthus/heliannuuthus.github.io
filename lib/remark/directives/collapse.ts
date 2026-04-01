@@ -1,21 +1,20 @@
-import { visit, attr, toJsx } from "./utils";
+import { visit, setHast, escapeHtml } from "./utils";
 
-/**
- * :::collapse{title="..."}
- * → <Collapse title="...">
- */
 export const remarkCollapse = () => (tree: any) => {
   visit(tree, (node: any) => {
     if (node.type !== "containerDirective" || node.name !== "collapse") return;
-    const attrs = node.attributes || {};
-    Object.assign(
+    const title = node.attributes?.title || "Details";
+
+    const summary = {
+      type: "html",
+      value: `<summary class="cursor-pointer select-none font-medium text-sm text-default-700 dark:text-default-300 py-2">${escapeHtml(title)}</summary>`,
+    };
+
+    setHast(
       node,
-      toJsx(
-        "mdxJsxFlowElement",
-        "Collapse",
-        Object.entries(attrs).map(([k, v]) => attr(k, v)),
-        node.children
-      )
+      "details",
+      { className: "my-6 glass rounded-2xl px-5 py-2 group open:pb-4" },
+      [summary, ...node.children]
     );
   });
 };

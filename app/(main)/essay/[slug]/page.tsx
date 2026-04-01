@@ -1,29 +1,10 @@
 import { getAllEssaySlugs, getEssayBySlug } from "@/lib/content";
 import dayjs from "@/lib/dayjs";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { mdxComponents } from "@/components/mdx/mdx-components";
+import { compileToHtml } from "@/lib/compile-mdx";
 import ProseWrapper from "@/components/ProseWrapper";
+import HtmlContent from "@/components/mdx/html-content";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
-import remarkDirective from "remark-directive";
-import {
-  remarkAdmonition,
-  remarkCollapse,
-  remarkHint,
-  remarkTerminology,
-  remarkTabs,
-  remarkMermaid,
-  remarkMarkmap,
-  remarkExternalLink,
-  remarkTables,
-  remarkText,
-  remarkSteps
-} from "@/lib/remark/directives";
-import rehypeSlug from "rehype-slug";
-import rehypeKatex from "rehype-katex";
-import rehypePrettyCode from "rehype-pretty-code";
 import type { Metadata } from "next";
 
 interface Props {
@@ -56,6 +37,8 @@ export default async function EssayDetailPage({ params }: Props) {
   const dateStr = d.format("YYYY年M月D日");
   const weekday = d.format("dddd");
 
+  const html = await compileToHtml(entry.content, { source: `essay/${slug}` });
+
   return (
     <article className="flex flex-col gap-8 max-w-3xl mx-auto">
       <header className="flex flex-col gap-4">
@@ -75,44 +58,7 @@ export default async function EssayDetailPage({ params }: Props) {
       </header>
 
       <ProseWrapper>
-        <MDXRemote
-          source={entry.content}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [
-                remarkGfm,
-                remarkMath,
-                remarkDirective,
-                remarkAdmonition,
-                remarkCollapse,
-                remarkHint,
-                [remarkTerminology, { source: `essay/${slug}` }],
-                remarkTabs,
-                remarkMermaid,
-                remarkMarkmap,
-                remarkExternalLink,
-                remarkTables,
-                remarkText,
-                remarkSteps
-              ],
-              rehypePlugins: [
-                rehypeSlug,
-                [rehypeKatex, { strict: "ignore" }],
-                [
-                  rehypePrettyCode,
-                  {
-                    theme: {
-                      dark: "github-dark-default",
-                      light: "github-light-default"
-                    },
-                    keepBackground: false
-                  }
-                ]
-              ]
-            }
-          }}
-        />
+        <HtmlContent html={html} />
       </ProseWrapper>
     </article>
   );

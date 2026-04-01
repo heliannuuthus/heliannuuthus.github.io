@@ -6,6 +6,5 @@ export { remarkTabs } from "./tabs";
 export { remarkMermaid } from "./mermaid";
 export { remarkMarkmap } from "./markmap";
 export { remarkExternalLink } from "./external-link";
-export { remarkTables } from "./tables";
 export { remarkText } from "./text";
 export { remarkSteps } from "./steps";

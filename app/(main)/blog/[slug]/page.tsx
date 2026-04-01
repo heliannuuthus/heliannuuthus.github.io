@@ -1,30 +1,11 @@
 import { getAllSlugs, getPostBySlug, getAuthors } from "@/lib/content";
 import { extractToc } from "@/lib/toc";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { mdxComponents } from "@/components/mdx/mdx-components";
+import { compileToHtml } from "@/lib/compile-mdx";
 import TableOfContents from "@/components/Toc";
 import ArticleHeader from "@/components/ArticleHeader";
 import ProseWrapper from "@/components/ProseWrapper";
+import HtmlContent from "@/components/mdx/html-content";
 import { notFound } from "next/navigation";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
-import remarkDirective from "remark-directive";
-import {
-  remarkAdmonition,
-  remarkCollapse,
-  remarkHint,
-  remarkTerminology,
-  remarkTabs,
-  remarkMermaid,
-  remarkMarkmap,
-  remarkExternalLink,
-  remarkTables,
-  remarkText,
-  remarkSteps
-} from "@/lib/remark/directives";
-import rehypeSlug from "rehype-slug";
-import rehypeKatex from "rehype-katex";
-import rehypePrettyCode from "rehype-pretty-code";
 import type { Metadata } from "next";
 
 interface Props {
@@ -60,6 +41,8 @@ export default async function BlogPostPage({ params }: Props) {
     .replace(/\s+/g, "");
   const readingTime = Math.max(1, Math.ceil(plainText.length / 400));
 
+  const html = await compileToHtml(post.content, { source: `blog/${slug}` });
+
   return (
     <div className="flex gap-8">
       <article className="flex flex-col gap-8 min-w-0 flex-1">
@@ -71,35 +54,7 @@ export default async function BlogPostPage({ params }: Props) {
         />
 
         <ProseWrapper>
-          <MDXRemote
-            source={post.content}
-            components={mdxComponents}
-            options={{
-              mdxOptions: {
-                remarkPlugins: [
-                  remarkGfm,
-                  remarkMath,
-                  remarkDirective,
-                  remarkAdmonition,
-                  remarkCollapse,
-                  remarkHint,
-                  [remarkTerminology, { source: `blog/${slug}` }],
-                  remarkTabs,
-                  remarkMermaid,
-                  remarkMarkmap,
-                  remarkExternalLink,
-                  remarkTables,
-                  remarkText,
-                  remarkSteps
-                ],
-                rehypePlugins: [
-                  rehypeSlug,
-                  [rehypeKatex, { strict: "ignore" }],
-                  [rehypePrettyCode, { theme: { dark: "github-dark-default", light: "github-light-default" }, keepBackground: false }]
-                ]
-              }
-            }}
-          />
+          <HtmlContent html={html} />
         </ProseWrapper>
       </article>
 
