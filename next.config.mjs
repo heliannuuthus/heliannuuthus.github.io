@@ -5,7 +5,6 @@ const nextConfig = {
     unoptimized: true
   },
   trailingSlash: false,
-  transpilePackages: ["next-mdx-remote"]
 };
 
 export default nextConfig;

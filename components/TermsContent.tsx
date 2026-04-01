@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import type { ReactNode } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import type { Term } from "@/lib/terms";
@@ -10,7 +9,7 @@ import type { CategoryMeta } from "@/lib/category-meta";
 const TermsGalaxy = dynamic(() => import("./TermsGalaxy"), { ssr: false });
 
 export interface RenderedTermMap {
-  [slug: string]: { definition?: ReactNode; content?: ReactNode };
+  [slug: string]: { definition?: string; content?: string };
 }
 
 /* ── Category visuals (for overlay only) ── */
@@ -41,7 +40,7 @@ function FocusOverlay({
   term, renderedContent, relatedTerms, onClose, onNavigate, categoryMeta,
 }: {
   term: Term;
-  renderedContent?: { definition?: ReactNode; content?: ReactNode };
+  renderedContent?: { definition?: string; content?: string };
   relatedTerms: Term[];
   onClose: () => void;
   onNavigate: (t: Term) => void;
@@ -88,15 +87,17 @@ function FocusOverlay({
               )}
               {renderedContent?.definition && (
                 <div className="mt-5 pl-3 border-l-2 border-emerald-500/30 dark:border-emerald-400/20">
-                  <div className="text-[13.5px] leading-[1.8] text-zinc-600 dark:text-zinc-300 [&>div]:my-0">
-                    {renderedContent.definition}
-                  </div>
+                  <div
+                    className="text-[13.5px] leading-[1.8] text-zinc-600 dark:text-zinc-300 [&>p]:my-0"
+                    dangerouslySetInnerHTML={{ __html: renderedContent.definition }}
+                  />
                 </div>
               )}
               {renderedContent?.content && (
-                <div className="mt-4 text-[13.5px] leading-[1.8] text-zinc-700 dark:text-zinc-300">
-                  {renderedContent.content}
-                </div>
+                <div
+                  className="mt-4 text-[13.5px] leading-[1.8] text-zinc-700 dark:text-zinc-300"
+                  dangerouslySetInnerHTML={{ __html: renderedContent.content }}
+                />
               )}
               {relatedTerms.length > 0 && (
                 <div className="mt-6 pt-4 border-t border-zinc-200/60 dark:border-zinc-700/40">
