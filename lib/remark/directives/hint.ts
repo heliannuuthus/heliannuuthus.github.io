@@ -8,7 +8,8 @@ export const remarkHint = () => (tree: any) => {
 
     setHast(node, "span", {
       className: "text-sky-500 dark:text-sky-400 border-b border-dashed border-sky-400/40 cursor-help",
-      title: tipText,
+      "data-island": "Hint",
+      "data-tip": tipText,
     });
   });
 };

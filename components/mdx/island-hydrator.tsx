@@ -287,11 +287,222 @@ function hydrateCodeBlocks(container: HTMLElement) {
   }
 }
 
+const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+function makeFloating(): HTMLDivElement {
+  const el = document.createElement("div");
+  el.className = "fixed z-[9999]";
+  el.style.cssText = "opacity:0;pointer-events:none;transform:scale(.96) translateY(-4px);transition:opacity 150ms ease,transform 150ms ease";
+  document.body.append(el);
+  return el;
+}
+
+function placeFloating(floating: HTMLElement, anchor: HTMLElement, preferBottom = true) {
+  requestAnimationFrame(() => {
+    const ar = anchor.getBoundingClientRect();
+    const fr = floating.getBoundingClientRect();
+    let top: number;
+    if (preferBottom) {
+      top = ar.bottom + 8;
+      if (top + fr.height > window.innerHeight - 8) top = ar.top - fr.height - 8;
+    } else {
+      top = ar.top - fr.height - 8;
+      if (top < 8) top = ar.bottom + 8;
+    }
+    let left = ar.left + ar.width / 2 - fr.width / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - fr.width - 8));
+    floating.style.top = `${top}px`;
+    floating.style.left = `${left}px`;
+    floating.style.opacity = "1";
+    floating.style.transform = "scale(1) translateY(0)";
+  });
+}
+
+function dismissFloating(el: HTMLDivElement | null) {
+  if (!el) return;
+  el.style.opacity = "0";
+  el.style.pointerEvents = "none";
+  el.style.transform = "scale(.96) translateY(-4px)";
+}
+
+let tipEl: HTMLDivElement | null = null;
+
+function showTip(anchor: HTMLElement, text: string) {
+  if (!tipEl) tipEl = makeFloating();
+  tipEl.innerHTML = `<div class="surface-overlay rounded-xl px-3 py-1.5 text-sm leading-relaxed max-w-60">${esc(text)}</div>`;
+  placeFloating(tipEl, anchor, false);
+}
+
+function hideTip() { dismissFloating(tipEl); }
+
+let popEl: HTMLDivElement | null = null;
+let popTeardown: (() => void) | null = null;
+
+function showPop(anchor: HTMLElement, html: string) {
+  closePop();
+  if (!popEl) popEl = makeFloating();
+  popEl.innerHTML = html;
+  popEl.style.pointerEvents = "auto";
+  placeFloating(popEl, anchor, true);
+
+  const dismiss = (e: MouseEvent) => {
+    if (!popEl?.contains(e.target as Node) && !anchor.contains(e.target as Node)) closePop();
+  };
+  const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closePop(); };
+  requestAnimationFrame(() => {
+    document.addEventListener("mousedown", dismiss);
+    document.addEventListener("keydown", onKey);
+  });
+  popTeardown = () => {
+    document.removeEventListener("mousedown", dismiss);
+    document.removeEventListener("keydown", onKey);
+  };
+}
+
+function closePop() {
+  dismissFloating(popEl);
+  popTeardown?.();
+  popTeardown = null;
+}
+
+let prevEl: HTMLDivElement | null = null;
+let prevTimer = 0;
+
+function showPrev(anchor: HTMLElement, html: string) {
+  clearTimeout(prevTimer);
+  if (!prevEl) {
+    prevEl = makeFloating();
+    prevEl.addEventListener("mouseenter", () => clearTimeout(prevTimer));
+    prevEl.addEventListener("mouseleave", () => hidePrev(150));
+  }
+  prevEl.innerHTML = html;
+  prevEl.style.pointerEvents = "auto";
+  placeFloating(prevEl, anchor, true);
+}
+
+function hidePrev(delay = 0) {
+  clearTimeout(prevTimer);
+  const run = () => dismissFloating(prevEl);
+  if (delay > 0) prevTimer = window.setTimeout(run, delay);
+  else run();
+}
+
+function hydrateHints(container: HTMLElement) {
+  container.querySelectorAll<HTMLElement>('[data-island="Hint"]').forEach((el) => {
+    const tip = el.dataset.tip;
+    if (!tip) return;
+    el.addEventListener("mouseenter", () => showTip(el, tip));
+    el.addEventListener("mouseleave", hideTip);
+  });
+}
+
+const BOOK_ICON = '<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>';
+const EDIT_ICON = '<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/></svg>';
+
+function hydrateTermPreviews(container: HTMLElement) {
+  container.querySelectorAll<HTMLElement>('[data-island="TermPreview"]').forEach((el) => {
+    const slug = el.dataset.slug || "";
+    const title = el.dataset.termTitle || "";
+    const definition = el.dataset.definition || "";
+
+    if (!title && !definition) {
+      const link = document.createElement("a");
+      link.href = `/terms#${slug}`;
+      link.className = "inline";
+      el.before(link);
+      link.append(el);
+      return;
+    }
+
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      showPop(el, `
+        <div class="w-80 surface-overlay rounded-2xl overflow-hidden">
+          <div class="px-5 pt-5 pb-4">
+            <h4 class="text-[15px] font-bold tracking-tight text-zinc-900 dark:text-zinc-50">${esc(title || slug)}</h4>
+            <p class="text-[10px] font-medium tracking-widest uppercase text-zinc-400 dark:text-zinc-500 mt-0.5">${esc(slug)}</p>
+            ${definition ? `<p class="mt-3 text-[13px] leading-[1.6] text-zinc-600 dark:text-zinc-300">${esc(definition)}</p>` : ""}
+          </div>
+          <div class="flex items-center border-t border-zinc-200/60 dark:border-zinc-700/60">
+            <a href="/terms#${encodeURIComponent(slug)}" class="flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 text-[12px] font-medium text-emerald-600 dark:text-emerald-400 hover:bg-zinc-100/60 dark:hover:bg-zinc-700/40 transition-colors">${BOOK_ICON}在词典中查看</a>
+            <span class="w-px h-5 bg-zinc-200/60 dark:bg-zinc-700/60"></span>
+            <a href="https://github.com/heliannuuthus/heliannuuthus.github.io/edit/main/terminologies" target="_blank" rel="noopener noreferrer" class="flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 text-[12px] font-medium text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100/60 dark:hover:bg-zinc-700/40 transition-colors">${EDIT_ICON}编辑词条</a>
+          </div>
+        </div>
+      `);
+    });
+  });
+}
+
+const EXT_ICON = '<svg aria-hidden="true" class="inline-block w-[1em] h-[1em] ml-0.5 -mt-0.5 align-middle opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+const GLOBE_SM = '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
+const GLOBE_LG = GLOBE_SM.replace("w-4 h-4", "w-10 h-10");
+
+function hydrateExternalLinks(container: HTMLElement) {
+  container.querySelectorAll<HTMLAnchorElement>('[data-island="ExternalLink"]').forEach((el) => {
+    el.insertAdjacentHTML("beforeend", EXT_ICON);
+
+    const href = el.dataset.href || "";
+    if (!href) return;
+
+    el.href = `/go?target=${encodeURIComponent(href)}`;
+
+    let domain: string;
+    try { domain = new URL(href).hostname; } catch { return; }
+    const displayUrl = href.length > 60 ? href.slice(0, 57) + "\u2026" : href;
+    const favicon = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=64`;
+    const thumb = `https://image.thum.io/get/width/512/crop/288/${encodeURI(href)}`;
+
+    el.addEventListener("mouseenter", () => {
+      showPrev(el, `
+        <div class="w-72 surface-overlay rounded-2xl overflow-hidden">
+          <div class="relative h-36 bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
+            <div class="ext-ph absolute inset-0 animate-pulse bg-gradient-to-r from-zinc-200 via-zinc-100 to-zinc-200 dark:from-zinc-800 dark:via-zinc-700 dark:to-zinc-800"></div>
+            <img src="${esc(thumb)}" alt="" class="ext-img w-full h-full object-cover object-top transition-opacity duration-300 opacity-0" loading="lazy" />
+          </div>
+          <div class="px-4 py-3 flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <img src="${esc(favicon)}" alt="" width="16" height="16" class="ext-fav rounded-sm shrink-0" />
+              <span class="text-[13px] font-semibold text-zinc-800 dark:text-zinc-100 truncate">${esc(domain)}</span>
+            </div>
+            <p class="text-[11px] leading-relaxed text-zinc-400 dark:text-zinc-500 break-all" title="${esc(href)}">${esc(displayUrl)}</p>
+          </div>
+        </div>
+      `);
+
+      if (!prevEl) return;
+      const img = prevEl.querySelector<HTMLImageElement>(".ext-img");
+      const ph = prevEl.querySelector<HTMLElement>(".ext-ph");
+      if (img) {
+        img.onload = () => { img.style.opacity = "1"; ph?.remove(); };
+        img.onerror = () => {
+          img.remove();
+          if (ph) {
+            ph.classList.remove("animate-pulse");
+            ph.innerHTML = `<div class="flex items-center justify-center h-full text-zinc-300 dark:text-zinc-600">${GLOBE_LG}</div>`;
+          }
+        };
+      }
+      const fav = prevEl.querySelector<HTMLImageElement>(".ext-fav");
+      if (fav) {
+        fav.onerror = () => { fav.outerHTML = `<span class="shrink-0 text-zinc-400">${GLOBE_SM}</span>`; };
+      }
+    });
+
+    el.addEventListener("mouseleave", () => hidePrev(150));
+  });
+}
+
 function hydrateIslands(container: HTMLElement) {
   container.querySelectorAll<HTMLElement>('[data-island="Tabs"]').forEach(hydrateTabs);
   container.querySelectorAll<HTMLElement>('[data-island="Steps"]').forEach(hydrateSteps);
   container.querySelectorAll<HTMLElement>('[data-island="Mermaid"]').forEach(hydrateMermaid);
   container.querySelectorAll<HTMLElement>('[data-island="Markmap"]').forEach(hydrateMarkmap);
+  hydrateHints(container);
+  hydrateTermPreviews(container);
+  hydrateExternalLinks(container);
   hydrateCodeBlocks(container);
 }
 
