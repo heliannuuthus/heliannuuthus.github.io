@@ -1,0 +1,58 @@
+.rb-spotlight-card {
+  --rb-spotlight-x: 50%;
+  --rb-spotlight-y: 50%;
+  --rb-tilt-x: 0deg;
+  --rb-tilt-y: 0deg;
+  position: relative;
+  transform: perspective(900px) rotateX(var(--rb-tilt-x)) rotateY(var(--rb-tilt-y));
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-style: preserve-3d;
+}
+
+.rb-spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(
+      circle at var(--rb-spotlight-x) var(--rb-spotlight-y),
+      rgba(16, 185, 129, 0.16),
+      rgba(56, 189, 248, 0.07) 28%,
+      transparent 58%
+    );
+  transition: opacity 0.35s ease;
+}
+
+.dark .rb-spotlight-card::before {
+  background:
+    radial-gradient(
+      circle at var(--rb-spotlight-x) var(--rb-spotlight-y),
+      rgba(45, 212, 191, 0.18),
+      rgba(125, 211, 252, 0.08) 30%,
+      transparent 60%
+    );
+}
+
+.rb-spotlight-card:hover::before {
+  opacity: 1;
+}
+
+.rb-spotlight-card[data-disabled="true"]::before,
+.rb-spotlight-card[data-disabled="true"]:hover::before {
+  opacity: 0;
+}
+
+.rb-spotlight-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-spotlight-card {
+    transform: none !important;
+  }
+}

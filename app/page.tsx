@@ -15,9 +15,8 @@ function Hero() {
           </span>
         </h1>
         <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-md">
-          AI Infra Engineer & Vibe Coder. Building the infrastructure behind
-          large models — from inference serving to agent orchestration — and
-          shipping code by vibing with AI.
+          写后端、云原生和 AI Infra，也折腾前端和个人站点。最近更多时间在推理服务、
+          Agent 工作流、LLMOps，以及用 AI 协作把想法落到代码里。
         </p>
         <div className="flex gap-3 mt-3">
           <Magnet>
@@ -40,13 +39,19 @@ function Hero() {
       </div>
       <Lanyard
         className="hero-lanyard"
-        position={[0, 0, 12]}
+        position={[0, 0, 14]}
+        anchorPosition={[1.08, 3.15, 0]}
         gravity={[0, -32, 0]}
-        fov={15}
-        frontImage="/img/heliannuuthus-256.svg"
-        backImage="/img/heliannuuthus-256.svg"
+        fov={18}
+        frontImage={null}
+        backImage="/img/heliannuuthus-transparent.png"
+        frontTitle="heliannuuthus"
+        frontSubtitle="AI Infra Engineer"
+        frontMeta="Vibe Coder / LLMOps"
         imageFit="contain"
-        lanyardWidth={0.86}
+        lanyardWidth={0.62}
+        cardScale={2.12}
+        ropeLength={0.58}
       />
     </section>
   );
@@ -55,45 +60,45 @@ function Hero() {
 const aboutItems = [
   {
     title: "Backend",
-    kicker: "Production services",
+    kicker: "Service Engineering",
     description:
-      "写过长期运行的服务，也处理过接口边界、限流、可靠性和业务系统里那些不太浪漫但很关键的细节。",
-    tools: ["Go", "Java", "Microservices", "Reliability"]
+      "Production services in Go and Java, with a focus on API boundaries, data flow, rate limiting, reliability, and systems that remain maintainable after launch.",
+    tools: ["Go", "Java", "API", "Reliability"]
   },
   {
     title: "Frontend",
-    kicker: "Interfaces I shipped",
+    kicker: "Product Interfaces",
     description:
-      "做过 React / Next.js 的页面和组件，也会把内容结构、交互节奏和视觉表达揉到一起。",
-    tools: ["React", "Next.js", "TypeScript", "Design Systems"]
+      "React and Next.js interfaces for blogs, dashboards, and content systems, shaped around information hierarchy, interaction feedback, responsive layouts, and dark mode.",
+    tools: ["React", "Next.js", "TypeScript", "UI"]
   },
   {
     title: "Security",
-    kicker: "Identity and trust",
+    kicker: "Identity & Access",
     description:
-      "碰过认证授权、Token、OAuth、WebAuthn 和零信任相关设计，关注系统之间如何建立可信边界。",
-    tools: ["OAuth", "WebAuthn", "JWT", "Zero Trust"]
+      "Authentication and authorization work across tokens, OAuth, WebAuthn, and access-control boundaries, keeping trust decisions explicit and auditable.",
+    tools: ["OAuth", "WebAuthn", "JWT", "Access Control"]
   },
   {
     title: "Cloud Native",
-    kicker: "Runtime foundations",
+    kicker: "Runtime Platforms",
     description:
-      "做过容器化、Kubernetes、服务网格和基础设施侧的工作，喜欢把系统运行状态变得可观察、可推理。",
-    tools: ["Kubernetes", "Containers", "Service Mesh", "IaC"]
+      "Containerized workloads, Kubernetes, gateways, service discovery, observability, and deployment paths designed for operable production systems.",
+    tools: ["Kubernetes", "Containers", "Gateway", "Observability"]
   },
   {
-    title: "Vibe Coding",
-    kicker: "AI-assisted shipping",
+    title: "AI Coding",
+    kicker: "AI-Assisted Delivery",
     description:
-      "现在大量使用 AI 协作写代码：描述意图、拆任务、让模型产出，再用工程判断做取舍和校准。",
+      "AI-assisted development workflows for drafting, refactoring, testing, and review, with engineering judgment applied to scope, correctness, and final quality.",
     tools: ["Agents", "Prompting", "Code Review", "Workflow"]
   },
   {
     title: "AI Infra",
-    kicker: "Model systems",
+    kicker: "Model Infrastructure",
     description:
-      "现在重点在大模型基础设施：推理服务、调度、模型编排、Agent Framework 和 LLMOps 这一层。",
-    tools: ["LLM Serving", "GPU Scheduling", "Agents", "LLMOps"]
+      "Inference services, model integration, agent workflows, scheduling, and LLMOps, turning model capabilities into dependable engineering systems.",
+    tools: ["LLM Serving", "Scheduling", "Agents", "LLMOps"]
   }
 ];
 
@@ -102,13 +107,13 @@ function ExperienceStack() {
     <section className="flex flex-col gap-6">
       <div className="flex max-w-xl flex-col gap-3">
         <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
-          field notes
+          work notes
         </span>
         <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
           What I Do
         </h2>
         <p className="text-[13px] leading-6 text-zinc-500 dark:text-zinc-400">
-          这些不是能力清单，是我现在或曾经实际做过的事情。
+          A focused map of the systems, interfaces, and infrastructure work I have built or continue to explore.
         </p>
       </div>
 

@@ -1,0 +1,15 @@
+.rb-animated-list {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.rb-animated-list-item {
+  min-width: 0;
+  transform-origin: center top;
+  will-change: transform, opacity, filter;
+}
+
+.rb-animated-list-item--interactive {
+  position: relative;
+}

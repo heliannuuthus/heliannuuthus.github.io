@@ -1,0 +1,23 @@
+.rb-reveal-text {
+  display: inline;
+}
+
+.rb-reveal-word {
+  display: inline-block;
+  animation: rb-reveal-word 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--rb-reveal-delay, 0ms);
+  transform-origin: 50% 80%;
+}
+
+@keyframes rb-reveal-word {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(0.45em) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}

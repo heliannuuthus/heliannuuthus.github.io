@@ -1,0 +1,43 @@
+.what-i-do-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  grid-auto-rows: minmax(188px, auto);
+  gap: 14px;
+}
+
+.what-i-do-tile {
+  min-height: 188px;
+  border-radius: 18px;
+}
+
+.what-i-do-card {
+  min-height: 188px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(250, 250, 250, 0.44)),
+    radial-gradient(circle at 18% 0%, rgba(228, 228, 231, 0.5), transparent 34%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 14px 34px rgba(24, 24, 27, 0.055);
+}
+
+.dark .what-i-do-card {
+  background:
+    linear-gradient(135deg, rgba(39, 39, 42, 0.68), rgba(24, 24, 27, 0.72)),
+    radial-gradient(circle at 14% 0%, rgba(113, 113, 122, 0.22), transparent 38%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.055),
+    0 16px 40px rgba(0, 0, 0, 0.16);
+}
+
+@media (min-width: 768px) {
+  .what-i-do-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .what-i-do-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
