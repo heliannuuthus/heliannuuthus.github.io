@@ -77,7 +77,7 @@ export default function Lanyard({
 }: LanyardProps) {
   const [isMobile, setIsMobile] = useState<boolean>(() => typeof window !== 'undefined' && window.innerWidth < 768);
   const [isDark, setIsDark] = useState<boolean>(() =>
-    typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+    typeof document !== 'undefined' && document.documentElement?.classList?.contains('dark') === true
   );
 
   useEffect(() => {

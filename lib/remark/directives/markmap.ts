@@ -1,14 +1,25 @@
-import { visit, attr, toJsx } from "./utils";
+import { visit } from "./utils";
 
-/**
- * ```markmap → <Markmap markdown="..." />
- */
 export const remarkMarkmap = () => (tree: any) => {
   visit(tree, (node: any) => {
     if (node.type !== "code" || node.lang !== "markmap") return;
-    Object.assign(
-      node,
-      toJsx("mdxJsxFlowElement", "Markmap", [attr("markdown", node.value)], [])
-    );
+    const value = node.value;
+
+    Object.assign(node, {
+      type: "containerDirective",
+      name: "__markmap",
+      data: {
+        hName: "div",
+        hProperties: {
+          "data-island": "Markmap",
+          "data-value": value,
+          class: "glass rounded-2xl my-4 overflow-hidden",
+        },
+      },
+      children: [{ type: "text", value: "Loading mindmap..." }],
+      lang: undefined,
+      value: undefined,
+      meta: undefined,
+    });
   });
 };

@@ -4,8 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true
   },
-  trailingSlash: true,
-  transpilePackages: ["next-mdx-remote"]
+  trailingSlash: false,
 };
 
 export default nextConfig;

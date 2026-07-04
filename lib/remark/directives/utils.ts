@@ -1,24 +1,27 @@
 import { visit } from "unist-util-visit";
 
-export type MdxAttr = { type: "mdxJsxAttribute"; name: string; value: any };
-export type MdxExpr = { type: "mdxJsxExpression"; value: string };
+export const escapeHtml = (s: string): string =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-export const attr = (name: string, value: any): MdxAttr => {
-  if (value === null || value === undefined || typeof value === "string") {
-    return { type: "mdxJsxAttribute", name, value };
-  }
-  return {
-    type: "mdxJsxAttribute",
-    name,
-    value: { type: "mdxJsxExpression", value: JSON.stringify(value) } as MdxExpr
-  };
+export const setHast = (
+  node: any,
+  tagName: string,
+  properties: Record<string, any>,
+  children?: any[]
+) => {
+  node.data = { hName: tagName, hProperties: properties };
+  if (children !== undefined) node.children = children;
 };
 
-export const toJsx = (
-  nodeType: "mdxJsxFlowElement" | "mdxJsxTextElement",
-  name: string,
-  attributes: MdxAttr[],
+export const wrapChildren = (
+  tagName: string,
+  properties: Record<string, any>,
   children: any[]
-) => ({ type: nodeType, name, attributes, children });
+): any => ({
+  type: "containerDirective",
+  name: "__wrapper",
+  data: { hName: tagName, hProperties: properties },
+  children,
+});
 
 export { visit };

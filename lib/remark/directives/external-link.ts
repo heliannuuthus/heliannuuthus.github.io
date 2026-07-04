@@ -11,7 +11,9 @@ export const remarkExternalLink = () => (tree: any) => {
         hProperties: {
           ...(node.data?.hProperties || {}),
           target: "_blank",
-          rel: "nofollow noopener noreferrer"
+          rel: "nofollow noopener noreferrer",
+          "data-island": "ExternalLink",
+          "data-href": node.url,
         }
       };
     }

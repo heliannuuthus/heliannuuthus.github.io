@@ -24,13 +24,6 @@ const HANDWRITING_URLS = [
   "https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/zhimangxing/ZhiMangXing-Regular.ttf",
 ];
 
-const ACCENT_HUES = [160, 200, 35, 280, 340, 175, 50, 220, 310, 145, 25, 190];
-
-function hashCode(str) {
-  let h = 0;
-  for (const ch of str) h = ((h << 5) - h + ch.charCodeAt(0)) | 0;
-  return h;
-}
 
 function extractHandwritingPhrase(content, maxLen = 120) {
   const truncateMatch = content.match(/<!--\s*truncate\s*-->/);
@@ -73,11 +66,8 @@ function formatDateTitle(dateStr) {
 }
 
 function coverDesign(post) {
-  const { date, slug, handwriting } = post;
+  const { date, handwriting } = post;
   const title = formatDateTitle(date);
-  const h = Math.abs(hashCode(slug));
-  const accentHue = ACCENT_HUES[h % ACCENT_HUES.length];
-
   const dateStr = dayjs(date).format("YYYY年M月D日");
 
   const LINE_SPACING = 88;

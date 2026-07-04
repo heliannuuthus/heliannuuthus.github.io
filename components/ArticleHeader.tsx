@@ -1,5 +1,5 @@
 import { Avatar } from "@heroui/react/avatar";
-import Link from "next/link";
+
 import ExpandableExcerpt from "@/components/ExpandableExcerpt";
 import SplitText from "@/components/SplitText";
 import TagStamps from "@/components/TagStamps";

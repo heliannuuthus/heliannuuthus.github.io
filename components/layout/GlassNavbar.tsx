@@ -51,6 +51,8 @@ export default function GlassNavbar() {
   const tabRefs = useRef<Map<string, HTMLLIElement>>(new Map());
   const [indicator, setIndicator] = useState({ left: 0, width: 0, top: 0, height: 0 });
   const [indicatorReady, setIndicatorReady] = useState(false);
+  const [shellMorphing, setShellMorphing] = useState(false);
+  const scrolledPrevMorphRef = useRef<boolean | undefined>(undefined);
 
   const isHome = pathname === "/";
   const activeHref = navItems.find((item) =>
@@ -74,18 +76,60 @@ export default function GlassNavbar() {
 
     const headerRect = headerRef.current.getBoundingClientRect();
     const targetRect = targetEl.getBoundingClientRect();
-    setIndicator({
+    const next = {
       left: targetRect.left - headerRect.left,
       width: targetRect.width,
       top: targetRect.top - headerRect.top,
       height: targetRect.height
+    };
+    setIndicator((prev) => {
+      const near =
+        Math.abs(prev.left - next.left) < 0.35 &&
+        Math.abs(prev.top - next.top) < 0.35 &&
+        Math.abs(prev.width - next.width) < 0.35 &&
+        Math.abs(prev.height - next.height) < 0.35;
+      return near ? prev : next;
     });
     setIndicatorReady(true);
-  }, [isHome, activeHref, scrolled]);
+  }, [isHome, activeHref]);
 
   useLayoutEffect(() => {
     measureIndicator();
   }, [measureIndicator]);
+
+  useLayoutEffect(() => {
+    if (scrolledPrevMorphRef.current === undefined) {
+      scrolledPrevMorphRef.current = scrolled;
+      return;
+    }
+    if (scrolledPrevMorphRef.current === scrolled) return;
+    scrolledPrevMorphRef.current = scrolled;
+
+    setShellMorphing(true);
+    let raf = 0;
+    let alive = true;
+    const tick = () => {
+      if (!alive) return;
+      measureIndicator();
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    const finish = () => {
+      if (!alive) return;
+      alive = false;
+      cancelAnimationFrame(raf);
+      setShellMorphing(false);
+      measureIndicator();
+    };
+
+    const t = window.setTimeout(finish, 720);
+    return () => {
+      alive = false;
+      cancelAnimationFrame(raf);
+      clearTimeout(t);
+    };
+  }, [scrolled, measureIndicator]);
 
   useEffect(() => {
     window.addEventListener("resize", measureIndicator);
@@ -120,34 +164,34 @@ export default function GlassNavbar() {
   return (
     <div
       className={cn(
-        "sticky z-40 w-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]",
+        "sticky z-40 w-full transition-all duration-[640ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none",
         scrolled ? "top-0 pt-0" : "top-0 pt-3"
       )}
     >
       <nav
         ref={navRef}
         className={cn(
-          "mx-auto bg-white/72 dark:bg-zinc-900/72 backdrop-saturate-[1.8] backdrop-blur-xl transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]",
+          "mx-auto bg-white/72 dark:bg-zinc-900/72 backdrop-saturate-[1.8] backdrop-blur-xl transition-all duration-[640ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none",
           scrolled
-            ? "w-full max-w-none rounded-none shadow-[0_0.5px_0_rgba(0,0,0,0.06)] dark:shadow-[0_0.5px_0_rgba(255,255,255,0.06)]"
-            : "max-w-3xl rounded-full shadow-[0_2px_12px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3),0_0_0_0.5px_rgba(255,255,255,0.06)]"
+            ? "w-full max-w-full rounded-none shadow-[0_0.5px_0_rgba(0,0,0,0.06)] dark:shadow-[0_0.5px_0_rgba(255,255,255,0.06)]"
+            : "w-full max-w-3xl rounded-full shadow-[0_2px_12px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3),0_0_0_0.5px_rgba(255,255,255,0.06)]"
         )}
       >
         <header ref={headerRef} className="relative flex h-14 items-center justify-between px-5 sm:px-6">
-          {indicatorReady && (
-            <div
-              aria-hidden
-              className="absolute z-[1] rounded-full bg-white/90 dark:bg-white/[0.1] shadow-[0_1px_3px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.2)]"
-              style={{
-                left: indicator.left,
-                top: indicator.top,
-                width: indicator.width,
-                height: indicator.height,
-                transition:
-                  "left 0.45s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1), top 0.35s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-              }}
-            />
-          )}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute z-[1] rounded-full bg-white/90 dark:bg-white/[0.1] shadow-[0_1px_3px_rgba(0,0,0,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.2)]"
+            style={{
+              left: indicator.left,
+              top: indicator.top,
+              width: indicator.width,
+              height: indicator.height,
+              opacity: indicatorReady && indicator.width > 0 ? 1 : 0,
+              transition: shellMorphing
+                ? "opacity 0.15s ease-out"
+                : "left 0.52s cubic-bezier(0.4, 0, 0.2, 1), top 0.52s cubic-bezier(0.4, 0, 0.2, 1), width 0.52s cubic-bezier(0.4, 0, 0.2, 1), height 0.52s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease-out"
+            }}
+          />
 
           <Link
             ref={logoRef}

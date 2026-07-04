@@ -17,7 +17,7 @@ export default function Hint({ title, children }: HintProps) {
   if (!title) return trigger;
 
   return (
-    <Tooltip>
+    <Tooltip delay={0}>
       <Tooltip.Trigger className="!inline">{trigger}</Tooltip.Trigger>
       <Tooltip.Content className="max-w-60 text-sm leading-relaxed">
         {title}

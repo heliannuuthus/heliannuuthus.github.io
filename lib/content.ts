@@ -43,9 +43,9 @@ const extractDate = (filePath: string): string => {
   return "1970-01-01";
 };
 
-const extractExcerpt = (content: string, maxLen = 160): string | undefined => {
+const extractExcerpt = (content: string): string | undefined => {
   const truncateMatch = content.match(/<!--\s*truncate\s*-->/);
-  let raw = truncateMatch
+  const raw = truncateMatch
     ? content.slice(0, truncateMatch.index)
     : content.split(/\n\n/)[0] ?? "";
 
@@ -53,8 +53,7 @@ const extractExcerpt = (content: string, maxLen = 160): string | undefined => {
 
   const plain = stripMarkdown(raw) as string;
 
-  if (!plain) return undefined;
-  return plain.length > maxLen ? plain.slice(0, maxLen) + "…" : plain;
+  return plain || undefined;
 };
 
 const resolvePartialImports = (content: string, filePath: string): string => {
@@ -155,7 +154,12 @@ const getPostsFromDir = (dir: string): PostMeta[] => {
   );
 };
 
-export const getBlogPosts = (): PostMeta[] => getPostsFromDir("blog");
+const isDev = process.env.NODE_ENV === "development";
+
+export const getBlogPosts = (): PostMeta[] => {
+  const posts = getPostsFromDir("blog");
+  return isDev ? posts : posts.filter((p) => !p.unlisted);
+};
 
 export interface EssayEntry {
   slug: string;
@@ -272,7 +276,7 @@ export const getPostBySlug = (
         ? data.authors
         : [data.authors || "heliannuuthus"],
       tags: Array.isArray(data.tags) ? data.tags : [],
-      description: data.description || extractExcerpt(content, 2000),
+      description: data.description || extractExcerpt(content),
       unlisted: !!data.unlisted,
       draft: !!data.draft
     },
@@ -282,5 +286,5 @@ export const getPostBySlug = (
 
 export const getAllSlugs = (dir: string): string[] =>
   getPostsFromDir(dir)
-    .filter((p) => !p.draft)
+    .filter((p) => isDev || !p.unlisted)
     .map((p) => p.slug);

@@ -3,6 +3,7 @@
 import { useRef, useEffect, useCallback } from "react";
 import { useTheme } from "next-themes";
 import type { Term } from "@/lib/terms";
+import type { CategoryMeta } from "@/lib/category-meta";
 
 /* ── Types ── */
 
@@ -20,7 +21,6 @@ interface GCenter {
   category: string;
   label: string;
   color: [number, number, number];
-  count: number;
   hx: number;
   hy: number;
   cx: number;
@@ -46,30 +46,6 @@ interface Cam {
 }
 
 /* ── Constants ── */
-
-const C: Record<string, [number, number, number]> = {
-  auth: [244, 63, 94],
-  crypto: [245, 158, 11],
-  dl: [139, 92, 246],
-  java: [249, 115, 22],
-  k8s: [14, 165, 233],
-  math: [20, 184, 166],
-  net: [6, 182, 212],
-  os: [16, 185, 129],
-  web: [99, 102, 241],
-};
-
-const L: Record<string, string> = {
-  auth: "认证与授权",
-  crypto: "密码学",
-  dl: "深度学习",
-  java: "Java",
-  k8s: "Kubernetes",
-  math: "数学",
-  net: "计算机网络",
-  os: "操作系统",
-  web: "Web 开发",
-};
 
 const FC: [number, number, number] = [161, 161, 170];
 const FONT =
@@ -125,7 +101,7 @@ function seedRand(seed: number): () => number {
   };
 }
 
-function layout(terms: Term[], w: number, h: number) {
+function layout(terms: Term[], w: number, h: number, catMeta: Record<string, CategoryMeta>) {
   const cats = [...new Set(terms.map((t) => t.category))].sort();
   const n = cats.length;
   const spread = Math.min(w, h) * 0.34;
@@ -146,9 +122,8 @@ function layout(terms: Term[], w: number, h: number) {
     }));
     return {
       category: cat,
-      label: L[cat] || cat,
-      color: C[cat] || FC,
-      count: terms.filter((t) => t.category === cat).length,
+      label: catMeta[cat]?.label || cat,
+      color: catMeta[cat]?.color || FC,
       hx: homeX,
       hy: homeY,
       cx: homeX,
@@ -266,75 +241,18 @@ function drawCenter(
   t: number,
   idx: number,
   alpha: number,
-  active: boolean,
-  hovered: boolean,
 ) {
-  const pulse = 1 + 0.04 * Math.sin(t * 0.0015 + idx * 1.1);
-  const r = (active ? 18 : 15) * pulse + (hovered ? 4 : 0);
+  const pulse = 1 + 0.05 * Math.sin(t * 0.0015 + idx * 1.1);
+  const r = 8 * pulse;
 
   ctx.save();
-  ctx.shadowColor = rgba(c.color, (dk ? 0.5 : 0.24) * alpha);
-  ctx.shadowBlur = hovered ? 24 : dk ? 16 : 11;
-  ctx.fillStyle = rgba(c.color, (dk ? 0.92 : 0.76) * alpha);
+  ctx.shadowColor = rgba(c.color, (dk ? 0.4 : 0.2) * alpha);
+  ctx.shadowBlur = dk ? 12 : 8;
+  ctx.fillStyle = rgba(c.color, (dk ? 0.9 : 0.7) * alpha);
   ctx.beginPath();
   ctx.arc(c.cx, c.cy, r, 0, Math.PI * 2);
   ctx.fill();
-
-  const ring = r + 8;
-  ctx.beginPath();
-  ctx.arc(c.cx, c.cy, ring, 0, Math.PI * 2);
-  ctx.strokeStyle = rgba(c.color, (hovered ? 0.38 : 0.18) * alpha);
-  ctx.lineWidth = active ? 1.6 : 1;
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.arc(c.cx - r * 0.28, c.cy - r * 0.28, r * 0.26, 0, Math.PI * 2);
-  ctx.fillStyle = `rgba(255,255,255,${dk ? 0.28 : 0.38})`;
-  ctx.fill();
   ctx.restore();
-}
-
-function drawOrbitChip(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  term: Term,
-  col: [number, number, number],
-  dk: boolean,
-  alpha: number,
-) {
-  const title = term.title.length > 8 ? `${term.title.slice(0, 8)}…` : term.title;
-  const w = Math.max(38, Math.min(70, title.length * 9 + 18));
-  const h = 22;
-
-  ctx.save();
-  ctx.beginPath();
-  ctx.roundRect(x - w / 2, y - h / 2, w, h, 999);
-  ctx.fillStyle = dk
-    ? `rgba(24,24,27,${0.68 * alpha})`
-    : `rgba(255,255,255,${0.82 * alpha})`;
-  ctx.shadowColor = rgba(col, 0.18 * alpha);
-  ctx.shadowBlur = 12;
-  ctx.fill();
-  ctx.restore();
-
-  ctx.beginPath();
-  ctx.roundRect(x - w / 2, y - h / 2, w, h, 999);
-  ctx.strokeStyle = rgba(col, 0.26 * alpha);
-  ctx.lineWidth = 0.7;
-  ctx.stroke();
-
-  ctx.fillStyle = rgba(col, 0.9 * alpha);
-  ctx.beginPath();
-  ctx.arc(x - w / 2 + 12, y, 3, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.font = `600 9.5px ${FONT}`;
-  ctx.textAlign = "left";
-  ctx.fillStyle = dk
-    ? `rgba(244,244,245,${0.86 * alpha})`
-    : `rgba(24,24,27,${0.74 * alpha})`;
-  ctx.fillText(title, x - w / 2 + 20, y + 3.5, w - 26);
 }
 
 function drawNode(
@@ -424,6 +342,7 @@ function drawTooltip(
 
 interface Props {
   terms: Term[];
+  categoryMeta: Record<string, CategoryMeta>;
   matchingSlugs: Set<string> | null;
   selectedCategory: string | null;
   onSelectTerm: (t: Term) => void;
@@ -432,10 +351,8 @@ interface Props {
 
 export default function TermsGalaxy({
   terms,
-  matchingSlugs,
-  selectedCategory,
+  categoryMeta,
   onSelectTerm,
-  onSelectCategory,
 }: Props) {
   const cvRef = useRef<HTMLCanvasElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -444,13 +361,11 @@ export default function TermsGalaxy({
   const propsRef = useRef({
     dk: resolvedTheme === "dark",
     selCat: null as string | null,
-    matchingSlugs: null as Set<string> | null,
   });
   propsRef.current.dk = resolvedTheme === "dark";
-  propsRef.current.matchingSlugs = matchingSlugs;
 
-  const cbRef = useRef({ onSelectTerm, onSelectCategory });
-  cbRef.current = { onSelectTerm, onSelectCategory };
+  const cbRef = useRef({ onSelectTerm });
+  cbRef.current = { onSelectTerm };
 
   const st = useRef({
     cam: { x: 0, y: 0, z: 1, tx: 0, ty: 0, tz: 1 } as Cam,
@@ -458,7 +373,6 @@ export default function TermsGalaxy({
     nodes: [] as GNode[],
     starField: [] as Star[],
     hover: -1,
-    hoverCenter: -1,
     W: 0,
     H: 0,
     dpr: 1,
@@ -485,10 +399,6 @@ export default function TermsGalaxy({
     }
   }, []);
 
-  useEffect(() => {
-    zoomTo(selectedCategory);
-  }, [selectedCategory, zoomTo]);
-
   const initLayout = useCallback(() => {
     const el = boxRef.current;
     const cv = cvRef.current;
@@ -507,7 +417,7 @@ export default function TermsGalaxy({
     s.H = H;
     s.dpr = dpr;
 
-    const { centers, nodes } = layout(terms, W, H);
+    const { centers, nodes } = layout(terms, W, H, categoryMeta);
     s.centers = centers;
     s.nodes = nodes;
     if (s.starField.length === 0) {
@@ -523,17 +433,15 @@ export default function TermsGalaxy({
         s.cam.tz = 2.5;
       }
     }
-  }, [terms]);
+  }, [terms, categoryMeta]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && propsRef.current.selCat) {
-        cbRef.current.onSelectCategory(null);
-      }
+      if (e.key === "Escape" && propsRef.current.selCat) zoomTo(null);
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, []);
+  }, [zoomTo]);
 
   useEffect(() => {
     initLayout();
@@ -553,7 +461,7 @@ export default function TermsGalaxy({
       if (!ctx) return;
 
       const s = st.current;
-      const { dk, selCat, matchingSlugs } = propsRef.current;
+      const { dk, selCat } = propsRef.current;
       const { cam, W, H } = s;
 
       cam.x = lp(cam.x, cam.tx, LERP_F);
@@ -589,54 +497,33 @@ export default function TermsGalaxy({
 
       drawStars(ctx, s.starField, dk, ts);
 
-      const revealNodes = selCat !== null || matchingSlugs !== null;
-
       for (let i = 0; i < s.centers.length; i++) {
         const c = s.centers[i];
         const galA =
           selCat === null || selCat === c.category ? 1 : 0.12;
-        const centerNodes = s.nodes.filter((nd) => nd.gi === i);
-        const orbits = revealNodes
-          ? [...new Set(centerNodes.map((nd) => nd.orbit))]
-          : [44, 68];
+        const orbits = [
+          ...new Set(
+            s.nodes.filter((nd) => nd.gi === i).map((nd) => nd.orbit),
+          ),
+        ];
         for (const r of orbits) {
-          drawOrbit(ctx, c.cx, c.cy, r, c.color, dk, revealNodes ? galA : galA * 1.35);
-        }
-
-        if (!revealNodes && galA > 0.3) {
-          const chips = centerNodes.slice(0, 6);
-          for (let j = 0; j < chips.length; j++) {
-            const radius = j % 2 === 0 ? 44 : 68;
-            const angle = ts * (0.00018 + j * 0.000012) * (j % 2 === 0 ? 1 : -1) + (j / chips.length) * Math.PI * 2;
-            drawOrbitChip(
-              ctx,
-              c.cx + Math.cos(angle) * radius,
-              c.cy + Math.sin(angle) * radius,
-              chips[j].term,
-              c.color,
-              dk,
-              galA,
-            );
-          }
+          drawOrbit(ctx, c.cx, c.cy, r, c.color, dk, galA);
         }
       }
 
-      if (revealNodes) {
-        for (let i = 0; i < s.nodes.length; i++) {
-          const nd = s.nodes[i];
-          const c = s.centers[nd.gi];
-          const galA =
-            selCat === null || selCat === c.category ? 1 : 0.12;
-          const matched = !matchingSlugs || matchingSlugs.has(nd.term.slug);
-          drawNode(ctx, nd, c.color, dk, i === s.hover, matched, galA);
-        }
+      for (let i = 0; i < s.nodes.length; i++) {
+        const nd = s.nodes[i];
+        const c = s.centers[nd.gi];
+        const galA =
+          selCat === null || selCat === c.category ? 1 : 0.12;
+        drawNode(ctx, nd, c.color, dk, i === s.hover, true, galA);
       }
 
       for (let i = 0; i < s.centers.length; i++) {
         const c = s.centers[i];
         const galA =
           selCat === null || selCat === c.category ? 1 : 0.12;
-        drawCenter(ctx, c, dk, ts, i, galA, selCat === c.category, s.hoverCenter === i);
+        drawCenter(ctx, c, dk, ts, i, galA);
       }
 
       ctx.restore();
@@ -654,50 +541,35 @@ export default function TermsGalaxy({
         ctx.fillStyle = dk
           ? rgba(c.color, 0.85 * galA)
           : rgba(c.color, 0.75 * galA);
-        ctx.fillText(c.label, sx, sy + 30 / Math.pow(cam.z, 0.45));
-
-        if (selCat === null) {
-          ctx.font = `600 ${Math.max(8, 10 / Math.pow(cam.z, 0.35))}px ${FONT}`;
-          ctx.fillStyle = dk
-            ? `rgba(212,212,216,${0.6 * galA})`
-            : `rgba(82,82,91,${0.58 * galA})`;
-          ctx.fillText(`${c.count} terms`, sx, sy + 44 / Math.pow(cam.z, 0.45));
-        }
+        ctx.fillText(c.label, sx, sy + 20 / Math.pow(cam.z, 0.45));
       }
 
       const lfs = Math.max(7.5, 10 / Math.pow(cam.z, 0.3));
       ctx.font = `500 ${lfs}px ${FONT}`;
       ctx.textAlign = "center";
 
-      if (revealNodes) {
-        for (let i = 0; i < s.nodes.length; i++) {
-          const nd = s.nodes[i];
-          const c = s.centers[nd.gi];
-          const galA =
-            selCat === null || selCat === c.category ? 1 : 0.12;
-          const isHov = i === s.hover;
-          const matched = !matchingSlugs || matchingSlugs.has(nd.term.slug);
-          if (galA < 0.3 && !isHov) continue;
+      for (let i = 0; i < s.nodes.length; i++) {
+        const nd = s.nodes[i];
+        const c = s.centers[nd.gi];
+        const galA =
+          selCat === null || selCat === c.category ? 1 : 0.12;
+        const isHov = i === s.hover;
+        if (galA < 0.3 && !isHov) continue;
 
-          const [sx, sy] = w2s(nd.x, nd.y, cam, W, H);
-          if (sx < -60 || sx > W + 60 || sy < -60 || sy > H + 60) continue;
+        const [sx, sy] = w2s(nd.x, nd.y, cam, W, H);
+        if (sx < -60 || sx > W + 60 || sy < -60 || sy > H + 60) continue;
 
-          let alpha: number;
-          if (isHov) alpha = 1;
-          else {
-            alpha =
-              (matched ? 0.25 + Math.min(0.65, (cam.z - 0.8) * 0.45) : 0.06) *
-              galA;
-          }
+        let alpha: number;
+        if (isHov) alpha = 1;
+        else alpha = (0.25 + Math.min(0.65, (cam.z - 0.8) * 0.45)) * galA;
 
-          ctx.fillStyle = dk
-            ? `rgba(255,255,255,${alpha})`
-            : `rgba(30,30,40,${alpha * 0.9})`;
-          ctx.fillText(nd.term.title, sx, sy - (isHov ? 11 : 7));
-        }
+        ctx.fillStyle = dk
+          ? `rgba(255,255,255,${alpha})`
+          : `rgba(30,30,40,${alpha * 0.9})`;
+        ctx.fillText(nd.term.title, sx, sy - (isHov ? 11 : 7));
       }
 
-      if (revealNodes && s.hover >= 0) {
+      if (s.hover >= 0) {
         const nd = s.nodes[s.hover];
         const c = s.centers[nd.gi];
         drawTooltip(ctx, nd, c.color, cam, W, H, dk);
@@ -785,29 +657,24 @@ export default function TermsGalaxy({
       const sx = t.clientX - rect.left;
       const sy = t.clientY - rect.top;
       const [wx, wy] = s2w(sx, sy, s.cam, s.W, s.H);
-      const revealNodes = propsRef.current.selCat !== null || propsRef.current.matchingSlugs !== null;
 
-      if (revealNodes) {
-        const hr = 18 / s.cam.z;
-        for (const nd of s.nodes) {
-          if ((nd.x - wx) ** 2 + (nd.y - wy) ** 2 < hr * hr) {
-            cbRef.current.onSelectTerm(nd.term);
-            lastTouches = [];
-            return;
-          }
-        }
-      }
-      const cr = (revealNodes ? 28 : 54) / s.cam.z;
-      for (const c of s.centers) {
-        if ((c.cx - wx) ** 2 + (c.cy - wy) ** 2 < cr * cr) {
-          cbRef.current.onSelectCategory(
-            propsRef.current.selCat === c.category ? null : c.category,
-          );
+      const hr = 18 / s.cam.z;
+      for (const nd of s.nodes) {
+        if ((nd.x - wx) ** 2 + (nd.y - wy) ** 2 < hr * hr) {
+          cbRef.current.onSelectTerm(nd.term);
           lastTouches = [];
           return;
         }
       }
-      if (s.cam.tz > 1.2) cbRef.current.onSelectCategory(null);
+      const cr = 28 / s.cam.z;
+      for (const c of s.centers) {
+        if ((c.cx - wx) ** 2 + (c.cy - wy) ** 2 < cr * cr) {
+          zoomTo(propsRef.current.selCat === c.category ? null : c.category);
+          lastTouches = [];
+          return;
+        }
+      }
+      if (s.cam.tz > 1.2) zoomTo(null);
       lastTouches = [];
     };
 
@@ -824,6 +691,7 @@ export default function TermsGalaxy({
       cv.removeEventListener("touchmove", onTouchMove);
       cv.removeEventListener("touchend", onTouchEnd);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- zoomTo is stable via ref
   }, [initLayout]);
 
   /* ── Mouse handlers (React) ── */
@@ -857,34 +725,20 @@ export default function TermsGalaxy({
     const sx = e.clientX - rect.left;
     const sy = e.clientY - rect.top;
     const [wx, wy] = s2w(sx, sy, s.cam, s.W, s.H);
-    const revealNodes = propsRef.current.selCat !== null || propsRef.current.matchingSlugs !== null;
-    const cr = (revealNodes ? 24 : 54) / s.cam.z;
-    let hitCenter = -1;
-    for (let i = 0; i < s.centers.length; i++) {
-      const c = s.centers[i];
-      if ((c.cx - wx) ** 2 + (c.cy - wy) ** 2 < cr * cr) {
-        hitCenter = i;
+    const hr = 14 / s.cam.z;
+    let hit = -1;
+    for (let i = 0; i < s.nodes.length; i++) {
+      const n = s.nodes[i];
+      if ((n.x - wx) ** 2 + (n.y - wy) ** 2 < hr * hr) {
+        hit = i;
         break;
       }
     }
-
-    const hr = 14 / s.cam.z;
-    let hit = -1;
-    if (revealNodes) {
-      for (let i = 0; i < s.nodes.length; i++) {
-        const n = s.nodes[i];
-        if ((n.x - wx) ** 2 + (n.y - wy) ** 2 < hr * hr) {
-          hit = i;
-          break;
-        }
-      }
-    }
     s.hover = hit;
-    s.hoverCenter = hitCenter;
     const cv = cvRef.current;
     if (cv)
       cv.style.cursor =
-        hit >= 0 || hitCenter >= 0 ? "pointer" : s.drag ? "grabbing" : "grab";
+        hit >= 0 ? "pointer" : s.drag ? "grabbing" : "grab";
   }, []);
 
   const onUp = useCallback((e: React.MouseEvent) => {
@@ -897,35 +751,24 @@ export default function TermsGalaxy({
       return;
     }
 
-    if (s.hoverCenter >= 0) {
-      const c = s.centers[s.hoverCenter];
-      cbRef.current.onSelectCategory(
-        propsRef.current.selCat === c.category ? null : c.category,
-      );
-      return;
-    }
-
     const rect = boxRef.current?.getBoundingClientRect();
     if (!rect) return;
     const sx = e.clientX - rect.left;
     const sy = e.clientY - rect.top;
     const [wx, wy] = s2w(sx, sy, s.cam, s.W, s.H);
-    const revealNodes = propsRef.current.selCat !== null || propsRef.current.matchingSlugs !== null;
-    const cr = (revealNodes ? 24 : 54) / s.cam.z;
+    const cr = 22 / s.cam.z;
     for (const c of s.centers) {
       if ((c.cx - wx) ** 2 + (c.cy - wy) ** 2 < cr * cr) {
-        cbRef.current.onSelectCategory(
-          propsRef.current.selCat === c.category ? null : c.category,
-        );
+        zoomTo(propsRef.current.selCat === c.category ? null : c.category);
         return;
       }
     }
-    if (s.cam.tz > 1.2) cbRef.current.onSelectCategory(null);
+    if (s.cam.tz > 1.2) zoomTo(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- zoomTo is stable via ref
   }, []);
 
   const onLeave = useCallback(() => {
     st.current.hover = -1;
-    st.current.hoverCenter = -1;
     st.current.drag = false;
   }, []);
 
