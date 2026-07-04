@@ -6,7 +6,7 @@ import { cn } from "@/lib/cn";
 import type { Author, PostMeta } from "@/lib/content";
 import dayjs from "@/lib/dayjs";
 import { tagColor } from "@/lib/tag-colors";
-import SpotlightCard from "@/components/react-bits/SpotlightCard";
+import SpotlightCard from "@/components/SpotlightCard";
 import Image from "next/image";
 import Link from "next/link";
 

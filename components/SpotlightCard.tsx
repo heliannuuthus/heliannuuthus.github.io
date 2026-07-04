@@ -48,6 +48,7 @@ export default function SpotlightCard({
   return (
     <div
       ref={ref}
+      data-disabled={disabled ? "true" : undefined}
       className={cn("rb-spotlight-card", className)}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}

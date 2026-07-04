@@ -3,7 +3,7 @@ import dayjs from "@/lib/dayjs";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx/mdx-components";
 import ProseWrapper from "@/components/ProseWrapper";
-import SplitText from "@/components/react-bits/SplitText";
+import SplitText from "@/components/SplitText";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import remarkGfm from "remark-gfm";

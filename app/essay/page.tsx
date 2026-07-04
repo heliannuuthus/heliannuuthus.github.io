@@ -1,6 +1,6 @@
 import { getEssayEntries } from "@/lib/content";
 import EssayJournal from "@/components/EssayJournal";
-import SplitText from "@/components/react-bits/SplitText";
+import SplitText from "@/components/SplitText";
 import dayjs from "@/lib/dayjs";
 import type { Metadata } from "next";
 

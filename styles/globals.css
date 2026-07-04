@@ -235,7 +235,7 @@ body *::-webkit-scrollbar-thumb {
   animation-delay: var(--enter-delay, 0ms);
 }
 
-/* ─── React Bits-inspired primitives ─── */
+/* ─── Interaction primitives ─── */
 
 .rb-reveal-text {
   display: inline;
@@ -395,6 +395,11 @@ a:hover .rb-shiny-text,
   opacity: 1;
 }
 
+.rb-spotlight-card[data-disabled="true"]::before,
+.rb-spotlight-card[data-disabled="true"]:hover::before {
+  opacity: 0;
+}
+
 .rb-spotlight-card > * {
   position: relative;
   z-index: 1;
@@ -411,62 +416,115 @@ a:hover .rb-shiny-text,
 
 .rb-scroll-stack {
   position: relative;
-  min-height: calc(var(--rb-stack-count, 1) * 32vh + 58vh);
+  width: 100%;
+  overflow: visible;
 }
 
-.rb-scroll-stack-stage {
-  position: sticky;
-  top: 108px;
-  height: min(62vh, 520px);
+.rb-scroll-stack-inner {
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 45vh;
 }
 
-.rb-scroll-stack-item {
-  position: absolute;
-  inset: 0;
+.rb-scroll-stack-card {
+  position: relative;
   z-index: var(--rb-stack-z);
   transform-origin: center top;
-  will-change: transform, opacity, filter;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, filter;
 }
 
-.rb-scroll-stack-item article {
-  height: 100%;
+.rb-scroll-stack-card article {
   box-shadow:
     0 0 0 0.5px rgba(0, 0, 0, 0.04),
     0 18px 55px rgba(15, 23, 42, 0.08);
 }
 
-.dark .rb-scroll-stack-item article {
+.dark .rb-scroll-stack-card article {
   box-shadow:
     0 0 0 0.5px rgba(255, 255, 255, 0.06),
     0 22px 70px rgba(0, 0, 0, 0.28);
 }
 
+.rb-scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}
+
 @media (max-width: 768px) {
-  .rb-scroll-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    min-height: 0;
+  .rb-scroll-stack-inner {
+    padding-bottom: 10vh;
   }
+}
 
-  .rb-scroll-stack-stage {
-    position: relative;
-    top: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    height: auto;
+.tilted-card-figure {
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  perspective: 1100px;
+}
+
+.tilted-card-inner {
+  position: relative;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.tilted-card-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  border-radius: inherit;
+  pointer-events: none;
+  transform: translateZ(22px);
+  mix-blend-mode: soft-light;
+}
+
+.what-i-do-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  grid-auto-rows: minmax(188px, auto);
+  gap: 14px;
+}
+
+.what-i-do-tile {
+  min-height: 188px;
+  border-radius: 18px;
+}
+
+.what-i-do-card {
+  min-height: 188px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(250, 250, 250, 0.44)),
+    radial-gradient(circle at 18% 0%, rgba(228, 228, 231, 0.5), transparent 34%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 14px 34px rgba(24, 24, 27, 0.055);
+}
+
+.dark .what-i-do-card {
+  background:
+    linear-gradient(135deg, rgba(39, 39, 42, 0.68), rgba(24, 24, 27, 0.72)),
+    radial-gradient(circle at 14% 0%, rgba(113, 113, 122, 0.22), transparent 38%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.055),
+    0 16px 40px rgba(0, 0, 0, 0.16);
+}
+
+@media (min-width: 768px) {
+  .what-i-do-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
   }
+}
 
-  .rb-scroll-stack-item {
-    position: relative;
-    inset: auto;
-    top: auto;
-    transform: none;
-  }
-
-  .rb-scroll-stack-item + .rb-scroll-stack-item {
-    margin-top: 0;
+@media (min-width: 1024px) {
+  .what-i-do-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -486,39 +544,39 @@ a:hover .rb-shiny-text,
   position: relative;
 }
 
-.sunflower-aura {
-  position: absolute;
-  inset: 14%;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle, rgba(217, 183, 108, 0.18), transparent 58%),
-    radial-gradient(circle at 60% 35%, rgba(20, 184, 166, 0.18), transparent 50%);
-  filter: blur(28px);
-  transform: scale(1.2);
+.lanyard-wrapper {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center;
 }
 
-.sunflower-core {
+.hero-lanyard {
   position: absolute;
-  inset: 28px;
-  border-radius: 999px;
+  top: -74px;
+  right: -42px;
+  z-index: 0;
+  width: min(460px, 52vw);
+  height: 500px;
+  pointer-events: auto;
 }
 
-.sunflower-core::after {
-  content: "";
-  position: absolute;
-  inset: -8px;
-  border-radius: inherit;
-  pointer-events: none;
-  background:
-    conic-gradient(
-      from 180deg,
-      rgba(191, 143, 66, 0.18),
-      rgba(16, 185, 129, 0.18),
-      rgba(14, 165, 233, 0.18),
-      rgba(191, 143, 66, 0.18)
-    );
-  mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
-  opacity: 0.9;
+.hero-lanyard canvas {
+  cursor: grab;
+}
+
+@media (max-width: 640px) {
+  .hero-lanyard {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: min(360px, 94vw);
+    height: 390px;
+    margin: -84px auto -56px;
+    order: -1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

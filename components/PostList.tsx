@@ -9,8 +9,8 @@ import { Separator } from "@heroui/react/separator";
 import { X } from "lucide-react";
 import Link from "next/link";
 import PostCard from "@/components/PostCard";
-import AnimatedList from "@/components/react-bits/AnimatedList";
-import SplitText from "@/components/react-bits/SplitText";
+import AnimatedList from "@/components/AnimatedList";
+import SplitText from "@/components/SplitText";
 
 const PAGE_SIZE = 10;
 

@@ -6,9 +6,9 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 import dynamic from "next/dynamic";
 import type { Term } from "@/lib/terms";
-import SpotlightCard from "@/components/react-bits/SpotlightCard";
-import SplitText from "@/components/react-bits/SplitText";
-import { BookOpen, GitBranch, Search, Sparkles, X } from "lucide-react";
+import SpotlightCard from "@/components/SpotlightCard";
+import SplitText from "@/components/SplitText";
+import { BookOpen, ChevronDown, GitBranch, Search, Sparkles, X } from "lucide-react";
 
 const TermsGalaxy = dynamic(() => import("./TermsGalaxy"), { ssr: false });
 
@@ -147,6 +147,7 @@ export default function TermsContent({
   const [focusedTerm, setFocusedTerm] = useState<Term | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+  const [controlsOpen, setControlsOpen] = useState(false);
 
   const categories = useMemo(() => {
     return [...new Set(terms.map((t) => t.category))]
@@ -209,10 +210,34 @@ export default function TermsContent({
 
   return (
     <>
-      <section className="pointer-events-none fixed inset-x-0 top-[88px] z-20 mx-auto flex w-full max-w-5xl flex-col gap-4 px-4 sm:px-6">
-        <div className="pointer-events-auto grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
-          <div className="surface-overlay overflow-hidden rounded-[24px]">
-            <div className="flex flex-col gap-5 p-5 sm:p-6">
+      <section className="pointer-events-none fixed inset-x-0 top-[88px] z-20 mx-auto flex w-full max-w-5xl flex-col items-end gap-3 px-4 sm:px-6">
+        <button
+          type="button"
+          onClick={() => setControlsOpen((open) => !open)}
+          className="pointer-events-auto inline-flex h-11 items-center gap-2 rounded-full bg-white/74 px-4 text-[12px] font-semibold text-zinc-600 shadow-[0_12px_34px_rgba(15,23,42,0.10),0_0_0_1px_rgba(15,23,42,0.04)] backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:bg-white/92 dark:bg-zinc-950/58 dark:text-zinc-300 dark:shadow-[0_18px_45px_rgba(0,0,0,0.28),0_0_0_1px_rgba(255,255,255,0.08)] dark:hover:bg-zinc-900/80"
+          aria-expanded={controlsOpen}
+          aria-controls="terms-atlas-controls"
+        >
+          <Sparkles size={14} className="text-emerald-500" />
+          <span>{selectedCategory ? cm(selectedCategory).label : "Atlas"}</span>
+          {(query || selectedCategory) && (
+            <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] text-emerald-600 dark:text-emerald-300">
+              {filteredTerms.length}
+            </span>
+          )}
+          <ChevronDown
+            size={14}
+            className={cn("transition-transform duration-300", controlsOpen && "rotate-180")}
+          />
+        </button>
+
+        {controlsOpen && (
+          <div
+            id="terms-atlas-controls"
+            className="pointer-events-auto grid w-full gap-3 lg:grid-cols-[minmax(0,1fr)_300px]"
+          >
+          <div className="surface-overlay overflow-hidden rounded-[20px]">
+            <div className="flex flex-col gap-4 p-4 sm:p-5">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-300">
                   <Sparkles size={14} />
@@ -222,7 +247,7 @@ export default function TermsContent({
                   <SplitText text="Terms Galaxy" delayStep={22} />
                 </h1>
                 <p className="max-w-2xl text-sm leading-6 text-zinc-500 dark:text-zinc-400">
-                  术语不只是散点，按分类缩放、按关键词定位，再从词条卡片进入细节。
+                  每种术语是一枚星系，先按分类进入，再从轨道上的词条继续放大。
                 </p>
               </div>
 
@@ -280,7 +305,7 @@ export default function TermsContent({
             </div>
           </div>
 
-          <div className="surface-overlay hidden overflow-hidden rounded-[24px] lg:block">
+          <div className="surface-overlay hidden overflow-hidden rounded-[20px] lg:block">
             <div className="flex h-full flex-col gap-3 p-4">
               <div className="flex items-center justify-between px-1">
                 <div className="flex items-center gap-2 text-[12px] font-semibold text-zinc-500 dark:text-zinc-400">
@@ -338,6 +363,7 @@ export default function TermsContent({
             </div>
           </div>
         </div>
+        )}
       </section>
 
       <TermsGalaxy

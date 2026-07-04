@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import type { EssayEntry } from "@/lib/content";
 import { cn } from "@/lib/cn";
 import dayjs from "@/lib/dayjs";
-import SpotlightCard from "@/components/react-bits/SpotlightCard";
+import SpotlightCard from "@/components/SpotlightCard";
 import { ArrowUpRight, CalendarDays, Feather } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

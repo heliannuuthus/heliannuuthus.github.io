@@ -4,7 +4,7 @@ import { Button } from "@heroui/react/button";
 import { Link as HeroLink } from "@heroui/react/link";
 import { cn } from "@/lib/cn";
 import dayjs from "@/lib/dayjs";
-import ShinyText from "@/components/react-bits/ShinyText";
+import ShinyText from "@/components/ShinyText";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
