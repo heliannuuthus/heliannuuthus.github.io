@@ -1,0 +1,25 @@
+.tilted-card-figure {
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  perspective: 1100px;
+}
+
+.tilted-card-inner {
+  position: relative;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.tilted-card-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  border-radius: inherit;
+  pointer-events: none;
+  transform: translateZ(22px);
+  mix-blend-mode: soft-light;
+}

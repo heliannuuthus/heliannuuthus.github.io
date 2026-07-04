@@ -1,0 +1,43 @@
+.rb-scroll-stack {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.rb-scroll-stack-inner {
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 45vh;
+}
+
+.rb-scroll-stack-card {
+  position: relative;
+  z-index: var(--rb-stack-z);
+  transform-origin: center top;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, filter;
+}
+
+.rb-scroll-stack-card article {
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.04),
+    0 18px 55px rgba(15, 23, 42, 0.08);
+}
+
+.dark .rb-scroll-stack-card article {
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.06),
+    0 22px 70px rgba(0, 0, 0, 0.28);
+}
+
+.rb-scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}
+
+@media (max-width: 768px) {
+  .rb-scroll-stack-inner {
+    padding-bottom: 10vh;
+  }
+}

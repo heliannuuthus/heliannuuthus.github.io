@@ -3,6 +3,7 @@
 import { Button } from "@heroui/react/button";
 import { Link as HeroLink } from "@heroui/react/link";
 import { cn } from "@/lib/cn";
+import ShinyText from "@/components/ShinyText";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -198,11 +199,11 @@ export default function GlassNavbar() {
             className="relative z-10 flex items-center gap-2.5 rounded-full px-2.5 py-1.5 -ml-2.5 transition-colors duration-300"
           >
             <Image
-              src="/img/logo.svg"
+              src="/img/heliannuuthus-256.svg"
               alt="heliannuuthus"
               width={28}
               height={28}
-              className="rounded-lg"
+              className="rounded-full bg-white/70 ring-1 ring-black/[0.04] dark:bg-zinc-950/40 dark:ring-white/[0.08]"
             />
             <span
               className={cn(
@@ -212,7 +213,7 @@ export default function GlassNavbar() {
                   : "text-zinc-500 dark:text-zinc-400"
               )}
             >
-              heliannuuthus
+              <ShinyText text="heliannuuthus" />
             </span>
           </Link>
 

@@ -1,0 +1,14 @@
+.rb-magnet {
+  --rb-magnet-x: 0px;
+  --rb-magnet-y: 0px;
+  display: inline-flex;
+  transform: translate3d(var(--rb-magnet-x), var(--rb-magnet-y), 0);
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-magnet {
+    transform: none !important;
+  }
+}

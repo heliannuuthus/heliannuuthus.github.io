@@ -1,0 +1,28 @@
+main.galaxy-main {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.galaxy-container {
+  position: relative;
+  width: 100%;
+  height: min(85vh, 780px);
+}
+
+@media (max-width: 640px) {
+  .galaxy-container {
+    height: min(65vh, 500px);
+  }
+}
+
+.galaxy-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  touch-action: none;
+}
+
+.galaxy-canvas:active {
+  cursor: grabbing;
+}

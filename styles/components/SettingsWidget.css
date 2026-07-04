@@ -1,0 +1,41 @@
+@keyframes settings-panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.settings-fab::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(186, 230, 253, 0.4),
+    rgba(147, 197, 253, 0.2),
+    rgba(196, 181, 253, 0.3),
+    rgba(253, 230, 138, 0.3),
+    rgba(186, 230, 253, 0.4)
+  );
+  animation: fab-glow-spin 8s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.settings-fab:hover::before {
+  opacity: 1;
+}
+
+@keyframes fab-glow-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

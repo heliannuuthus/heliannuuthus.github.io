@@ -1,0 +1,34 @@
+.rb-split-text {
+  display: inline-block;
+  white-space: normal;
+}
+
+.rb-split-char {
+  display: inline-block;
+  animation: rb-split-char 0.78s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--rb-split-delay, 0ms);
+  transform-origin: 50% 76%;
+  will-change: transform, opacity, filter;
+}
+
+.rb-split-space {
+  width: 0.28em;
+}
+
+@keyframes rb-split-char {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(0.55em) rotateX(64deg) scale(0.96);
+  }
+  62% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(-0.06em) rotateX(0deg) scale(1.01);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}

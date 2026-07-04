@@ -9,6 +9,8 @@ import { Separator } from "@heroui/react/separator";
 import { X } from "lucide-react";
 import Link from "next/link";
 import PostCard from "@/components/PostCard";
+import AnimatedList from "@/components/AnimatedList";
+import SplitText from "@/components/SplitText";
 
 const PAGE_SIZE = 10;
 
@@ -89,7 +91,9 @@ export default function PostList({
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+        <h1 className="text-3xl font-bold tracking-tight">
+          <SplitText text={title} delayStep={30} />
+        </h1>
         {description && (
           <p className="text-default-500 text-base">{description}</p>
         )}
@@ -140,7 +144,13 @@ export default function PostList({
                   </span>
                   <Separator className="flex-1" />
                 </div>
-                <div className="flex flex-col gap-3">
+                <AnimatedList
+                  className="blog-animated-list"
+                  itemGap={12}
+                  animationType="blur"
+                  enterFrom="bottom"
+                  hoverEffect="lift"
+                >
                   {slice.map((post) => (
                     <PostCard
                       key={post.slug}
@@ -149,7 +159,7 @@ export default function PostList({
                       basePath={basePath}
                     />
                   ))}
-                </div>
+                </AnimatedList>
               </section>
             );
           })}
