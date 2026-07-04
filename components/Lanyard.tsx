@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, extend, useFrame, type ThreeElement, type ThreeEvent } from '@react-three/fiber';
@@ -30,13 +29,26 @@ declare module '@react-three/fiber' {
 const BLANK_PIXEL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
-// The card model's front face is UV-mapped to the LEFT half of the texture
-// atlas and the back face to the RIGHT half (measured from card.glb). Each
-// custom image is composited into its own half so the two faces render
-// independently, aspect-preserving (no stretching).
-const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 };
 const FRONT_FACE_RECT = { x: 0.018, y: 0.018, w: 0.464, h: 0.93 };
 const BACK_FACE_RECT = { x: 0.518, y: 0.018, w: 0.464, h: 0.93 };
+
+type CardTextureImage = CanvasImageSource & {
+  width: number;
+  height: number;
+};
+
+interface CardGLTF {
+  nodes: {
+    card: { geometry: THREE.BufferGeometry };
+    clip: { geometry: THREE.BufferGeometry };
+    clamp: { geometry: THREE.BufferGeometry };
+  };
+  materials: {
+    base: THREE.MeshPhysicalMaterial & { map: THREE.Texture };
+    metal: THREE.Material;
+  };
+}
+
 interface LanyardProps {
   className?: string;
   position?: [number, number, number];
@@ -68,8 +80,6 @@ export default function Lanyard({
   backImage = null,
   frontTitle = 'heliannuuthus',
   frontSubtitle = 'AI Infra Engineer',
-  frontMeta = 'Vibe Coder / LLMOps',
-  imageFit = 'cover',
   lanyardImage = null,
   lanyardWidth = 1,
   cardScale = 2.25,
@@ -113,8 +123,6 @@ export default function Lanyard({
             backImage={backImage}
             frontTitle={frontTitle}
             frontSubtitle={frontSubtitle}
-            frontMeta={frontMeta}
-            imageFit={imageFit}
             lanyardImage={lanyardImage}
             lanyardWidth={lanyardWidth}
             cardScale={cardScale}
@@ -166,8 +174,6 @@ interface BandProps {
   backImage?: string | null;
   frontTitle?: string;
   frontSubtitle?: string;
-  frontMeta?: string;
-  imageFit?: 'cover' | 'contain';
   lanyardImage?: string | null;
   lanyardWidth?: number;
   cardScale?: number;
@@ -188,8 +194,6 @@ function Band({
   backImage = null,
   frontTitle = 'heliannuuthus',
   frontSubtitle = 'AI Infra Engineer',
-  frontMeta = 'Vibe Coder / LLMOps',
-  imageFit = 'cover',
   lanyardImage = null,
   lanyardWidth = 1,
   cardScale = 2.25,
@@ -223,7 +227,7 @@ function Band({
     return body.lerped;
   };
 
-  const { nodes, materials } = useGLTF(cardGLB) as any;
+  const { nodes, materials } = useGLTF(cardGLB) as unknown as CardGLTF;
   const lanyardTex = useTexture(lanyardImage || BLANK_PIXEL);
   // useTexture must be called unconditionally; use a blank pixel when an image
   // isn't supplied for a given face, then skip compositing it below.
@@ -234,7 +238,7 @@ function Band({
   // leaks through when the card flips.
   const cardMap = useMemo(() => {
     const baseMap = materials.base.map as THREE.Texture;
-    const baseImg = baseMap.image as any;
+    const baseImg = baseMap.image as CardTextureImage;
     const textureScale = 2;
     const W = (baseImg.width || 2048) * textureScale;
     const H = (baseImg.height || 1024) * textureScale;
@@ -301,7 +305,7 @@ function Band({
       return { x, y, w, h };
     };
 
-    const drawAvatarImage = (img: any, x: number, y: number, size: number) => {
+    const drawAvatarImage = (img: CardTextureImage, x: number, y: number, size: number) => {
       const scale = Math.min(size / img.width, size / img.height);
       const dw = img.width * scale;
       const dh = img.height * scale;
@@ -311,7 +315,7 @@ function Band({
       ctx.drawImage(img, dx, dy, dw, dh);
     };
 
-    const drawBackPanel = (img: any) => {
+    const drawBackPanel = (img: CardTextureImage) => {
       const panel = fillPanel(BACK_FACE_RECT);
       ctx.save();
       ctx.beginPath();
@@ -344,7 +348,7 @@ function Band({
       ctx.restore();
     };
 
-    const drawMinimalBadgeFace = (img: any) => {
+    const drawMinimalBadgeFace = (img: CardTextureImage) => {
       const panel = fillPanel(FRONT_FACE_RECT);
       const rx = panel.x;
       const ry = panel.y;
@@ -387,9 +391,12 @@ function Band({
       ctx.restore();
     };
 
-    if (backImage && backTex.image) drawBackPanel(backTex.image);
+    const backImageData = backTex.image as CardTextureImage | undefined;
+    const frontImageData = frontTex.image as CardTextureImage | undefined;
+
+    if (backImage && backImageData) drawBackPanel(backImageData);
     else fillPanel(BACK_FACE_RECT);
-    drawMinimalBadgeFace(backTex.image || frontTex.image);
+    drawMinimalBadgeFace(backImageData || frontImageData || baseImg);
 
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
@@ -400,7 +407,7 @@ function Band({
     composite.magFilter = THREE.LinearFilter;
     composite.needsUpdate = true;
     return composite;
-  }, [frontImage, backImage, imageFit, frontTex, backTex, frontTitle, frontSubtitle, frontMeta, isDark, materials.base.map]);
+  }, [backImage, frontTex, backTex, frontTitle, frontSubtitle, isDark, materials.base.map]);
 
   const texture = useMemo(() => {
     if (lanyardImage) return lanyardTex;

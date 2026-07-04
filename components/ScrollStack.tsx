@@ -152,6 +152,7 @@ export function ScrollStack({
   useLayoutEffect(() => {
     const root = rootRef.current;
     if (!root) return;
+    const lastTransforms = lastTransformsRef.current;
 
     cardsRef.current = Array.from(root.querySelectorAll(".rb-scroll-stack-card")) as HTMLElement[];
     cardsRef.current.forEach((card, index) => {
@@ -178,7 +179,7 @@ export function ScrollStack({
       if (animationFrameRef.current) window.cancelAnimationFrame(animationFrameRef.current);
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
-      lastTransformsRef.current.clear();
+      lastTransforms.clear();
       cardsRef.current = [];
       stackCompletedRef.current = false;
     };
