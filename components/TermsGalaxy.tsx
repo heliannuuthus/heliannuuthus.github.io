@@ -373,7 +373,10 @@ interface Props {
 
 export default function TermsGalaxy({
   terms,
+  matchingSlugs,
+  selectedCategory,
   onSelectTerm,
+  onSelectCategory,
 }: Props) {
   const cvRef = useRef<HTMLCanvasElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -382,11 +385,13 @@ export default function TermsGalaxy({
   const propsRef = useRef({
     dk: resolvedTheme === "dark",
     selCat: null as string | null,
+    matchingSlugs: null as Set<string> | null,
   });
   propsRef.current.dk = resolvedTheme === "dark";
+  propsRef.current.matchingSlugs = matchingSlugs;
 
-  const cbRef = useRef({ onSelectTerm });
-  cbRef.current = { onSelectTerm };
+  const cbRef = useRef({ onSelectTerm, onSelectCategory });
+  cbRef.current = { onSelectTerm, onSelectCategory };
 
   const st = useRef({
     cam: { x: 0, y: 0, z: 1, tx: 0, ty: 0, tz: 1 } as Cam,
@@ -419,6 +424,10 @@ export default function TermsGalaxy({
       s.cam.tz = 1;
     }
   }, []);
+
+  useEffect(() => {
+    zoomTo(selectedCategory);
+  }, [selectedCategory, zoomTo]);
 
   const initLayout = useCallback(() => {
     const el = boxRef.current;
@@ -458,11 +467,13 @@ export default function TermsGalaxy({
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && propsRef.current.selCat) zoomTo(null);
+      if (e.key === "Escape" && propsRef.current.selCat) {
+        cbRef.current.onSelectCategory(null);
+      }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [zoomTo]);
+  }, []);
 
   useEffect(() => {
     initLayout();
@@ -482,7 +493,7 @@ export default function TermsGalaxy({
       if (!ctx) return;
 
       const s = st.current;
-      const { dk, selCat } = propsRef.current;
+      const { dk, selCat, matchingSlugs } = propsRef.current;
       const { cam, W, H } = s;
 
       cam.x = lp(cam.x, cam.tx, LERP_F);
@@ -537,7 +548,8 @@ export default function TermsGalaxy({
         const c = s.centers[nd.gi];
         const galA =
           selCat === null || selCat === c.category ? 1 : 0.12;
-        drawNode(ctx, nd, c.color, dk, i === s.hover, true, galA);
+        const matched = !matchingSlugs || matchingSlugs.has(nd.term.slug);
+        drawNode(ctx, nd, c.color, dk, i === s.hover, matched, galA);
       }
 
       for (let i = 0; i < s.centers.length; i++) {
@@ -575,6 +587,7 @@ export default function TermsGalaxy({
         const galA =
           selCat === null || selCat === c.category ? 1 : 0.12;
         const isHov = i === s.hover;
+        const matched = !matchingSlugs || matchingSlugs.has(nd.term.slug);
         if (galA < 0.3 && !isHov) continue;
 
         const [sx, sy] = w2s(nd.x, nd.y, cam, W, H);
@@ -582,7 +595,11 @@ export default function TermsGalaxy({
 
         let alpha: number;
         if (isHov) alpha = 1;
-        else alpha = (0.25 + Math.min(0.65, (cam.z - 0.8) * 0.45)) * galA;
+        else {
+          alpha =
+            (matched ? 0.25 + Math.min(0.65, (cam.z - 0.8) * 0.45) : 0.06) *
+            galA;
+        }
 
         ctx.fillStyle = dk
           ? `rgba(255,255,255,${alpha})`
@@ -690,12 +707,14 @@ export default function TermsGalaxy({
       const cr = 28 / s.cam.z;
       for (const c of s.centers) {
         if ((c.cx - wx) ** 2 + (c.cy - wy) ** 2 < cr * cr) {
-          zoomTo(propsRef.current.selCat === c.category ? null : c.category);
+          cbRef.current.onSelectCategory(
+            propsRef.current.selCat === c.category ? null : c.category,
+          );
           lastTouches = [];
           return;
         }
       }
-      if (s.cam.tz > 1.2) zoomTo(null);
+      if (s.cam.tz > 1.2) cbRef.current.onSelectCategory(null);
       lastTouches = [];
     };
 
@@ -779,11 +798,13 @@ export default function TermsGalaxy({
     const cr = 22 / s.cam.z;
     for (const c of s.centers) {
       if ((c.cx - wx) ** 2 + (c.cy - wy) ** 2 < cr * cr) {
-        zoomTo(propsRef.current.selCat === c.category ? null : c.category);
+        cbRef.current.onSelectCategory(
+          propsRef.current.selCat === c.category ? null : c.category,
+        );
         return;
       }
     }
-    if (s.cam.tz > 1.2) zoomTo(null);
+    if (s.cam.tz > 1.2) cbRef.current.onSelectCategory(null);
   }, []);
 
   const onLeave = useCallback(() => {

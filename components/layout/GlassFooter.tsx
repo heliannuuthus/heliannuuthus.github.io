@@ -4,6 +4,7 @@ import { Button } from "@heroui/react/button";
 import { Link as HeroLink } from "@heroui/react/link";
 import { cn } from "@/lib/cn";
 import dayjs from "@/lib/dayjs";
+import ShinyText from "@/components/react-bits/ShinyText";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -100,7 +101,7 @@ export default function GlassFooter() {
               </div>
               <div className="text-center">
                 <span className="text-base font-semibold tracking-tight block">
-                  heliannuuthus
+                  <ShinyText text="heliannuuthus" />
                 </span>
                 <span className="text-xs text-default-400 font-mono tracking-wider">
                   AI Infra Engineer

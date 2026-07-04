@@ -6,6 +6,9 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 import dynamic from "next/dynamic";
 import type { Term } from "@/lib/terms";
+import SpotlightCard from "@/components/react-bits/SpotlightCard";
+import SplitText from "@/components/react-bits/SplitText";
+import { BookOpen, GitBranch, Search, Sparkles, X } from "lucide-react";
 
 const TermsGalaxy = dynamic(() => import("./TermsGalaxy"), { ssr: false });
 
@@ -29,6 +32,17 @@ const categoryMeta: Record<string, { label: string; dot: string; gradient: strin
 
 function cm(cat: string) {
   return categoryMeta[cat] || { label: cat, dot: "bg-zinc-400", gradient: "from-zinc-400 to-zinc-500" };
+}
+
+function stripInline(md: string): string {
+  return md
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/:[a-zA-Z0-9_-]+\[([^\]]+)\](?:\([^)]*\)|\{[^}]*\})?/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[#*_~`>|[\]()-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 /* ── Focus overlay ── */
@@ -131,6 +145,44 @@ export default function TermsContent({
   rendered: RenderedTermMap;
 }) {
   const [focusedTerm, setFocusedTerm] = useState<Term | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+
+  const categories = useMemo(() => {
+    return [...new Set(terms.map((t) => t.category))]
+      .sort()
+      .map((category) => {
+        const meta = cm(category);
+        const count = terms.filter((term) => term.category === category).length;
+        return { category, ...meta, count };
+      });
+  }, [terms]);
+
+  const filteredTerms = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return terms
+      .filter((term) => !selectedCategory || term.category === selectedCategory)
+      .filter((term) => {
+        if (!q) return true;
+        const haystack = [
+          term.slug,
+          term.title,
+          term.definition,
+          term.content,
+          ...(term.aliases ?? [])
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        return haystack.includes(q);
+      })
+      .slice(0, 9);
+  }, [terms, selectedCategory, query]);
+
+  const matchingSlugs = useMemo(() => {
+    if (!query.trim() && !selectedCategory) return null;
+    return new Set(filteredTerms.map((term) => term.slug));
+  }, [filteredTerms, query, selectedCategory]);
 
   const relatedTerms = useMemo(() => {
     if (!focusedTerm) return [];
@@ -157,12 +209,143 @@ export default function TermsContent({
 
   return (
     <>
+      <section className="pointer-events-none fixed inset-x-0 top-[88px] z-20 mx-auto flex w-full max-w-5xl flex-col gap-4 px-4 sm:px-6">
+        <div className="pointer-events-auto grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <div className="surface-overlay overflow-hidden rounded-[24px]">
+            <div className="flex flex-col gap-5 p-5 sm:p-6">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-300">
+                  <Sparkles size={14} />
+                  terminology atlas
+                </div>
+                <h1 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 sm:text-3xl">
+                  <SplitText text="Terms Galaxy" delayStep={22} />
+                </h1>
+                <p className="max-w-2xl text-sm leading-6 text-zinc-500 dark:text-zinc-400">
+                  术语不只是散点，按分类缩放、按关键词定位，再从词条卡片进入细节。
+                </p>
+              </div>
+
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+                <input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="搜索术语、别名、定义..."
+                  className="h-11 w-full rounded-2xl border border-black/[0.04] bg-white/70 pl-10 pr-10 text-sm text-zinc-800 outline-none transition-colors placeholder:text-zinc-400 focus:border-emerald-400/50 dark:border-white/[0.06] dark:bg-zinc-950/36 dark:text-zinc-100"
+                />
+                {query && (
+                  <button
+                    type="button"
+                    onClick={() => setQuery("")}
+                    className="absolute right-3 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-white/[0.08] dark:hover:text-zinc-200"
+                    aria-label="清空搜索"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setSelectedCategory(null)}
+                  className={cn(
+                    "inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-[12px] font-semibold transition-colors",
+                    selectedCategory === null
+                      ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950"
+                      : "bg-zinc-100/80 text-zinc-500 hover:bg-zinc-200/70 dark:bg-white/[0.06] dark:text-zinc-400 dark:hover:bg-white/[0.1]"
+                  )}
+                >
+                  <GitBranch size={13} />
+                  All {terms.length}
+                </button>
+                {categories.map((cat) => (
+                  <button
+                    key={cat.category}
+                    type="button"
+                    onClick={() => setSelectedCategory(cat.category)}
+                    className={cn(
+                      "inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-[12px] font-semibold transition-colors",
+                      selectedCategory === cat.category
+                        ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950"
+                        : "bg-zinc-100/80 text-zinc-500 hover:bg-zinc-200/70 dark:bg-white/[0.06] dark:text-zinc-400 dark:hover:bg-white/[0.1]"
+                    )}
+                  >
+                    <span className={cn("h-2 w-2 rounded-full", cat.dot)} />
+                    {cat.label} {cat.count}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="surface-overlay hidden overflow-hidden rounded-[24px] lg:block">
+            <div className="flex h-full flex-col gap-3 p-4">
+              <div className="flex items-center justify-between px-1">
+                <div className="flex items-center gap-2 text-[12px] font-semibold text-zinc-500 dark:text-zinc-400">
+                  <BookOpen size={15} />
+                  {filteredTerms.length} matches
+                </div>
+                {(query || selectedCategory) && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setQuery("");
+                      setSelectedCategory(null);
+                    }}
+                    className="text-[12px] font-semibold text-zinc-400 transition-colors hover:text-zinc-700 dark:hover:text-zinc-200"
+                  >
+                    reset
+                  </button>
+                )}
+              </div>
+
+              <div className="flex max-h-[360px] flex-col gap-2 overflow-y-auto pr-1">
+                {filteredTerms.map((term) => {
+                  const c = cm(term.category);
+                  const preview = stripInline(term.definition || term.content || "");
+                  return (
+                    <SpotlightCard key={term.slug} className="rounded-[18px]">
+                      <button
+                        type="button"
+                        onClick={() => setFocusedTerm(term)}
+                        className="group w-full rounded-[18px] bg-white/68 p-3 text-left ring-1 ring-black/[0.04] transition-colors hover:bg-white/90 dark:bg-zinc-950/32 dark:ring-white/[0.06] dark:hover:bg-zinc-900/70"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className={cn("h-2 w-2 rounded-full", c.dot)} />
+                              <span className="truncate text-[14px] font-semibold text-zinc-900 dark:text-zinc-100">
+                                {term.title}
+                              </span>
+                            </div>
+                            {preview && (
+                              <p className="mt-1.5 line-clamp-2 text-[12px] leading-5 text-zinc-500 dark:text-zinc-400">
+                                {preview}
+                              </p>
+                            )}
+                          </div>
+                          <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-1 font-mono text-[10px] text-zinc-400 dark:bg-white/[0.06] dark:text-zinc-500">
+                            {term.category}
+                          </span>
+                        </div>
+                      </button>
+                    </SpotlightCard>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <TermsGalaxy
         terms={terms}
-        matchingSlugs={null}
-        selectedCategory={null}
+        matchingSlugs={matchingSlugs}
+        selectedCategory={selectedCategory}
         onSelectTerm={setFocusedTerm}
-        onSelectCategory={() => {}}
+        onSelectCategory={setSelectedCategory}
       />
 
       {focusedTerm && (

@@ -1,5 +1,6 @@
 import { getAllTerms } from "@/lib/terms";
 import { compileMDX } from "next-mdx-remote/rsc";
+import type { MDXRemoteProps } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx/mdx-components";
 import TermsContent from "@/components/terms-content";
 import type { Metadata } from "next";
@@ -32,7 +33,7 @@ const inlineComponents: MDXComponents = {
   p: (props: React.ComponentProps<"div">) => <div {...props} />,
 };
 
-function mdxOptions(source: string) {
+function mdxOptions(source: string): MDXRemoteProps["options"] {
   return {
     mdxOptions: {
       remarkPlugins: [
@@ -48,7 +49,7 @@ function mdxOptions(source: string) {
         remarkMarkmap,
         remarkExternalLink,
         remarkTables
-      ],
+      ] as any,
       rehypePlugins: [
         rehypeSlug,
         [rehypeKatex, { strict: "ignore" }],
@@ -62,9 +63,9 @@ function mdxOptions(source: string) {
             keepBackground: false
           }
         ]
-      ]
+      ] as any
     }
-  } as const;
+  };
 }
 
 async function renderBlock(markdown: string, src: string): Promise<ReactNode> {

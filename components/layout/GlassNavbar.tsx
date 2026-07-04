@@ -3,6 +3,7 @@
 import { Button } from "@heroui/react/button";
 import { Link as HeroLink } from "@heroui/react/link";
 import { cn } from "@/lib/cn";
+import ShinyText from "@/components/react-bits/ShinyText";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -168,7 +169,7 @@ export default function GlassNavbar() {
                   : "text-zinc-500 dark:text-zinc-400"
               )}
             >
-              heliannuuthus
+              <ShinyText text="heliannuuthus" />
             </span>
           </Link>
 

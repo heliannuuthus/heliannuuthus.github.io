@@ -1,6 +1,7 @@
 import { Avatar } from "@heroui/react/avatar";
 import Link from "next/link";
 import ExpandableExcerpt from "@/components/ExpandableExcerpt";
+import SplitText from "@/components/react-bits/SplitText";
 import TagStamps from "@/components/TagStamps";
 import type { Author, PostMeta } from "@/lib/content";
 import dayjs from "@/lib/dayjs";
@@ -74,7 +75,7 @@ export default function ArticleHeader({
 
         {/* Title — the "address" */}
         <h1 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-extrabold tracking-[-0.02em] leading-[1.12] text-zinc-950 dark:text-white">
-          {meta.title}
+          <SplitText text={meta.title} delayStep={18} />
         </h1>
 
         {/* Excerpt — letter body, click to expand */}

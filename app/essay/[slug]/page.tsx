@@ -3,6 +3,7 @@ import dayjs from "@/lib/dayjs";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx/mdx-components";
 import ProseWrapper from "@/components/ProseWrapper";
+import SplitText from "@/components/react-bits/SplitText";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import remarkGfm from "remark-gfm";
@@ -66,7 +67,7 @@ export default async function EssayDetailPage({ params }: Props) {
 
         <div className="flex items-baseline gap-3">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
-            {dateStr}
+            <SplitText text={dateStr} delayStep={22} />
           </h1>
           <span className="text-sm text-default-400">{weekday}</span>
         </div>
