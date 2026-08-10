@@ -8,6 +8,7 @@
 - React
 - TypeScript
 - HeroUI
+- `@heliannuuthus/ui`（新增与迁移后的领域无关基础组件唯一来源）
 - MDX/remark/rehype 相关内容管线
 - Three.js / React Three Fiber
 - Mermaid / Markmap
@@ -36,6 +37,9 @@ pnpm covers
 - 博客文章优先保证技术准确性、可读性和链接可用。
 - MDX/remark 指令变更要兼容历史文章。
 - UI 改动保持站点个人品牌一致，不要把博客改成通用模板风。
+- 新增或迁移领域无关基础组件时只能使用 `@heliannuuthus/ui/<component>`；HeroUI 视为待迁移历史依赖，不得扩大其使用面。
+- 缺少基础组件或能力时，先在独立 `ui/` 仓库实现并文档化，再升级本站依赖；本站只保留内容、品牌和交互领域组合。
+- 公共组件 API 对标 Ant Design 的成熟度与扩展性，但不得引入 Ant Design 运行时或兼容 facade。
 - 引入重型可视化/3D 依赖时注意首屏性能和构建体积。
 
 ## 验证 Checklist
