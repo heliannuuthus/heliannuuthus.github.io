@@ -14,7 +14,7 @@ const eslintConfig = defineConfig([
     },
   },
   {
-    files: ["lib/remark/**", "components/mdx/blocks/**"],
+    files: ["components/mdx/blocks/**"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
     },

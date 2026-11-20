@@ -3,6 +3,7 @@ import fs from "fs";
 import matter from "gray-matter";
 import yaml from "js-yaml";
 import path from "path";
+import { cleanMarkdownBody, getMarkdownImports, inlineMarkdownImports } from "@heliannuuthus/npm/source";
 import { stripMarkdown } from "./strip-markdown.mjs";
 
 const ROOT = path.join(/* turbopackIgnore: true */ process.cwd());
@@ -58,12 +59,9 @@ const extractExcerpt = (content: string): string | undefined => {
 
 const resolvePartialImports = (content: string, filePath: string): string => {
   const fileDir = path.dirname(filePath);
-  const importRe = /^\s*import\s+(\w+)\s+from\s+["']([^"']+\.mdx?)["'];?\s*$/gm;
 
   const imports = new Map<string, string>();
-  let match: RegExpExecArray | null;
-  while ((match = importRe.exec(content)) !== null) {
-    const [, name, relPath] = match;
+  for (const [, name, relPath] of getMarkdownImports(content)) {
     const absPath = path.resolve(fileDir, relPath);
     if (fs.existsSync(absPath)) {
       const { content: partial } = matter(fs.readFileSync(absPath, "utf-8"));
@@ -71,42 +69,7 @@ const resolvePartialImports = (content: string, filePath: string): string => {
     }
   }
 
-  let resolved = content.replace(importRe, "");
-  for (const [name, body] of imports) {
-    resolved = resolved.replace(new RegExp(`<${name}\\s*/>`, "g"), body);
-  }
-  return resolved;
-};
-
-const cleanMdxContent = (content: string, filePath: string): string => {
-  let cleaned = resolvePartialImports(content, filePath);
-
-  const truncateIdx = cleaned.search(/<!--\s*truncate\s*-->/);
-  if (truncateIdx !== -1) {
-    cleaned = cleaned.replace(/^[\s\S]*?<!--\s*truncate\s*-->/, "");
-  }
-
-  cleaned = cleaned.replace(/<!--[\s\S]*?-->/g, "");
-
-  const lines = cleaned.split("\n");
-  let inCodeBlock = false;
-  const filteredLines: string[] = [];
-
-  for (const line of lines) {
-    if (line.trimStart().startsWith("```")) {
-      inCodeBlock = !inCodeBlock;
-    }
-
-    if (!inCodeBlock && /^\s*import\s+/.test(line)) {
-      if (/from\s+["']/.test(line)) {
-        continue;
-      }
-    }
-
-    filteredLines.push(line);
-  }
-
-  return filteredLines.join("\n");
+  return inlineMarkdownImports(content, imports);
 };
 
 const getPostsFromDir = (dir: string): PostMeta[] => {
@@ -191,10 +154,10 @@ export const getEssayEntries = (): EssayEntry[] => {
       const date = `${yearMonth}-${day}`;
       const slug = date.replace(/-/g, "");
       const fullPath = path.join(monthDir, file.name);
-      const content = cleanMdxContent(
+      const content = cleanMarkdownBody(resolvePartialImports(
         fs.readFileSync(fullPath, "utf-8"),
         fullPath
-      );
+      ));
 
       entries.push({ slug, date, content });
     }
@@ -262,7 +225,7 @@ export const getPostBySlug = (
     ? dayjs(data.date as string | Date).format("YYYY-MM-DD")
     : extractDate(path.relative(ROOT, filePath));
 
-  const cleanContent = cleanMdxContent(content, filePath);
+  const cleanContent = cleanMarkdownBody(resolvePartialImports(content, filePath));
 
   const postSlug =
     data.slug || path.basename(filePath).replace(/\.mdx?$/, "");
