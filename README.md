@@ -15,3 +15,7 @@
 - [开发效率工具](https://site.heliannuuthus.com/blog/development-tools): 一些工具，来自我对编程的习惯和偏好
 - [SPIFFE](https://site.heliannuuthus.com/blog/spiffe): 一套开源标准，解决由于现代网络环境中资源动态变化（如弹性扩缩容、多运行时等）与环境复杂异构（如多云混合架构、跨平台支持等）所带来安全问题。
 - [MCP 身份认证协议](https://site.heliannuuthus.com/blog/OAuth2.1-MCP): 解释 OAuth2.1 如何解决 Agent 通过 MCP 协议调用外部工具的身份和权限问题。
+
+### 在 Obsidian 预览文章
+
+博客和 Obsidian 共用 `@heliannuuthus/npm`。源码和插件安装步骤见 [heliannuuthus/npm](https://github.com/heliannuuthus/npm#构建-obsidian-插件)。

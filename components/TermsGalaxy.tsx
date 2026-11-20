@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useCallback } from "react";
 import { useTheme } from "next-themes";
-import type { Term } from "@/lib/terms";
+import type { Term } from "@heliannuuthus/npm/glossary";
 import type { CategoryMeta } from "@/lib/category-meta";
 
 /* ── Types ── */
