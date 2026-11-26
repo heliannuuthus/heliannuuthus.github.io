@@ -16,6 +16,8 @@
 @import "./components/TermsGalaxy.css";
 @import "./components/TiltedCard.css";
 
+@source "../node_modules/@heliannuuthus/npm";
+
 @font-face {
   font-family: "Monaspace Xenon Var";
   src:

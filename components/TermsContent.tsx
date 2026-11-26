@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import type { Term } from "@/lib/terms";
+import type { Term } from "@heliannuuthus/npm/glossary";
 import type { CategoryMeta } from "@/lib/category-meta";
 
 const TermsGalaxy = dynamic(() => import("./TermsGalaxy"), { ssr: false });
